@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Kub Market</string>
     <string name="login_header">Войти в профиль</string>
     <string name="name_hint">Введите имя</string>
     <string name="phone_hint">+7 000 000 00-00</string>
@@ -14,4 +13,8 @@
     <string name="profile_screen_label">Мой профиль</string>
     <string name="favourite_screen_label">Избранное</string>
     <string name="shopping_cart_screen_label">Корзина</string>
+    <string name="app_name" translatable="false">KubMarket</string>
+    <string name="pick_up_point">Пункт выдачи</string>
+    <string name="search_items">Поиск товаров</string>
+    <string name="nothing_was_found">По Вашему запросу ничего не найдено</string>
 </resources>

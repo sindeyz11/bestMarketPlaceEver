@@ -8,8 +8,12 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -18,7 +22,6 @@ import com.kire.market_place_android.presentation.navigation.NavigationUI
 import com.kire.market_place_android.presentation.screen.cross_screen_ui.BottomBar
 import com.kire.market_place_android.presentation.screen.cross_screen_ui.TopBar
 import com.kire.market_place_android.presentation.theme.MarketExtendedTheme
-import com.kire.market_place_android.presentation.theme.Market_Place_AndroidTheme
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 
 class MainActivity : ComponentActivity() {
@@ -39,6 +42,7 @@ class MainActivity : ComponentActivity() {
                 val navHostController = navHostEngine.rememberNavController()
 
                 Scaffold(
+                    modifier = Modifier.fillMaxSize().background(Color.White),
                     topBar = {
                         TopBar(
                             navHostController = navHostController
