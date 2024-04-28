@@ -53,7 +53,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 /*
 Login screen
  */
-@Destination(start = true, style = LogInScreenTransitions::class)
+@Destination(style = LogInScreenTransitions::class)
 @Composable
 fun LogInScreen(
     navigator: DestinationsNavigator,
@@ -190,7 +190,9 @@ fun LogInScreen(
             ) {
                 Button(
                     onClick = {
-                        /*TODO*/
+                        /**
+                         * TODO()
+                         * */
                     },
                     modifier = Modifier
                         .height(56.dp)

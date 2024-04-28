@@ -26,37 +26,9 @@ android {
     }
 
     buildTypes {
-        debug {
-            minifyEnabled true
-            shrinkResources true
-
-            proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
-            )
-            versionNameSuffix = "-debug"
-            applicationIdSuffix = ".debug"
-            signingConfig = signingConfigs.getByName("debug")
-        }
-
         release {
-            minifyEnabled true
-            shrinkResources true
-
-            proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
-            )
-        }
-        beta {
-            minifyEnabled true
-            shrinkResources true
-
-            proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
-            )
-            versionNameSuffix = "-beta1"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {

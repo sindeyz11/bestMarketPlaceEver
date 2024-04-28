@@ -1,5 +1,6 @@
 package com.kire.market_place_android.presentation.screen.cross_screen_ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -47,6 +48,7 @@ fun BottomBar(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
+            .background(Color.White)
             .padding(paddingValues),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
