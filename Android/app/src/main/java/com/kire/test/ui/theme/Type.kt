@@ -1,4 +1,4 @@
-package com.kire.market_place_android.ui.theme
+package com.kire.test.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

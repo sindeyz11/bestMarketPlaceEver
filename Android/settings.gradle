@@ -19,6 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Market_Place_Android"
-include(":app")
- 
+rootProject.name = "Test"
+include ':app'

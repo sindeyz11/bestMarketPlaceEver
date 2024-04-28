@@ -1,4 +1,4 @@
-package com.kire.market_place_android
+package com.kire.test
 
 import org.junit.Test
 
