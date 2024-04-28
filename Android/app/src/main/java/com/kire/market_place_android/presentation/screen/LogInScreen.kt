@@ -1,95 +1,231 @@
 package com.kire.market_place_android.presentation.screen
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.text.BasicTextField
+
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kire.test.R
-import com.ramcosta.composedestinations.annotation.Destination
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Destination(start = true)
+import com.kire.test.R
+
+
+//@Destination(start = true)
 @Composable
 fun LogInScreen(
-    paddingValues: PaddingValues = PaddingValues(32.dp)
+    paddingValues: PaddingValues = PaddingValues(52.dp)
 ){
-    var textState by remember { mutableStateOf("") }
-    
-    Column(
+    var numberState by remember { mutableStateOf("") }
+    var passwordState by remember { mutableStateOf("") }
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        
-        Text(
-            text = stringResource(id = R.string.login_header),
-            fontWeight = FontWeight.Bold,
-            fontSize = 21.sp
-        )
+        contentAlignment = Alignment.Center
+    ){
 
-        TextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .shadow(
-                    elevation = 5.dp,
-                    spotColor = Color(0xFFB20000),
-                    shape = RoundedCornerShape(24.dp)
-                ),
-            value = textState,
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.White,
-                cursorColor = Color.Black,
-                disabledLabelColor = Color.LightGray,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent
-            ),
-            onValueChange = {
-                textState = it
-            },
-            shape = RoundedCornerShape(12.dp),
-            singleLine = true,
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.phone_call),
-                    contentDescription = null,
-                    tint = Color(0xFFB20000),
+        Column(
+            verticalArrangement = Arrangement.spacedBy(36.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            Text(
+                text = stringResource(id = R.string.login_header),
+                fontWeight = FontWeight.Bold,
+                fontSize = 22.sp
+            )
+
+            Column(
+                modifier = Modifier
+                    .wrapContentSize(),
+                verticalArrangement = Arrangement.spacedBy(18.dp)
+            ) {
+
+                BasicTextField(
                     modifier = Modifier
-                        .size(32.dp)
+                        .height(56.dp)
+                        .fillMaxWidth()
+                        .shadow(
+                            elevation = 12.dp,
+                            spotColor = Color(0xFFB20000),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                        .background(Color.White)
+                        .padding(16.dp),
+                    value = numberState,
+                    onValueChange = {
+                        numberState = it
+                    },
+                    textStyle = LocalTextStyle.current.copy(
+                        color = Color.Black,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.W600,
+                    ),
+                    decorationBox = { innerTextField ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.phone_call),
+                                contentDescription = null,
+                                tint = Color(0xFFB20000),
+                                modifier = Modifier
+                                    .size(24.dp)
+                            )
+                            Box {
+                                if (numberState.isEmpty())
+                                    Text(
+                                        text = stringResource(id = R.string.phone_hint),
+                                        fontWeight = FontWeight.W400,
+                                        color = Color.Gray
+                                    )
+                                innerTextField()
+                            }
+                        }
+                    }
+                )
+
+                BasicTextField(
+                    modifier = Modifier
+                        .height(56.dp)
+                        .fillMaxWidth()
+                        .shadow(
+                            elevation = 12.dp,
+                            spotColor = Color(0xFFB20000),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                        .background(Color.White)
+                        .padding(16.dp),
+                    value = passwordState,
+                    onValueChange = {
+                        passwordState = it
+                    },
+
+                    textStyle = LocalTextStyle.current.copy(
+                        color = Color.Black,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.W600,
+                    ),
+                    decorationBox = { innerTextField ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.key),
+                                contentDescription = null,
+                                tint = Color(0xFFB20000),
+                                modifier = Modifier
+                                    .size(24.dp)
+                            )
+                            Box {
+                                if (passwordState.isEmpty())
+                                    Text(
+                                        text = stringResource(id = R.string.password_hint),
+                                        fontWeight = FontWeight.W400,
+                                        color = Color.Gray
+                                    )
+                                innerTextField()
+                            }
+                        }
+                    }
                 )
             }
-        )
+
+            Column(
+                modifier = Modifier
+                    .wrapContentSize(),
+                verticalArrangement = Arrangement.spacedBy(18.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Button(
+                    onClick = {
+                        /*TODO*/
+                    },
+                    modifier = Modifier
+                        .height(56.dp)
+                        .fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFB20000)
+                    )
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.login_button),
+                        fontSize = 16.sp
+                    )
+                }
+
+                Text(
+                    text = stringResource(id = R.string.logon_suggestion),
+                    fontWeight = FontWeight.W400,
+                    color = Color.Gray,
+                    modifier = Modifier
+                        .drawBehind {
+                            val strokeWidthPx = 1.dp.toPx()
+                            val verticalOffset = size.height - 1.sp.toPx()
+                            drawLine(
+                                color = Color.Gray,
+                                strokeWidth = strokeWidthPx,
+                                start = Offset(0f, verticalOffset),
+                                end = Offset(size.width, verticalOffset)
+                            )
+                        }
+                        .pointerInput(Unit){
+                            detectTapGestures {
+                                /*TODO*/
+                            }
+                        }
+                )
+            }
+        }
     }
+
 }
 
 @Preview
 @Composable
-fun Test(){
+fun LogInScreenPreview(){
     LogInScreen()
 }
