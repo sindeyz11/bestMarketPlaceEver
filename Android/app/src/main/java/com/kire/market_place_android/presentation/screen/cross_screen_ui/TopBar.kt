@@ -55,7 +55,7 @@ fun TopBar(
 
     if (allowedList.contains(currentDestination)) {
 
-        var appBarDestination: AppBarsDestination = AppBarsDestination.SHOPPING
+        var appBarDestination: AppBarsDestination = AppBarsDestination.PROFILE
 
         AppBarsDestination.entries.forEach { destination ->
             if (destination.direction.route == currentDestination.route)

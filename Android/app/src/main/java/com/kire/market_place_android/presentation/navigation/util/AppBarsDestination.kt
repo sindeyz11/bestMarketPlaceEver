@@ -21,7 +21,6 @@ enum class AppBarsDestination(
 //    SHOPPING_CART(DeliveriesScreenDestination, R.drawable.shopping_cart_top_bar, R.drawable.shopping_cart_bottom_bar, R.string.shopping_cart_screen_label)
 
     //Delete when the main screens are made
-    SHOPPING(LogInScreenDestination, R.drawable.shopping_top_bar, R.drawable.shopping_bottom_bar, R.string.home_screen_label),
     FAVOURITE(LogOnScreenDestination, R.drawable.favourite_top_bar, R.drawable.favourite_bottom_bar, R.string.favourite_screen_label),
     PROFILE(LogInScreenDestination, R.drawable.profile_top_bar, R.drawable.profile_bottom_bar, R.string.profile_screen_label),
     SHOPPING_CART(LogOnScreenDestination, R.drawable.shopping_cart_top_bar, R.drawable.shopping_cart_bottom_bar, R.string.shopping_cart_screen_label)
