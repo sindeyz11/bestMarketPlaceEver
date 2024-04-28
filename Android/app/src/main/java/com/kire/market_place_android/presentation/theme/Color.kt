@@ -1,4 +1,4 @@
-package com.kire.test.ui.theme
+package com.kire.market_place_android.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

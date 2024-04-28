@@ -1,4 +1,4 @@
-package com.kire.test
+package com.kire.market_place_android
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

@@ -1,4 +1,4 @@
-package com.kire.test.ui.theme
+package com.kire.market_place_android.presentation.theme
 
 import android.app.Activity
 import android.os.Build
@@ -38,7 +38,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun TestTheme(
+fun Market_Place_AndroidTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
