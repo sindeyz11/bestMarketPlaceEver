@@ -10,4 +10,8 @@
     <string name="logon_button">ЗАРЕГЕСТРИРОВАТЬСЯ</string>
     <string name="logon_suggestion">Зарегистрироваться</string>
     <string name="login_suggestion">Есть аккаунт? Войти</string>
+    <string name="home_screen_label">Главная</string>
+    <string name="profile_screen_label">Мой профиль</string>
+    <string name="favourite_screen_label">Избранное</string>
+    <string name="shopping_cart_screen_label">Корзина</string>
 </resources>

@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
@@ -41,16 +42,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.navigation.Transition.LogInScreenTransitions
+import com.kire.market_place_android.presentation.screen.destinations.LogOnScreenDestination
+import com.kire.market_place_android.presentation.theme.ExtendedTheme
 
 import com.kire.test.R
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-
-//@Destination(start = true)
+/*
+Login screen
+ */
+@Destination(start = true, style = LogInScreenTransitions::class)
 @Composable
 fun LogInScreen(
+    navigator: DestinationsNavigator,
     paddingValues: PaddingValues = PaddingValues(52.dp)
 ){
-    var numberState by remember { mutableStateOf("") }
+    var numberState by rememberSaveable { mutableStateOf("") }
     var passwordState by remember { mutableStateOf("") }
 
     Box(
@@ -83,7 +92,7 @@ fun LogInScreen(
                         .fillMaxWidth()
                         .shadow(
                             elevation = 12.dp,
-                            spotColor = Color(0xFFB20000),
+                            spotColor = ExtendedTheme.colors.redAccent,
                             shape = RoundedCornerShape(12.dp)
                         )
                         .background(Color.White)
@@ -94,7 +103,7 @@ fun LogInScreen(
                     },
                     textStyle = LocalTextStyle.current.copy(
                         color = Color.Black,
-                        fontSize = 12.sp,
+                        fontSize = 14.sp,
                         fontWeight = FontWeight.W600,
                     ),
                     decorationBox = { innerTextField ->
@@ -107,7 +116,7 @@ fun LogInScreen(
                             Icon(
                                 painter = painterResource(id = R.drawable.phone_call),
                                 contentDescription = null,
-                                tint = Color(0xFFB20000),
+                                tint = ExtendedTheme.colors.redAccent,
                                 modifier = Modifier
                                     .size(24.dp)
                             )
@@ -130,7 +139,7 @@ fun LogInScreen(
                         .fillMaxWidth()
                         .shadow(
                             elevation = 12.dp,
-                            spotColor = Color(0xFFB20000),
+                            spotColor = ExtendedTheme.colors.redAccent,
                             shape = RoundedCornerShape(12.dp)
                         )
                         .background(Color.White)
@@ -142,7 +151,7 @@ fun LogInScreen(
 
                     textStyle = LocalTextStyle.current.copy(
                         color = Color.Black,
-                        fontSize = 12.sp,
+                        fontSize = 14.sp,
                         fontWeight = FontWeight.W600,
                     ),
                     decorationBox = { innerTextField ->
@@ -155,7 +164,7 @@ fun LogInScreen(
                             Icon(
                                 painter = painterResource(id = R.drawable.key),
                                 contentDescription = null,
-                                tint = Color(0xFFB20000),
+                                tint = ExtendedTheme.colors.redAccent,
                                 modifier = Modifier
                                     .size(24.dp)
                             )
@@ -188,7 +197,7 @@ fun LogInScreen(
                         .fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFB20000)
+                        containerColor = ExtendedTheme.colors.redAccent
                     )
                 ) {
                     Text(
@@ -212,9 +221,9 @@ fun LogInScreen(
                                 end = Offset(size.width, verticalOffset)
                             )
                         }
-                        .pointerInput(Unit){
+                        .pointerInput(Unit) {
                             detectTapGestures {
-                                /*TODO*/
+                                navigator.navigate(LogOnScreenDestination)
                             }
                         }
                 )
@@ -227,5 +236,5 @@ fun LogInScreen(
 @Preview
 @Composable
 fun LogInScreenPreview(){
-    LogInScreen()
+//    LogInScreen()
 }

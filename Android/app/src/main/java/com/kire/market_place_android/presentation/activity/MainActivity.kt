@@ -15,6 +15,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.kire.market_place_android.presentation.navigation.NavigationUI
+import com.kire.market_place_android.presentation.screen.cross_screen_ui.BottomBar
+import com.kire.market_place_android.presentation.screen.cross_screen_ui.TopBar
+import com.kire.market_place_android.presentation.theme.MarketExtendedTheme
 import com.kire.market_place_android.presentation.theme.Market_Place_AndroidTheme
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 
@@ -30,14 +33,21 @@ class MainActivity : ComponentActivity() {
         setDisplayCutoutMode()
 
         setContent {
-            Market_Place_AndroidTheme {
+            MarketExtendedTheme {
 
                 val navHostEngine = rememberAnimatedNavHostEngine(navHostContentAlignment = Alignment.TopCenter)
                 val navHostController = navHostEngine.rememberNavController()
 
                 Scaffold(
+                    topBar = {
+                        TopBar(
+                            navHostController = navHostController
+                        )
+                    },
                     bottomBar = {
-
+                        BottomBar(
+                            navHostController = navHostController
+                        )
                     }
                 ) {
                     val pdv = it

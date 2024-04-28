@@ -53,6 +53,7 @@ fun Market_Place_AndroidTheme(
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
+
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {

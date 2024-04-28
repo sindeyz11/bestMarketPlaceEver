@@ -1,5 +1,6 @@
 package com.kire.market_place_android.presentation.screen
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -15,14 +16,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -36,16 +41,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kire.test.R
+import com.kire.market_place_android.presentation.navigation.Transition.LogOnScreenTransitions
+import com.kire.market_place_android.presentation.screen.destinations.LogInScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.LogOnScreenDestination
+import com.kire.market_place_android.presentation.theme.ExtendedTheme
 
-//@Destination(start = true)
+import com.kire.test.R
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+
+
+/*
+Logon screen
+ */
+@Destination(style = LogOnScreenTransitions::class)
 @Composable
 fun LogOnScreen(
+    navigator: DestinationsNavigator,
     paddingValues: PaddingValues = PaddingValues(52.dp)
 ){
-    val nameState = remember { mutableStateOf("") }
-    val numberState = remember { mutableStateOf("") }
-    val emailState = remember { mutableStateOf("") }
+    val nameState = rememberSaveable { mutableStateOf("") }
+    val numberState = rememberSaveable { mutableStateOf("") }
+    val emailState = rememberSaveable { mutableStateOf("") }
     val passwordState = remember { mutableStateOf("") }
     val repeatPasswordState = remember { mutableStateOf("") }
 
@@ -73,7 +90,11 @@ fun LogOnScreen(
             R.drawable.key,
             R.drawable.double_key
         )
-            
+
+    BackHandler {
+        navigator.popBackStack(route = LogOnScreenDestination.route, inclusive = true)
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -105,7 +126,7 @@ fun LogOnScreen(
                             .fillMaxWidth()
                             .shadow(
                                 elevation = 12.dp,
-                                spotColor = Color(0xFFB20000),
+                                spotColor = ExtendedTheme.colors.redAccent,
                                 shape = RoundedCornerShape(12.dp)
                             )
                             .background(Color.White)
@@ -116,7 +137,7 @@ fun LogOnScreen(
                         },
                         textStyle = LocalTextStyle.current.copy(
                             color = Color.Black,
-                            fontSize = 12.sp,
+                            fontSize = 14.sp,
                             fontWeight = FontWeight.W600,
                         ),
                         decorationBox = { innerTextField ->
@@ -129,11 +150,14 @@ fun LogOnScreen(
                                 Icon(
                                     painter = painterResource(id = stateIconHint.first.second),
                                     contentDescription = null,
-                                    tint = Color(0xFFB20000),
+                                    tint = ExtendedTheme.colors.redAccent,
                                     modifier = Modifier
                                         .size(24.dp)
                                 )
-                                Box {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                ) {
                                     if (stateIconHint.first.first.value.isEmpty())
                                         Text(
                                             text = stringResource(id = stateIconHint.second),
@@ -167,7 +191,7 @@ fun LogOnScreen(
                         .fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFB20000)
+                        containerColor = ExtendedTheme.colors.redAccent
                     )
                 ) {
                     Text(
@@ -193,7 +217,7 @@ fun LogOnScreen(
                         }
                         .pointerInput(Unit) {
                             detectTapGestures {
-                                /*TODO*/
+                                navigator.popBackStack(route = LogOnScreenDestination.route, inclusive = true)
                             }
                         }
                 )
@@ -206,5 +230,5 @@ fun LogOnScreen(
 @Preview
 @Composable
 fun LogOnScreenPreview(){
-    LogOnScreen()
+//    LogOnScreen()
 }
