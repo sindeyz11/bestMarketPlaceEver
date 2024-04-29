@@ -142,7 +142,6 @@ fun ItemAddToCartMenu(
         Column(
             modifier = Modifier
                 .padding(top = 415.dp)
-                .fillMaxWidth()
                 .fillMaxSize()
                 .background(
                     Color.White,
@@ -211,63 +210,71 @@ fun ItemAddToCartMenu(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                Text(
-                    text = buildAnnotatedString {
-                        withStyle(
-                            style = SpanStyle(
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        ) {
-                            append(stringResource(id = R.string.description))
-                        }
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.SpaceEvenly
+                ) {
 
-                        append("\n")
+                    Text(
+                        text = buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            ) {
+                                append(stringResource(id = R.string.description))
+                            }
 
-                        withStyle(
-                            style = SpanStyle(
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Normal,
-                                color = Color.DarkGray
-                            )
-                        ) {
-                            append(itemDescription)
-                        }
-                    },
-                    modifier = Modifier.padding(horizontal = 25.dp),
-                    maxLines = 2
-                )
+                            append("\n")
 
-                Spacer(modifier = Modifier.height(12.dp))
+                            withStyle(
+                                style = SpanStyle(
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Normal,
+                                    color = Color.DarkGray
+                                )
+                            ) {
+                                append(itemDescription)
+                            }
+                        },
+                        modifier = Modifier.padding(horizontal = 25.dp),
+                        maxLines = 2
+                    )
 
-                Text(
-                    text = stringResource(id = R.string.items_from_this_category),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(start = 25.dp)
-                )
+                    Column{
+                        Text(
+                            text = stringResource(id = R.string.items_from_this_category),
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(start = 25.dp)
+                        )
+                        
+                        Spacer(modifier = Modifier.size(12.dp))
+                        
+                        //TODO
+                        //temporary
+                        val itemsList: List<ProductItem> = listOf(
+                            ProductItem("Помидоры", "250.00", "кг", "250.00", Uri.EMPTY, false, ""),
+                            ProductItem("Груши", "300.00", "кг", "250.00", Uri.EMPTY, true, ""),
+                            ProductItem("Помидоры", "250.00", "кг", "300.00", Uri.EMPTY, true, ""),
+                            ProductItem("Груши", "300.00", "кг", "250.00", Uri.EMPTY, false, ""),
+                            ProductItem("Помидоры", "250.00", "кг", "250.00", Uri.EMPTY, false, ""),
+                            ProductItem("Груши", "300.00", "кг", "250.00", Uri.EMPTY, true, "")
+                        )
 
-                //TODO
-                //temporary
-                val itemsList: List<ProductItem> = listOf(
-                    ProductItem("Помидоры", "250.00", "кг","250.00", Uri.EMPTY, false, ""),
-                    ProductItem("Груши", "300.00","кг","250.00", Uri.EMPTY, true, ""),
-                    ProductItem("Помидоры", "250.00","кг","300.00", Uri.EMPTY, true, ""),
-                    ProductItem("Груши", "300.00","кг","250.00",Uri.EMPTY, false, ""),
-                    ProductItem("Помидоры", "250.00","кг","250.00", Uri.EMPTY, false, ""),
-                    ProductItem("Груши", "300.00","кг","250.00", Uri.EMPTY, true, "")
-                )
+                        ItemsAddToCartMenuCarousel(itemsList = itemsList)
+                    }
 
-                Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.size(15.dp))
 
-                ItemsAddToCartMenuCarousel(itemsList = itemsList)
+                    BottomButtonFinishOperation(
+                        textValue = stringResource(id = R.string.add_to_cart) + " - " + "₽" + "${itemPrice.toDouble() * productItemCount}",
+                        onClick = { /* TODO */ }
+                    )
 
-                Spacer(modifier = Modifier.height(8.dp))
-
-                BottomButtonFinishOperation(
-                    textValue = stringResource(id = R.string.add_to_cart) + " - " + "₽" + "${itemPrice.toDouble() * productItemCount}",
-                    onClick = { /* TODO */ }
-                )
+                    Spacer(modifier = Modifier.size(15.dp))
+                }
             }
         )
     }
