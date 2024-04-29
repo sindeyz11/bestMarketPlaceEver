@@ -20,4 +20,20 @@
     <string name="description">Описание</string>
     <string name="items_from_this_category">Товары из этой категории</string>
     <string name="add_to_cart">Добавить в корзину</string>
+    <string name="user_information_title">Информация о пользователе</string>
+    <string name="name_title">Имя:</string>
+    <string name="phone_title">Телефон:</string>
+    <string name="email_title">E-mail:</string>
+    <string name="total_purchases_title">Сумма выкупа</string>
+    <string name="total_purchases_percent_title">Процент выкупа</string>
+    <string name="discount_title">Ваша скидка</string>
+    <string name="deliveries_title">Доставки</string>
+    <string name="payment_method_title">Платежное средство</string>
+    <string name="change_password_suggestion">Сменить пароль</string>
+    <string name="rub">₽</string>
+    <string name="no_deliveries_info">Нет доставок</string>
+    <string name="percent">%</string>
+    <string name="card_number_hint">Номер карты</string>
+    <string name="card_date_hint">Дата</string>
+    <string name="card_cvc_hint">CVC-код</string>
 </resources>

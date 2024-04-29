@@ -5,6 +5,7 @@ import androidx.annotation.StringRes
 import com.kire.market_place_android.presentation.screen.destinations.FavouritesScreenDestination
 import com.kire.market_place_android.presentation.screen.destinations.LogInScreenDestination
 import com.kire.market_place_android.presentation.screen.destinations.LogOnScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.ProfileScreenDestination
 import com.kire.market_place_android.presentation.screen.destinations.ShoppingScreenDestination
 import com.kire.test.R
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec

@@ -1,5 +1,6 @@
 package com.kire.market_place_android.presentation.screen.cross_screen_ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -34,6 +35,7 @@ import com.kire.market_place_android.presentation.screen.appCurrentDestinationAs
 import com.kire.market_place_android.presentation.screen.destinations.Destination
 import com.kire.market_place_android.presentation.screen.destinations.LogInScreenDestination
 import com.kire.market_place_android.presentation.screen.destinations.LogOnScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.ProfileScreenDestination
 import com.kire.market_place_android.presentation.screen.destinations.ShoppingScreenDestination
 import com.kire.market_place_android.presentation.screen.startAppDestination
 import com.kire.market_place_android.presentation.theme.ExtendedTheme
@@ -50,7 +52,9 @@ fun TopBar(
     val currentDestination: Destination = navHostController.appCurrentDestinationAsState().value
         ?: NavGraphs.root.startAppDestination
 
-    val allowedList = emptyList<Destination>()
+    val allowedList = listOf(
+        ProfileScreenDestination
+    )
 
     if (allowedList.contains(currentDestination)) {
 
@@ -61,10 +65,9 @@ fun TopBar(
                 appBarDestination = destination
         }
 
-
         Crossfade(
             targetState = appBarDestination,
-            animationSpec = tween(durationMillis = 0, delayMillis = 450)
+            animationSpec = tween(durationMillis = 150, delayMillis = 450)
         ) { destination ->
 
             Row(

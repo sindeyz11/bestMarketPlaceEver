@@ -30,6 +30,7 @@ import com.kire.market_place_android.presentation.screen.NavGraphs
 import com.kire.market_place_android.presentation.screen.appCurrentDestinationAsState
 import com.kire.market_place_android.presentation.screen.destinations.Destination
 import com.kire.market_place_android.presentation.screen.destinations.FavouritesScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.ProfileScreenDestination
 import com.kire.market_place_android.presentation.screen.destinations.ShoppingScreenDestination
 import com.kire.market_place_android.presentation.screen.startAppDestination
 import com.kire.market_place_android.presentation.theme.ExtendedTheme

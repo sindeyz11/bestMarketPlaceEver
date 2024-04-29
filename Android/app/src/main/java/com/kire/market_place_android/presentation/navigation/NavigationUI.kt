@@ -6,9 +6,13 @@ import com.kire.market_place_android.presentation.screen.FavouritesScreen
 import com.kire.market_place_android.presentation.screen.LogInScreen
 import com.kire.market_place_android.presentation.screen.LogOnScreen
 import com.kire.market_place_android.presentation.screen.NavGraphs
-import com.kire.market_place_android.presentation.screen.destinations.ItemAddToCartMenuDestination
+import com.kire.market_place_android.presentation.screen.ProfileScreen
+import com.kire.market_place_android.presentation.screen.ShoppingScreen
 import com.kire.market_place_android.presentation.screen.destinations.LogInScreenDestination
 import com.kire.market_place_android.presentation.screen.destinations.LogOnScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.ProfileScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.ShoppingScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.ItemAddToCartMenuDestination
 import com.kire.market_place_android.presentation.screen.ItemAddToCartMenu
 import com.kire.market_place_android.presentation.screen.destinations.FavouritesScreenDestination
 import com.ramcosta.composedestinations.DestinationsNavHost
@@ -46,7 +50,8 @@ fun NavigationUI(
                 navigator = destinationsNavigator
             )
         }
-
-
+        composable(ProfileScreenDestination) {
+            ProfileScreen()
+        }
     }
 }
