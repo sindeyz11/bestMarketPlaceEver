@@ -29,6 +29,7 @@ import com.kire.market_place_android.presentation.navigation.util.AppBarsDestina
 import com.kire.market_place_android.presentation.screen.NavGraphs
 import com.kire.market_place_android.presentation.screen.appCurrentDestinationAsState
 import com.kire.market_place_android.presentation.screen.destinations.Destination
+import com.kire.market_place_android.presentation.screen.destinations.FavouritesScreenDestination
 import com.kire.market_place_android.presentation.screen.destinations.ProfileScreenDestination
 import com.kire.market_place_android.presentation.screen.destinations.ShoppingScreenDestination
 import com.kire.market_place_android.presentation.screen.startAppDestination
@@ -51,7 +52,8 @@ fun BottomBar(
     val interactionSource = remember { MutableInteractionSource() }
 
     val allowedList = listOf(
-        ShoppingScreenDestination, ProfileScreenDestination
+        ShoppingScreenDestination,
+        FavouritesScreenDestination
     )
 
     if (allowedList.contains(currentDestination))

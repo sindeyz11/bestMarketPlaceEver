@@ -10,5 +10,6 @@ data class ProductItem(
     val itemScale: String,
     val itemDiscountPrice: String,
     val imageUri: Uri?,
-    val isFavourite: Boolean
+    val isFavourite: Boolean,
+    val itemDescription: String
 )

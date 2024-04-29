@@ -1,13 +1,16 @@
 package com.kire.market_place_android.presentation.screen.shopping_screen_ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,6 +40,7 @@ import com.kire.test.R
 
 /**
  * By Aleksey Timko (de4ltt) 28.04.24*/
+@SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun ItemCard(
     productItem: ProductItem
@@ -51,22 +55,48 @@ fun ItemCard(
         shape = RectangleShape
     ) {
         productItem.apply {
-            AsyncImage(
-                model = imageUri,
-                placeholder = painterResource(id = R.drawable.default_image),
-                contentDescription = "Item image",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(165.dp)
-                    .clip(
-                        RoundedCornerShape(
-                            topStart = 15.dp,
-                            topEnd = 15.dp,
-                            bottomStart = 0.dp,
-                            bottomEnd = 15.dp
+            Box(contentAlignment = Alignment.TopEnd) {
+                AsyncImage(
+                    model = Box(modifier = Modifier
+                        .size(165.dp)
+                        .background(Color.Red)),
+                    /*placeholder = painterResource(id = R.drawable.default_image) ,*/
+                    contentDescription = "Item image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(165.dp)
+                        .clip(
+                            RoundedCornerShape(
+                                topStart = 15.dp,
+                                topEnd = 15.dp,
+                                bottomStart = 0.dp,
+                                bottomEnd = 15.dp
+                            )
                         )
-                    )
-            )
+                )
+
+                Box(
+                    modifier = Modifier
+                        .size(55.dp)
+                        .padding(end = 10.dp, top = 10.dp)
+                        .background(Color.White, RoundedCornerShape(30.dp)),
+                    contentAlignment = Alignment.Center,
+                    content = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.favourite_top_bar),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(25.dp)
+                                .clickable(
+                                    indication = null,
+                                    interactionSource = MutableInteractionSource(),
+                                    onClick = { /* TODO */ }
+                                ),
+                            tint = if (isFavourite) ExtendedTheme.colors.redAccent else Color.LightGray
+                        )
+                    }
+                )
+            }
 
             Spacer(modifier = Modifier.height(5.dp))
 
@@ -148,10 +178,14 @@ fun ItemCard(
                     modifier = Modifier
                         .size(35.dp)
                         .background(
-                            color = ExtendedTheme.colors.redAccent,
-                            shape = RoundedCornerShape(5.dp)
+                            ExtendedTheme.colors.redAccent,
+                            RoundedCornerShape(5.dp)
                         )
-                        .clickable { },
+                        .clickable(
+                            indication = null,
+                            interactionSource = MutableInteractionSource(),
+                            onClick = { TODO() }
+                        ),
                     contentAlignment = Alignment.Center,
                     content = {
                         Icon(
