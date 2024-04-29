@@ -32,7 +32,7 @@ import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -76,7 +76,7 @@ fun ProfileDataBottomBar(
         sheetState = sheetState,
         dragHandle = {
             Text(
-                text = stringResource(id = R.string.change_password_title),
+                text = stringResource(id = R.string.profile_data_title),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -115,12 +115,8 @@ fun ProfileDataBottomBar(
                         modifier = Modifier
                             .height(56.dp)
                             .fillMaxWidth()
-                            .shadow(
-                                elevation = 8.dp,
-                                spotColor = Color.Black,
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .background(Color.White)
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(ExtendedTheme.colors.profileBar)
                             .padding(16.dp),
                         value = nameState,
                         onValueChange = {
@@ -140,16 +136,16 @@ fun ProfileDataBottomBar(
                                 horizontalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.key),
+                                    painter = painterResource(id = R.drawable.user_name_data),
                                     contentDescription = null,
-                                    tint = ExtendedTheme.colors.redAccent,
+                                    tint = Color.Black,
                                     modifier = Modifier
                                         .size(24.dp)
                                 )
                                 Box {
                                     if (nameState.isEmpty())
                                         Text(
-                                            text = stringResource(id = R.string.old_password_hint),
+                                            text = stringResource(id = R.string.name_hint),
                                             fontWeight = FontWeight.W400,
                                             color = Color.Gray
                                         )
@@ -163,12 +159,8 @@ fun ProfileDataBottomBar(
                         modifier = Modifier
                             .height(56.dp)
                             .fillMaxWidth()
-                            .shadow(
-                                elevation = 8.dp,
-                                spotColor = Color.Black,
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .background(Color.White)
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(ExtendedTheme.colors.profileBar)
                             .padding(16.dp),
                         value = phoneState,
                         onValueChange = {
@@ -178,7 +170,7 @@ fun ProfileDataBottomBar(
                         textStyle = LocalTextStyle.current.copy(
                             color = Color.Black,
                             fontSize = 14.sp,
-                            fontWeight = FontWeight.W600,
+                            fontWeight = FontWeight.W400,
                         ),
                         decorationBox = { innerTextField ->
                             Row(
@@ -188,7 +180,7 @@ fun ProfileDataBottomBar(
                                 horizontalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.key),
+                                    painter = painterResource(id = R.drawable.phone_data),
                                     contentDescription = null,
                                     tint = Color.Black,
                                     modifier = Modifier
@@ -197,7 +189,7 @@ fun ProfileDataBottomBar(
                                 Box {
                                     if (phoneState.isEmpty())
                                         Text(
-                                            text = stringResource(id = R.string.new_password_hint),
+                                            text = stringResource(id = R.string.phone_hint),
                                             fontWeight = FontWeight.W400,
                                             color = Color.Gray
                                         )
@@ -211,12 +203,8 @@ fun ProfileDataBottomBar(
                         modifier = Modifier
                             .height(56.dp)
                             .fillMaxWidth()
-                            .shadow(
-                                elevation = 8.dp,
-                                spotColor = Color.Black,
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .background(Color.White)
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(ExtendedTheme.colors.profileBar)
                             .padding(16.dp),
                         value = emailState,
                         onValueChange = {
@@ -226,7 +214,7 @@ fun ProfileDataBottomBar(
                         textStyle = LocalTextStyle.current.copy(
                             color = Color.Black,
                             fontSize = 14.sp,
-                            fontWeight = FontWeight.W600,
+                            fontWeight = FontWeight.W400,
                         ),
                         decorationBox = { innerTextField ->
                             Row(
@@ -236,7 +224,7 @@ fun ProfileDataBottomBar(
                                 horizontalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.double_key),
+                                    painter = painterResource(id = R.drawable.email_data),
                                     contentDescription = null,
                                     tint = Color.Black,
                                     modifier = Modifier
@@ -245,7 +233,7 @@ fun ProfileDataBottomBar(
                                 Box {
                                     if (emailState.isEmpty())
                                         Text(
-                                            text = stringResource(id = R.string.repeat_password_hint),
+                                            text = stringResource(id = R.string.email_hint),
                                             fontWeight = FontWeight.W400,
                                             color = Color.Gray
                                         )

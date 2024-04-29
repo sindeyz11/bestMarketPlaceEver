@@ -32,7 +32,7 @@ import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -109,12 +109,8 @@ fun ChangePasswordBottomBar(
                         modifier = Modifier
                             .height(56.dp)
                             .fillMaxWidth()
-                            .shadow(
-                                elevation = 8.dp,
-                                spotColor = Color.Black,
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .background(Color.White)
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(ExtendedTheme.colors.profileBar)
                             .padding(16.dp),
                         value = oldPasswordState,
                         onValueChange = {
@@ -124,7 +120,7 @@ fun ChangePasswordBottomBar(
                         textStyle = LocalTextStyle.current.copy(
                             color = Color.Black,
                             fontSize = 14.sp,
-                            fontWeight = FontWeight.W600,
+                            fontWeight = FontWeight.W400,
                         ),
                         decorationBox = { innerTextField ->
                             Row(
@@ -157,12 +153,8 @@ fun ChangePasswordBottomBar(
                         modifier = Modifier
                             .height(56.dp)
                             .fillMaxWidth()
-                            .shadow(
-                                elevation = 8.dp,
-                                spotColor = Color.Black,
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .background(Color.White)
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(ExtendedTheme.colors.profileBar)
                             .padding(16.dp),
                         value = newPasswordState,
                         onValueChange = {
@@ -172,7 +164,7 @@ fun ChangePasswordBottomBar(
                         textStyle = LocalTextStyle.current.copy(
                             color = Color.Black,
                             fontSize = 14.sp,
-                            fontWeight = FontWeight.W600,
+                            fontWeight = FontWeight.W400,
                         ),
                         decorationBox = { innerTextField ->
                             Row(
@@ -205,12 +197,8 @@ fun ChangePasswordBottomBar(
                         modifier = Modifier
                             .height(56.dp)
                             .fillMaxWidth()
-                            .shadow(
-                                elevation = 8.dp,
-                                spotColor = Color.Black,
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .background(Color.White)
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(ExtendedTheme.colors.profileBar)
                             .padding(16.dp),
                         value = repeatPasswordState,
                         onValueChange = {
@@ -220,7 +208,7 @@ fun ChangePasswordBottomBar(
                         textStyle = LocalTextStyle.current.copy(
                             color = Color.Black,
                             fontSize = 14.sp,
-                            fontWeight = FontWeight.W600,
+                            fontWeight = FontWeight.W400,
                         ),
                         decorationBox = { innerTextField ->
                             Row(
