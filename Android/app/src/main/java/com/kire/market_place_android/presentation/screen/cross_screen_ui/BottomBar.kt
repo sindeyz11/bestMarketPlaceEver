@@ -24,13 +24,16 @@ import androidx.compose.ui.unit.dp
 
 import androidx.navigation.NavHostController
 
+import com.kire.market_place_android.presentation.model.UserRole
 import com.kire.market_place_android.presentation.navigation.util.AppBarsDestination
-
 import com.kire.market_place_android.presentation.screen.NavGraphs
 import com.kire.market_place_android.presentation.screen.appCurrentDestinationAsState
+import com.kire.market_place_android.presentation.screen.destinations.AdminScreenDestination
 import com.kire.market_place_android.presentation.screen.destinations.Destination
 import com.kire.market_place_android.presentation.screen.destinations.FavouritesScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.ManagerScreenDestination
 import com.kire.market_place_android.presentation.screen.destinations.ProfileScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.ShoppingCartScreenDestination
 import com.kire.market_place_android.presentation.screen.destinations.ShoppingScreenDestination
 import com.kire.market_place_android.presentation.screen.startAppDestination
 import com.kire.market_place_android.presentation.theme.ExtendedTheme
@@ -43,6 +46,7 @@ Implements navigation through screens
  */
 @Composable
 fun BottomBar(
+    userRole: UserRole,
     navHostController: NavHostController,
     paddingStartEndBottom: Dp = 28.dp
 ) {
@@ -53,7 +57,11 @@ fun BottomBar(
 
     val allowedList = listOf(
         ShoppingScreenDestination,
-        FavouritesScreenDestination
+        FavouritesScreenDestination,
+        ShoppingCartScreenDestination,
+        ProfileScreenDestination,
+        ManagerScreenDestination,
+        AdminScreenDestination
     )
 
     if (allowedList.contains(currentDestination))
@@ -73,23 +81,37 @@ fun BottomBar(
         ) {
 
             AppBarsDestination.entries.forEach { destination ->
-                Icon(
-                    painter = painterResource(id = destination.iconBottom!!),
-                    contentDescription = null,
-                    tint =
-                        if (currentDestination == destination.direction)
-                            ExtendedTheme.colors.redAccent
-                        else Color.Black,
-                    modifier = Modifier
-                        .size(30.dp)
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null
-                        ) {
-                            if (currentDestination.route != destination.direction.route)
-                                navHostController.navigate(destination.direction)
-                        }
+                if (userRole == UserRole.CLIENT &&
+                    (destination.direction == ManagerScreenDestination || destination.direction == AdminScreenDestination))
+                    return@forEach
+
+                else if (userRole == UserRole.MANAGER &&
+                    destination.direction == AdminScreenDestination
                 )
+                    return@forEach
+
+                else if (userRole == UserRole.ADMIN &&
+                    destination.direction == ManagerScreenDestination
+                )
+                    return@forEach
+                else
+                    Icon(
+                        painter = painterResource(id = destination.iconBottom!!),
+                        contentDescription = null,
+                        tint =
+                            if (currentDestination == destination.direction)
+                                ExtendedTheme.colors.redAccent
+                            else Color.Black,
+                        modifier = Modifier
+                            .size(30.dp)
+                            .clickable(
+                                interactionSource = interactionSource,
+                                indication = null
+                            ) {
+                                if (currentDestination.route != destination.direction.route)
+                                    navHostController.navigate(destination.direction)
+                            }
+                    )
             }
         }
 }

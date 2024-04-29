@@ -1,6 +1,5 @@
 package com.kire.market_place_android.presentation.screen.cross_screen_ui
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -33,10 +32,10 @@ import com.kire.market_place_android.presentation.navigation.util.AppBarsDestina
 import com.kire.market_place_android.presentation.screen.NavGraphs
 import com.kire.market_place_android.presentation.screen.appCurrentDestinationAsState
 import com.kire.market_place_android.presentation.screen.destinations.Destination
-import com.kire.market_place_android.presentation.screen.destinations.LogInScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.LogOnScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.FavouritesScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.ManagerScreenDestination
 import com.kire.market_place_android.presentation.screen.destinations.ProfileScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.ShoppingScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.ShoppingCartScreenDestination
 import com.kire.market_place_android.presentation.screen.startAppDestination
 import com.kire.market_place_android.presentation.theme.ExtendedTheme
 
@@ -53,7 +52,10 @@ fun TopBar(
         ?: NavGraphs.root.startAppDestination
 
     val allowedList = listOf(
-        ProfileScreenDestination
+        ProfileScreenDestination,
+        ShoppingCartScreenDestination,
+        FavouritesScreenDestination,
+        ManagerScreenDestination
     )
 
     if (allowedList.contains(currentDestination)) {
@@ -67,7 +69,7 @@ fun TopBar(
 
         Crossfade(
             targetState = appBarDestination,
-            animationSpec = tween(durationMillis = 150, delayMillis = 450)
+            animationSpec = tween(durationMillis = 0, delayMillis = 450)
         ) { destination ->
 
             Row(

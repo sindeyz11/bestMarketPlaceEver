@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
 import com.kire.market_place_android.presentation.theme.ExtendedTheme
 
 import com.kire.test.R
@@ -46,7 +47,8 @@ fun UserProfileInfo(
             topEnd = 18.dp,
             bottomEnd = 18.dp
         ),
-    paddingValues: PaddingValues = PaddingValues(20.dp)
+    paddingValues: PaddingValues = PaddingValues(20.dp),
+    showBottomSheet: (Boolean) -> Unit = { }
 ){
     Column(
         modifier = Modifier
@@ -80,7 +82,7 @@ fun UserProfileInfo(
                     .size(18.dp)
                     .pointerInput(Unit) {
                         detectTapGestures {
-                            /*TODO()*/
+                            showBottomSheet(true)
                         }
                     }
             )

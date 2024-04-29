@@ -11,7 +11,7 @@ val LocalExtendedColors = staticCompositionLocalOf {
     MarketExtendedColors(
         redAccent  = Color(0xFFB20000),
         black10 = Color(0, 0, 0, 25),
-        greenPrice = Color(8, 78, 0, 255)
+        greenPrice = Color(8, 78, 0, 255),
         profileBar = Color(0xFFEDEDED)
     )
 }
@@ -24,7 +24,7 @@ fun MarketExtendedTheme(
     val extendedColors = MarketExtendedColors(
         redAccent = Color(0xFFB20000),
         black10 = Color(0, 0, 0, 25),
-        greenPrice = Color(8, 78, 0, 255)
+        greenPrice = Color(8, 78, 0, 255),
         profileBar = Color(0xFFEDEDED)
     )
     CompositionLocalProvider(LocalExtendedColors provides extendedColors) {

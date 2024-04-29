@@ -6,7 +6,7 @@ import javax.annotation.concurrent.Immutable
 @Immutable
 data class MarketExtendedColors(
     val redAccent: Color,
-    val greenPrice: Color
+    val greenPrice: Color,
     val profileBar: Color,
     val black10: Color
 )

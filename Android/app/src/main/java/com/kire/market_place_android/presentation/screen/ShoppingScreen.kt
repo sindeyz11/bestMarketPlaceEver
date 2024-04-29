@@ -1,6 +1,7 @@
 package com.kire.market_place_android.presentation.screen
 
 import android.net.Uri
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,29 +14,36 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+
 import androidx.compose.material3.Text
+
 import androidx.compose.runtime.Composable
+
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
 import com.kire.market_place_android.presentation.model.ProductItem
 import com.kire.market_place_android.presentation.navigation.Transition.ShoppingScreenTransitions
 import com.kire.market_place_android.presentation.screen.shopping_screen_ui.ItemCard
 import com.kire.market_place_android.presentation.screen.shopping_screen_ui.ShoppingHeader
-import com.kire.test.R
-import com.ramcosta.composedestinations.annotation.Destination
 
+import com.kire.test.R
+
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /**
  * By Aleksey Timko (de4ltt) 28.04.24*/
 /**
  * By Michael Gontarev (KiREHwYe) 29.04.24*/
-@Destination(style = ShoppingScreenTransitions::class)
+@Destination(start = true, style = ShoppingScreenTransitions::class)
 @Composable
 fun ShoppingScreen(
+    navigator: DestinationsNavigator,
     paddingValues: PaddingValues = PaddingValues(28.dp)
 ) {
     val itemsLists: List<ProductItem> = listOf(
@@ -80,7 +88,10 @@ fun ShoppingScreen(
                         .fillMaxSize()
                 ) {
                     items(itemsLists) { item ->
-                        ItemCard(productItem = item)
+                        ItemCard(
+                            productItem = item,
+                            navigator = navigator
+                        )
                     }
                 }
             }
