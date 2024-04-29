@@ -33,18 +33,18 @@ import com.ramcosta.composedestinations.annotation.Destination
  * By Aleksey Timko (de4ltt) 28.04.24*/
 /**
  * By Michael Gontarev (KiREHwYe) 29.04.24*/
-@Destination(start = true, style = ShoppingScreenTransitions::class)
+@Destination(style = ShoppingScreenTransitions::class)
 @Composable
 fun ShoppingScreen(
     paddingValues: PaddingValues = PaddingValues(28.dp)
 ) {
     val itemsLists: List<ProductItem> = listOf(
-        ProductItem("Помидоры", "250.00", "кг","250.00", Uri.EMPTY, false),
-        ProductItem("Груши", "300.00","кг","250.00", Uri.EMPTY, true),
-        ProductItem("Помидоры", "250.00","кг","300.00", Uri.EMPTY, true),
-        ProductItem("Груши", "300.00","кг","250.00",Uri.EMPTY, false),
-        ProductItem("Помидоры", "250.00","кг","250.00", Uri.EMPTY, false),
-        ProductItem("Груши", "300.00","кг","250.00", Uri.EMPTY, true)
+        ProductItem("Помидоры", "250.00", "кг","250.00", Uri.EMPTY, false, ""),
+        ProductItem("Груши", "300.00","кг","250.00", Uri.EMPTY, true, ""),
+        ProductItem("Помидоры", "250.00","кг","300.00", Uri.EMPTY, true, ""),
+        ProductItem("Груши", "300.00","кг","250.00",Uri.EMPTY, false, ""),
+        ProductItem("Помидоры", "250.00","кг","250.00", Uri.EMPTY, false, ""),
+        ProductItem("Груши", "300.00","кг","250.00", Uri.EMPTY, true, "")
     )
 
     Column(

@@ -5,10 +5,10 @@ import androidx.navigation.NavHostController
 import com.kire.market_place_android.presentation.screen.LogInScreen
 import com.kire.market_place_android.presentation.screen.LogOnScreen
 import com.kire.market_place_android.presentation.screen.NavGraphs
-import com.kire.market_place_android.presentation.screen.ShoppingScreen
+import com.kire.market_place_android.presentation.screen.destinations.ItemAddToCartMenuDestination
 import com.kire.market_place_android.presentation.screen.destinations.LogInScreenDestination
 import com.kire.market_place_android.presentation.screen.destinations.LogOnScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.ShoppingScreenDestination
+import com.kire.market_place_android.presentation.screen.ItemAddToCartMenu
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.spec.NavHostEngine
@@ -24,8 +24,8 @@ fun NavigationUI(
         engine = navHostEngine,
         navController = navHostController
     ) {
-        composable(ShoppingScreenDestination) {
-            ShoppingScreen()
+        composable(ItemAddToCartMenuDestination) {
+            ItemAddToCartMenu()
         }
         composable(LogInScreenDestination) {
             LogInScreen(
