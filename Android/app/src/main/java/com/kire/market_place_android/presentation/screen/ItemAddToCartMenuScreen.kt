@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,10 +47,11 @@ import com.kire.market_place_android.presentation.screen.item_add_to_cart_menu.P
 import com.kire.market_place_android.presentation.theme.ExtendedTheme
 import com.kire.test.R
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnrememberedMutableInteractionSource")
-@Destination(start = true)
+@Destination
 @Composable
 fun ItemAddToCartMenu(
     productItem: ProductItem = ProductItem(
@@ -59,7 +59,8 @@ fun ItemAddToCartMenu(
         "кг", "250.00",
         Uri.EMPTY, false,
         "Помогите, они украли мою семью..."
-    )
+    ),
+    navigator: DestinationsNavigator
 ) {
     var productItemCount by remember {
         mutableIntStateOf(1)
