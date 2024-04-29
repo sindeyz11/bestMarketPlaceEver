@@ -31,8 +31,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.kire.market_place_android.presentation.models.ProductItem
-import com.kire.market_place_android.presentation.theme.OurRed
+import com.kire.market_place_android.presentation.model.ProductItem
+import com.kire.market_place_android.presentation.theme.ExtendedTheme
 import com.kire.test.R
 
 /**
@@ -148,8 +148,8 @@ fun ItemCard(
                     modifier = Modifier
                         .size(35.dp)
                         .background(
-                            OurRed,
-                            RoundedCornerShape(5.dp)
+                            color = ExtendedTheme.colors.redAccent,
+                            shape = RoundedCornerShape(5.dp)
                         )
                         .clickable { },
                     contentAlignment = Alignment.Center,

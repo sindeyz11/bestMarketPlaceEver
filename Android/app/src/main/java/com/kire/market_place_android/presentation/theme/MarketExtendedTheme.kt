@@ -9,7 +9,8 @@ import androidx.compose.ui.graphics.Color
 
 val LocalExtendedColors = staticCompositionLocalOf {
     MarketExtendedColors(
-        redAccent  = Color(0xFFB20000)
+        redAccent  = Color(0xFFB20000),
+        black10 = Color(0, 0, 0, 25)
     )
 }
 
@@ -19,7 +20,8 @@ fun MarketExtendedTheme(
     content: @Composable () -> Unit
 ) {
     val extendedColors = MarketExtendedColors(
-        redAccent = Color(0xFFB20000)
+        redAccent = Color(0xFFB20000),
+        black10 = Color(0, 0, 0, 25)
     )
     CompositionLocalProvider(LocalExtendedColors provides extendedColors) {
         Market_Place_AndroidTheme(

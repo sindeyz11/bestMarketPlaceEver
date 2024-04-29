@@ -65,6 +65,7 @@ fun LogInScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.White)
             .padding(paddingValues),
         contentAlignment = Alignment.Center
     ){

@@ -1,27 +1,24 @@
 package com.kire.market_place_android.presentation.screen.cross_screen_ui
 
-import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -37,9 +34,13 @@ import com.kire.market_place_android.presentation.screen.appCurrentDestinationAs
 import com.kire.market_place_android.presentation.screen.destinations.Destination
 import com.kire.market_place_android.presentation.screen.destinations.LogInScreenDestination
 import com.kire.market_place_android.presentation.screen.destinations.LogOnScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.ShoppingScreenDestination
 import com.kire.market_place_android.presentation.screen.startAppDestination
 import com.kire.market_place_android.presentation.theme.ExtendedTheme
 
+/*
+App's Top Bar
+ */
 @Composable
 fun TopBar(
     navHostController: NavHostController,
@@ -49,13 +50,11 @@ fun TopBar(
     val currentDestination: Destination = navHostController.appCurrentDestinationAsState().value
         ?: NavGraphs.root.startAppDestination
 
-    val allowedList = listOf(
-        LogOnScreenDestination, LogInScreenDestination
-    )
+    val allowedList = emptyList<Destination>()
 
     if (allowedList.contains(currentDestination)) {
 
-        var appBarDestination: AppBarsDestination = AppBarsDestination.PROFILE
+        var appBarDestination: AppBarsDestination = AppBarsDestination.SHOPPING
 
         AppBarsDestination.entries.forEach { destination ->
             if (destination.direction.route == currentDestination.route)
@@ -72,6 +71,7 @@ fun TopBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
+                    .background(Color.White)
                     .padding(
                         top = paddingValuesTopDp,
                         start = paddingValuesStartEndBottomDp,
@@ -83,7 +83,7 @@ fun TopBar(
             ) {
 
                 Icon(
-                    painter = painterResource(id = destination.iconTop),
+                    painter = painterResource(id = destination.iconTop!!),
                     contentDescription = null,
                     tint = ExtendedTheme.colors.redAccent,
                     modifier = Modifier
