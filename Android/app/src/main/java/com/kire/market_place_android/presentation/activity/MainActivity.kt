@@ -1,42 +1,27 @@
 package com.kire.market_place_android.presentation.activity
 
 import android.app.Activity
-
 import android.os.Build
 import android.os.Bundle
-
 import android.view.Window
 import android.view.WindowManager
-
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-
 import androidx.compose.animation.ExperimentalAnimationApi
-
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-
 import androidx.compose.material3.Scaffold
-
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.LayoutDirection
-
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-
-import com.kire.market_place_android.presentation.model.UserRole
 import com.kire.market_place_android.presentation.navigation.NavigationUI
 import com.kire.market_place_android.presentation.screen.cross_screen_ui.BottomBar
 import com.kire.market_place_android.presentation.screen.cross_screen_ui.TopBar
 import com.kire.market_place_android.presentation.theme.MarketExtendedTheme
-
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 
 class MainActivity : ComponentActivity() {
@@ -64,7 +49,6 @@ class MainActivity : ComponentActivity() {
                     },
                     bottomBar = {
                         BottomBar(
-                            userRole = UserRole.MANAGER,
                             navHostController = navHostController
                         )
                     }
@@ -73,12 +57,7 @@ class MainActivity : ComponentActivity() {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(
-                                top = innerPadding.calculateTopPadding(),
-                                bottom = innerPadding.calculateBottomPadding(),
-                                start = innerPadding.calculateStartPadding(layoutDirection = LayoutDirection.Ltr),
-                                end = innerPadding.calculateEndPadding(layoutDirection = LayoutDirection.Rtl)
-                            )
+                            .padding(innerPadding)
                     ){
                         NavigationUI(
                             navHostController = navHostController,

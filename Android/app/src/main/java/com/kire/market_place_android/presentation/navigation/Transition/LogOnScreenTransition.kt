@@ -10,25 +10,25 @@ import androidx.compose.animation.fadeOut
 import androidx.navigation.NavBackStackEntry
 import com.ramcosta.composedestinations.spec.DestinationStyle
 
-object LogInScreenTransitions : DestinationStyle.Animated {
+object LogOnScreenTransitions : DestinationStyle.Animated {
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.enterTransition(): EnterTransition {
-        return slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)) +
+        return slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)) +
                 fadeIn(animationSpec = tween(400, easing = FastOutSlowInEasing))
     }
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.exitTransition(): ExitTransition {
-        return slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)) +
+        return slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)) +
                 fadeOut(animationSpec = tween(400, easing = FastOutSlowInEasing))
     }
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.popEnterTransition(): EnterTransition {
-        return slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing))+
+        return slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing))+
                 fadeIn(animationSpec = tween(400, easing = FastOutSlowInEasing))
     }
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.popExitTransition(): ExitTransition {
-        return slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)) +
+        return slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(durationMillis = 400, easing = FastOutSlowInEasing)) +
                 fadeOut(animationSpec = tween(400, easing = FastOutSlowInEasing))
     }
 }

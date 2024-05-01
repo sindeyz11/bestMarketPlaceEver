@@ -1,11 +1,7 @@
 package com.kire.market_place_android.presentation.screen
 
 import android.annotation.SuppressLint
-
 import android.net.Uri
-
-import androidx.activity.compose.BackHandler
-
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.MarqueeAnimationMode
 import androidx.compose.foundation.background
@@ -24,16 +20,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,26 +39,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
 import coil.compose.AsyncImage
-
 import com.kire.market_place_android.presentation.model.ProductItem
-import com.kire.market_place_android.presentation.navigation.Transition.ItemAddToCartMenuScreenTransitions
-import com.kire.market_place_android.presentation.screen.destinations.ItemAddToCartMenuDestination
-import com.kire.market_place_android.presentation.screen.destinations.ShoppingCartScreenDestination
 import com.kire.market_place_android.presentation.screen.item_add_to_cart_menu.BottomButtonFinishOperation
 import com.kire.market_place_android.presentation.screen.item_add_to_cart_menu.ItemsAddToCartMenuCarousel
 import com.kire.market_place_android.presentation.screen.item_add_to_cart_menu.ProductItemCounter
 import com.kire.market_place_android.presentation.theme.ExtendedTheme
-
 import com.kire.test.R
-
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnrememberedMutableInteractionSource")
-@Destination(style = ItemAddToCartMenuScreenTransitions::class)
+@Destination
 @Composable
 fun ItemAddToCartMenu(
     productItem: ProductItem = ProductItem(
@@ -76,12 +62,6 @@ fun ItemAddToCartMenu(
     ),
     navigator: DestinationsNavigator
 ) {
-
-    BackHandler {
-        navigator.popBackStack(ItemAddToCartMenuDestination, inclusive = true)
-        return@BackHandler
-    }
-
     var productItemCount by remember {
         mutableIntStateOf(1)
     }
@@ -128,9 +108,7 @@ fun ItemAddToCartMenu(
                                     .clickable(
                                         indication = null,
                                         interactionSource = MutableInteractionSource(),
-                                        onClick = {
-                                            navigator.popBackStack(ItemAddToCartMenuDestination, inclusive = true)
-                                        }
+                                        onClick = { navigator.popBackStack() }
                                     ),
                                 tint = Color.Black
                             )
@@ -293,9 +271,7 @@ fun ItemAddToCartMenu(
 
                     BottomButtonFinishOperation(
                         textValue = stringResource(id = R.string.add_to_cart) + " - " + "₽" + "${itemPrice.toDouble() * productItemCount}",
-                        onClick = {
-                            navigator.navigate(ShoppingCartScreenDestination)
-                        }
+                        onClick = { /* TODO */ }
                     )
 
                     Spacer(modifier = Modifier.size(15.dp))
