@@ -1,10 +1,39 @@
 package com.kire.market_place_android.presentation.screen
 
+import android.graphics.Bitmap
 import android.net.Uri
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.kire.market_place_android.presentation.model.ProductItem
+import com.kire.market_place_android.presentation.screen.admin_panel_items_edit_screen_ui.AdminPanelIconField
+import com.kire.market_place_android.presentation.screen.item_add_to_cart_menu.BottomButtonFinishOperation
+import com.kire.test.R
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+
 
 @Destination(start = true)
 @Composable
@@ -17,7 +46,7 @@ fun AdminPanelItemsEditScreen(
     ),
     navigator: DestinationsNavigator
 ) {
-    /*productItem.apply {
+    productItem.apply {
         //TODO
         Box(
             modifier = Modifier
@@ -26,7 +55,7 @@ fun AdminPanelItemsEditScreen(
             content = {
                 AsyncImage(
                     model = Bitmap.createBitmap(500, 430, Bitmap.Config.RGB_565),
-                    *//*placeholder = painterResource(id = R.drawable.item_menu_default) ,*//*
+                    placeholder = painterResource(id = R.drawable.item_menu_default) ,
                     contentDescription = "Item Cart Image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -119,12 +148,12 @@ fun AdminPanelItemsEditScreen(
 
                 BottomButtonFinishOperation(
                     textValue = stringResource(id = R.string.save),
-                    onClick = { *//* TODO *//* }
+                    onClick = {  /* TODO */  }
                 )
 
                 Spacer(modifier = Modifier.size(15.dp))
 
             }
         )
-    }*/
+    }
 }
