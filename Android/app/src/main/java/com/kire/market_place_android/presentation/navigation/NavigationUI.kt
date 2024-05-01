@@ -2,27 +2,29 @@ package com.kire.market_place_android.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import com.kire.market_place_android.presentation.screen.AdminPanelItemsEditScreen
-import com.kire.market_place_android.presentation.screen.AdminPanelItemsScreen
-import com.kire.market_place_android.presentation.screen.AdminPanelScreen
-import com.kire.market_place_android.presentation.screen.FavouritesScreen
-import com.kire.market_place_android.presentation.screen.ItemAddToCartMenu
-import com.kire.market_place_android.presentation.screen.LogInScreen
-import com.kire.market_place_android.presentation.screen.LogOnScreen
-import com.kire.market_place_android.presentation.screen.ManagerScreen
-import com.kire.market_place_android.presentation.screen.NavGraphs
-import com.kire.market_place_android.presentation.screen.ProfileScreen
-import com.kire.market_place_android.presentation.screen.ShoppingScreen
-import com.kire.market_place_android.presentation.screen.destinations.AdminPanelItemsEditScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.AdminPanelItemsScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.AdminPanelScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.FavouritesScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.ItemAddToCartMenuDestination
-import com.kire.market_place_android.presentation.screen.destinations.LogInScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.LogOnScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.ManagerScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.ProfileScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.ShoppingScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.AdminPanelItemsEditScreen
+import com.kire.market_place_android.presentation.ui.screen.AdminPanelItemsScreen
+import com.kire.market_place_android.presentation.ui.screen.AdminPanelScreen
+import com.kire.market_place_android.presentation.ui.screen.FavouritesScreen
+import com.kire.market_place_android.presentation.ui.screen.ItemAddToCartMenu
+import com.kire.market_place_android.presentation.ui.screen.LogInScreen
+import com.kire.market_place_android.presentation.ui.screen.LogOnScreen
+import com.kire.market_place_android.presentation.ui.screen.ManagerScreen
+import com.kire.market_place_android.presentation.ui.screen.NavGraphs
+import com.kire.market_place_android.presentation.ui.screen.OrderScreen
+import com.kire.market_place_android.presentation.ui.screen.ProfileScreen
+import com.kire.market_place_android.presentation.ui.screen.ShoppingScreen
+import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelItemsEditScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelItemsScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.FavouritesScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.ItemAddToCartMenuDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.LogInScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.LogOnScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.ManagerScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.OrderScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.ProfileScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.spec.NavHostEngine
@@ -86,6 +88,11 @@ fun NavigationUI(
         }
         composable(ShoppingScreenDestination) {
             ShoppingScreen(
+                navigator = destinationsNavigator
+            )
+        }
+        composable(OrderScreenDestination) {
+            OrderScreen(
                 navigator = destinationsNavigator
             )
         }

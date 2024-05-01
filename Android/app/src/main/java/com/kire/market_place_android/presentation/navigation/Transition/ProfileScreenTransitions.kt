@@ -10,15 +10,16 @@ import androidx.compose.animation.fadeOut
 
 import androidx.navigation.NavBackStackEntry
 
-import com.kire.market_place_android.presentation.screen.destinations.FavouritesScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.ShoppingScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.FavouritesScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
 
 import com.ramcosta.composedestinations.spec.DestinationStyle
+import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 import com.ramcosta.composedestinations.utils.route
 
 object ProfileScreenTransitions : DestinationStyle.Animated {
 
-    private val destinationsOnLeft = listOf(
+    private val destinationsOnLeft: List<DirectionDestinationSpec> = listOf(
        ShoppingScreenDestination, FavouritesScreenDestination
     )
 

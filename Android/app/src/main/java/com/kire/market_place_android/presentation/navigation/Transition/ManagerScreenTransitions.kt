@@ -9,16 +9,24 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 
 import androidx.navigation.NavBackStackEntry
+import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelItemsScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.ManagerScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.OrderScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingCartScreenDestination
 
-import com.kire.market_place_android.presentation.screen.destinations.ShoppingCartScreenDestination
 
 import com.ramcosta.composedestinations.spec.DestinationStyle
+import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 import com.ramcosta.composedestinations.utils.route
 
 object ManagerScreenTransitions : DestinationStyle.Animated {
 
+    private val destinationsOnRight: List<DirectionDestinationSpec> = listOf(
+        ShoppingCartScreenDestination, OrderScreenDestination
+    )
+
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.enterTransition(): EnterTransition {
-        return if (initialState.route() == ShoppingCartScreenDestination)
+        return if (destinationsOnRight.contains(initialState.route()))
             slideIntoContainer(
                 AnimatedContentTransitionScope.SlideDirection.Right,
                 animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
@@ -31,7 +39,7 @@ object ManagerScreenTransitions : DestinationStyle.Animated {
     }
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.exitTransition(): ExitTransition {
-        return if (targetState.route() == ShoppingCartScreenDestination)
+        return if (destinationsOnRight.contains(targetState.route()))
             slideOutOfContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left,
                 animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
@@ -44,7 +52,7 @@ object ManagerScreenTransitions : DestinationStyle.Animated {
     }
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.popEnterTransition(): EnterTransition {
-        return if (targetState.route() == ShoppingCartScreenDestination)
+        return if (destinationsOnRight.contains(initialState.route()))
             slideIntoContainer(
                 AnimatedContentTransitionScope.SlideDirection.Right,
                 animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
@@ -57,7 +65,7 @@ object ManagerScreenTransitions : DestinationStyle.Animated {
     }
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.popExitTransition(): ExitTransition {
-        return if (targetState.route() == ShoppingCartScreenDestination)
+        return if (destinationsOnRight.contains(targetState.route()))
             slideOutOfContainer(
                 AnimatedContentTransitionScope.SlideDirection.Left,
                 animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)

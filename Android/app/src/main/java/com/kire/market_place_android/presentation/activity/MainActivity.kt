@@ -1,5 +1,6 @@
 package com.kire.market_place_android.presentation.activity
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Build
 import android.os.Bundle
@@ -7,7 +8,17 @@ import android.view.Window
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.with
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,12 +31,12 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.kire.market_place_android.presentation.model.UserRole
 import com.kire.market_place_android.presentation.navigation.NavigationUI
-import com.kire.market_place_android.presentation.screen.cross_screen_ui.BottomBar
-import com.kire.market_place_android.presentation.screen.cross_screen_ui.TopBar
-import com.kire.market_place_android.presentation.theme.MarketExtendedTheme
+import com.kire.market_place_android.presentation.ui.cross_screen_ui.BottomBar
+import com.kire.market_place_android.presentation.ui.theme.MarketExtendedTheme
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 
 class MainActivity : ComponentActivity() {
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,29 +54,19 @@ class MainActivity : ComponentActivity() {
                 val navHostController = navHostEngine.rememberNavController()
 
                 Scaffold(
-                    topBar = {
-                        TopBar(
-                            navHostController = navHostController
-                        )
-                    },
                     bottomBar = {
                         BottomBar(
                             navHostController = navHostController,
                             userRole = UserRole.DEVELOPER
                         )
                     }
-                ) { innerPadding ->
 
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                    ){
-                        NavigationUI(
-                            navHostController = navHostController,
-                            navHostEngine = navHostEngine
-                        )
-                    }
+                ) {  _ ->
+
+                    NavigationUI(
+                        navHostController = navHostController,
+                        navHostEngine = navHostEngine
+                    )
                 }
             }
         }

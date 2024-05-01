@@ -64,4 +64,13 @@
     <string name="choose_menu">Выберите меню</string>
     <string name="save">Сохранить</string>
     <string name="enter_name">Введите название</string>
+    <string name="checkout_suggestion">Перейти к оформлению</string>
+    <string name="unit">шт</string>
+    <string name="weight_unit">кг</string>
+    <string name="order_title">Заказ</string>
+    <string name="number">№</string>
+    <string name="give_order_suggestion">Выдать заказ</string>
+    <string name="givings">на выдачу</string>
+    <string name="returnings">на возврат</string>
+    <string name="order_date">Дата:</string>
 </resources>
