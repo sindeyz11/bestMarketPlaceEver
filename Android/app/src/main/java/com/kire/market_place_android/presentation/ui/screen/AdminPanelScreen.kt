@@ -1,9 +1,8 @@
-package com.kire.market_place_android.presentation.ui.screen
+package com.kire.market_place_android.presentation.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -18,8 +17,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.navigation.Transition.AdminPanelScreenTransitions
-import com.kire.market_place_android.presentation.ui.admin_panel_screen_ui.AdminPanelEntrancePaneUnit
-import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelItemsScreenDestination
+import com.kire.market_place_android.presentation.screen.admin_panel_screen_ui.AdminPanelEntrancePaneUnit
+import com.kire.market_place_android.presentation.screen.destinations.AdminPanelItemsScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.AdminPanelPickUpScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.AdminPanelUsersScreenDestination
 import com.kire.test.R
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -27,15 +28,14 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination(style = AdminPanelScreenTransitions::class)
 @Composable
 fun AdminPanelScreen(
-    navigator: DestinationsNavigator,
-    paddingValues: PaddingValues = PaddingValues(start = 28.dp, end = 28.dp, bottom = 66.dp)
+    navigator: DestinationsNavigator
 ) {
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(paddingValues),
+            .padding(horizontal = 28.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -54,12 +54,12 @@ fun AdminPanelScreen(
 
         AdminPanelEntrancePaneUnit(
             textValue = stringResource(id = R.string.pick_up_points),
-            onClick = { /* TODO */ }
+            onClick = { navigator.navigate(AdminPanelPickUpScreenDestination) }
         )
 
         AdminPanelEntrancePaneUnit(
             textValue = stringResource(id = R.string.users),
-            onClick = { /* TODO */ }
+            onClick = { navigator.navigate(AdminPanelUsersScreenDestination) }
         )
     }
 }

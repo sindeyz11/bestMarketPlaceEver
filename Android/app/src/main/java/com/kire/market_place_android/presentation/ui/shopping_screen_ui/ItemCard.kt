@@ -1,4 +1,4 @@
-package com.kire.market_place_android.presentation.ui.shopping_screen_ui
+package com.kire.market_place_android.presentation.screen.shopping_screen_ui
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
@@ -37,8 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.kire.market_place_android.presentation.model.ProductItem
-import com.kire.market_place_android.presentation.ui.screen.destinations.ItemAddToCartMenuDestination
-import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.screen.destinations.LogOnScreenDestination
+import com.kire.market_place_android.presentation.theme.ExtendedTheme
 import com.kire.test.R
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -48,7 +48,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun ItemCard(
     productItem: ProductItem,
-    navigator: DestinationsNavigator,
+    onIconClick: () -> Unit,
     onButtonClick: () -> Unit,
     @DrawableRes buttonIcon: Int,
 ) {
@@ -56,9 +56,9 @@ fun ItemCard(
     Column(
         modifier = Modifier
             .size(width = 180.dp, height = 280.dp)
-            .pointerInput(Unit){
+            .pointerInput(Unit) {
                 detectTapGestures {
-                    navigator.navigate(ItemAddToCartMenuDestination)
+                    onIconClick()
                 }
             }
     ) {
@@ -193,11 +193,11 @@ fun ItemCard(
                             ExtendedTheme.colors.redAccent,
                             RoundedCornerShape(5.dp)
                         )
-                        .clickable(
-                            indication = null,
-                            interactionSource = MutableInteractionSource(),
-                            onClick = { TODO() }
-                        ),
+                        .pointerInput(Unit) {
+                            detectTapGestures {
+                                onButtonClick()
+                            }
+                        },
                     contentAlignment = Alignment.Center,
                     content = {
                         Icon(
