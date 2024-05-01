@@ -18,6 +18,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.kire.market_place_android.presentation.model.UserRole
 import com.kire.market_place_android.presentation.navigation.NavigationUI
 import com.kire.market_place_android.presentation.screen.cross_screen_ui.BottomBar
 import com.kire.market_place_android.presentation.screen.cross_screen_ui.TopBar
@@ -49,7 +50,8 @@ class MainActivity : ComponentActivity() {
                     },
                     bottomBar = {
                         BottomBar(
-                            navHostController = navHostController
+                            navHostController = navHostController,
+                            userRole = UserRole.DEVELOPER
                         )
                     }
                 ) { innerPadding ->

@@ -19,12 +19,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.model.ProductItem
+import com.kire.market_place_android.presentation.navigation.Transition.AdminPanelItemsScreenTransitions
 import com.kire.market_place_android.presentation.screen.shopping_screen_ui.ItemCard
 import com.kire.test.R
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-@Destination
+@Destination(style = AdminPanelItemsScreenTransitions::class)
 @Composable
 fun AdminPanelItemsScreen(
     navigator: DestinationsNavigator

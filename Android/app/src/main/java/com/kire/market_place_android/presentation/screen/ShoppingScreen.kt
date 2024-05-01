@@ -23,19 +23,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.model.ProductItem
 import com.kire.market_place_android.presentation.navigation.Transition.ShoppingScreenTransitions
+import com.kire.market_place_android.presentation.screen.destinations.ItemAddToCartMenuDestination
 import com.kire.market_place_android.presentation.screen.shopping_screen_ui.ItemCard
 import com.kire.market_place_android.presentation.screen.shopping_screen_ui.ShoppingHeader
 import com.kire.test.R
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 
 /**
  * By Aleksey Timko (de4ltt) 28.04.24*/
 /**
  * By Michael Gontarev (KiREHwYe) 29.04.24*/
-@Destination(style = ShoppingScreenTransitions::class)
+@Destination(start = true, style = ShoppingScreenTransitions::class)
 @Composable
 fun ShoppingScreen(
+    navigator: DestinationsNavigator,
     paddingValues: PaddingValues = PaddingValues(28.dp)
 ) {
     val itemsLists: List<ProductItem> = listOf(
@@ -84,7 +87,9 @@ fun ShoppingScreen(
                     items(itemsLists) { item ->
                         ItemCard(
                             productItem = item,
-                            onButtonClick = { /* TODO */ },
+                            onButtonClick = {
+                                navigator.navigate(ItemAddToCartMenuDestination)
+                            },
                             buttonIcon = plusIcon
                         )
                     }

@@ -28,6 +28,9 @@ import com.kire.market_place_android.presentation.screen.appCurrentDestinationAs
 import com.kire.market_place_android.presentation.screen.destinations.AdminPanelItemsScreenDestination
 import com.kire.market_place_android.presentation.screen.destinations.Destination
 import com.kire.market_place_android.presentation.screen.destinations.FavouritesScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.ManagerScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.ProfileScreenDestination
+import com.kire.market_place_android.presentation.screen.destinations.ShoppingCartScreenDestination
 import com.kire.market_place_android.presentation.screen.startAppDestination
 import com.kire.market_place_android.presentation.theme.ExtendedTheme
 
@@ -45,7 +48,10 @@ fun TopBar(
 
     val allowedList = listOf(
         FavouritesScreenDestination,
-        AdminPanelItemsScreenDestination
+        AdminPanelItemsScreenDestination,
+        ManagerScreenDestination,
+        ShoppingCartScreenDestination,
+        ProfileScreenDestination
     )
 
     if (allowedList.contains(currentDestination)) {
@@ -98,11 +104,12 @@ fun TopBar(
                     )
                 }
 
-                Icon(
-                    painter = painterResource(id = destination.plusButton!!),
-                    contentDescription = "plus_bold"
-                )
-
+                destination.plusButton?.let {
+                    Icon(
+                        painter = painterResource(id = it),
+                        contentDescription = "plus_bold"
+                    )
+                }
             }
         }
 
