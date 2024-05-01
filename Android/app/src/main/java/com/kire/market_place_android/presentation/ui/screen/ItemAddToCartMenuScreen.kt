@@ -1,4 +1,4 @@
-package com.kire.market_place_android.presentation.ui.screen
+package com.kire.market_place_android.presentation.screen
 
 import android.annotation.SuppressLint
 import android.net.Uri
@@ -42,24 +42,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.kire.market_place_android.presentation.model.ProductItem
-import com.kire.market_place_android.presentation.navigation.Transition.ItemAddToCartMenuScreenTransitions
-import com.kire.market_place_android.presentation.ui.item_add_to_cart_menu.BottomButtonFinishOperation
-import com.kire.market_place_android.presentation.ui.item_add_to_cart_menu.ItemsAddToCartMenuCarousel
-import com.kire.market_place_android.presentation.ui.item_add_to_cart_menu.ProductItemCounter
-import com.kire.market_place_android.presentation.ui.screen.destinations.ItemAddToCartMenuDestination
-import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.screen.destinations.ProfileScreenDestination
+import com.kire.market_place_android.presentation.screen.item_add_to_cart_menu.BottomButtonFinishOperation
+import com.kire.market_place_android.presentation.screen.item_add_to_cart_menu.ItemsAddToCartMenuCarousel
+import com.kire.market_place_android.presentation.screen.item_add_to_cart_menu.ProductItemCounter
+import com.kire.market_place_android.presentation.theme.ExtendedTheme
 import com.kire.test.R
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnrememberedMutableInteractionSource")
-@Destination(style = ItemAddToCartMenuScreenTransitions::class)
+@Destination
 @Composable
 fun ItemAddToCartMenu(
     productItem: ProductItem = ProductItem(
-        1, "Помидоры", 250.00,
-        "кг", 250.00,
+        "Помидоры", "250.00",
+        "кг", "250.00",
         Uri.EMPTY, false,
         "Помогите, они украли мою семью..."
     ),
@@ -67,7 +66,7 @@ fun ItemAddToCartMenu(
 ) {
 
     BackHandler {
-        navigator.popBackStack( ItemAddToCartMenuDestination, inclusive = true)
+        navigator.popBackStack(ProfileScreenDestination, inclusive = true)
         return@BackHandler
     }
 
@@ -117,7 +116,7 @@ fun ItemAddToCartMenu(
                                     .clickable(
                                         indication = null,
                                         interactionSource = MutableInteractionSource(),
-                                        onClick = { navigator.popBackStack(ItemAddToCartMenuDestination, inclusive = true) }
+                                        onClick = { navigator.popBackStack() }
                                     ),
                                 tint = Color.Black
                             )
@@ -265,12 +264,12 @@ fun ItemAddToCartMenu(
                         //TODO
                         //temporary
                         val itemsList: List<ProductItem> = listOf(
-                            ProductItem(1, "Помидоры", 250.00, "кг",250.00, Uri.EMPTY, false, ""),
-                            ProductItem(2, "Груши", 300.00,"кг",250.00, Uri.EMPTY, true, ""),
-                            ProductItem(3, "Помидоры", 250.00,"кг",300.00, Uri.EMPTY, true, ""),
-                            ProductItem(4, "Груши", 300.00,"кг",250.00, Uri.EMPTY, false, ""),
-                            ProductItem(5, "Помидоры", 250.00,"кг",250.00, Uri.EMPTY, false, ""),
-                            ProductItem(6, "Груши", 300.00,"кг",250.00, Uri.EMPTY, true, "")
+                            ProductItem("Помидоры", "250.00", "кг", "250.00", Uri.EMPTY, false, ""),
+                            ProductItem("Груши", "300.00", "кг", "250.00", Uri.EMPTY, true, ""),
+                            ProductItem("Помидоры", "250.00", "кг", "300.00", Uri.EMPTY, true, ""),
+                            ProductItem("Груши", "300.00", "кг", "250.00", Uri.EMPTY, false, ""),
+                            ProductItem("Помидоры", "250.00", "кг", "250.00", Uri.EMPTY, false, ""),
+                            ProductItem("Груши", "300.00", "кг", "250.00", Uri.EMPTY, true, "")
                         )
 
                         ItemsAddToCartMenuCarousel(itemsList = itemsList)
