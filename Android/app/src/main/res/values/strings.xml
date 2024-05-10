@@ -36,7 +36,7 @@
     <string name="percent">%</string>
     <string name="card_number_hint">Номер карты</string>
     <string name="card_date_hint">Дата</string>
-    <string name="card_cvc_hint">CVC-код</string>
+    <string name="card_cvc_hint">***</string>
     <string name="change_password_title">Сменить пароль</string>
     <string name="update_password_suggestion">Обновите пароль</string>
     <string name="old_password_hint">Старый пароль</string>
@@ -72,10 +72,24 @@
     <string name="adress">Введите адрес пункта выдачи</string>
     <string name="manager_id">ID менеджера</string>
     <string name="xxx">XXX-XXX</string>
-    <string name="ready">ДОСТАВЛЕНО</string>
-    <string name="denied">ОТКАЗ</string>
-    <string name="on_the_way">В ПУТИ</string>
-    <string name="delivered">ПОЛУЧЕНО</string>
+    <string name="ready">выдан</string>
+    <string name="denied">отказ</string>
+    <string name="on_the_way">в пути</string>
+    <string name="delivered">готов</string>
     <string name="deliveries">Доставки</string>
     <string name="code">Код</string>
+    <string name="checkout_suggestion">Перейти к оформлению</string>
+    <string name="unit">шт</string>
+    <string name="weight_unit">кг</string>
+    <string name="order_title">Заказ</string>
+    <string name="number">№</string>
+    <string name="give_order_suggestion">Выдать заказ</string>
+    <string name="givings">на выдачу</string>
+    <string name="returnings">на возврат</string>
+    <string name="order_date">Дата:</string>
+    <string name="filter">Фильтр</string>
+    <string name="categories">Категории</string>
+    <string name="price">Цена</string>
+    <string name="until">до</string>
+    <string name="from">от</string>
 </resources>

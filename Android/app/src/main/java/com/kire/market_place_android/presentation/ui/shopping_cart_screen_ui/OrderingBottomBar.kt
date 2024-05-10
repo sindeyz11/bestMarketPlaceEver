@@ -6,6 +6,7 @@ import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,8 +39,8 @@ import java.util.Date
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun OrderingBottomBar(
-    pickUpPointAddress: String,
-    deliveryClosestDate: Date,
+    pickUpPointAddress: String = "г. Краснодар, ул. Ставропольская, д. 149, эт. 1, кб. 133",
+    deliveryClosestDate: String = "2 июня",
     totalSum: Double = 0.0,
     showBottomSheet: (Boolean) -> Unit,
     sheetState: SheetState
@@ -62,7 +63,7 @@ fun OrderingBottomBar(
             )
         },
         modifier = Modifier
-            .fillMaxHeight(0.45f)
+            .height(IntrinsicSize.Max)
     ) {
 
         Box(
@@ -71,7 +72,8 @@ fun OrderingBottomBar(
                 .padding(
                     top = 28.dp,
                     start = 36.dp,
-                    end = 36.dp
+                    end = 36.dp,
+                    bottom = 28.dp
                 ),
             contentAlignment = Alignment.Center
         ) {
@@ -133,7 +135,7 @@ fun OrderingBottomBar(
                         )
 
                         Text(
-                            text = deliveryClosestDate.day.toString() + deliveryClosestDate.month.toString(),
+                            text = deliveryClosestDate,
                             fontWeight = FontWeight.W300,
                             fontSize = 16.sp,
                             color = Color.Black

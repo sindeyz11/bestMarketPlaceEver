@@ -17,12 +17,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.destinations.AdminPanelItemsScreenDestination
+import com.kire.market_place_android.presentation.destinations.AdminPanelPickUpScreenDestination
+import com.kire.market_place_android.presentation.destinations.AdminPanelScreenDestination
+import com.kire.market_place_android.presentation.destinations.AdminPanelUsersScreenDestination
+import com.kire.market_place_android.presentation.destinations.ShoppingScreenDestination
 import com.kire.market_place_android.presentation.navigation.Transition.AdminPanelScreenTransitions
-import com.kire.market_place_android.presentation.screen.admin_panel_screen_ui.AdminPanelEntrancePaneUnit
-import com.kire.market_place_android.presentation.screen.destinations.AdminPanelItemsScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.AdminPanelPickUpScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.AdminPanelUsersScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.ProfileScreenDestination
+import com.kire.market_place_android.presentation.ui.admin_panel_screen_ui.AdminPanelEntrancePaneUnit
 import com.kire.test.R
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -34,7 +35,7 @@ fun AdminPanelScreen(
 ) {
 
     BackHandler {
-        navigator.popBackStack(ProfileScreenDestination, inclusive = true)
+        navigator.popBackStack(ShoppingScreenDestination, inclusive = false)
         return@BackHandler
     }
 

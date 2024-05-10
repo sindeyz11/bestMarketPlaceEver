@@ -3,6 +3,10 @@ package com.kire.market_place_android.presentation.ui.theme
 import androidx.compose.ui.graphics.Color
 import javax.annotation.concurrent.Immutable
 
+/**
+ * By Aleksey Timko (de4ltt)
+ *
+ * By Michael Gontarev (KiREHwYe)*/
 @Immutable
 data class MarketExtendedColors(
     val redAccent: Color,
@@ -12,5 +16,6 @@ data class MarketExtendedColors(
     val readyBar: Color,
     val deniedBar: Color,
     val onTheWayBar: Color,
-    val deliveredBar: Color
+    val deliveredBar: Color,
+    val redAccentSoft: Color
 )

@@ -35,7 +35,6 @@ fun BottomButtonFinishOperation(
             modifier = Modifier
                 .height(60.dp)
                 .fillMaxWidth()
-                .padding(horizontal = 30.dp)
                 .background(
                     color = ExtendedTheme.colors.redAccent,
                     RoundedCornerShape(13.dp)

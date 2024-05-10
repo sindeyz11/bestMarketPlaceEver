@@ -12,10 +12,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SheetState
 
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,13 +30,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.destinations.ItemAddToCartMenuDestination
 
 import com.kire.market_place_android.presentation.model.FilterRequest
 import com.kire.market_place_android.presentation.model.ProductItem
 import com.kire.market_place_android.presentation.navigation.Transition.ShoppingScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
+import com.kire.market_place_android.presentation.screen.shopping_screen_ui.ItemCard
 import com.kire.market_place_android.presentation.ui.cross_screen_ui.TopBar
-import com.kire.market_place_android.presentation.ui.shopping_screen_ui.ItemCard
+import com.kire.market_place_android.presentation.ui.shopping_screen_ui.FilterBottomBar
 import com.kire.market_place_android.presentation.ui.shopping_screen_ui.ShoppingScreenSearchBar
 
 import com.kire.test.R
@@ -39,9 +48,10 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 
 /**
- * By Aleksey Timko (de4ltt) 28.04.24*/
-/**
- * By Michael Gontarev (KiREHwYe) 29.04.24*/
+ * By Aleksey Timko (de4ltt)
+ *
+ * By Michael Gontarev (KiREHwYe)*/
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination(start = true, style = ShoppingScreenTransitions::class)
 @Composable
 fun ShoppingScreen(
@@ -49,15 +59,21 @@ fun ShoppingScreen(
     paddingValues: PaddingValues = PaddingValues(start = 28.dp, end = 28.dp, bottom = 66.dp)
 ) {
     val itemsLists: List<ProductItem> = listOf(
-        ProductItem(1, "Помидоры", 250.00, "кг",250.00, Uri.EMPTY, false, ""),
-        ProductItem(2, "Груши", 300.00,"кг",250.00, Uri.EMPTY, true, ""),
-        ProductItem(3, "Помидоры", 250.00,"кг",300.00, Uri.EMPTY, true, ""),
-        ProductItem(4, "Груши", 300.00,"кг",250.00, Uri.EMPTY, false, ""),
-        ProductItem(5, "Помидоры", 250.00,"кг",250.00, Uri.EMPTY, false, ""),
-        ProductItem(6, "Груши", 300.00,"кг",250.00, Uri.EMPTY, true, "")
+        ProductItem("Помидоры", "250.00", "кг", "250.00", Uri.EMPTY, false, ""),
+        ProductItem("Груши", "300.00", "кг", "250.00", Uri.EMPTY, true, ""),
+        ProductItem("Помидоры", "250.00", "кг", "300.00", Uri.EMPTY, true, ""),
+        ProductItem("Груши", "300.00", "кг", "250.00", Uri.EMPTY, false, ""),
+        ProductItem("Помидоры", "250.00", "кг", "250.00", Uri.EMPTY, false, ""),
+        ProductItem("Груши", "300.00", "кг", "250.00", Uri.EMPTY, true, "")
     )
 
     val plusIcon = R.drawable.plus
+
+    var isFilterShown by remember {
+        mutableStateOf(false)
+    }
+
+    val sheetState = rememberModalBottomSheetState()
 
     Column(
         modifier = Modifier
@@ -68,14 +84,19 @@ fun ShoppingScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        TopBar(destination = AppDestinations.BottomBarDestinations.SHOPPING)
-        
-        ShoppingScreenSearchBar(
-            curSearchRequest = null,
-            curFilterRequest = FilterRequest(null, null, null)
+        TopBar(
+            destination = AppDestinations.BottomBarDestinations.SHOPPING
         )
 
-        when(itemsLists.size) {
+        ShoppingScreenSearchBar(
+            curSearchRequest = null,
+            curFilterRequest = FilterRequest(),
+            showFilter = {
+                isFilterShown = it
+            }
+        )
+
+        when (itemsLists.size) {
             0 -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -89,6 +110,7 @@ fun ShoppingScreen(
                     }
                 )
             }
+
             else -> LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -102,11 +124,21 @@ fun ShoppingScreen(
                         onButtonClick = {
                             /*TODO()*/
                         },
-                        navigator = navigator,
-                        buttonIcon = plusIcon
+                        buttonIcon = plusIcon,
+                        onClick = {
+                            navigator.navigate(ItemAddToCartMenuDestination)
+                        }
                     )
                 }
             }
         }
+
+        if (isFilterShown)
+            FilterBottomBar(
+                showBottomSheet = {
+                    isFilterShown = it
+                },
+                sheetState = sheetState
+            )
     }
 }

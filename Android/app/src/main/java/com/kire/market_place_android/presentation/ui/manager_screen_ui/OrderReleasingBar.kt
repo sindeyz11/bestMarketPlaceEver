@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -96,8 +97,7 @@ fun OrderReleasingBar(
                     .height(28.dp)
                     .width(84.dp)
                     .clip(RoundedCornerShape(10.dp))
-                    .background(Color.White)
-                    .padding(8.dp),
+                    .background(Color.White),
                 value = orderCode,
                 onValueChange = {
                     orderCode = it
@@ -110,26 +110,19 @@ fun OrderReleasingBar(
                     textAlign = TextAlign.Center
                 ),
                 decorationBox = { innerTextField ->
-                    Row(
+                    Box(
                         modifier = Modifier
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            if (orderCode.isEmpty())
-                                Text(
-                                    text = stringResource(id = R.string.order_code_hint),
-                                    fontWeight = FontWeight.W400,
-                                    fontSize = 8.sp,
-                                    color = Color.Gray
-                                )
-                            innerTextField()
-                        }
+                        if (orderCode.isEmpty())
+                            Text(
+                                text = stringResource(id = R.string.order_code_hint),
+                                fontWeight = FontWeight.W400,
+                                fontSize = 9.sp,
+                                color = Color.Gray,
+                            )
+                        innerTextField()
                     }
                 }
             )

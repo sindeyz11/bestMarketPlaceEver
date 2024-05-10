@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
@@ -31,18 +32,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.kire.market_place_android.presentation.destinations.DeliveriesScreenDestination
+import com.kire.market_place_android.presentation.destinations.ProfileScreenDestination
+import com.kire.market_place_android.presentation.destinations.ShoppingScreenDestination
 
 import com.kire.market_place_android.presentation.model.ProfileScreenUserData
 import com.kire.market_place_android.presentation.navigation.Transition.ProfileScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
+import com.kire.market_place_android.presentation.screen.profile_screen_ui.ChangePasswordBottomBar
+import com.kire.market_place_android.presentation.screen.profile_screen_ui.ProfileDataBottomBar
 import com.kire.market_place_android.presentation.ui.cross_screen_ui.TopBar
 import com.kire.market_place_android.presentation.ui.profile_screen_ui.ChangePasswordBar
-import com.kire.market_place_android.presentation.ui.profile_screen_ui.ChangePasswordBottomBar
 import com.kire.market_place_android.presentation.ui.profile_screen_ui.PaymentMethod
-import com.kire.market_place_android.presentation.ui.profile_screen_ui.ProfileDataBottomBar
 import com.kire.market_place_android.presentation.ui.profile_screen_ui.PurchaseRelatedInfoBar
 import com.kire.market_place_android.presentation.ui.profile_screen_ui.UserProfileInfo
-import com.kire.market_place_android.presentation.ui.screen.destinations.ProfileScreenDestination
 
 import com.kire.test.R
 
@@ -68,10 +71,11 @@ fun ProfileScreen(
 ) {
 
     BackHandler {
-        navigator.popBackStack(ProfileScreenDestination, inclusive = true)
+        navigator.popBackStack(ShoppingScreenDestination, inclusive = false)
         return@BackHandler
     }
 
+    val scrollState = rememberScrollState()
     val sheetState = rememberModalBottomSheetState()
     var showChangePasswordBottomBar by remember {
         mutableStateOf(false)
@@ -85,7 +89,7 @@ fun ProfileScreen(
             .fillMaxSize()
             .background(Color.White)
             .padding(paddingValues)
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(scrollState),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -101,6 +105,7 @@ fun ProfileScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             UserProfileInfo(
                 name = profileUiState.name,
                 phone = profileUiState.phone,
@@ -113,7 +118,7 @@ fun ProfileScreen(
             LazyVerticalGrid(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp),
+                    .wrapContentHeight(),
                 columns = GridCells.Fixed(count = 2),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -156,7 +161,7 @@ fun ProfileScreen(
                         else
                             (profileUiState.nextDeliveryDate.month + 1).toString(),
                         onClick = {
-                            /*TODO*/
+                            navigator.navigate(DeliveriesScreenDestination)
                         }
                     )
                 }

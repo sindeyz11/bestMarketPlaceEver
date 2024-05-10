@@ -5,6 +5,10 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
+/**
+ * By Aleksey Timko (de4ltt)
+ *
+ * By Michael Gontarev (KiREHwYe)*/
 
 val LocalExtendedColors = staticCompositionLocalOf {
     MarketExtendedColors(
@@ -12,10 +16,11 @@ val LocalExtendedColors = staticCompositionLocalOf {
         black10 = Color(0, 0, 0, 25),
         greenPrice = Color(8, 78, 0, 255),
         profileBar = Color(0xFFEDEDED),
-        readyBar = Color(0, 175, 28, 255),
+        deliveredBar = Color(0, 175, 28, 255),
         deniedBar = Color(137, 0, 0, 255),
         onTheWayBar = Color(115, 115, 115, 255),
-        deliveredBar = Color(145, 214, 0, 255)
+        readyBar = Color(145, 214, 0, 255),
+        redAccentSoft = Color(0x48B20000)
     )
 }
 
@@ -29,10 +34,11 @@ fun MarketExtendedTheme(
         black10 = Color(0, 0, 0, 25),
         greenPrice = Color(8, 78, 0, 255),
         profileBar = Color(0xFFEDEDED),
-        readyBar = Color(0, 175, 28, 255),
+        deliveredBar = Color(0, 175, 28, 255),
         deniedBar = Color(137, 0, 0, 255),
         onTheWayBar = Color(115, 115, 115, 255),
-        deliveredBar = Color(145, 214, 0, 255)
+        readyBar = Color(145, 214, 0, 255),
+        redAccentSoft = Color(0x48B20000)
     )
     CompositionLocalProvider(LocalExtendedColors provides extendedColors) {
         Market_Place_AndroidTheme(

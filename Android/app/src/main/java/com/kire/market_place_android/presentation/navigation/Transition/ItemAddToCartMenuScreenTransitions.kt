@@ -9,28 +9,42 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 
 import androidx.navigation.NavBackStackEntry
+import com.kire.market_place_android.presentation.destinations.ShoppingCartScreenDestination
 
 import com.ramcosta.composedestinations.spec.DestinationStyle
+import com.ramcosta.composedestinations.utils.route
 
 object ItemAddToCartMenuScreenTransitions  : DestinationStyle.Animated {
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.enterTransition(): EnterTransition {
-        return slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up, animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)) +
-                fadeIn(animationSpec = tween(300, easing = LinearOutSlowInEasing))
+        return if (initialState.route() == ShoppingCartScreenDestination)
+            EnterTransition.None
+        else
+            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up, animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)) +
+                    fadeIn(animationSpec = tween(300, easing = LinearOutSlowInEasing))
     }
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.exitTransition(): ExitTransition {
-        return slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Down, animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)) +
-                fadeOut(animationSpec = tween(300, easing = LinearOutSlowInEasing))
+        return if (targetState.route() == ShoppingCartScreenDestination)
+            fadeOut(animationSpec = tween(2000, easing = LinearOutSlowInEasing))
+        else
+            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Down, animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)) +
+                    fadeOut(animationSpec = tween(300, easing = LinearOutSlowInEasing))
     }
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.popEnterTransition(): EnterTransition {
-        return slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up, animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing))+
-                fadeIn(animationSpec = tween(300, easing = LinearOutSlowInEasing))
+        return if (initialState.route() == ShoppingCartScreenDestination)
+            EnterTransition.None
+        else
+            slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Up, animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)) +
+                    fadeIn(animationSpec = tween(300, easing = LinearOutSlowInEasing))
     }
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.popExitTransition(): ExitTransition {
-        return slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Down, animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)) +
-                fadeOut(animationSpec = tween(300, easing = LinearOutSlowInEasing))
+        return if (targetState.route() == ShoppingCartScreenDestination)
+            fadeOut(animationSpec = tween(2000, easing = LinearOutSlowInEasing))
+        else
+            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Down, animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)) +
+                    fadeOut(animationSpec = tween(300, easing = LinearOutSlowInEasing))
     }
 }

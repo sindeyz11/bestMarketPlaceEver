@@ -17,6 +17,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.kire.market_place_android.presentation.destinations.ManagerScreenDestination
+import com.kire.market_place_android.presentation.destinations.OrderScreenDestination
+import com.kire.market_place_android.presentation.destinations.ShoppingScreenDestination
 
 import com.kire.market_place_android.presentation.navigation.Transition.ManagerScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
@@ -24,8 +27,6 @@ import com.kire.market_place_android.presentation.ui.cross_screen_ui.TopBar
 import com.kire.market_place_android.presentation.ui.manager_screen_ui.OrderReleasingBar
 import com.kire.market_place_android.presentation.ui.manager_screen_ui.PickUpPointIncomeBar
 import com.kire.market_place_android.presentation.ui.manager_screen_ui.PickUpPointInfoBar
-import com.kire.market_place_android.presentation.ui.screen.destinations.ManagerScreenDestination
-import com.kire.market_place_android.presentation.ui.screen.destinations.OrderScreenDestination
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -38,7 +39,7 @@ fun ManagerScreen(
 ){
 
     BackHandler {
-        navigator.popBackStack(ManagerScreenDestination, inclusive = true)
+        navigator.popBackStack(ShoppingScreenDestination, inclusive = false)
         return@BackHandler
     }
 

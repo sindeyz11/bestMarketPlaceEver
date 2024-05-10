@@ -2,6 +2,13 @@ package com.kire.market_place_android.presentation.ui.screen
 
 import android.net.Uri
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,10 +23,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ExperimentalMaterial3Api
 
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.Modifier
@@ -27,39 +40,67 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.kire.market_place_android.presentation.destinations.ItemAddToCartMenuDestination
+import com.kire.market_place_android.presentation.destinations.ShoppingScreenDestination
 
 import com.kire.market_place_android.presentation.model.ProductItem
 import com.kire.market_place_android.presentation.navigation.Transition.ShoppingCartScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
+import com.kire.market_place_android.presentation.ui.cross_screen_ui.OnScrollListener
 import com.kire.market_place_android.presentation.ui.cross_screen_ui.TopBar
-import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingCartScreenDestination
+import com.kire.market_place_android.presentation.ui.shopping_cart_screen_ui.OrderingBottomBar
 import com.kire.market_place_android.presentation.ui.shopping_cart_screen_ui.PurchaseFloatingActionButton
 import com.kire.market_place_android.presentation.ui.shopping_cart_screen_ui.ShoppingCartItem
 
 import com.kire.test.R
 
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.popBackStack
+import com.ramcosta.composedestinations.utils.isRouteOnBackStack
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination(style = ShoppingCartScreenTransitions::class)
 @Composable
 fun ShoppingCartScreen(
-    navigator: DestinationsNavigator,
+    navController: NavController,
     shoppingCartItems: List<ProductItem> = listOf(
-        ProductItem(1, "Помидоры", 250.00, "кг",250.00, Uri.EMPTY, false, ""),
-        ProductItem(2, "Груши", 300.00,"кг",250.00, Uri.EMPTY, true, ""),
-        ProductItem(3, "Помидоры", 250.00,"кг",300.00, Uri.EMPTY, true, ""),
-        ProductItem(4, "Груши", 300.00,"кг",250.00, Uri.EMPTY, false, ""),
-        ProductItem(5, "Помидоры", 250.00,"кг",250.00, Uri.EMPTY, false, ""),
-        ProductItem(6, "Груши", 300.00,"кг",250.00, Uri.EMPTY, true, "")
+        ProductItem("Помидоры", "250.00", "кг","250.00", Uri.EMPTY, false, ""),
+        ProductItem("Груши", "300.00","кг","250.00", Uri.EMPTY, true, ""),
+        ProductItem("Помидоры", "250.00","кг","300.00", Uri.EMPTY, true, ""),
+        ProductItem("Груши", "300.00","кг","250.00", Uri.EMPTY, false, ""),
+        ProductItem("Помидоры", "250.00","кг","250.00", Uri.EMPTY, false, ""),
+        ProductItem("Груши", "300.00","кг","250.00", Uri.EMPTY, true, "")
     ),
     paddingValues: PaddingValues = PaddingValues(start = 28.dp, end = 28.dp, bottom = 66.dp)
 ) {
 
     BackHandler {
-        navigator.popBackStack(ShoppingCartScreenDestination, inclusive = true)
+        if (navController.isRouteOnBackStack(ItemAddToCartMenuDestination))
+            navController.popBackStack(ItemAddToCartMenuDestination, inclusive = false)
+        else
+            navController.popBackStack(ShoppingScreenDestination, inclusive = false)
         return@BackHandler
     }
+
+    val isBottomSheetShown = remember {
+        mutableStateOf(false)
+    }
+
+    val sheetState = rememberModalBottomSheetState()
+    
+    val listState = rememberLazyListState()
+
+    val isShown = remember {
+        mutableStateOf(true)
+    }
+
+    OnScrollListener(
+        listState = listState,
+        isShown = {
+            isShown.value = it
+        }
+    )
 
     Column(
         modifier = Modifier
@@ -97,18 +138,18 @@ fun ShoppingCartScreen(
                 else -> {
 
                     LazyColumn(
+                        state = listState,
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight(),
+                        contentPadding = PaddingValues(bottom = 28.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 
                         itemsIndexed(
                             shoppingCartItems,
-                            key = { _, item ->
-                                item.id
-                            }
+                            key = null
                         ) { index, item ->
 
                             ShoppingCartItem(
@@ -122,17 +163,40 @@ fun ShoppingCartScreen(
             }
         }
     }
-
+    
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 20.dp),
+            .padding(bottom = 86.dp),
         contentAlignment = Alignment.BottomCenter
     ) {
+        AnimatedVisibility(
+            visible = isShown.value,
+            enter =
+            slideInVertically(
+                initialOffsetY = {height -> -height},
+                animationSpec = tween(durationMillis = 400, easing = LinearOutSlowInEasing)
+            ) + fadeIn(animationSpec = tween(durationMillis = 400, easing = LinearOutSlowInEasing)),
+            exit = slideOutVertically(
+                targetOffsetY = {height -> height},
+                animationSpec = tween(durationMillis = 400, easing = LinearOutSlowInEasing)
+            ) + fadeOut(animationSpec = tween(durationMillis = 400, easing = LinearOutSlowInEasing))
+        ) {
+
         PurchaseFloatingActionButton(
-            onClick = {
-                /*TODO*/
-            }
-        )
+                onClick = {
+                    isBottomSheetShown.value = true
+                }
+            )
+        }
     }
+    
+    if (isBottomSheetShown.value)
+        OrderingBottomBar(
+            showBottomSheet = {
+                isBottomSheetShown.value = false
+            },
+            sheetState = sheetState
+        )
+    
 }

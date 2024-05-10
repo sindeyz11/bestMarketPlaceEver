@@ -29,7 +29,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.kire.market_place_android.presentation.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
 @Composable
 fun AdminPanelIconField(
@@ -46,7 +46,9 @@ fun AdminPanelIconField(
 
     BasicTextField(
         modifier = modifier
-            .background(ExtendedTheme.colors.profileBar, RoundedCornerShape(12.dp)),
+            .background(
+                ExtendedTheme.colors.profileBar,
+                RoundedCornerShape(12.dp)),
         value = textValue,
         onValueChange = {
             textValue = it

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,8 +23,11 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,6 +38,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -42,6 +47,8 @@ import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
 import com.kire.test.R
 
+/**
+ * By Michael Gontarev (KiREHwYe)*/
 @Composable
 fun PaymentMethod(
     creditCard: CreditCard?,
@@ -54,9 +61,10 @@ fun PaymentMethod(
     paddingValues: PaddingValues = PaddingValues(20.dp)
 ) {
 
-    val cardNumberUserInput = rememberSaveable { mutableStateOf("") }
-    val cardDataUserInput = rememberSaveable { mutableStateOf("") }
-    val cardCvcUserInput = rememberSaveable { mutableStateOf("") }
+    var isEditable by remember { mutableStateOf(false) }
+    var cardNumberUserInput by remember { mutableStateOf("") }
+    var cardDataUserInput by remember { mutableStateOf("") }
+    var cardCvcUserInput by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -90,9 +98,10 @@ fun PaymentMethod(
                     .size(18.dp)
                     .pointerInput(Unit) {
                         detectTapGestures {
-                            /*TODO()*/
+                            isEditable = !isEditable
                         }
-                    }
+                    },
+                tint = if (isEditable) ExtendedTheme.colors.redAccent else Color.DarkGray
             )
         }
 
@@ -103,17 +112,18 @@ fun PaymentMethod(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+
             BasicTextField(
-                value = cardNumberUserInput.value,
-                onValueChange = { cardNumberUserInput.value = it },
+                enabled = isEditable,
+                value = cardNumberUserInput,
+                onValueChange = { cardNumberUserInput = it },
                 textStyle = LocalTextStyle.current.copy(
                     color = Color.Black,
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.W400,
+                    fontWeight = FontWeight.W400
                 ),
                 modifier = Modifier
-                    .height(56.dp)
-                    .fillMaxWidth()
                     .shadow(
                         elevation = 12.dp,
                         spotColor = ExtendedTheme.colors.black10,
@@ -138,7 +148,7 @@ fun PaymentMethod(
                         )
 
                         Box {
-                            if (cardNumberUserInput.value.isEmpty())
+                            if (cardNumberUserInput.isEmpty())
                                 Text(
                                     text = stringResource(id = R.string.card_number_hint),
                                     fontWeight = FontWeight.W400,
@@ -151,6 +161,7 @@ fun PaymentMethod(
                 }
             )
 
+
             LazyVerticalGrid(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -162,8 +173,9 @@ fun PaymentMethod(
 
                 item {
                     BasicTextField(
-                        value = cardDataUserInput.value,
-                        onValueChange = { cardDataUserInput.value = it },
+                        enabled = isEditable,
+                        value = cardDataUserInput,
+                        onValueChange = { cardDataUserInput = it },
                         textStyle = LocalTextStyle.current.copy(
                             color = Color.Black,
                             fontSize = 14.sp,
@@ -196,7 +208,7 @@ fun PaymentMethod(
                                 )
 
                                 Box {
-                                    if (cardNumberUserInput.value.isEmpty())
+                                    if (cardDataUserInput.isEmpty())
                                         Text(
                                             text = stringResource(id = R.string.card_date_hint),
                                             fontWeight = FontWeight.W400,
@@ -211,53 +223,61 @@ fun PaymentMethod(
                 }
 
                 item {
-                    BasicTextField(
-                        value = cardCvcUserInput.value,
-                        onValueChange = { cardCvcUserInput.value = it },
-                        textStyle = LocalTextStyle.current.copy(
-                            color = Color.Black,
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.W400,
-                        ),
+
+                    Box(
                         modifier = Modifier
-                            .wrapContentHeight()
-                            .fillMaxWidth()
-                            .shadow(
-                                elevation = 12.dp,
-                                spotColor = ExtendedTheme.colors.black10,
-                                shape = RoundedCornerShape(12.dp)
-                            )
-                            .background(Color.White)
-                            .padding(16.dp),
-                        decorationBox = { innerTextField ->
-
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(12.dp)
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.cvc),
-                                    contentDescription = "CVC",
-                                    tint = Color.DarkGray,
-                                    modifier = Modifier
-                                        .size(24.dp)
+                            .height(56.dp)
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        BasicTextField(
+                            enabled = isEditable,
+                            value = cardCvcUserInput,
+                            onValueChange = { cardCvcUserInput = it },
+                            textStyle = LocalTextStyle.current.copy(
+                                color = Color.Black,
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.W400,
+                                textAlign = TextAlign.Center
+                            ),
+                            modifier = Modifier
+                                .shadow(
+                                    elevation = 12.dp,
+                                    spotColor = ExtendedTheme.colors.black10,
+                                    shape = RoundedCornerShape(12.dp)
                                 )
+                                .background(Color.White)
+                                .padding(16.dp),
+                            decorationBox = { innerTextField ->
 
-                                Box {
-                                    if (cardNumberUserInput.value.isEmpty())
-                                        Text(
-                                            text = stringResource(id = R.string.card_cvc_hint),
-                                            fontWeight = FontWeight.W400,
-                                            color = Color.DarkGray,
-                                            fontSize = 14.sp
-                                        )
-                                    innerTextField()
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.cvc),
+                                        contentDescription = "CVC",
+                                        tint = Color.DarkGray,
+                                        modifier = Modifier
+                                            .size(24.dp)
+                                    )
+
+                                    Box(contentAlignment = Alignment.Center) {
+                                        if (cardCvcUserInput.isEmpty())
+                                            Text(
+                                                text = stringResource(id = R.string.card_cvc_hint),
+                                                fontWeight = FontWeight.W400,
+                                                color = Color.DarkGray,
+                                                fontSize = 18.sp
+                                            )
+                                        innerTextField()
+                                    }
                                 }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }

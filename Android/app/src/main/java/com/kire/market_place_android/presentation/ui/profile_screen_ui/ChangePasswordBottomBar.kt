@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,7 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kire.market_place_android.presentation.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,7 +75,8 @@ fun ChangePasswordBottomBar(
             )
         },
         modifier = Modifier
-            .fillMaxHeight(0.5f)
+            .height(IntrinsicSize.Max)
+
     ) {
 
         Box(
@@ -83,7 +85,8 @@ fun ChangePasswordBottomBar(
                 .padding(
                     top = 28.dp,
                     start = 36.dp,
-                    end = 36.dp
+                    end = 36.dp,
+                    bottom = 28.dp
                 ),
             contentAlignment = Alignment.Center
         ) {

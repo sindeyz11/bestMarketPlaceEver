@@ -2,33 +2,37 @@ package com.kire.market_place_android.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import com.kire.market_place_android.presentation.NavGraphs
+import com.kire.market_place_android.presentation.destinations.AdminPanelItemsEditScreenDestination
+import com.kire.market_place_android.presentation.destinations.AdminPanelItemsScreenDestination
+import com.kire.market_place_android.presentation.destinations.AdminPanelPickUpScreenDestination
+import com.kire.market_place_android.presentation.destinations.AdminPanelScreenDestination
+import com.kire.market_place_android.presentation.destinations.AdminPanelUsersScreenDestination
+import com.kire.market_place_android.presentation.destinations.DeliveriesScreenDestination
+import com.kire.market_place_android.presentation.destinations.FavouritesScreenDestination
+import com.kire.market_place_android.presentation.destinations.ItemAddToCartMenuDestination
+import com.kire.market_place_android.presentation.destinations.LogInScreenDestination
+import com.kire.market_place_android.presentation.destinations.LogOnScreenDestination
+import com.kire.market_place_android.presentation.destinations.ManagerScreenDestination
+import com.kire.market_place_android.presentation.destinations.ProfileScreenDestination
+import com.kire.market_place_android.presentation.destinations.ShoppingCartScreenDestination
+import com.kire.market_place_android.presentation.destinations.ShoppingScreenDestination
 import com.kire.market_place_android.presentation.screen.AdminPanelScreen
-import com.kire.market_place_android.presentation.screen.DeliveriesScreen
-import com.kire.market_place_android.presentation.screen.FavouritesScreen
-import com.kire.market_place_android.presentation.screen.ItemAddToCartMenu
-import com.kire.market_place_android.presentation.screen.LogInScreen
-import com.kire.market_place_android.presentation.screen.LogOnScreen
-import com.kire.market_place_android.presentation.screen.ManagerScreen
-import com.kire.market_place_android.presentation.screen.NavGraphs
-import com.kire.market_place_android.presentation.screen.ProfileScreen
-import com.kire.market_place_android.presentation.screen.ShoppingScreen
 import com.kire.market_place_android.presentation.screen.admin_panel_screens.AdminPanelItemsEditScreen
-import com.kire.market_place_android.presentation.screen.admin_panel_screens.AdminPanelItemsScreen
-import com.kire.market_place_android.presentation.screen.admin_panel_screens.AdminPanelPickUpScreen
-import com.kire.market_place_android.presentation.screen.admin_panel_screens.AdminPanelUsersScreen
-import com.kire.market_place_android.presentation.screen.destinations.AdminPanelItemsEditScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.AdminPanelItemsScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.AdminPanelPickUpScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.AdminPanelScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.AdminPanelUsersScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.DeliveriesScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.FavouritesScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.ItemAddToCartMenuDestination
-import com.kire.market_place_android.presentation.screen.destinations.LogInScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.LogOnScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.ManagerScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.ProfileScreenDestination
-import com.kire.market_place_android.presentation.screen.destinations.ShoppingScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.AdminPanelItemsScreen
+
+import com.kire.market_place_android.presentation.ui.screen.AdminPanelPickUpScreen
+import com.kire.market_place_android.presentation.ui.screen.AdminPanelUsersScreen
+import com.kire.market_place_android.presentation.ui.screen.DeliveriesScreen
+import com.kire.market_place_android.presentation.ui.screen.FavouritesScreen
+import com.kire.market_place_android.presentation.ui.screen.ItemAddToCartMenu
+import com.kire.market_place_android.presentation.ui.screen.LogInScreen
+import com.kire.market_place_android.presentation.ui.screen.LogOnScreen
+import com.kire.market_place_android.presentation.ui.screen.ManagerScreen
+import com.kire.market_place_android.presentation.ui.screen.ProfileScreen
+import com.kire.market_place_android.presentation.ui.screen.ShoppingCartScreen
+import com.kire.market_place_android.presentation.ui.screen.ShoppingScreen
+
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.spec.NavHostEngine
@@ -107,6 +111,11 @@ fun NavigationUI(
         composable(AdminPanelUsersScreenDestination) {
             AdminPanelUsersScreen(
                 navigator = destinationsNavigator
+            )
+        }
+        composable(ShoppingCartScreenDestination){
+            ShoppingCartScreen(
+                navController = navHostController
             )
         }
     }

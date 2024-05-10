@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -43,7 +44,8 @@ import com.kire.test.R
 @Composable
 fun ShoppingScreenSearchBar(
     curSearchRequest: String?,
-    curFilterRequest: FilterRequest
+    curFilterRequest: FilterRequest,
+    showFilter: (Boolean) -> Unit
 ) {
     var _curSearchRequest by remember {
         mutableStateOf(curSearchRequest)
@@ -67,7 +69,7 @@ fun ShoppingScreenSearchBar(
             ),
             modifier = Modifier
                 .height(56.dp)
-                .width(280.dp)
+                .weight(1f)
                 .shadow(
                     elevation = 12.dp,
                     spotColor = ExtendedTheme.colors.black10,
@@ -107,7 +109,8 @@ fun ShoppingScreenSearchBar(
 
         Box(
             modifier = Modifier
-                .size(58.dp)
+                .padding(start = 10.dp)
+                .size(56.dp)
                 .shadow(
                     elevation = 12.dp,
                     spotColor = ExtendedTheme.colors.black10,
@@ -118,7 +121,7 @@ fun ShoppingScreenSearchBar(
                     RoundedCornerShape(12.dp)
                 )
                 .clickable {
-                    /*TODO()*/
+                    showFilter(true)
                 },
             contentAlignment = Alignment.Center
         ) {

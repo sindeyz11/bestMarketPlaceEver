@@ -58,7 +58,13 @@ fun PurchaseRelatedInfoBar(
             .wrapContentHeight()
             .clip(roundedCornerShape)
             .background(ExtendedTheme.colors.profileBar)
-            .padding(paddingValues),
+            .padding(paddingValues)
+            .pointerInput(Unit) {
+                detectTapGestures {
+                    if (clickable)
+                        onClick()
+                }
+            },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -98,12 +104,6 @@ fun PurchaseRelatedInfoBar(
                     animationMode = MarqueeAnimationMode.Immediately,
                     delayMillis = 0
                 )
-                .pointerInput(Unit) {
-                    detectTapGestures {
-                        if (clickable)
-                            onClick()
-                    }
-                }
         )
     }
 }
