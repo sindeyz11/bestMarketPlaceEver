@@ -2,6 +2,8 @@ package com.kire.market_place_android.domain.use_case.common
 
 import javax.inject.Inject
 
+/**
+ * By Aleksey Timko (de4ltt)*/
 data class CommonUseCases @Inject constructor(
     override val editUserAccountInfoUseCase: EditUserAccountInfoUseCase,
     override val getDeliveriesStatusUseCase: GetDeliveriesStatusUseCase,

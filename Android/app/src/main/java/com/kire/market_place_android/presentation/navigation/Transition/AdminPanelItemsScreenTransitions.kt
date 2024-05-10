@@ -14,6 +14,8 @@ import com.kire.market_place_android.presentation.destinations.ItemAddToCartMenu
 import com.ramcosta.composedestinations.spec.DestinationStyle
 import com.ramcosta.composedestinations.utils.route
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 object AdminPanelItemsScreenTransitions : DestinationStyle.Animated {
 
     val withoutTransitions = listOf<Destination>(

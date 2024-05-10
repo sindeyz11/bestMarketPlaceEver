@@ -1,5 +1,7 @@
 package com.kire.market_place_android.domain.use_case.admin
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 sealed interface IAdminUseCases {
     val deletePickUpPointUseCase: DeletePickUpPointUseCase
     val deleteProductUseCase: DeleteProductUseCase

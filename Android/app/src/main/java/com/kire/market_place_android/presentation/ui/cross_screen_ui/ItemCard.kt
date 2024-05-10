@@ -53,7 +53,9 @@ import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
 
 /**
- * By Aleksey Timko (de4ltt) 28.04.24*/
+ * By Aleksey Timko (de4ltt)
+ * By Michael Gontarev (KiREHwYE)
+ * */
 @OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable

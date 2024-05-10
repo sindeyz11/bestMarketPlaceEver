@@ -19,6 +19,8 @@ import com.ramcosta.composedestinations.spec.DestinationStyle
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 import com.ramcosta.composedestinations.utils.route
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 object AdminPanelScreenTransitions : DestinationStyle.Animated {
 
     private val destinationsOnRight: List<DirectionDestinationSpec> =

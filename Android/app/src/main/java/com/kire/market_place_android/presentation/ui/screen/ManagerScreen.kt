@@ -31,6 +31,8 @@ import com.kire.market_place_android.presentation.ui.manager_screen_ui.PickUpPoi
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 @Destination(style = ManagerScreenTransitions::class)
 @Composable
 fun ManagerScreen(

@@ -32,6 +32,8 @@ import com.kire.market_place_android.presentation.ui.cross_screen_ui.TopBar
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+/**
+ * By Aleksey Timko (de4ltt)*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination(style = AdminPanelPickUpScreenTransitions::class)
 @Composable

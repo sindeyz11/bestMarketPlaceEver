@@ -1,5 +1,7 @@
 package com.kire.market_place_android.domain.use_case.common
 
+/**
+ * By Aleksey Timko (de4ltt)*/
 sealed interface ICommonUseCases {
     val editUserAccountInfoUseCase: EditUserAccountInfoUseCase
     val getDeliveriesStatusUseCase: GetDeliveriesStatusUseCase

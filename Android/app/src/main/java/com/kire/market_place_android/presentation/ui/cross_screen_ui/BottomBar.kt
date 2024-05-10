@@ -40,9 +40,8 @@ import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 
 
-/*
-Implements navigation through screens
- */
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 @Composable
 fun BottomBar(
     userRole: UserRole,

@@ -2,6 +2,8 @@ package com.kire.market_place_android.data.model
 
 import java.util.Date
 
+/**
+ * By Aleksey Timko (de4ltt)*/
 data class ProfileScreenUserDataEntity(
     val name: String,
     val phone: String,

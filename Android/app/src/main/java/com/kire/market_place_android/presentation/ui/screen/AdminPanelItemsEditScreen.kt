@@ -46,6 +46,9 @@ import com.kire.test.R
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+/**
+ * By Michael Gontarev (KiREHwYE)
+ * By Aleksey Timko (de4ltt)*/
 @Destination(style = AdminPanelItemsEditScreenTransitions::class)
 @Composable
 fun AdminPanelItemsEditScreen(

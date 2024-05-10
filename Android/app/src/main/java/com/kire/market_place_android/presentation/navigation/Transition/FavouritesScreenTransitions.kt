@@ -16,6 +16,8 @@ import com.ramcosta.composedestinations.spec.DestinationStyle
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 import com.ramcosta.composedestinations.utils.route
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 object FavouritesScreenTransitions : DestinationStyle.Animated{
 
     private val destinationsOnLeft: List<DirectionDestinationSpec> = listOf(

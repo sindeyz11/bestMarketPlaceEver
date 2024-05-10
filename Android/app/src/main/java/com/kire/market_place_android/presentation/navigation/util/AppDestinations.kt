@@ -15,19 +15,20 @@ import com.kire.market_place_android.presentation.destinations.ShoppingScreenDes
 import com.kire.test.R
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 
-
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 sealed interface AppDestinations {
     enum class BottomBarDestinations (
         val direction: DirectionDestinationSpec,
         @DrawableRes val iconTop: Int?,
         @DrawableRes val iconBottom: Int?,
         @StringRes val label: Int,
-        @DrawableRes val plusButton: Int?
+        @DrawableRes val additionalButton: Int?
     ) : AppDestinations {
 
         SHOPPING(ShoppingScreenDestination, R.drawable.location, R.drawable.shopping_bottom_bar, R.string.home_screen_label, null),
         FAVOURITE(FavouritesScreenDestination, R.drawable.favourite_top_bar, R.drawable.favourite_bottom_bar, R.string.favourite_screen_label, null),
-        PROFILE(ProfileScreenDestination, R.drawable.profile_top_bar, R.drawable.profile_bottom_bar, R.string.profile_screen_label, null),
+        PROFILE(ProfileScreenDestination, R.drawable.profile_top_bar, R.drawable.profile_bottom_bar, R.string.profile_screen_label, R.drawable.exit),
         ADMIN_PANEL(AdminPanelScreenDestination, null, R.drawable.admin_panel_icon, R.string.manager_screen_label, null),
         MANAGER(ManagerScreenDestination, R.drawable.manager_top_bottom_bars, R.drawable.manager_top_bottom_bars, R.string.manager_screen_label, null),
         SHOPPING_CART(ShoppingCartScreenDestination, R.drawable.shopping_cart_top_bar, R.drawable.shopping_cart_bottom_bar, R.string.shopping_cart_screen_label, null)
@@ -91,7 +92,7 @@ fun AppDestinations.getIconTop() : Int? {
 
 fun AppDestinations.getPlusButton() : Int? {
     if (this is AppDestinations.BottomBarDestinations)
-        return this.plusButton
+        return this.additionalButton
     else if (this is AppDestinations.AdminDestinations)
         return this.plusButton
     else if (this is AppDestinations.ManagerDestinations)

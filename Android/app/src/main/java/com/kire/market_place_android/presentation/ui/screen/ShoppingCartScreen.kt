@@ -59,6 +59,8 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.popBackStack
 import com.ramcosta.composedestinations.utils.isRouteOnBackStack
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination(style = ShoppingCartScreenTransitions::class)
 @Composable

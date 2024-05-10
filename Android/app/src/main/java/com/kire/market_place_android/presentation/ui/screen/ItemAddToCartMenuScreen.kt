@@ -72,6 +72,9 @@ import com.kire.test.R
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+/**
+ * By Michael Gontarev (KiREHwYE)
+ * By Aleksey Timko (de4ltt)*/
 @OptIn(ExperimentalFoundationApi::class)
 @Destination(style = ItemAddToCartMenuScreenTransitions::class)
 @Composable

@@ -50,9 +50,8 @@ import com.kire.test.R
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-/*
-Login screen
- */
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 @Destination(style = LogInScreenTransitions::class)
 @Composable
 fun LogInScreen(
@@ -234,10 +233,4 @@ fun LogInScreen(
         }
     }
 
-}
-
-@Preview
-@Composable
-fun LogInScreenPreview(){
-//    LogInScreen()
 }
