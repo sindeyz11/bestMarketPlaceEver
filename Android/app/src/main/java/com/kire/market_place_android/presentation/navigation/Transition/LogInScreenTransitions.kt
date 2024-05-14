@@ -12,6 +12,8 @@ import androidx.navigation.NavBackStackEntry
 
 import com.ramcosta.composedestinations.spec.DestinationStyle
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 object LogInScreenTransitions : DestinationStyle.Animated {
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.enterTransition(): EnterTransition {

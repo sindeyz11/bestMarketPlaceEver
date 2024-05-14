@@ -20,6 +20,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.kire.test.R
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 @Composable
 fun AdminEditTopControls(
     onArrowBackClick: () -> Unit,

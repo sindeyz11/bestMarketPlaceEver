@@ -1,5 +1,7 @@
 package com.kire.market_place_android.data.model
 
+/**
+ * By Aleksey Timko (de4ltt)*/
 data class DeliveryEntity(
     val deliveryId: Int,
     val productItem: ProductItemEntity,

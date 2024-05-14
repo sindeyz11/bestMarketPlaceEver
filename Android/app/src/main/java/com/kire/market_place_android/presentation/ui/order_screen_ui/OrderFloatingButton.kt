@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 @Composable
 fun OrderFloatingButton(
     amountToGive: Int = 0,

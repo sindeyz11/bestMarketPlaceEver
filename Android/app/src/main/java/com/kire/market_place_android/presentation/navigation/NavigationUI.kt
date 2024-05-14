@@ -37,6 +37,9 @@ import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.spec.NavHostEngine
 
+/**
+ * By Michael Gontarev (KiREHwYE)
+ * By Aleksey Timko (de4ltt)*/
 @Composable
 fun NavigationUI(
     navHostController: NavHostController,

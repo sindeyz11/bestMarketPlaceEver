@@ -35,6 +35,10 @@ import com.kire.market_place_android.presentation.ui.cross_screen_ui.BottomBar
 import com.kire.market_place_android.presentation.ui.theme.MarketExtendedTheme
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 
+
+/**
+ * By Michael Gontarev (KiREHwYE)
+ * By Aleksey Timko (de4ltt)*/
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)

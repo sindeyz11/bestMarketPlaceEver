@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
+/**
+ * By Aleksey Timko (de4ltt)*/
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun BottomButtonFinishOperation(

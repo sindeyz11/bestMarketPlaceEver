@@ -36,6 +36,8 @@ import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
 import java.util.Date
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun OrderingBottomBar(

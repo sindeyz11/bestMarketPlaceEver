@@ -3,7 +3,7 @@ package com.kire.market_place_android.domain.model
 import android.net.Uri
 
 /**
- * By Aleksey Timko (de4ltt) 28.04.24*/
+ * By Aleksey Timko (de4ltt)*/
 data class ProductItemDomain(
     val itemName: String,
     val itemPrice: String,

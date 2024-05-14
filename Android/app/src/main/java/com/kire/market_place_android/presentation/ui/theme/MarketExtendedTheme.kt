@@ -7,7 +7,6 @@ import androidx.compose.ui.graphics.Color
 
 /**
  * By Aleksey Timko (de4ltt)
- *
  * By Michael Gontarev (KiREHwYe)*/
 
 val LocalExtendedColors = staticCompositionLocalOf {

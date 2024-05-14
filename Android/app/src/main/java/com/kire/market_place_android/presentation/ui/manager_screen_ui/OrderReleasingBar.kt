@@ -43,6 +43,8 @@ import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
 import com.kire.test.R
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 @Composable
 fun OrderReleasingBar(
     roundedCornerShape: RoundedCornerShape =

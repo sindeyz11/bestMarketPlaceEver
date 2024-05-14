@@ -49,7 +49,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /**
  * By Aleksey Timko (de4ltt)
- *
  * By Michael Gontarev (KiREHwYe)*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination(start = true, style = ShoppingScreenTransitions::class)

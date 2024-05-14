@@ -3,6 +3,8 @@ package com.kire.market_place_android.data.mapper
 import com.kire.market_place_android.data.model.DeliveryEntity
 import com.kire.market_place_android.domain.model.DeliveryDomain
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 fun DeliveryEntity.asDeliveryDomain() = DeliveryDomain(
     deliveryId = this.deliveryId,
     productItem = this.productItem.asProductItemDomain(),

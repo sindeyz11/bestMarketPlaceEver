@@ -9,6 +9,8 @@ import coil.request.CachePolicy
 import coil.util.DebugLogger
 import dagger.hilt.android.HiltAndroidApp
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 @HiltAndroidApp
 class MarketApplication: Application(), ImageLoaderFactory {
 
