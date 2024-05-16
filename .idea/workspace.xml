@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dffbae74-4b6c-43bd-9b7e-41a1c54d5856" name="Changes" comment="" />
+    <list default="true" id="dffbae74-4b6c-43bd-9b7e-41a1c54d5856" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Android/app/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Android/app/.gitignore" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,10 +34,12 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "dev",
-    "last_opened_file_path": "P:/Apps/bestMarketPlaceEverNew/Android"
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "E:/Work/Code/AndroidStudioProjects/bestMarketPlaceEver"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
