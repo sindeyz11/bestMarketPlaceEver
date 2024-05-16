@@ -1,6 +1,6 @@
 package com.example.project.service;
 
-import com.example.project.model.Entity_Role;
+import com.example.project.entity.Role;
 import com.example.project.repository.RoleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class RoleService {
     private RoleRepository repository;
-    public void save(Entity_Role role) {
+    public void save(Role role) {
         repository.save(role);
     }
 }
