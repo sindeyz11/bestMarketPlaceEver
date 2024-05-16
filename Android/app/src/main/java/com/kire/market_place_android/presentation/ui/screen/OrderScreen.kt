@@ -53,6 +53,8 @@ import com.kire.test.R
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 @Destination(style = OrderScreenTransitions::class)
 @Composable
 fun OrderScreen(

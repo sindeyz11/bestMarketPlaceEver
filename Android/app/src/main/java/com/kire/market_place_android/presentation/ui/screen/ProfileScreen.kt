@@ -52,6 +52,8 @@ import com.kire.test.R
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination(style = ProfileScreenTransitions::class)
 @Composable

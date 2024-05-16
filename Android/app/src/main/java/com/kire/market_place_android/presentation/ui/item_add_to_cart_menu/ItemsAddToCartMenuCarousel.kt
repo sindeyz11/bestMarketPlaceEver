@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.kire.market_place_android.presentation.model.ProductItem
 
+/**
+ * By Aleksey Timko (de4ltt)*/
 @Composable
 fun ItemsAddToCartMenuCarousel(
     itemsList: List<ProductItem>

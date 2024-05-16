@@ -3,6 +3,8 @@ package com.kire.market_place_android.data.mapper
 import com.kire.market_place_android.data.model.ProfileScreenUserDataEntity
 import com.kire.market_place_android.domain.model.ProfileScreenUserDataDomain
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 fun ProfileScreenUserDataEntity.asProfileScreenUserDataDomain() = ProfileScreenUserDataDomain(
     name = this.name,
     email = this.email,

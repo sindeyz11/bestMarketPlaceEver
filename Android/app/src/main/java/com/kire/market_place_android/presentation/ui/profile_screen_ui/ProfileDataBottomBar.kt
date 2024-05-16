@@ -41,6 +41,8 @@ import com.kire.market_place_android.presentation.model.ProfileScreenUserData
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileDataBottomBar(

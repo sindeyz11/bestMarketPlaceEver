@@ -52,6 +52,8 @@ import com.kire.market_place_android.presentation.model.ProductCategory
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
 
+/**
+ * By Aleksey Timko (de4ltt)*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterBottomBar(

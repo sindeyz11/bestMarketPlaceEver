@@ -10,6 +10,8 @@ import androidx.compose.animation.fadeOut
 import androidx.navigation.NavBackStackEntry
 import com.ramcosta.composedestinations.spec.DestinationStyle
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 object AdminPanelPickUpScreenTransitions : DestinationStyle.Animated {
 
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.enterTransition(): EnterTransition {

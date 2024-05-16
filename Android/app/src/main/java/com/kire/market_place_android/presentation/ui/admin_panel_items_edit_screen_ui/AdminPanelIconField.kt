@@ -31,6 +31,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
+/**
+ * By Aleksey Timko (de4ltt)*/
 @Composable
 fun AdminPanelIconField(
     modifier: Modifier,

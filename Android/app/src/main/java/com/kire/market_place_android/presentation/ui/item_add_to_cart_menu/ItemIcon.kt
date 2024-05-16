@@ -15,6 +15,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
+/**
+ * By Aleksey Timko (de4ltt)*/
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun ItemIcon(

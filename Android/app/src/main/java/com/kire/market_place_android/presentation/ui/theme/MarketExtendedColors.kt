@@ -5,7 +5,6 @@ import javax.annotation.concurrent.Immutable
 
 /**
  * By Aleksey Timko (de4ltt)
- *
  * By Michael Gontarev (KiREHwYe)*/
 @Immutable
 data class MarketExtendedColors(

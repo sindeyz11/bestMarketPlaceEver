@@ -12,6 +12,8 @@ import androidx.navigation.NavBackStackEntry
 
 import com.ramcosta.composedestinations.spec.DestinationStyle
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 object ShoppingCartScreenTransitions : DestinationStyle.Animated {
     override fun AnimatedContentTransitionScope<NavBackStackEntry>.enterTransition(): EnterTransition {
         return slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)) +

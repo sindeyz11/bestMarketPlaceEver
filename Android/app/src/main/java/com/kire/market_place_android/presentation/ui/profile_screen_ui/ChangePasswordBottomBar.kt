@@ -41,6 +41,8 @@ import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
 
+/**
+ * By Michael Gontarev (KiREHwYE)*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChangePasswordBottomBar(

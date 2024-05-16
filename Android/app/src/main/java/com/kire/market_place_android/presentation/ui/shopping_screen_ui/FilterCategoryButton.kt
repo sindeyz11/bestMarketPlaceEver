@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import com.kire.market_place_android.presentation.model.ProductCategory
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
+/**
+ * By Aleksey Timko (de4ltt)*/
 @Composable
 fun FilterCategoryButton(
     category: ProductCategory,
