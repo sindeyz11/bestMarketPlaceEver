@@ -1,15 +1,15 @@
 package com.example.project.service;
 
-import com.example.project.model.Entity_Role;
-import com.example.project.repository.RoleRepository;
+import com.example.project.entity.Role;
+import com.example.project.repository.RoleRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class RoleService {
-    private RoleRepository repository;
-    public void save(Entity_Role role) {
+    private RoleRepo repository;
+    public void saveRole(Role role){
         repository.save(role);
     }
 }
