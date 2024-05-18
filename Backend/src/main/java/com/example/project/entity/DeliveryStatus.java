@@ -16,6 +16,6 @@ public class DeliveryStatus {
     private Integer status_id;
     private String title;
 
-    @OneToMany(mappedBy = "ordered_product_status")
-    private List<OrderedProduct> status_ordered_product;
+    @OneToMany(mappedBy = "deliveryStatus")
+    private List<OrderedProduct> orderedProducts;
 }

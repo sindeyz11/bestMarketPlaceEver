@@ -1,13 +1,13 @@
 package com.example.project.entity;
 
-import com.example.project.entity.pk.ID_Category_product;
+import com.example.project.entity.pk.IDCategoryProduct;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "Category_product")
-@IdClass(ID_Category_product.class)
+@IdClass(IDCategoryProduct.class)
 public class CategoryProduct {
     @Id
     @MapsId("category_id")

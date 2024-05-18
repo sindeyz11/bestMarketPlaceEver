@@ -29,6 +29,6 @@ public class User {
     @OneToOne(mappedBy = "manager", optional = true)
     private PickupPoint user_pickup_points;
 
-    @OneToMany(mappedBy = "order_user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> user_orders;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders;
 }

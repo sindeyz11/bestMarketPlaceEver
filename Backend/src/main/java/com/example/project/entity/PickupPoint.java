@@ -2,6 +2,8 @@ package com.example.project.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import org.hibernate.annotations.Formula;
 
 import java.util.List;
 
@@ -10,13 +12,18 @@ import java.util.List;
 @Table(name = "Pickup_point")
 public class PickupPoint {
     @Id
-    private int point_id;
+    @Column(name = "point_id")
+    private int id;
     private String address;
     @OneToOne(optional = true)
     @JoinColumn(name = "manager_id", referencedColumnName = "user_id")
     private User manager;
+
+    @Formula("(SELECT u.first_name FROM Users u WHERE u.user_id = manager_id)")
+    private String managerName;
+
     private Integer income;
 
-    @OneToMany(mappedBy = "order_pickup_point", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "pickupPoint", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> pickup_point_orders;
 }

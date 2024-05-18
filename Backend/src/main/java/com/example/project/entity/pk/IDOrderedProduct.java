@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Data
 @Embeddable
-public class ID_Ordered_product implements Serializable {
-    private Integer order_product;
-    private Integer ordered_product;
+public class IDOrderedProduct implements Serializable {
+    private Integer order;
+    private Integer product;
 }

@@ -1,8 +1,8 @@
 package com.example.project.repository;
 
 import com.example.project.entity.RoleUser;
-import com.example.project.entity.pk.ID_Role_user;
+import com.example.project.entity.pk.IDRoleUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RoleUserRepo extends JpaRepository<RoleUser, ID_Role_user> {
+public interface RoleUserRepo extends JpaRepository<RoleUser, IDRoleUser> {
 }

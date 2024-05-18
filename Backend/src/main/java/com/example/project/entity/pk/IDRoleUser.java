@@ -7,7 +7,8 @@ import java.io.Serializable;
 
 @Data
 @Embeddable
-public class ID_Image_product implements Serializable {
-    private Integer image_id;
-    private Integer product_id;
+public class IDRoleUser implements Serializable {
+    private int user_role;
+    private int role;
+
 }

@@ -12,6 +12,7 @@ public class Product {
     @Id
     private int product_id;
     private String title;
+
     @OneToOne
     @JoinColumn(name = "image_id", referencedColumnName = "image_id")
     private Image product_image;
@@ -25,7 +26,7 @@ public class Product {
     @OneToOne(mappedBy = "product_category")
     private CategoryProduct categories;
 
-    @OneToMany(mappedBy = "ordered_product")
+    @OneToMany(mappedBy = "product")
     private List<OrderedProduct> product_orderes;
 
 }

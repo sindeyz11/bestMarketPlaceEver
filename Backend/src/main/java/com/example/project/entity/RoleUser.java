@@ -1,13 +1,13 @@
 package com.example.project.entity;
 
-import com.example.project.entity.pk.ID_Role_user;
+import com.example.project.entity.pk.IDRoleUser;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "Role_user")
-@IdClass(ID_Role_user.class)
+@IdClass(IDRoleUser.class)
 public class RoleUser {
     @Id
     @MapsId("user_id")

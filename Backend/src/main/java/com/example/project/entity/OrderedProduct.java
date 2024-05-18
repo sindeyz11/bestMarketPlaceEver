@@ -1,34 +1,45 @@
 package com.example.project.entity;
 
-import com.example.project.entity.pk.ID_Ordered_product;
+import com.example.project.entity.pk.IDOrderedProduct;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Formula;
 
 import java.time.LocalDate;
 
 @Data
 @Entity
 @Table(name = "Ordered_product")
-@IdClass(ID_Ordered_product.class)
+@IdClass(IDOrderedProduct.class)
 public class OrderedProduct {
     @Id
     @MapsId("order_id")
     @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")
-    private Order order_product;
+    private Order order;
 
     @Id
     @MapsId("product_id")
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
-    private Product ordered_product;
-    private Integer count_product;
-    private Integer discount_price;
-    private Integer delivery_days;
+    private Product product;
+
+    @Column(name = "count_product")
+    private Integer count;
+
+    @Column(name = "discount_price")
+    private Integer discountPrice;
+
+    @Column(name = "delivery_days")
+    private Integer deliveryDays;
 
     @ManyToOne
     @JoinColumn(name = "status_id", referencedColumnName = "status_id")
-    private DeliveryStatus ordered_product_status;
+    private DeliveryStatus deliveryStatus;
 
-    private LocalDate completion_date;
+    @Formula("(SELECT ds.title FROM Delivery_status ds WHERE ds.status_id = status_id)")
+    private String deliveryStatusTitle;
+
+    @Column(name = "completion_date")
+    private LocalDate completionDate;
 }
