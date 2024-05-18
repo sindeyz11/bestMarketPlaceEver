@@ -15,5 +15,13 @@ spring:
   sql:
     init:
       mode: never
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key-location:
+logging:
+  level:
+    org.springframework.security: DEBUG
 server:
   port: 8081
