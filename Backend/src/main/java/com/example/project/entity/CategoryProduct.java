@@ -2,6 +2,7 @@ package com.example.project.entity;
 
 import com.example.project.entity.pk.ID_Category_product;
 
+import com.example.project.entity.pk.ID_Category_product;
 import jakarta.persistence.*;
 
 import lombok.Data;

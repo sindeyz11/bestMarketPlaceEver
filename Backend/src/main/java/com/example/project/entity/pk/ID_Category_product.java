@@ -5,8 +5,8 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-@Embeddable
 @Data
+@Embeddable
 public class ID_Category_product implements Serializable {
     private Integer category;
     private Integer product_category;
