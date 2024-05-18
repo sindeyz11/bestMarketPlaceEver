@@ -13,7 +13,7 @@ import java.util.Set;
 public class User {
     @Id
     private Integer user_id;
-    private String first_name;
+    private String username;
     private String password;
     private String phone;
     private String email;
@@ -23,8 +23,16 @@ public class User {
     private String card_number;
     private LocalDate datetime;
 
-    @OneToMany(mappedBy = "user_role")
-    private Set<RoleUser> roles;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "RoleUser",
+            joinColumns = {
+                    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "role_id")
+            }
+    )
+    private Set<Role> roles;
 
     @OneToOne(mappedBy = "manager", optional = true)
     private PickupPoint user_pickup_points;

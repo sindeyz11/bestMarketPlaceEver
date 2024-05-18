@@ -1,12 +1,12 @@
 package com.example.project.entity.pk;
 
-import jakarta.persistence.Embeddable;
 import lombok.Data;
 
+import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 
-@Data
 @Embeddable
+@Data
 public class ID_Ordered_product implements Serializable {
     private Integer order_product;
     private Integer ordered_product;
