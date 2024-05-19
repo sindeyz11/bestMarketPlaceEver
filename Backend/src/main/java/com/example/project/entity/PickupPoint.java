@@ -18,7 +18,7 @@ public class PickupPoint {
     @JoinColumn(name = "manager_id", referencedColumnName = "user_id")
     private User manager;
 
-    @Formula("(SELECT u.first_name FROM Users u WHERE u.user_id = manager_id)")
+    @Formula("(SELECT u.username FROM Users u WHERE u.user_id = manager_id)")
     private String managerName;
 
     private Integer income;

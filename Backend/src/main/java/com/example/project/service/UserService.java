@@ -25,13 +25,13 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         repository.save(user);
     }
-    public void addUser(User user) throws UserAlreadyExistException {
+    /*public void addUser(User user) throws UserAlreadyExistException {
         if(repository.findByEmail(user.getEmail()) != null) {
             throw new UserAlreadyExistException("Пользователь с такой почтой уже есть");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         repository.save(user);
-    }
+    }*/
     public User getUser(Integer user_id)
     {
         User user = repository.findById(user_id).orElse(null);
