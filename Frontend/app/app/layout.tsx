@@ -37,15 +37,6 @@ const RootLayout = ({
                   Приложение для Android
                 </h4>
               </div>
-              <div className="flex gap-4 items-center">
-                <Image
-                  src="/qr-codes/ios-app.png"
-                  width={80}
-                  height={80}
-                  alt="Скачайте приложение KubMarket для iOS"
-                />
-                <h4 className="text-lg font-semibold">Приложение для iOS</h4>
-              </div>
             </div>
           </div>
         </body>
