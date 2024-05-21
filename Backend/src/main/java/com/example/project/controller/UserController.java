@@ -14,7 +14,7 @@ import java.util.List;
 public class UserController {
     private UserService service;
 
-    @PostMapping("/new-user")
+   /* @PostMapping("/new-user")
     public ResponseEntity addUser(@RequestBody User user) {
         try {
             service.addUser(user);
@@ -22,6 +22,11 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Произошла ошибка");
         }
-    }
+    }*/
+    /*@PostMapping
+    public ResponseEntity createUser (@RequestBody UserCreateRequest userCreateRequest) {
+        service.createUser(userCreateRequest);
+        return ResponseEntity.ok().build();
+    }*/
 
 }

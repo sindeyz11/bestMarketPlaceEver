@@ -24,23 +24,4 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping("/welcome")
-    public String welcome(){
-        return "Добро пожаловать ";
-    }
-    @GetMapping("/user")
-    @PreAuthorize("hasAnyAuthority('costumer')")
-    public String User(){
-        return "User";
-    }
-    @GetMapping("/m")
-    @PreAuthorize("hasAnyAuthority('manager')")
-    public String Manager(){
-        return "Manager";
-    }
-    @GetMapping("/admin")
-    @PreAuthorize("hasAnyAuthority('administrator')")
-    public String Admin(){
-        return "Admin";
-    }
 }
