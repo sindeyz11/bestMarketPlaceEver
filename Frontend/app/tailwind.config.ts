@@ -23,6 +23,7 @@ const config: Config = {
         "button-accent": "#F93F3F",
         "button-dark-accent": "#B20000",
         icon: "#252525",
+        link: "#6B6B6B",
       },
     },
   },
