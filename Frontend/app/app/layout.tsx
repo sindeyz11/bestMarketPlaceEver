@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { useMedia } from "use-media";
 import Image from "next/image";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,7 +43,11 @@ const RootLayout = ({
           </div>
         </body>
       ) : (
-        <body className={inter.className}>{children}</body>
+        <body className={`${inter.className} flex flex-col`}>
+          <Header />
+          {children}
+          <Footer />
+        </body>
       )}
     </html>
   );
