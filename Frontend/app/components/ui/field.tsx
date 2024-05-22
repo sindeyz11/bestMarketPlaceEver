@@ -47,7 +47,7 @@ export const Field = ({
             placeholder={placeholder}
             value={value}
             onChange={onChange}
-            className={`p-2.5 w-full bg-field-bg rounded-lg outline-none focus:bg-field-bg/80 transition-colors placeholder:text-secondary-text text-black border border-transparent ${
+            className={`p-2.5 w-full bg-field-bg rounded-lg outline-none focus:bg-field-bg/80 transition-colors text-sm placeholder:text-sm placeholder:text-secondary-text text-black border border-transparent ${
               icon && !startContent ? "pl-11" : ""
             } ${startContent ? (icon ? "pl-[4.3rem]" : "pl-8") : ""}`}
           />
