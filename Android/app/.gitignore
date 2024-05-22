@@ -1,1 +1,6 @@
 /build
+
+*.log
+*.idea/
+*.iml
+build/
