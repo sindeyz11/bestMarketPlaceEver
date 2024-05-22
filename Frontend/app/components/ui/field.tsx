@@ -57,16 +57,16 @@ export const Field = ({
       {variant === "numeric" && (
         <label className="relative w-28">
           {startContent && (
-            <span className="absolute top-1/2 transform -translate-y-1/2 left-3">
+            <span className="absolute top-1/2 transform -translate-y-1/2 left-3 font-medium">
               {startContent}
             </span>
           )}
           <input
             type="number"
             placeholder={placeholder}
-            className={`p-3 border border-black rounded-lg outline-none w-full ${
-              startContent && "pl-8"
-            }`}
+            className={`p-2.5 border border-black rounded-lg outline-none w-full text-sm placeholder:text-sm placeholder:text-secondary-text ${
+              !startContent && "text-center"
+            } ${startContent && "pl-8"}`}
           />
         </label>
       )}
