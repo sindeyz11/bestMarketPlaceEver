@@ -1,5 +1,7 @@
 "use client";
 
+// TODO: адаптировать кнопку под разные экраны
+
 import Link from "next/link";
 
 interface IButton {
@@ -38,7 +40,7 @@ export const Button = ({
       {variant === "icon" && icon && (
         <button
           onClick={onClick}
-          className="w-max rounded-lg p-3 text-icon bg-transparent hover:text-icon/90 hover:bg-transparent/10 transition-colors flex items-center justify-center"
+          className="w-max rounded-lg p-2.5 text-icon bg-transparent hover:text-icon/90 hover:bg-transparent/10 transition-colors flex items-center justify-center"
         >
           {icon}
         </button>
