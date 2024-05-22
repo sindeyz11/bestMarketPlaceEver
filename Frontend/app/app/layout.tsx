@@ -43,10 +43,12 @@ const RootLayout = ({
           </div>
         </body>
       ) : (
-        <body className={`${inter.className} flex flex-col`}>
-          <Header />
-          {children}
-          <Footer />
+        <body className={`${inter.className} flex flex-col min-h-screen`}>
+          <div className="flex flex-col flex-grow">
+            <Header />
+            <div className="flex-grow">{children}</div>
+            <Footer />
+          </div>
         </body>
       )}
     </html>
