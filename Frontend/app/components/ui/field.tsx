@@ -73,7 +73,7 @@ export const Field = ({
       {/* расширенное текстовое поле ввода */}
       {variant === "textarea" && (
         <textarea
-          className="outline-none rounded-lg bg-white p-3"
+          className="outline-none rounded-lg bg-white p-2.5 text-sm placeholder:text-sm placeholder:text-secondary-text"
           placeholder={placeholder}
         />
       )}
