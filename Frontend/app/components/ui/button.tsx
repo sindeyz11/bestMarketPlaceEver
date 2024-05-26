@@ -40,7 +40,7 @@ export const Button = ({
       {variant === "icon" && icon && (
         <button
           onClick={onClick}
-          className="w-max rounded-lg p-2.5 text-icon bg-transparent hover:text-icon/90 hover:bg-transparent/10 transition-colors flex items-center justify-center"
+          className="w-max rounded-lg p-2.5 text-icon bg-transparent hover:text-icon/90 hover:bg-transparent/5 transition-colors flex items-center justify-center"
         >
           {icon}
         </button>
