@@ -9,7 +9,7 @@ import { UserIcon } from "../icons/user-icon";
 export const Header = () => {
   const isAuth = false; // состояние для проверки пользователя на авторизованность
   return (
-    <header className="py-4 px-20 w-full flex items-center justify-between gap-24">
+    <header className="h-20 px-20 w-full flex items-center justify-between gap-24">
       <div className="w-1/2 flex items-center gap-8 ml-2">
         <Link href="/">
           <Image
