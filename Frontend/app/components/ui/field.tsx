@@ -12,6 +12,7 @@ interface IField {
   startContent?: string;
   value?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  disabled?: boolean;
 }
 
 export const Field = ({
@@ -22,6 +23,7 @@ export const Field = ({
   startContent,
   value,
   onChange,
+  disabled,
 }: IField) => {
   return (
     <>
@@ -43,13 +45,16 @@ export const Field = ({
             </span>
           )}
           <input
+            disabled={disabled}
             type={type}
             placeholder={placeholder}
             value={value}
             onChange={onChange}
             className={`p-2.5 w-full bg-field-bg rounded-lg outline-none focus:bg-field-bg/80 transition-colors text-sm placeholder:text-sm placeholder:text-secondary-text text-black border border-transparent ${
-              icon && !startContent ? "pl-11" : ""
-            } ${startContent ? (icon ? "pl-[4.3rem]" : "pl-8") : ""}`}
+              disabled && "text-center"
+            } ${icon && !startContent ? "pl-11" : ""} ${
+              startContent ? (icon ? "pl-[4.3rem]" : "pl-8") : ""
+            }`}
           />
         </label>
       )}
