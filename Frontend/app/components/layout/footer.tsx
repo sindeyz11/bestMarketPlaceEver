@@ -13,7 +13,7 @@ export const Footer = () => {
   }, []);
 
   return (
-    <footer className="p-10 bg-footer-bg w-full flex items-center justify-between">
+    <footer className="h-40 px-10 bg-footer-bg w-full flex items-center justify-between">
       <p className="w-1/3 max-w-1/2 text-white text-sm">
         {currentYear} © KubMarket — потрясающий интернет-магазин всякого
         барахла. Ваши и наши права не защищены. Работаем только самовывозом. На
