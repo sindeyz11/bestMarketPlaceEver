@@ -13,7 +13,7 @@ spring:
     show_sql: true
   sql:
     init:
-      mode: never
+      mode: always
   security:
     oauth2:
       resourceserver:

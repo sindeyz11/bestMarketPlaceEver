@@ -1,5 +1,6 @@
 package com.example.project.entity;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,16 +21,18 @@ public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer user_id;
+    @Column(unique = true)
     private String username;
     private String password;
+    @Column(unique = true)
     private String phone;
+    @Column(unique = true)
     private String email;
     private Integer user_discount = 5;
     private Integer amount_spent;
     private Integer CVC;
     private String card_number;
     private LocalDate datetime;
-
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -48,6 +51,10 @@ public class User implements UserDetails{
     @Override
     public String getPassword() {
         return password;
+    }
+
+    public String getName() {
+        return username;
     }
 
     @Override
