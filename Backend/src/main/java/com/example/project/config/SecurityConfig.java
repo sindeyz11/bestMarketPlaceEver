@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.example.project.entity.Permission.MANAGER_UPDATE;
 import static com.example.project.entity.Role.*;
 import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
@@ -33,7 +34,7 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/api/v1/demo-controller/user").hasAnyRole(USER.name(), ADMIN.name(), MANAGER.name())
                                 .requestMatchers("/api/v1/demo-controller/m").hasAnyRole(MANAGER.name())
-                                .requestMatchers("/api/v1/demo-controller/admin").hasAnyRole(ADMIN.name())
+                                .requestMatchers("/api/v1/demo-controller/admin", "/api/v1/user/admin/all_users").hasAnyRole(ADMIN.name())
                                 .anyRequest()
                                 .authenticated()
                 )
