@@ -2,12 +2,18 @@ package com.example.project.entity;
 
 import com.example.project.entity.pk.IDOrderedProduct;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
 
 import java.time.LocalDate;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "Ordered_product")
 @IdClass(IDOrderedProduct.class)

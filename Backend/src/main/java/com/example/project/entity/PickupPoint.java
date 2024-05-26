@@ -1,7 +1,10 @@
 package com.example.project.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
 
 import java.util.List;
@@ -9,9 +12,20 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "Pickup_point")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PickupPoint {
     @Id
     @Column(name = "point_id")
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "sequence-point"
+    )
+    @SequenceGenerator(
+            name = "sequence-point",
+            sequenceName = "sequence_point"
+    )
     private int id;
     private String address;
     @OneToOne(optional = true)

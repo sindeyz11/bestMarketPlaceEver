@@ -1,7 +1,10 @@
 package com.example.project.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
 
 import java.time.LocalDate;
@@ -9,10 +12,21 @@ import java.util.List;
 
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "Orders")
 public class Order {
     @Id
     @Column(name = "order_id")
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "sequence-order"
+    )
+    @SequenceGenerator(
+            name = "sequence-order",
+            sequenceName = "sequence_order"
+    )
     private Integer id;
 
     @ManyToOne

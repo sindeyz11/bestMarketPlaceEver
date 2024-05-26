@@ -24,7 +24,7 @@ public class User implements UserDetails{
     private String password;
     private String phone;
     private String email;
-    private Integer user_discount;
+    private Integer user_discount = 5;
     private Integer amount_spent;
     private Integer CVC;
     private String card_number;
