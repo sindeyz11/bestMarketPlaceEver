@@ -46,10 +46,11 @@ export const Button = ({
         </button>
       )}
       {/* кнопка-ссылка */}
-      {variant === "link" && href && (
+      {variant === "link" && (
         <Link
           className="text-link underline underline-offset-2 font-medium hover:text-link/80 hover:underline-offset-4 transition-all"
-          href={href}
+          href={href!}
+          onClick={onClick}
         >
           {children}
         </Link>
