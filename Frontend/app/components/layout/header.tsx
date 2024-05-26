@@ -7,6 +7,7 @@ import { Button } from "../ui/button";
 import { UserIcon } from "../icons/user-icon";
 
 export const Header = () => {
+  const isAuth = false; // состояние для проверки пользователя на авторизованность
   return (
     <header className="py-4 px-20 w-full flex items-center justify-between gap-24">
       <div className="w-1/2 flex items-center gap-8 ml-2">
@@ -19,7 +20,14 @@ export const Header = () => {
             alt="Скачайте приложение KubMarket для Android"
           />
         </Link>
-        <Field placeholder="Поиск товаров..." icon={<SearchIcon />} />
+        {isAuth ? (
+          <Field placeholder="Поиск товаров..." icon={<SearchIcon />} />
+        ) : (
+          <Field
+            placeholder="Войдите или зарегистрируйтесь, чтобы продолжить"
+            disabled
+          />
+        )}
       </div>
       <div className="w-1/2 flex items-center justify-between">
         <Link href="tel:8800666311">
