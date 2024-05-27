@@ -53,7 +53,7 @@ export const Header = () => {
               <b className="text-base leading-none font-extrabold">₽20000.00</b>
             </div>
           </Link>
-          <Link href="/profile">
+          <Link href={isAuth ? "/profile" : "/auth"}>
             <Button
               variant="icon"
               icon={<UserIcon className="h-6 w-6 text-icon" />}

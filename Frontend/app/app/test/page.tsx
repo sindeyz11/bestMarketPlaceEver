@@ -23,6 +23,7 @@ const TestPage = ({}) => {
       </Button>
 
       <Field placeholder="Просто поле ввода" />
+      <Field placeholder="Недоступно для ввода поле (disabled)" disabled />
       <Field
         placeholder="Просто поле ввода c неизменным контентом"
         startContent="₽"

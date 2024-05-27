@@ -18,7 +18,7 @@ const AuthPage = () => {
       className="flex items-center justify-center bg-[#F6F6F6]"
     >
       <title>Авторизация</title>
-      <form className="bg-white rounded-xl p-10 shadow-2xl flex flex-col items-center gap-8 w-1/6">
+      <form className="bg-white rounded-xl p-10 shadow-2xl flex flex-col items-center gap-8 w-[30em]">
         <h2 className="text-black font-bold text-2xl">
           {stage === "login" ? "Войти в профиль" : "Регистрация"}
         </h2>
