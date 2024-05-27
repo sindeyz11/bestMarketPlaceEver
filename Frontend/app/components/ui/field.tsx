@@ -51,7 +51,7 @@ export const Field = ({
             value={value}
             onChange={onChange}
             className={`p-3 w-full bg-field-bg rounded-lg outline-none focus:bg-field-bg/80 transition-colors text-sm placeholder:text-sm placeholder:text-secondary-text text-black border border-transparent ${
-              disabled && "text-center"
+              disabled && "text-center cursor-not-allowed"
             } ${icon && !startContent ? "pl-11" : ""} ${
               startContent ? (icon ? "pl-[4.3rem]" : "pl-8") : ""
             }`}
