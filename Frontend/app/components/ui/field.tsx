@@ -50,7 +50,7 @@ export const Field = ({
             placeholder={placeholder}
             value={value}
             onChange={onChange}
-            className={`p-2.5 w-full bg-field-bg rounded-lg outline-none focus:bg-field-bg/80 transition-colors text-sm placeholder:text-sm placeholder:text-secondary-text text-black border border-transparent ${
+            className={`p-3 w-full bg-field-bg rounded-lg outline-none focus:bg-field-bg/80 transition-colors text-sm placeholder:text-sm placeholder:text-secondary-text text-black border border-transparent ${
               disabled && "text-center"
             } ${icon && !startContent ? "pl-11" : ""} ${
               startContent ? (icon ? "pl-[4.3rem]" : "pl-8") : ""
@@ -69,7 +69,7 @@ export const Field = ({
           <input
             type="number"
             placeholder={placeholder}
-            className={`p-2.5 border border-black rounded-lg outline-none w-full text-sm placeholder:text-sm placeholder:text-secondary-text ${
+            className={`p-3 border border-black rounded-lg outline-none w-full text-sm placeholder:text-sm placeholder:text-secondary-text ${
               !startContent && "text-center"
             } ${startContent && "pl-8"}`}
           />
@@ -78,7 +78,7 @@ export const Field = ({
       {/* расширенное текстовое поле ввода */}
       {variant === "textarea" && (
         <textarea
-          className="outline-none rounded-lg bg-white p-2.5 text-sm placeholder:text-sm placeholder:text-secondary-text"
+          className="outline-none rounded-lg bg-white p-3 text-sm placeholder:text-sm placeholder:text-secondary-text"
           placeholder={placeholder}
         />
       )}
