@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Counter } from "../ui/counter";
+import { Counter } from "@/components/ui/counter";
 
 interface ProductCardProps {
   title: string;
   price: number;
   unit: string;
   inStock: number;
-  imgPath: string;
+  imgPath?: string;
 }
 
 export const ProductCard = ({
@@ -14,7 +14,7 @@ export const ProductCard = ({
   price,
   unit,
   inStock,
-  imgPath,
+  imgPath = "./no-product.png",
 }: ProductCardProps) => {
   return (
     <div className="group flex flex-col justify-center transition-all rounded-lg border border-transparent hover:border-black p-4 h-[30em]">

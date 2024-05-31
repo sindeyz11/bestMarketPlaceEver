@@ -52,12 +52,19 @@ export const Field = ({
             onChange={onChange}
             className={`p-3 w-full bg-field-bg rounded-lg outline-none focus:bg-field-bg/80 transition-colors text-sm placeholder:text-sm placeholder:text-secondary-text text-black border border-transparent ${
               disabled && "text-center cursor-not-allowed"
-            } ${icon && !startContent ? "pl-11" : ""} ${
-              startContent ? (icon ? "pl-[4.3rem]" : "pl-8") : ""
+            } ${
+              startContent
+                ? icon
+                  ? "pl-[calc(2.5rem+2.5rem)]"
+                  : "pl-[calc(2.5rem+1rem)]"
+                : icon
+                ? "pl-11"
+                : ""
             }`}
           />
         </label>
       )}
+
       {/* числовой ввод */}
       {variant === "numeric" && (
         <label className="relative w-28">

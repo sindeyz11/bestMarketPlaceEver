@@ -33,6 +33,21 @@ const HomePage = () => {
             ]}
           />
           <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 w-full">
+            <ProductCard title="Огурцы" unit="кг" inStock={176} price={250} />
+            <ProductCard
+              imgPath="./cucumbers.png"
+              title="Огурцы"
+              unit="кг"
+              inStock={176}
+              price={250}
+            />
+            <ProductCard
+              imgPath="./cucumbers.png"
+              title="Огурцы"
+              unit="кг"
+              inStock={176}
+              price={250}
+            />
             <ProductCard
               imgPath="./cucumbers.png"
               title="Огурцы"
