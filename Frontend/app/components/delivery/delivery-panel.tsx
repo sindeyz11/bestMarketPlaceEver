@@ -8,7 +8,7 @@ interface DeliveryPanelProps {
 
 export const DeliveryList = ({ codeForReceive, items }: DeliveryPanelProps) => {
   return (
-    <div className="bg-white rounded-xl p-6">
+    <div className="bg-white shadow-lg rounded-xl p-6">
       <div className="flex items-center justify-between">
         <h2 className="text-black font-semibold text-lg">
           Информация о доставках

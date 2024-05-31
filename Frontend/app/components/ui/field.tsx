@@ -37,7 +37,7 @@ export const Field = ({
           )}
           {startContent && (
             <span
-              className={`absolute top-1/2 transform -translate-y-1/2 font-medium select-none ${
+              className={`absolute top-1/2 transform -translate-y-1/2 font-medium select-none text-sm ${
                 icon ? "left-10" : "left-3"
               }`}
             >
