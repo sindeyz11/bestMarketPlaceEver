@@ -9,6 +9,7 @@ interface IButton {
   icon?: React.ReactNode;
   color?: "light" | "dark";
   href?: string;
+  size?: "default" | "small";
   onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
   children?: React.ReactNode;
 }
@@ -18,6 +19,7 @@ export const Button = ({
   icon,
   color = "light",
   href,
+  size = "default",
   onClick,
   children,
 }: IButton) => {
@@ -27,7 +29,9 @@ export const Button = ({
       {variant === "default" && (
         <button
           onClick={onClick}
-          className={`w-full rounded-lg p-3 text-white font-semibold flex items-center justify-center ${
+          className={`w-full rounded-lg ${
+            size === "small" ? "px-1.5 py-3 text-sm" : "p-3"
+          } text-white font-semibold flex items-center justify-center ${
             color === "light"
               ? "bg-button-accent hover:bg-button-accent/85"
               : "bg-button-dark-accent hover:bg-button-dark-accent/85"
