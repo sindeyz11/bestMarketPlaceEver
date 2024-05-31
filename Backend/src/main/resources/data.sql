@@ -1,17 +1,3 @@
-UPDATE users
-SET user_discount = 1234567890
-WHERE user_id = 1;
-
--- Обновление поля amount_spent
-UPDATE users
-SET amount_spent = 1234567890
-WHERE user_id = 1;
-
-UPDATE users
-SET user_discount = 223324
-WHERE user_id = 2;
-
--- Обновление поля amount_spent
-UPDATE users
-SET amount_spent = 67890098
-WHERE user_id = 2;
+INSERT INTO Ordered_product (order_id, product_id, count_product, discount_price, delivery_days, status_id, completion_date)
+VALUES ('1', '9', '1', '686', '5', '1', '15.05.2024'),
+       ('2', '10', '1', '258', '1', '4', '15.05.2024');

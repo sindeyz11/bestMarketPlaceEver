@@ -5,13 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserStatisticsDTO {
-    private Integer user_discount;
-    private Integer amount_spent;
-    private Integer kol_order;
-    private Double percent_order;
+public class UserCardDTO {
+    private String card_number;
+    private Integer CVC;
+    private LocalDate datetime;
 }

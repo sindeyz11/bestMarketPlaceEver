@@ -1,15 +1,15 @@
 package com.example.project.service;
 
+
+import com.example.project.auth.AuthenticationResponse;
+import com.example.project.config.JwtService;
 import com.example.project.dto.request.ChangeCardUserRequest;
 import com.example.project.dto.request.ChangeInfoUserRequest;
 import com.example.project.dto.request.ChangePasswordRequest;
-import com.example.project.dto.response.AllUsersDTO;
-import com.example.project.dto.response.OrderDTO;
-import com.example.project.dto.response.OrderedProductDTO;
-import com.example.project.dto.response.UserStatisticsDTO;
-import com.example.project.entity.Order;
-import com.example.project.entity.Role;
+import com.example.project.dto.response.*;
 import com.example.project.entity.User;
+import com.example.project.dto.response.UserProductStatsDTO;
+import com.example.project.repository.OrderedProductRepo;
 import com.example.project.repository.UserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,22 +18,20 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Service
 @AllArgsConstructor
 public class UserService {
 
-    private UserRepo repository;
+    private OrderedProductRepo orderedproductRepo;
+    private UserRepo userRepo;
     private PasswordEncoder passwordEncoder;
-    private final List<User> users;
+    private final JwtService jwtService;
 
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        repository.save(user);
+        userRepo.save(user);
     }
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
 
@@ -47,35 +45,68 @@ public class UserService {
         }
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-        repository.save(user);
+        userRepo.save(user);
     }
 
-    public UserStatisticsDTO getUserStatistics(Integer userId) throws NoSuchElementException{
-        User user= repository.findById(userId).orElseThrow();
-        return new UserStatisticsDTO(
-                user.getUser_id(),
-                user.getUser_discount(),
-                user.getAmount_spent()
-        );
+    public UserStatisticsDTO getUserStatistics(Principal connectedUser){
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        UserProductStatsDTO stats= orderedproductRepo.findUserProductStatsByUserId(user.getUser_id());
+        Double percent;
+        if (stats != null) {
+            Long issuedCount = stats.getIssuedProducts();
+            Long refusedCount = stats.getRefusedProducts();
+            percent = (double) issuedCount / (issuedCount + refusedCount) * 100;
+        } else {
+            percent = null;
+        }
+        return UserStatisticsDTO.builder()
+                .user_discount(user.getUser_discount())
+                .amount_spent(user.getAmount_spent())
+                .kol_order(user.getOrders().size())
+                .percent_order(percent)
+                .build();
     }
-    public void changeUserCard(ChangeCardUserRequest request){
-        User user = repository.findById(request.getUser_id()).orElseThrow();
+
+    public UserInfoDTO getInfoUser(Principal connectedUser){
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        return UserInfoDTO.builder()
+                .username(user.getName())
+                .phone(user.getPhone())
+                .email(user.getEmail())
+                .build();
+    }
+    public UserCardDTO getUserCard(Principal connectedUser){
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        return UserCardDTO.builder()
+                .card_number(user.getCard_number())
+                .CVC(user.getCVC())
+                .datetime(user.getDatetime())
+                .build();
+    }
+
+    public void changeUserCard(ChangeCardUserRequest request, Principal connectedUser){
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
         user.setCard_number(request.getCard_number());
         user.setCVC(request.getCVC());
         user.setDatetime(request.getDatetime());
-        repository.save(user);
+        userRepo.save(user);
     }
 
-    public void changeUserInfo(ChangeInfoUserRequest request){
-        User user = repository.findById(request.getUser_id()).orElseThrow();
+    public AuthenticationResponse changeUserInfo(ChangeInfoUserRequest request, Principal connectedUser){
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
         user.setEmail(request.getEmail());
         user.setPhone(request.getPhone());
         user.setUsername(request.getUsername());
-        repository.save(user);
+        userRepo.save(user);
+        var jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+                .Token(jwtToken)
+                .role(user.getRole())
+                .build();
     }
 
     public List<AllUsersDTO> getAllUsers() {
-        List<AllUsersDTO> users = repository.findAll()
+        List<AllUsersDTO> users = userRepo.findAll()
                 .stream()
                 .map(user -> {
                     AllUsersDTO usersDTO = new AllUsersDTO();

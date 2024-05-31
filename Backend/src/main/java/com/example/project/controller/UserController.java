@@ -1,6 +1,9 @@
 package com.example.project.controller;
 
 
+import com.example.project.auth.AuthenticationRequest;
+import com.example.project.auth.AuthenticationResponse;
+import com.example.project.auth.AuthenticationService;
 import com.example.project.dto.request.ChangeCardUserRequest;
 import com.example.project.dto.request.ChangeInfoUserRequest;
 import com.example.project.dto.request.ChangePasswordRequest;
@@ -17,6 +20,7 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api/v1/user")
 @AllArgsConstructor
 public class UserController {
+    private AuthenticationService Authservice;
     private UserService Userservice;
 
     @PatchMapping("/change/password")
@@ -28,10 +32,19 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/satistics/{userId}")
-    public ResponseEntity<?> getSatistics(@PathVariable Integer userId) {
+    @GetMapping("/satistics")
+    public ResponseEntity<?> getSatistics(Principal connectedUser) {
         try {
-            return new ResponseEntity<>(Userservice.getUserStatistics(userId), HttpStatus.OK);
+            return new ResponseEntity<>(Userservice.getUserStatistics(connectedUser), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/card")
+    public ResponseEntity<?> getCard(Principal connectedUser) {
+        try {
+            return new ResponseEntity<>(Userservice.getUserCard(connectedUser), HttpStatus.OK);
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -39,22 +52,32 @@ public class UserController {
 
     @PatchMapping("/change/card")
     public ResponseEntity<?> ChangeUserCard(
-            @RequestBody ChangeCardUserRequest request
+            @RequestBody ChangeCardUserRequest request,
+            Principal connectedUser
     ) {
-        Userservice.changeUserCard(request);
+        Userservice.changeUserCard(request, connectedUser);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<?> getInfoUser(Principal connectedUser) {
+        try {
+            return new ResponseEntity<>(Userservice.getInfoUser(connectedUser), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PatchMapping("/change/info")
-    public ResponseEntity<?> ChangeUserInfo(
-            @RequestBody ChangeInfoUserRequest request
+    public ResponseEntity<AuthenticationResponse> ChangeUserInfo(
+            @RequestBody ChangeInfoUserRequest request,
+            Principal connectedUser
     ) {
-        Userservice.changeUserInfo(request);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(Userservice.changeUserInfo(request, connectedUser));
     }
 
     @GetMapping("/admin/all_users")
-    public ResponseEntity<?> getOrderedProductsByOrderId() {
+    public ResponseEntity<?> getUserAll() {
         return new ResponseEntity<>(Userservice.getAllUsers(), HttpStatus.OK);
     }
 }

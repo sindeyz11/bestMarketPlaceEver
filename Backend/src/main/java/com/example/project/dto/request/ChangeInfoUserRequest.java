@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ChangeInfoUserRequest {
-    private Integer user_id;
+    private String password;
     private String username;
     private String email;
     private String phone;
