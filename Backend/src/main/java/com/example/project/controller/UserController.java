@@ -1,12 +1,9 @@
 package com.example.project.controller;
 
-
-import com.example.project.auth.AuthenticationRequest;
-import com.example.project.auth.AuthenticationResponse;
-import com.example.project.auth.AuthenticationService;
 import com.example.project.dto.request.ChangeCardUserRequest;
 import com.example.project.dto.request.ChangeInfoUserRequest;
 import com.example.project.dto.request.ChangePasswordRequest;
+import com.example.project.exception.*;
 import com.example.project.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +17,6 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api/v1/user")
 @AllArgsConstructor
 public class UserController {
-    private AuthenticationService Authservice;
     private UserService Userservice;
 
     @PatchMapping("/change/password")
@@ -28,8 +24,14 @@ public class UserController {
             @RequestBody ChangePasswordRequest request,
             Principal connectedUser
     ) {
-        Userservice.changePassword(request, connectedUser);
-        return ResponseEntity.ok().build();
+        try {
+            Userservice.changePassword(request, connectedUser);
+            return new ResponseEntity<>("passord change",HttpStatus.OK);
+        } catch (UserIncorrectPasswordException | UserMismatchPasswordException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/satistics")
@@ -56,7 +58,7 @@ public class UserController {
             Principal connectedUser
     ) {
         Userservice.changeUserCard(request, connectedUser);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>("User's card save", HttpStatus.OK);
     }
 
     @GetMapping("/info")
@@ -69,12 +71,17 @@ public class UserController {
     }
 
     @PatchMapping("/change/info")
-    public ResponseEntity<AuthenticationResponse> ChangeUserInfo(
+    public ResponseEntity<?> ChangeUserInfo(
             @RequestBody ChangeInfoUserRequest request,
             Principal connectedUser
-    ) {
-        return ResponseEntity.ok(Userservice.changeUserInfo(request, connectedUser));
+    ) {try
+    {
+        return new ResponseEntity<>(Userservice.changeUserInfo(request, connectedUser), HttpStatus.OK);
+    }catch(UniqueEmailException | UniquePhoneException e)
+    {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
+}
 
     @GetMapping("/admin/all_users")
     public ResponseEntity<?> getUserAll() {

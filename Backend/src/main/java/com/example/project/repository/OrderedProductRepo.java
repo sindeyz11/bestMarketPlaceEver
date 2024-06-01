@@ -10,10 +10,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OrderedProductRepo extends JpaRepository<OrderedProduct, IDOrderedProduct> {
-    @Query("SELECT new com.example.project.dto.response.UserProductStatsDTO(SUM(case when op.deliveryStatusTitle = 'Выдан' then 1 else 0 end), SUM(case when op.deliveryStatusTitle = 'Отказ' then 1 else 0 end)) " +
+    @Query("SELECT new com.example.project.dto.response.UserProductStatsDTO(" +
+            "SUM(case when ds.title = 'Выдан' then 1 else 0 end), " +
+            "SUM(case when ds.title = 'Отказ' then 1 else 0 end)) " +
             "FROM OrderedProduct op " +
             "JOIN op.order o " +
             "JOIN o.user u " +
+            "JOIN op.deliveryStatus ds " +
             "WHERE u.user_id = :userId " +
             "GROUP BY u.user_id")
     UserProductStatsDTO findUserProductStatsByUserId(@Param("userId") Integer userId);

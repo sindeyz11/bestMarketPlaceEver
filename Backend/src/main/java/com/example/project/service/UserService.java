@@ -2,6 +2,7 @@ package com.example.project.service;
 
 
 import com.example.project.auth.AuthenticationResponse;
+import com.example.project.common.Constants;
 import com.example.project.config.JwtService;
 import com.example.project.dto.request.ChangeCardUserRequest;
 import com.example.project.dto.request.ChangeInfoUserRequest;
@@ -9,6 +10,7 @@ import com.example.project.dto.request.ChangePasswordRequest;
 import com.example.project.dto.response.*;
 import com.example.project.entity.User;
 import com.example.project.dto.response.UserProductStatsDTO;
+import com.example.project.exception.*;
 import com.example.project.repository.OrderedProductRepo;
 import com.example.project.repository.UserRepo;
 import lombok.AllArgsConstructor;
@@ -33,19 +35,17 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
     }
-    public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
+    public void changePassword(ChangePasswordRequest request, Principal connectedUser) throws UserIncorrectPasswordException, UserMismatchPasswordException {
+            var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+            if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+                throw new UserIncorrectPasswordException(Constants.INCORRECT_PASSWORD);
+            }
+            if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
+                throw new UserMismatchPasswordException(Constants.MISMATCH_PASSWORD);
+            }
 
-        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
-
-        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-            throw new IllegalStateException("Wrong password");
-        }
-        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
-            throw new IllegalStateException("Password are not the same");
-        }
-
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-        userRepo.save(user);
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            userRepo.save(user);
     }
 
     public UserStatisticsDTO getUserStatistics(Principal connectedUser){
@@ -92,8 +92,14 @@ public class UserService {
         userRepo.save(user);
     }
 
-    public AuthenticationResponse changeUserInfo(ChangeInfoUserRequest request, Principal connectedUser){
+    public AuthenticationResponse changeUserInfo(ChangeInfoUserRequest request, Principal connectedUser) throws UniqueEmailException, UniquePhoneException {
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        if(userRepo.existsByEmail(request.getEmail())) {
+            throw new UniqueEmailException(Constants.UNIQUE_EMAIL);
+        }
+        if(userRepo.existsByPhone(request.getPhone())) {
+            throw new UniquePhoneException(Constants.UNIQUE_PHONE);
+        }
         user.setEmail(request.getEmail());
         user.setPhone(request.getPhone());
         user.setUsername(request.getUsername());
