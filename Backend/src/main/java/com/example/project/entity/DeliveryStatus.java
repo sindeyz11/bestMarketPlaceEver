@@ -1,9 +1,7 @@
 package com.example.project.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
 
@@ -15,6 +13,7 @@ public class DeliveryStatus {
     private Integer status_id;
     private String title;
 
-    @OneToMany(mappedBy = "deliveryStatus")
+    @JsonIgnore
+    @OneToMany(mappedBy = "deliveryStatus", fetch = FetchType.LAZY)
     private List<OrderedProduct> orderedProducts;
 }

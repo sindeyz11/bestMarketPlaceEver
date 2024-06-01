@@ -23,7 +23,7 @@ public class PickupPointService {
     private PickupPointDTOMapper dtoMapper;
 
     public List<PickupPointDTO> getAll() {
-        return pickupPointRepo.findAll()
+        return pickupPointRepo.findAllWithManager()
                 .stream()
                 .map(dtoMapper)
                 .collect(Collectors.toList());

@@ -1,14 +1,17 @@
 package com.example.project.controller;
 
+import com.example.project.common.Constants;
 import com.example.project.dto.request.OrderRequest;
 import com.example.project.dto.request.PickupPointRequest;
 import com.example.project.dto.response.PickupPointDTO;
 import com.example.project.exception.UserNotExistException;
 import com.example.project.service.PickupPointService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.yaml.snakeyaml.scanner.Constant;
 
 import java.util.List;
 
@@ -35,6 +38,8 @@ public class PickupPointController {
             return ResponseEntity.ok(pickupPointDTO);
         } catch (UserNotExistException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Constants.CANNOT_USE_MANAGER);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
