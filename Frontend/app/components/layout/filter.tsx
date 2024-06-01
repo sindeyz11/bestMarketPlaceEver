@@ -22,7 +22,7 @@ export const Filter = ({ minPrice, maxPrice, categories }: FilterProps) => {
     setSelectedCategories((prevSelected) =>
       prevSelected.includes(categoryName)
         ? prevSelected.filter((name) => name !== categoryName)
-        : [...prevSelected, categoryName]
+        : [...prevSelected, categoryName],
     );
   };
 

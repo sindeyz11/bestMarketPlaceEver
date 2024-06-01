@@ -31,7 +31,7 @@ export const Banner = () => {
               </span>
             </div>
           </div>
-          <img src="./pomodoro.png" className="h-[20em]" />
+          <img src="./products/tomatoes.png" className="h-[20em]" />
         </div>
       </div>
     </>

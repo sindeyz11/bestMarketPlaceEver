@@ -1,0 +1,84 @@
+"filename", "language", "JSON with Comments", "JSON", "TypeScript", "TypeScript JSX", "XML", "CSS", "JavaScript", "YAML", "comment", "blank", "total"
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/app/auth/page.tsx", "TypeScript JSX", 0, 0, 0, 83, 0, 0, 0, 0, 0, 4, 87
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/app/cart/page.tsx", "TypeScript JSX", 0, 0, 0, 20, 0, 0, 0, 0, 0, 4, 24
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/app/globals.css", "CSS", 0, 0, 0, 0, 0, 3, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/app/layout.tsx", "TypeScript JSX", 0, 0, 0, 54, 0, 0, 0, 0, 0, 5, 59
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/app/page.tsx", "TypeScript JSX", 0, 0, 0, 57, 0, 0, 0, 0, 0, 3, 60
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/app/profile/page.tsx", "TypeScript JSX", 0, 0, 0, 79, 0, 0, 0, 0, 3, 5, 87
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/app/test/page.tsx", "TypeScript JSX", 0, 0, 0, 43, 0, 0, 0, 0, 0, 8, 51
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/cart/cart-item-counter.tsx", "TypeScript JSX", 0, 0, 0, 28, 0, 0, 0, 0, 0, 4, 32
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/cart/cart-item.tsx", "TypeScript JSX", 0, 0, 0, 73, 0, 0, 0, 0, 0, 3, 76
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/cart/cart-list.tsx", "TypeScript JSX", 0, 0, 0, 34, 0, 0, 0, 0, 0, 3, 37
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/cart/order.tsx", "TypeScript JSX", 0, 0, 0, 46, 0, 0, 0, 0, 0, 3, 49
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/delivery/delivery-item.tsx", "TypeScript JSX", 0, 0, 0, 77, 0, 0, 0, 0, 0, 2, 79
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/delivery/delivery-panel.tsx", "TypeScript JSX", 0, 0, 0, 42, 0, 0, 0, 0, 29, 4, 75
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/delivery/interfaces.ts", "TypeScript", 0, 0, 10, 0, 0, 0, 0, 0, 0, 1, 11
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/admin-panel-icon.tsx", "TypeScript JSX", 0, 0, 0, 19, 0, 0, 0, 0, 0, 1, 20
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/bank-card-icon.tsx", "TypeScript JSX", 0, 0, 0, 19, 0, 0, 0, 0, 0, 1, 20
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/box-icon.tsx", "TypeScript JSX", 0, 0, 0, 19, 0, 0, 0, 0, 0, 1, 20
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/calendar-icon.tsx", "TypeScript JSX", 0, 0, 0, 19, 0, 0, 0, 0, 0, 1, 20
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/cart-icon.tsx", "TypeScript JSX", 0, 0, 0, 19, 0, 0, 0, 0, 0, 1, 20
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/cross-icon.tsx", "TypeScript JSX", 0, 0, 0, 25, 0, 0, 0, 0, 0, 1, 26
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/down-arrow-icon.tsx", "TypeScript JSX", 0, 0, 0, 19, 0, 0, 0, 0, 0, 1, 20
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/email-icon.tsx", "TypeScript JSX", 0, 0, 0, 23, 0, 0, 0, 0, 0, 1, 24
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/house-icon.tsx", "TypeScript JSX", 0, 0, 0, 19, 0, 0, 0, 0, 0, 1, 20
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/left-arrow-icon.tsx", "TypeScript JSX", 0, 0, 0, 19, 0, 0, 0, 0, 0, 1, 20
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/manager-panel-icon.tsx", "TypeScript JSX", 0, 0, 0, 35, 0, 0, 0, 0, 0, 1, 36
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/password-icon.tsx", "TypeScript JSX", 0, 0, 0, 19, 0, 0, 0, 0, 0, 1, 20
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/phone-icon.tsx", "TypeScript JSX", 0, 0, 0, 17, 0, 0, 0, 0, 0, 1, 18
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/repeat-password-icon.tsx", "TypeScript JSX", 0, 0, 0, 25, 0, 0, 0, 0, 0, 1, 26
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/right-arrow-icon.tsx", "TypeScript JSX", 0, 0, 0, 19, 0, 0, 0, 0, 0, 1, 20
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/ruble-icon.tsx", "TypeScript JSX", 0, 0, 0, 17, 0, 0, 0, 0, 0, 1, 18
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/ruble-x-percent-icon.tsx", "TypeScript JSX", 0, 0, 0, 21, 0, 0, 0, 0, 0, 1, 22
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/search-icon.tsx", "TypeScript JSX", 0, 0, 0, 19, 0, 0, 0, 0, 0, 1, 20
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/title-icon.tsx", "TypeScript JSX", 0, 0, 0, 19, 0, 0, 0, 0, 0, 1, 20
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/trash-icon.tsx", "TypeScript JSX", 0, 0, 0, 27, 0, 0, 0, 0, 0, 1, 28
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/unit-icon.tsx", "TypeScript JSX", 0, 0, 0, 17, 0, 0, 0, 0, 0, 1, 18
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/icons/user-icon.tsx", "TypeScript JSX", 0, 0, 0, 20, 0, 0, 0, 0, 0, 2, 22
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/layout/banner.tsx", "TypeScript JSX", 0, 0, 0, 38, 0, 0, 0, 0, 0, 2, 40
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/layout/filter.tsx", "TypeScript JSX", 0, 0, 0, 67, 0, 0, 0, 0, 0, 7, 74
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/layout/footer.tsx", "TypeScript JSX", 0, 0, 0, 35, 0, 0, 0, 0, 0, 5, 40
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/layout/header.tsx", "TypeScript JSX", 0, 0, 0, 74, 0, 0, 0, 0, 1, 3, 78
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/layout/product-card.tsx", "TypeScript JSX", 0, 0, 0, 83, 0, 0, 0, 0, 0, 3, 86
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/profile/manager/point-info.tsx", "TypeScript JSX", 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 3
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/profile/user/change-password-panel.tsx", "TypeScript JSX", 0, 0, 0, 40, 0, 0, 0, 0, 0, 2, 42
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/profile/user/payment-data.tsx", "TypeScript JSX", 0, 0, 0, 60, 0, 0, 0, 0, 1, 5, 66
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/profile/user/statistics-panel.tsx", "TypeScript JSX", 0, 0, 0, 37, 0, 0, 0, 0, 0, 2, 39
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/profile/user/user-data.tsx", "TypeScript JSX", 0, 0, 0, 45, 0, 0, 0, 0, 0, 2, 47
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/ui/button.tsx", "TypeScript JSX", 0, 0, 0, 56, 0, 0, 0, 0, 4, 5, 65
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/ui/counter.tsx", "TypeScript JSX", 0, 0, 0, 29, 0, 0, 0, 0, 0, 3, 32
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/ui/field-no-snippers.css", "CSS", 0, 0, 0, 0, 0, 8, 0, 0, 1, 1, 10
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/ui/field.tsx", "TypeScript JSX", 0, 0, 0, 85, 0, 0, 0, 0, 4, 6, 95
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/components/ui/select.tsx", "TypeScript JSX", 0, 0, 0, 86, 0, 0, 0, 0, 0, 8, 94
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/next.config.mjs", "JavaScript", 0, 0, 0, 0, 0, 0, 2, 0, 1, 2, 5
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/package.json", "JSON", 0, 27, 0, 0, 0, 0, 0, 0, 0, 1, 28
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/pnpm-lock.yaml", "YAML", 0, 0, 0, 0, 0, 0, 0, 912, 0, 292, 1204
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/postcss.config.mjs", "JavaScript", 0, 0, 0, 0, 0, 0, 6, 0, 1, 2, 9
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Admin_Panel.svg", "XML", 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Bank card.svg", "XML", 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Box.svg", "XML", 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Calendar.svg", "XML", 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Cart.svg", "XML", 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Cross.svg", "XML", 0, 0, 0, 0, 4, 0, 0, 0, 0, 1, 5
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Down_Arrow.svg", "XML", 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Email.svg", "XML", 0, 0, 0, 0, 4, 0, 0, 0, 0, 1, 5
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/House.svg", "XML", 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Left_Arrow.svg", "XML", 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Manager_Panel.svg", "XML", 0, 0, 0, 0, 7, 0, 0, 0, 0, 1, 8
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Password.svg", "XML", 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Phone.svg", "XML", 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Repeat_Password.svg", "XML", 0, 0, 0, 0, 4, 0, 0, 0, 0, 1, 5
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Right_Arrow.svg", "XML", 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Ruble.svg", "XML", 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Ruble_x_percent.svg", "XML", 0, 0, 0, 0, 4, 0, 0, 0, 0, 1, 5
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Search.svg", "XML", 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Title.svg", "XML", 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Trash.svg", "XML", 0, 0, 0, 0, 5, 0, 0, 0, 0, 1, 6
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/Unit.svg", "XML", 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/public/icons/User.svg", "XML", 0, 0, 0, 0, 3, 0, 0, 0, 0, 1, 4
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/store/cart.ts", "TypeScript", 0, 0, 38, 0, 0, 0, 0, 0, 0, 11, 49
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/store/product.ts", "TypeScript", 0, 0, 46, 0, 0, 0, 0, 0, 0, 3, 49
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/tailwind.config.ts", "TypeScript", 0, 0, 40, 0, 0, 0, 0, 0, 0, 2, 42
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/tsconfig.json", "JSON with Comments", 26, 0, 0, 0, 0, 0, 0, 0, 0, 1, 27
+"/Users/khudobin_v/Documents/bestMarketPlaceEver/Frontend/app/types.ts", "TypeScript", 0, 0, 10, 0, 0, 0, 0, 0, 0, 1, 11
+"Total", "-", 26, 27, 144, 1829, 76, 11, 8, 912, 45, 464, 3542

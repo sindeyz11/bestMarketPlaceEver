@@ -16,7 +16,7 @@ export const Select = ({
 }: SelectProps) => {
   const [isOpened, setOpened] = useState<boolean>(false);
   const [currentOption, setCurrentOption] = useState<string>(
-    textByDefault || options[0] || ""
+    textByDefault || options[0] || "",
   );
 
   const selectRef = useRef<HTMLDivElement>(null);

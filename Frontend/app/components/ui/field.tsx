@@ -58,8 +58,8 @@ export const Field = ({
                   ? "pl-[calc(2.5rem+2.5rem)]"
                   : "pl-[calc(2.5rem+1rem)]"
                 : icon
-                ? "pl-11"
-                : ""
+                  ? "pl-11"
+                  : ""
             }`}
           />
         </label>

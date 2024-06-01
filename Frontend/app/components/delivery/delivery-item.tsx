@@ -63,10 +63,10 @@ export const DeliveryItem = ({
             status === "в пути"
               ? "bg-on-the-way"
               : status === "доставлено"
-              ? "bg-delivered"
-              : status === "получено"
-              ? "bg-received"
-              : "bg-cancelled"
+                ? "bg-delivered"
+                : status === "получено"
+                  ? "bg-received"
+                  : "bg-cancelled"
           }`}
         >
           {status}

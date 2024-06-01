@@ -1,12 +1,16 @@
-import Image from "next/image";
-import { Field } from "@/components/ui/field";
-import Link from "next/link";
-import { SearchIcon } from "../icons/search-icon";
-import { CartIcon } from "../icons/cart-icon";
-import { Button } from "../ui/button";
-import { UserIcon } from "../icons/user-icon";
+"use client";
 
-export const Header = () => {
+import { Field } from "@/components/ui/field";
+import cartStore from "@/store/cart";
+import { observer } from "mobx-react-lite";
+import Image from "next/image";
+import Link from "next/link";
+import { CartIcon } from "../icons/cart-icon";
+import { SearchIcon } from "../icons/search-icon";
+import { UserIcon } from "../icons/user-icon";
+import { Button } from "../ui/button";
+
+export const Header = observer(() => {
   const isAuth = false; // состояние для проверки пользователя на авторизованность
   return (
     <header className="h-20 px-20 w-full flex items-center justify-between gap-24">
@@ -50,7 +54,14 @@ export const Header = () => {
               <span className="text-end text-secondary-text leading-none text-xs font-medium">
                 Ваша корзина
               </span>
-              <b className="text-base leading-none font-extrabold">₽20000.00</b>
+              <b className="text-base leading-none font-extrabold">
+                ₽
+                {Intl.NumberFormat("ru", {
+                  style: "decimal",
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }).format(cartStore.getTotalPrice())}
+              </b>
             </div>
           </Link>
           <Link href={isAuth ? "/profile" : "/auth"}>
@@ -64,4 +75,4 @@ export const Header = () => {
       </div>
     </header>
   );
-};
+});
