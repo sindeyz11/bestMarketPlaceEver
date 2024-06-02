@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 public class ChangeCardUserRequest {
-    private Integer user_id;
     private String card_number;
     private Integer CVC;
     private LocalDate datetime;
