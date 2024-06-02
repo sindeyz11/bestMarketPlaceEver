@@ -43,8 +43,8 @@ public class OrderedProduct {
     @JoinColumn(name = "status_id", referencedColumnName = "status_id")
     private DeliveryStatus deliveryStatus;
 
-    @Formula("(SELECT ds.title FROM Delivery_status ds WHERE ds.status_id = status_id)")
-    private String deliveryStatusTitle;
+//    @Formula("(SELECT ds.title FROM Delivery_status ds WHERE ds.status_id = status_id)")
+//    private String deliveryStatusTitle;
 
     @Column(name = "completion_date")
     private LocalDate completionDate;

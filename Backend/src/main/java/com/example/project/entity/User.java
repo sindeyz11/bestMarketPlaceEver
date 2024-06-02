@@ -80,4 +80,8 @@ public class User implements UserDetails{
     public boolean isEnabled() {
         return true;
     }
+
+    public boolean isLinkedToPickupPoint() {
+        return getUser_pickup_points() != null;
+    }
 }

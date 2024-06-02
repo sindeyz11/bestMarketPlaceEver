@@ -21,7 +21,7 @@ public class OrderController {
     @GetMapping("/ordered-products/{orderId}")
     public ResponseEntity<?> getOrderedProductsByOrderId(@PathVariable Integer orderId) {
         try {
-            return new ResponseEntity<>(orderService.getAllByOrderId(orderId), HttpStatus.OK);
+            return new ResponseEntity<>(orderService.findAllByOrderId(orderId), HttpStatus.OK);
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
@@ -32,7 +32,7 @@ public class OrderController {
     @PostMapping("/order")
     public ResponseEntity<?> createOrder(@RequestBody OrderRequest request) {
         try {
-            orderService.createOrder(request);
+            orderService.create(request);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (PickupPointNotExistException | ProductNotExistException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
