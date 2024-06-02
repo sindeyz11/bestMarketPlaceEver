@@ -1,9 +1,11 @@
 package com.example.project.repository;
 
+import com.example.project.dto.response.UserProductStatsDTO;
 import com.example.project.entity.OrderedProduct;
 import com.example.project.entity.pk.IDOrderedProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,4 +18,14 @@ public interface OrderedProductRepo extends JpaRepository<OrderedProduct, IDOrde
             nativeQuery = true)
     List<OrderedProduct> findAllProductsDueToArrive(Integer statusId);
 
+    @Query("SELECT new com.example.project.dto.response.UserProductStatsDTO(" +
+            "SUM(case when ds.title = 'Выдан' then 1 else 0 end), " +
+            "SUM(case when ds.title = 'Отказ' then 1 else 0 end)) " +
+            "FROM OrderedProduct op " +
+            "JOIN op.order o " +
+            "JOIN o.user u " +
+            "JOIN op.deliveryStatus ds " +
+            "WHERE u.user_id = :userId " +
+            "GROUP BY u.user_id")
+    UserProductStatsDTO findUserProductStatsByUserId(@Param("userId") Integer userId);
 }

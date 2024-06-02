@@ -21,14 +21,13 @@ public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer user_id;
-    @Column(unique = true)
     private String username;
     private String password;
     @Column(unique = true)
     private String phone;
     @Column(unique = true)
     private String email;
-    private Integer user_discount = 5;
+    private Integer user_discount;
     private Integer amount_spent;
     private Integer CVC;
     private String card_number;
@@ -40,7 +39,7 @@ public class User implements UserDetails{
     @OneToOne(mappedBy = "manager", optional = true)
     private PickupPoint user_pickup_points;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Order> orders;
 
     @Override
