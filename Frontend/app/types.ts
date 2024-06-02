@@ -8,3 +8,5 @@ export interface IProduct {
 	availableQuantity: number
 	image: string
 }
+
+export type IBannerProduct = Omit<IProduct, "id" | "unit" | "availableQuantity">
