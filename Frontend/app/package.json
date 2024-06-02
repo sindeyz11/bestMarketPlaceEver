@@ -9,6 +9,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@tailwindcss/line-clamp": "^0.4.4",
 		"@types/react-slick": "^0.23.13",
 		"mobx": "^6.12.3",
 		"mobx-react-lite": "^4.0.7",

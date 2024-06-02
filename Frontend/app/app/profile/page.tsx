@@ -8,7 +8,7 @@ import { UserData } from "@/components/profile/user/user-data";
 import { useState } from "react";
 
 const ProfilePage = () => {
-  // FIXME: прописать входные данные
+  {/*  FIXME: здесь данные берутся с backend   */}
   const [username, setUsername] = useState<string>("Василий");
   const [phone, setPhone] = useState<string>("985 000 9243");
   const [email, setEmail] = useState<string>("khudobin_v@icloud.com");

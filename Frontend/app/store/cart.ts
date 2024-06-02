@@ -1,3 +1,4 @@
+import productStore from "@/store/product" // Импортируем экземпляр Product
 import { IProduct } from "@/types"
 import { makeAutoObservable } from "mobx"
 
@@ -8,13 +9,21 @@ class Cart {
 		makeAutoObservable(this)
 	}
 
-	addItem(item: IProduct, quantity: number = 1) {
-		const existingItem = this.items.find(existing => existing.id === item.id)
-		if (existingItem) {
-			existingItem.quantity + quantity
-		} else {
-			this.items.push({ ...item, quantity  })
+	addItem(id: number, quantity: number = 1) {
+		const product = productStore.getProductById(id)
+		console.log("Product found:", product)
+		if (!product) {
+			console.error(`Product with id ${id} not found`)
+			return
 		}
+
+		const existingItem = this.items.find(existing => existing.id === id)
+		if (existingItem) {
+			existingItem.quantity += quantity
+		} else {
+			this.items.push({ ...product, quantity })
+		}
+		console.log("Current items in cart:", this.items) // Отладочный лог
 	}
 
 	removeItem(id: number) {

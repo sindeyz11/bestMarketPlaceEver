@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Counter } from "@/components/ui/counter"
 import cartStore from "@/store/cart"
 import { IProduct } from "@/types"
+import { formatNumber } from "@/utils"
 import { observer } from "mobx-react-lite"
 import { useState } from "react"
 import Modal from "./modal"
@@ -48,20 +49,10 @@ export const ProductCard = observer(
 									<div className="flex flex-col gap-1 font-medium leading-none">
 										<div className="flex items-center gap-3">
 											<span className="text-green-600 text-2xl font-bold">
-												₽
-												{Intl.NumberFormat("ru", {
-													style: "decimal",
-													minimumFractionDigits: 2,
-													maximumFractionDigits: 2,
-												}).format(price)}
+												₽{formatNumber(price)}
 											</span>
 											<s className="text-secondary-text text-xl">
-												₽
-												{Intl.NumberFormat("ru", {
-													style: "decimal",
-													minimumFractionDigits: 2,
-													maximumFractionDigits: 2,
-												}).format(discountPrice)}
+												₽{formatNumber(discountPrice)}
 											</s>
 										</div>
 										<span className="text-secondary-text">1{unit}</span>
@@ -82,19 +73,7 @@ export const ProductCard = observer(
 								<Button
 									size="small"
 									onClick={() => {
-										cartStore.addItem(
-											{
-												id,
-												title,
-												price,
-												discountPrice,
-												description,
-												unit,
-												availableQuantity,
-												image,
-											},
-											quantity
-										)
+										cartStore.addItem(id, quantity)
 										handleCloseModal()
 										setQuantity(1)
 										console.log(quantity)
@@ -127,21 +106,11 @@ export const ProductCard = observer(
 				</div>
 				<div className="flex flex-col gap-2">
 					<span className="text-xl group-hover:text-3xl transition-all text-green-600 font-bold ">
-						₽
-						{Intl.NumberFormat("ru", {
-							style: "decimal",
-							minimumFractionDigits: 2,
-							maximumFractionDigits: 2,
-						}).format(price)}
+						₽{formatNumber(price)}
 					</span>
 					<div className="group-hover:hidden flex">
 						<s className="text-xl text-secondary-text/50 font-bold">
-							₽
-							{Intl.NumberFormat("ru", {
-								style: "decimal",
-								minimumFractionDigits: 2,
-								maximumFractionDigits: 2,
-							}).format(+discountPrice)}
+							₽{formatNumber(discountPrice)}
 						</s>
 					</div>
 					<div className="hidden group-hover:flex items-center gap-2">
@@ -149,19 +118,7 @@ export const ProductCard = observer(
 						<Button
 							size="small"
 							onClick={() => {
-								cartStore.addItem(
-									{
-										id,
-										title,
-										price,
-										discountPrice,
-										description,
-										unit,
-										availableQuantity,
-										image,
-									},
-									quantity
-								)
+								cartStore.addItem(id, quantity)
 								setQuantity(1)
 							}}
 						>

@@ -42,33 +42,3 @@ export const DeliveryList = ({ codeForReceive, items }: DeliveryPanelProps) => {
     </div>
   );
 };
-
-// <DeliveryItem
-//               title="Помидоры"
-//               imgPath="./pomodoro.png"
-//               price={250}
-//               unit="кг"
-//               count={2}
-//               dateOrder="01.01.2023"
-//               dateDelivery="01.01.2023"
-//               status="отказ"
-//             />
-//             <DeliveryItem
-//               title="Че-то"
-//               price={250}
-//               unit="кг"
-//               count={2}
-//               dateOrder="01.01.2023"
-//               dateDelivery="01.01.2023"
-//               status="отказ"
-//             />
-//             <DeliveryItem
-//               title="Огурцы"
-//               imgPath="./cucumbers.png"
-//               price={250}
-//               unit="кг"
-//               count={2}
-//               dateOrder="01.01.2023"
-//               dateDelivery="01.01.2023"
-//               status="отказ"
-//             />
