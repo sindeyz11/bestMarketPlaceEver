@@ -1,4 +1,4 @@
-package com.example.project.auth;
+package com.example.project.dto.response;
 
 import com.example.project.entity.Role;
 import lombok.AllArgsConstructor;
