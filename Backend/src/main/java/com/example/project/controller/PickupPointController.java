@@ -1,17 +1,14 @@
 package com.example.project.controller;
 
-import com.example.project.common.Constants;
-import com.example.project.dto.request.OrderRequest;
 import com.example.project.dto.request.PickupPointRequest;
 import com.example.project.dto.response.PickupPointDTO;
-import com.example.project.exception.UserNotExistException;
+import com.example.project.exception.CannotUseUserException;
+import com.example.project.exception.NoSuchElementFoundException;
 import com.example.project.service.PickupPointService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.yaml.snakeyaml.scanner.Constant;
 
 import java.util.List;
 
@@ -25,29 +22,33 @@ public class PickupPointController {
     @GetMapping
     public ResponseEntity<List<PickupPointDTO>> getAll() {
         try {
-            return ResponseEntity.ok(pickupPointService.getAll());
+            return ResponseEntity.ok(pickupPointService.findAll());
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping
     public ResponseEntity<?> createPoint(@RequestBody PickupPointRequest request) {
         try {
-            PickupPointDTO pickupPointDTO = pickupPointService.createPoint(request);
+            PickupPointDTO pickupPointDTO = pickupPointService.create(request);
             return ResponseEntity.ok(pickupPointDTO);
-        } catch (UserNotExistException e) {
+        } catch (NoSuchElementFoundException | CannotUseUserException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Constants.CANNOT_USE_MANAGER);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping
-    public ResponseEntity<?> updatePoint(@RequestBody PickupPointRequest request) {
-        return ResponseEntity.ok("todo" +
-                "todo add manager_id v dto?");
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updatePoint(@PathVariable Integer id, @RequestBody PickupPointRequest request) {
+        try {
+            PickupPointDTO pickupPointDTO = pickupPointService.update(id, request);
+            return ResponseEntity.ok(pickupPointDTO);
+        } catch (NoSuchElementFoundException | CannotUseUserException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

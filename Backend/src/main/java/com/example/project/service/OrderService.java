@@ -32,7 +32,7 @@ public class OrderService {
 
     private OrderedProductDTOMapper dtoMapper;
 
-    public OrderDTO getAllByOrderId(Integer orderId) throws NoSuchElementException {
+    public OrderDTO findAllByOrderId(Integer orderId) throws NoSuchElementException {
         Order order = repository.findById(orderId).orElseThrow();
         List<OrderedProductDTO> products = order.getProducts()
                 .stream()
@@ -48,7 +48,7 @@ public class OrderService {
     }
 
     @Transactional(rollbackFor={Exception.class})
-    public void createOrder(OrderRequest orderRequest) throws ProductNotExistException, PickupPointNotExistException {
+    public void create(OrderRequest orderRequest) throws ProductNotExistException, PickupPointNotExistException {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Integer userDiscount = user.getUser_discount();
         PickupPoint pickupPoint = pickupPointRepo
