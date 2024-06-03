@@ -1,7 +1,7 @@
 "use client"
 
 import { IPositionItem } from "@/types"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { BoxIcon } from "../icons/box-icon"
 import { RubleIcon } from "../icons/ruble-icon"
 import { RubleXPercentIcon } from "../icons/ruble-x-percent-icon"
@@ -35,14 +35,40 @@ export const PositionItem = ({
 	const [imageValue, setImageValue] = useState(image || "")
 	const [categoryValue, setCategoryValue] = useState(category || "")
 
+	const fileInputRef = useRef<HTMLInputElement>(null)
+
+	const handleImageClick = () => {
+		fileInputRef.current?.click()
+	}
+
+	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const file = event.target.files?.[0]
+		if (file) {
+			const reader = new FileReader()
+			reader.onloadend = () => {
+				setImageValue(reader.result as string)
+			}
+			reader.readAsDataURL(file)
+		}
+	}
+
 	return (
 		<form className="flex flex-col gap-3 bg-[#F0F0F0] p-4 rounded-lg">
 			<div className="grid grid-cols-3 gap-3">
-				<div className="col-span-1 bg-field-bg rounded-xl">
+				<div
+					className="col-span-1 bg-field-bg rounded-xl cursor-pointer"
+					onClick={handleImageClick}
+				>
 					<img
 						src={imageValue}
 						alt=""
 						className="h-full w-full object-contain"
+					/>
+					<input
+						type="file"
+						ref={fileInputRef}
+						style={{ display: "none" }}
+						onChange={handleFileChange}
 					/>
 				</div>
 				<div className="col-span-2">
