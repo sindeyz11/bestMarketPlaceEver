@@ -8,8 +8,10 @@ import com.example.project.service.PickupPointService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,13 +31,14 @@ public class PickupPointController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createPoint(@RequestBody PickupPointRequest request) {
+    public ResponseEntity<?> createPoint(@Valid @RequestBody PickupPointRequest request) {
         try {
             PickupPointDTO pickupPointDTO = pickupPointService.create(request);
             return ResponseEntity.ok(pickupPointDTO);
         } catch (NoSuchElementFoundException | CannotUseUserException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

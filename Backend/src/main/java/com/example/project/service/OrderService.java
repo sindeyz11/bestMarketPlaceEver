@@ -7,6 +7,7 @@ import com.example.project.dto.request.OrderedProductRequest;
 import com.example.project.dto.response.OrderDTO;
 import com.example.project.dto.response.OrderedProductDTO;
 import com.example.project.entity.*;
+import com.example.project.exception.NoSuchElementFoundException;
 import com.example.project.exception.PickupPointNotExistException;
 import com.example.project.exception.ProductNotExistException;
 import com.example.project.repository.*;
@@ -32,8 +33,10 @@ public class OrderService {
 
     private OrderedProductDTOMapper dtoMapper;
 
-    public OrderDTO findAllByOrderId(Integer orderId) throws NoSuchElementException {
-        Order order = repository.findById(orderId).orElseThrow();
+    public OrderDTO findAllByOrderId(Integer orderId) throws NoSuchElementFoundException {
+        Order order = repository.findById(orderId)
+                .orElseThrow(NoSuchElementFoundException::new);
+
         List<OrderedProductDTO> products = order.getProducts()
                 .stream()
                 .map(dtoMapper)
@@ -47,13 +50,13 @@ public class OrderService {
         );
     }
 
-    @Transactional(rollbackFor={Exception.class})
-    public void create(OrderRequest orderRequest) throws ProductNotExistException, PickupPointNotExistException {
+    @Transactional(rollbackFor = {Exception.class})
+    public void create(OrderRequest orderRequest) throws NoSuchElementFoundException{
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Integer userDiscount = user.getUser_discount();
         PickupPoint pickupPoint = pickupPointRepo
                 .findById(orderRequest.getPickupPointId())
-                .orElseThrow(() -> new PickupPointNotExistException(Constants.NOT_FOUND_PICKUPPOINT));
+                .orElseThrow(() -> new NoSuchElementFoundException(Constants.NOT_FOUND_PICKUPPOINT));
         DeliveryStatus deliveryStatus = deliveryStatusRepo.findById(1).orElseThrow(); // id1 = В пути
 
         List<OrderedProductRequest> orderedProductsReq = orderRequest.getOrderedProducts();
@@ -101,7 +104,7 @@ public class OrderService {
                 );
 
             } catch (Exception e) {
-                throw new ProductNotExistException(Constants.NOT_FOUND_PRODUCT + id.toString());
+                throw new NoSuchElementFoundException(Constants.NOT_FOUND_PRODUCT + id.toString());
             }
         }
         orderedProductRepo.saveAll(orderedProductsToCreate);
