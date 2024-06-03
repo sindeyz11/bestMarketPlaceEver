@@ -1,7 +1,7 @@
 package com.example.project.service;
 
 
-import com.example.project.auth.AuthenticationResponse;
+import com.example.project.dto.response.AuthenticationResponse;
 import com.example.project.common.Constants;
 import com.example.project.config.JwtService;
 import com.example.project.dto.request.ChangeCardUserRequest;
@@ -19,7 +19,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -84,20 +87,27 @@ public class UserService {
                 .build();
     }
 
-    public void changeUserCard(ChangeCardUserRequest request, Principal connectedUser){
+    public void changeUserCard(ChangeCardUserRequest request, Principal connectedUser) throws IncorrectDateException {
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+
         user.setCard_number(request.getCard_number());
-        user.setCVC(request.getCVC());
-        user.setDatetime(request.getDatetime());
+        user.setCVC(Integer.parseInt(request.getCVC()));
+
+        try {
+            user.setDatetime(LocalDate.parse(request.getDatetime()));
+        } catch (DateTimeParseException e) {
+            throw new IncorrectDateException(Constants.INCORRECT_DATE);
+        }
+
         userRepo.save(user);
     }
 
     public AuthenticationResponse changeUserInfo(ChangeInfoUserRequest request, Principal connectedUser) throws UniqueEmailException, UniquePhoneException {
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
-        if(userRepo.existsByEmail(request.getEmail())) {
+        if((!Objects.equals(user.getEmail(), request.getEmail()))&&(userRepo.existsByEmail(request.getEmail()))) {
             throw new UniqueEmailException(Constants.UNIQUE_EMAIL);
         }
-        if(userRepo.existsByPhone(request.getPhone())) {
+        if((!Objects.equals(user.getPhone(), request.getPhone()))&&(userRepo.existsByPhone(request.getPhone()))) {
             throw new UniquePhoneException(Constants.UNIQUE_PHONE);
         }
         user.setEmail(request.getEmail());
