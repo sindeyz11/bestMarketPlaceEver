@@ -6,12 +6,11 @@ import com.example.project.exception.CannotUseUserException;
 import com.example.project.exception.NoSuchElementFoundException;
 import com.example.project.service.PickupPointService;
 import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -38,7 +37,6 @@ public class PickupPointController {
         } catch (NoSuchElementFoundException | CannotUseUserException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
