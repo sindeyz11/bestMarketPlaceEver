@@ -7,6 +7,7 @@ export interface IProduct {
 	unit: string
 	availableQuantity: number
 	image: string
+	category?: string
 }
 
 export interface IPickupPoint {

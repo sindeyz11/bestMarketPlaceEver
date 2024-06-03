@@ -24,6 +24,7 @@ export const PositionsList = ({ positions }: PositionsListProps) => {
 								availableQuantity={position.availableQuantity}
 								description={position.description}
 								image={position.image}
+								category={position.category}
 							/>
 						))}
 					</div>

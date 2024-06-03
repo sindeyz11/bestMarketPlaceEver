@@ -20,6 +20,7 @@ export const PositionItem = ({
 	availableQuantity,
 	description,
 	image,
+	category,
 }: IPositionItem) => {
 	const [titleValue, setTitleValue] = useState(title || "")
 	const [priceValue, setPriceValue] = useState(price.toString() || "")
@@ -32,6 +33,8 @@ export const PositionItem = ({
 	)
 	const [descriptionValue, setDescriptionValue] = useState(description || "")
 	const [imageValue, setImageValue] = useState(image || "")
+	const [categoryValue, setCategoryValue] = useState(category || "")
+
 	return (
 		<form className="flex flex-col gap-3 bg-[#F0F0F0] p-4 rounded-lg">
 			<div className="grid grid-cols-3 gap-3">
@@ -91,6 +94,14 @@ export const PositionItem = ({
 				</div>
 			</div>
 			<div className="flex gap-1 w-full">
+				<Field
+				color='white'
+					placeholder="Категория"
+					value={categoryValue}
+					onChange={e => setCategoryValue(e.target.value)}
+				/>
+			</div>
+			<div className="flex gap-2 w-full">
 				<Field
 					variant="textarea"
 					placeholder="Описание"

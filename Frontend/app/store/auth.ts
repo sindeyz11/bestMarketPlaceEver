@@ -2,7 +2,7 @@ import { IPickupPoint, IPositionItem, IUserRole } from "@/types"
 import { makeAutoObservable } from "mobx"
 
 class Auth {
-	role: IUserRole = "admin"
+	role: IUserRole = "user"
 
 	productsAdmin: IPositionItem[] = [
 		{
@@ -15,6 +15,7 @@ class Auth {
 			unit: "кг",
 			availableQuantity: 10,
 			image: "./products/tomatoes.png",
+			category: "Овощи"
 		},
 		{
 			id: 2,
@@ -26,6 +27,7 @@ class Auth {
 			unit: "кг",
 			availableQuantity: 30,
 			image: "./products/cucumbers.png",
+			category: "Овощи"
 		},
 		{
 			id: 3,
@@ -37,6 +39,7 @@ class Auth {
 			unit: "кг",
 			availableQuantity: 30,
 			image: "./products/pears.png",
+			category: "Фрукты"
 		},
 		{
 			id: 4,
@@ -48,6 +51,7 @@ class Auth {
 			unit: "кг",
 			availableQuantity: 30,
 			image: "./products/apples.png",
+			category: "Фрукты"
 		},
 		{
 			id: 5,
@@ -59,6 +63,7 @@ class Auth {
 			unit: "кг",
 			availableQuantity: 30,
 			image: "./products/oranges.png",
+			category: "Фрукты"
 		},
 		{
 			id: 6,
@@ -70,6 +75,7 @@ class Auth {
 			unit: "кг",
 			availableQuantity: 30,
 			image: "./products/mangoes.png",
+			category: "Фрукты"
 		},
 		{
 			id: 7,
@@ -81,6 +87,7 @@ class Auth {
 			unit: "кг",
 			availableQuantity: 30,
 			image: "./products/kiwis.png",
+			category: "Фрукты"
 		},
 	]
 

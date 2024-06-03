@@ -19,6 +19,7 @@ export const ProductCard = observer(
 		unit,
 		availableQuantity,
 		image = "./products/no-product.png",
+		category = "Без категории",
 	}: IProduct) => {
 		const [quantity, setQuantity] = useState(1)
 		const [isModalOpen, setIsModalOpen] = useState(false)
@@ -55,7 +56,9 @@ export const ProductCard = observer(
 												₽{formatNumber(discountPrice)}
 											</s>
 										</div>
-										<span className="text-secondary-text">1{unit}</span>
+										<div className="flex items-center gap-2 text-secondary-text">
+											<span>1{unit}</span>| {category}
+										</div>
 										<span className="text-secondary-text/80">
 											{availableQuantity}
 											{unit} в наличии

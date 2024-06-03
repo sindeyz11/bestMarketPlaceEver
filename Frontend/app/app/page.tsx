@@ -51,6 +51,7 @@ const HomePage = observer(() => {
 								unit={product.unit}
 								availableQuantity={product.availableQuantity}
 								description={product.description}
+								category={product.category}
 							/>
 						))}
 					</div>
