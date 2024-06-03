@@ -1,5 +1,6 @@
 import cartStore from "@/store/cart"
 import { IProduct } from "@/types"
+import { formatNumber } from "@/utils"
 import { observer } from "mobx-react-lite"
 import { TrashIcon } from "../icons/trash-icon"
 import { Button } from "../ui/button"
@@ -27,12 +28,15 @@ export const CartItem = observer(
 			<div className="flex flex-col gap-3">
 				<div className="border-t mt-2 h-1 w-full" />
 				<div className="relative flex items-center justify-between py-2">
-					<input
-						type="checkbox"
-						className="absolute top-2 left-2 h-4 w-4 shadow-lg border-dark-accent"
-						checked={cartStore.selectedItems.has(id)}
-						onChange={() => handleCheckboxChange(id)}
-					/>
+					
+					<div className="absolute top-2 left-2">
+						<input
+							type="checkbox"
+							className="custom-checkbox h-6 w-6 shadow-inner appearance-none checked:bg-dark-accent bg-white border rounded"
+							checked={cartStore.selectedItems.has(id)}
+							onChange={() => handleCheckboxChange(id)}
+						/>
+					</div>
 					<div className="flex items-start justify-between w-[60%]">
 						<div className="flex items-center gap-3">
 							<div className="h-16 w-16">
@@ -47,12 +51,7 @@ export const CartItem = observer(
 									<h3 className="text-lg font-medium">{title}</h3>
 									<div className="flex gap-2 font-medium">
 										<span className="text-green-600">
-											₽
-											{Intl.NumberFormat("ru", {
-												style: "decimal",
-												minimumFractionDigits: 2,
-												maximumFractionDigits: 2,
-											}).format(price)}
+											₽{formatNumber(price)}
 										</span>
 										<span className="text-secondary-text">1{unit}</span>
 									</div>
@@ -69,7 +68,6 @@ export const CartItem = observer(
 							availableQuantity={availableQuantity}
 						/>
 					</div>
-
 					<div></div>
 					<div className="flex flex-col items-end gap-1">
 						<div className="flex items-center gap-3">
