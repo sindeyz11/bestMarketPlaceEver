@@ -1,9 +1,9 @@
-import { DeliveryItemProps } from "@/components/delivery/interfaces";
 import { DeliveryItem } from "@/components/delivery/delivery-item";
+import { IDeliveryItem } from "@/types";
 
 interface DeliveryPanelProps {
   codeForReceive: string;
-  items?: DeliveryItemProps[];
+  items?: IDeliveryItem[];
 }
 
 export const DeliveryList = ({ codeForReceive, items }: DeliveryPanelProps) => {
@@ -23,9 +23,13 @@ export const DeliveryList = ({ codeForReceive, items }: DeliveryPanelProps) => {
       {items ? (
         items.map((item) => (
           <DeliveryItem
+            id={item.id}
+            discountPrice={item.discountPrice}
+            description={item.description}
+            availableQuantity={item.availableQuantity}
             key={item.title}
             title={item.title}
-            imgPath={item.imgPath}
+            image={item.image}
             price={item.price}
             unit={item.unit}
             count={item.count}

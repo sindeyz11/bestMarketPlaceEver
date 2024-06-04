@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 export const Footer = () => {
@@ -24,7 +25,8 @@ export const Footer = () => {
         <h3 className="font-bold text-white mb-6 text-end">
           Загрузите наше <br /> приложение
         </h3>
-        <div className="flex flex-col items-center gap-1">
+        {/* TODO: ссылк на скачивание приложения */}
+        <Link href="/" className="flex flex-col items-center gap-1">
           <Image
             src="/qr-codes/android-app.png"
             width={80}
@@ -32,7 +34,7 @@ export const Footer = () => {
             alt="Скачайте приложение KubMarket для Android"
           />
           <h3 className="font-bold text-white">Android</h3>
-        </div>
+        </Link>
       </div>
     </footer>
   );

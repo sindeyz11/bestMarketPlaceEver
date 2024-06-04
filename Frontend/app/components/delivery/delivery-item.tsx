@@ -1,29 +1,20 @@
-interface DeliveryItemProps {
-  title: string;
-  price: number;
-  unit: string;
-  count: number;
-  imgPath?: string;
-  status?: "в пути" | "отказ" | "доставлено" | "получено";
-  dateOrder: string;
-  dateDelivery: string;
-}
+import { IDeliveryItem } from "@/types";
 
 export const DeliveryItem = ({
   title,
   price,
   unit,
   count,
-  imgPath = "./no-product.png",
+  image = "./no-product.png",
   status,
   dateOrder,
   dateDelivery,
-}: DeliveryItemProps) => {
+}: IDeliveryItem) => {
   return (
     <div className="flex items-center justify-between py-2">
       <div className="flex items-center gap-3">
         <div className="h-16 w-16">
-          <img src={imgPath} alt="" className="h-full w-full object-contain" />
+          <img src={image} alt="" className="h-full w-full object-contain" />
         </div>
         <div className="flex flex-col">
           <h3 className="text-lg font-medium">{title}</h3>

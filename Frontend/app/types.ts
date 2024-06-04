@@ -26,6 +26,14 @@ export interface IUser {
 	discount: number
 }
 
+export interface IDeliveryItem extends IProduct {
+  count: number;
+  dateOrder: string;
+  dateDelivery: string;
+  status?: "в пути" | "отказ" | "доставлено" | "получено";
+}
+
+
 export type IPositionItem = IProduct
 
 export type IBannerProduct = Omit<IProduct, "unit" | "availableQuantity">

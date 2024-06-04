@@ -5,10 +5,13 @@ import { ChangePasswordPanel } from "@/components/profile/user/change-password-p
 import { PaymentData } from "@/components/profile/user/payment-data";
 import { StatisticsPanel } from "@/components/profile/user/statistics-panel";
 import { UserData } from "@/components/profile/user/user-data";
+import deliveryStore from "@/store/delivery";
 import { useState } from "react";
 
 const ProfilePage = () => {
-  {/*  FIXME: здесь данные берутся с backend   */}
+  {
+    /*  FIXME: здесь данные берутся с backend   */
+  }
   const [username, setUsername] = useState<string>("Василий");
   const [phone, setPhone] = useState<string>("985 000 9243");
   const [email, setEmail] = useState<string>("khudobin_v@icloud.com");
@@ -53,31 +56,14 @@ const ProfilePage = () => {
           />
         </div>
         <div className="col-span-2">
-          <DeliveryList
-            codeForReceive="123-123"
-            items={[
-              {
-                title: "Помидоры",
-                imgPath: "./pomodoro.png",
-                price: 250,
-                unit: "кг",
-                count: 4,
-                dateOrder: "01.01.2024",
-                dateDelivery: "01.03.2025",
-                status: "в пути",
-              },
-              {
-                title: "Огурцы",
-                imgPath: "./cucumbers.png",
-                price: 250,
-                unit: "кг",
-                count: 4,
-                dateOrder: "01.01.2024",
-                dateDelivery: "01.01.2022",
-                status: "в пути",
-              },
-            ]}
-          />
+          {deliveryStore.deliveryItems.length ? (
+            <DeliveryList
+              codeForReceive="123-123"
+              items={deliveryStore.deliveryItems}
+            />
+          ) : (
+            <p>Вам ничего не должны доставлять</p>
+          )}
         </div>
       </div>
     </div>
