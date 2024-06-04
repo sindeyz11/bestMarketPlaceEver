@@ -2,7 +2,7 @@ import { IPickupPoint, IPositionItem, IUser, IUserRole } from "@/types";
 import { makeAutoObservable } from "mobx";
 
 class Auth {
-  role: IUserRole = "admin";
+  role: IUserRole = "manager";
 
   users: IUser[] = [
     {
@@ -167,6 +167,10 @@ class Auth {
     this.pickupPoints = this.pickupPoints.filter(
       (pickupPoint) => pickupPoint.code !== code
     );
+  }
+
+  getPickupPointByCode(code: string) {
+    return this.pickupPoints.find((pickupPoint) => pickupPoint.code === code);
   }
 }
 

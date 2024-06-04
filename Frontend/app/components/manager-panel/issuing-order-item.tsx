@@ -1,15 +1,21 @@
+"use client";
+
+import deliveryStore from "@/store/delivery";
 import { IDeliveryItem } from "@/types";
 
-export const DeliveryItem = ({
+export const IssuingOrderItem = ({
+  id,
   title,
   price,
   unit,
   count,
   image = "./no-product.png",
-  status,
   dateOrder,
-  dateDelivery,
 }: IDeliveryItem) => {
+  const handleCheckboxChange = () => {
+    deliveryStore.toggleItemSelection(id!);
+  };
+
   return (
     <div className="flex items-center justify-between py-2">
       <div className="flex items-center gap-3">
@@ -49,20 +55,12 @@ export const DeliveryItem = ({
             </span>
           </h4>
         </div>
-        <div
-          className={`rounded-full font-bold text-white px-4 py-0.5 italic ${
-            status === "в пути"
-              ? "bg-on-the-way"
-              : status === "доставлено"
-                ? "bg-delivered"
-                : status === "получено"
-                  ? "bg-received"
-                  : "bg-cancelled"
-          }`}
-        >
-          {status}
-        </div>
-        <span className="text-secondary-text">до: {dateDelivery}</span>
+        <input
+          type="checkbox"
+          className="custom-checkbox h-6 w-6 shadow-inner appearance-none border-dark-accent checked:bg-dark-accent bg-white border rounded"
+          checked={deliveryStore.selectedDeliveryItems.has(id!)}
+          onChange={handleCheckboxChange}
+        />
       </div>
     </div>
   );

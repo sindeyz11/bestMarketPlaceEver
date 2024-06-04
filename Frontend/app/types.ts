@@ -26,7 +26,7 @@ export interface IUser {
 	discount: number
 }
 
-export interface IDeliveryItem extends IProduct {
+export interface IDeliveryItem extends Partial<IProduct> {
   count: number;
   dateOrder: string;
   dateDelivery: string;
