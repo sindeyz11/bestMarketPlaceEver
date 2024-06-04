@@ -33,7 +33,7 @@ export const PositionsList = ({ positions }: PositionsListProps) => {
               <Button color="gray" onClick={() => handleCloseModal()}>
                 Отмена
               </Button>
-              <Button>Добавить</Button>
+              <Button color="dark">Добавить</Button>
             </div>
           </div>
         </div>
