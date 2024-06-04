@@ -1,10 +1,12 @@
 package com.example.project.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 
 @AllArgsConstructor
@@ -12,9 +14,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class PickupPointRequest {
     @JsonProperty("manager_id")
-    @NotNull
+    @NotNull(message = "ID менеджера не может быть пустым")
     Integer managerId;
 
-    @NotNull
+    @NotBlank(message = "Адрес не может быть пустым")
     String address;
 }

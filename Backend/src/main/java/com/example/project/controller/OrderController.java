@@ -3,6 +3,7 @@ package com.example.project.controller;
 import com.example.project.dto.request.OrderRequest;
 import com.example.project.exception.NoSuchElementFoundException;
 import com.example.project.service.OrderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class OrderController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<?> createOrder(@RequestBody OrderRequest request) {
+    public ResponseEntity<?> createOrder(@Valid @RequestBody OrderRequest request) {
         try {
             orderService.create(request);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -45,7 +46,7 @@ public class OrderController {
     }
 
     @PutMapping("/order/{id}")
-    public ResponseEntity<?> confirmOrder(@PathVariable Integer id, @RequestBody OrderRequest request) {
+    public ResponseEntity<?> confirmOrder(@PathVariable Integer id, @Valid @RequestBody OrderRequest request) {
         // todo
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
