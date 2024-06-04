@@ -18,12 +18,12 @@ public class OrderedProductService {
     private DeliveryStatusRepo deliveryStatusRepo;
 
     public void updateDeliveryStatuses() throws NoSuchElementException, DeliveredProductsNotExistException {
-        List<OrderedProduct> orderedProducts = repository.findAllProductsDueToArrive(3);
+        List<OrderedProduct> orderedProducts = repository.findAllProductsDueToArrive(1);
         if (orderedProducts.isEmpty()) {
             throw new DeliveredProductsNotExistException();
         }
 
-        DeliveryStatus readyStatus = deliveryStatusRepo.findById(4)
+        DeliveryStatus readyStatus = deliveryStatusRepo.findById(2)
                 .orElseThrow(NoSuchElementException::new);
 
         orderedProducts.forEach(orderedProduct ->

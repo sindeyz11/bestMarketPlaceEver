@@ -1,7 +1,10 @@
 package com.example.project.controller;
 
+import com.example.project.dto.request.ConfirmOrderRequest;
 import com.example.project.dto.request.OrderRequest;
 import com.example.project.exception.NoSuchElementFoundException;
+import com.example.project.exception.OrderAlreadyCompletedException;
+import com.example.project.exception.ProductsCountMismatchException;
 import com.example.project.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +19,10 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping("/ordered-products/{orderId}")
-    public ResponseEntity<?> getOrderedProductsByOrderId(@PathVariable Integer orderId) {
+    @GetMapping("/ordered-products/{id}")
+    public ResponseEntity<?> getOrderedProductsByOrderId(@PathVariable Integer id) {
         try {
-            return new ResponseEntity<>(orderService.findAllByOrderId(orderId), HttpStatus.OK);
+            return new ResponseEntity<>(orderService.findAllByOrderId(id), HttpStatus.OK);
         } catch (NoSuchElementFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
@@ -46,8 +49,16 @@ public class OrderController {
     }
 
     @PutMapping("/order/{id}")
-    public ResponseEntity<?> confirmOrder(@PathVariable Integer id, @Valid @RequestBody OrderRequest request) {
-        // todo
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<?> confirmOrder(
+            @PathVariable Integer id, @RequestBody ConfirmOrderRequest request
+    ) {
+        try {
+            orderService.confirmOrder(id, request);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (NoSuchElementFoundException | ProductsCountMismatchException | OrderAlreadyCompletedException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

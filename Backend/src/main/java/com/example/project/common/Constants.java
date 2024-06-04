@@ -6,6 +6,10 @@ public final class Constants {
     public static final String NOT_FOUND_MANAGER = "Менеджер не найден";
     public static final String USER_IS_NOT_MANAGER = "Указанный пользователь не является менеджером";
     public static final String CANNOT_USE_MANAGER = "Указанный менеджер уже привязан к другому пункту выдачи";
+    public static final String PRODUCT_COUNT_MISMATCH = "Указаны не все продукты из заказа";
+    public static final String NOT_FOUND_ORDER = "Указан неверный ID заказа";
+    public static final String ORDER_ALREADY_COMPLETED = "Указанный заказ уже выдан";
+    public static final String UNKNOWN_ERROR = "Неизвестная ошибка.....";
     public static final String NOT_FOUND_USER = "Войдите или зарегистрируйтесь";
     public static final String INCORRECT_PASSWORD = "Неправильный пароль";
     public static final String MISMATCH_PASSWORD = "Пароли не совпадают";
