@@ -12,47 +12,48 @@ import { Button } from "../ui/button"
 import { Field } from "../ui/field"
 
 export const PositionItem = ({
-	id,
-	title,
-	price,
-	unit,
-	discountPrice,
-	availableQuantity,
-	description,
-	image,
-	category,
+  title,
+  price,
+  unit,
+  discountPrice,
+  availableQuantity,
+  description,
+  image = "./products/no-product.png",
+  category,
 }: IPositionItem) => {
-	const [titleValue, setTitleValue] = useState(title || "")
-	const [priceValue, setPriceValue] = useState(price.toString() || "")
-	const [unitValue, setUnitValue] = useState(unit.toString() || "")
-	const [discountPriceValue, setDiscountPrice] = useState(
-		discountPrice.toString() || ""
-	)
-	const [availableQuantityValue, setAvailableQuantityValue] = useState(
-		availableQuantity.toString() || ""
-	)
-	const [descriptionValue, setDescriptionValue] = useState(description || "")
-	const [imageValue, setImageValue] = useState(image || "")
-	const [categoryValue, setCategoryValue] = useState(category || "")
+  const [titleValue, setTitleValue] = useState(title || "");
+  const [priceValue, setPriceValue] = useState(
+    (price && price.toString()) || ""
+  );
+  const [unitValue, setUnitValue] = useState((unit && unit.toString()) || "");
+  const [discountPriceValue, setDiscountPrice] = useState(
+    (discountPrice && discountPrice.toString()) || ""
+  );
+  const [availableQuantityValue, setAvailableQuantityValue] = useState(
+    (availableQuantity && availableQuantity.toString()) || ""
+  );
+  const [descriptionValue, setDescriptionValue] = useState(description || "");
+  const [imageValue, setImageValue] = useState(image || "");
+  const [categoryValue, setCategoryValue] = useState(category || "");
 
-	const fileInputRef = useRef<HTMLInputElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-	const handleImageClick = () => {
-		fileInputRef.current?.click()
-	}
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
 
-	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const file = event.target.files?.[0]
-		if (file) {
-			const reader = new FileReader()
-			reader.onloadend = () => {
-				setImageValue(reader.result as string)
-			}
-			reader.readAsDataURL(file)
-		}
-	}
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageValue(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-	return (
+  return (
     <form className="flex flex-col gap-3 bg-secondary-bg p-4 rounded-lg">
       <div className="grid grid-cols-3 gap-3">
         <div
@@ -134,4 +135,4 @@ export const PositionItem = ({
       </div>
     </form>
   );
-}
+};

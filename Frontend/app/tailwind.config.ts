@@ -28,6 +28,7 @@ const config: Config = {
         "footer-bg": "#8A2525",
         "button-accent": "#F93F3F",
         "button-dark-accent": "#B20000",
+        "button-gray-accent": "#727272",
         icon: "#252525",
         link: "#6B6B6B",
         "on-the-way": "#4E4E4E",

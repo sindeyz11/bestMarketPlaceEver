@@ -34,7 +34,7 @@ export interface IDeliveryItem extends IProduct {
 }
 
 
-export type IPositionItem = IProduct
+export type IPositionItem = Partial<IProduct>;
 
 export type IBannerProduct = Omit<IProduct, "unit" | "availableQuantity">
 
