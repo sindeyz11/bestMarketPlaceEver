@@ -1,10 +1,10 @@
 import { PickupPointsList } from "@/components/admin-panel/pickup-points-list"
 import { PositionsList } from "@/components/admin-panel/positions-list"
-import { Users } from "@/components/admin-panel/users"
-import authStore from "@/store/auth"
+import { UsersList } from "@/components/admin-panel/users-list";
+import authStore from "@/store/auth";
 
 const AdminPanelPage = () => {
-	return (
+  return (
     <div
       style={{ minHeight: "calc(100dvh - 240px)" }}
       className="flex py-10 bg-[#F6F6F6]"
@@ -17,11 +17,11 @@ const AdminPanelPage = () => {
           <PickupPointsList />
         </div>
         <div className="col-span-1">
-          <Users />
+          <UsersList />
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default AdminPanelPage

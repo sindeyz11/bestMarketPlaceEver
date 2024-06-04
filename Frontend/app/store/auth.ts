@@ -1,8 +1,43 @@
-import { IPickupPoint, IPositionItem, IUserRole } from "@/types"
-import { makeAutoObservable } from "mobx"
+import { IPickupPoint, IPositionItem, IUser, IUserRole } from "@/types";
+import { makeAutoObservable } from "mobx";
 
 class Auth {
-  role: IUserRole = "manager";
+  role: IUserRole = "admin";
+
+  users: IUser[] = [
+    {
+      code: "US-001",
+      name: "Пользователь 1",
+      role: "user",
+      redemptionPercentage: 10,
+      redemptionSum: 32123,
+      discount: 10,
+    },
+    {
+      code: "US-002",
+      name: "Пользователь 2",
+      role: "user",
+      redemptionPercentage: 20,
+      redemptionSum: 1234,
+      discount: 5,
+    },
+    {
+      code: "US-003",
+      name: "Пользователь 3",
+      role: "user",
+      redemptionPercentage: 0,
+      redemptionSum: 0,
+      discount: 0,
+    },
+    {
+      code: "US-004",
+      name: "Пользователь 4",
+      role: "user",
+      redemptionPercentage: 5,
+      redemptionSum: 12345,
+      discount: 3,
+    },
+  ];
 
   productsAdmin: IPositionItem[] = [
     {
@@ -135,5 +170,5 @@ class Auth {
   }
 }
 
-const authStore = new Auth()
-export default authStore
+const authStore = new Auth();
+export default authStore;

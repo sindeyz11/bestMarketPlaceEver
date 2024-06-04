@@ -53,7 +53,7 @@ export const PositionItem = ({
 	}
 
 	return (
-    <form className="flex flex-col gap-3 bg-[#F0F0F0] p-4 rounded-lg">
+    <form className="flex flex-col gap-3 bg-secondary-bg p-4 rounded-lg">
       <div className="grid grid-cols-3 gap-3">
         <div
           className="col-span-1 bg-field-bg rounded-xl cursor-pointer"

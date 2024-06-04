@@ -28,14 +28,14 @@ export const PositionsList = ({ positions }: PositionsListProps) => {
               />
             ))}
           </div>
-          <Button>Добавить</Button>
+          <Button color="dark">Добавить</Button>
         </div>
       ) : (
         <div className="flex flex-col  min-h-[calc(100%-30px)]">
           <div className="grow flex items-center justify-center">
             <p className="text-black/40">Позиции отсутствуют</p>
           </div>
-          <Button>Добавить</Button>
+          <Button color="dark">Добавить</Button>
         </div>
       )}
     </div>
