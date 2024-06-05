@@ -41,7 +41,7 @@ public class PickupPointController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> updatePoint(@PathVariable Integer id, @Valid @RequestBody PickupPointRequest request) {
         try {
             PickupPointDTO pickupPointDTO = pickupPointService.update(id, request);
