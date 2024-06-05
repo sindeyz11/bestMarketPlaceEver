@@ -18,7 +18,7 @@ public class OrderedProductDTOMapper implements Function<OrderedProduct, Ordered
                 orderedProduct.getCount(),
                 orderedProduct.getDiscountPrice(),
                 orderedProduct.getDeliveryDays(),
-                orderedProduct.getDeliveryStatusTitle(),
+                orderedProduct.getDeliveryStatus().getTitle(),
                 orderedProduct.getCompletionDate()
         );
     }
