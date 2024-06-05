@@ -30,7 +30,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers("/api/v1/auth/**")
                                 .permitAll()
-                                .requestMatchers("/api/v1/user/admin/all_users").hasAnyRole(ADMIN.name())
+                                .requestMatchers("/api/v1/users/password", "/api/v1/users/satistics", "/api/v1/users/card", "/api/v1/users/{user_id}").hasAnyRole(USER.name(), ADMIN.name(), MANAGER.name())
+                                .requestMatchers("/api/v1/users").hasAnyRole(ADMIN.name())
                                 .anyRequest()
                                 .authenticated()
                 )

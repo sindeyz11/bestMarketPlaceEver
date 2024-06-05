@@ -39,16 +39,16 @@ public class UserService {
         userRepo.save(user);
     }
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) throws UserIncorrectPasswordException, UserMismatchPasswordException {
-            var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
-            if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
-                throw new UserIncorrectPasswordException(Constants.INCORRECT_PASSWORD);
-            }
-            if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
-                throw new UserMismatchPasswordException(Constants.MISMATCH_PASSWORD);
-            }
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new UserIncorrectPasswordException(Constants.INCORRECT_PASSWORD);
+        }
+        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
+            throw new UserMismatchPasswordException(Constants.MISMATCH_PASSWORD);
+        }
 
-            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-            userRepo.save(user);
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepo.save(user);
     }
 
     public UserStatisticsDTO getUserStatistics(Principal connectedUser){
@@ -83,7 +83,7 @@ public class UserService {
         return UserCardDTO.builder()
                 .card_number(user.getCard_number())
                 .CVC(user.getCVC())
-                .datetime(user.getDatetime())
+                .validity(user.getValidity())
                 .build();
     }
 
@@ -94,7 +94,7 @@ public class UserService {
         user.setCVC(Integer.parseInt(request.getCVC()));
 
         try {
-            user.setDatetime(LocalDate.parse(request.getDatetime()));
+            user.setValidity(LocalDate.parse(request.getValidity()));
         } catch (DateTimeParseException e) {
             throw new IncorrectDateException(Constants.INCORRECT_DATE);
         }
@@ -136,4 +136,3 @@ public class UserService {
         return users;
     }
 }
-

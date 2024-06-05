@@ -14,5 +14,5 @@ import java.time.LocalDate;
 public class UserCardDTO {
     private String card_number;
     private Integer CVC;
-    private LocalDate datetime;
+    private LocalDate validity;
 }

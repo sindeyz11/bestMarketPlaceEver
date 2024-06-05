@@ -31,7 +31,7 @@ public class User implements UserDetails{
     private Integer amount_spent;
     private Integer CVC;
     private String card_number;
-    private LocalDate datetime;
+    private LocalDate validity;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -79,5 +79,9 @@ public class User implements UserDetails{
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public boolean isLinkedToPickupPoint() {
+        return getUser_pickup_points() != null;
     }
 }
