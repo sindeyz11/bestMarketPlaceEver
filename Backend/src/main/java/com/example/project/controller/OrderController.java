@@ -31,7 +31,7 @@ public class OrderController {
     }
 
     @GetMapping("/order/user")
-    public ResponseEntity<?> getOrderedProductsByUserId() {
+    public ResponseEntity<?> getOrderedProductsByUser() {
         // todo
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }

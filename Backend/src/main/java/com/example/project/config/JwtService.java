@@ -11,13 +11,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
 public class JwtService {
-
-    private static final String secretKey = "NxQUNwfDQ+KLezR308zozrWrJc/frc6m6GMkR9IAVtuuL5tmZ9GdP2dvYTuus96E4pQiDoMqiK/HeF5tHM0Bt7qQc2pBrAOi74ByL/7oO/FLn8pp38A12MdWBOn6cSf7JJpJTTdPWrxk6+EayHVBljBiQdqJdEIgKFm5+4JYmi9vZWcl/rERCKgEBJ2RUcK3WpFFyNH8iwJ7hXUP60EXPY5FmXRzHc3TbJJHkt3FJwWyKpN8I6hOd828xL3pS2HzX/II3MiOdq2NU9yh9GHVHeDgFIQIQZsMkKqGGNK9dSFeKBBTMjAmQAQRxQvdpJKuS31Pq0P8t72u/f1rzwUlMpUHP2OSiuBksZN36GR+1U0=";
+    @Value("${application.security.jwt.secret-key}")
+    private String secretKey;
 
 
     public String extractUsername(String token) {
