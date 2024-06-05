@@ -13,16 +13,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping("/ordered-products/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getOrderedProductsByOrderId(@PathVariable Integer id) {
         try {
-            return new ResponseEntity<>(orderService.findAllByOrderId(id), HttpStatus.OK);
+            return new ResponseEntity<>(orderService.findAllProductsByOrderId(id), HttpStatus.OK);
         } catch (NoSuchElementFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
@@ -30,13 +30,18 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/order/user")
-    public ResponseEntity<?> getOrderedProductsByUser() {
-        // todo
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    @GetMapping("/user")
+    public ResponseEntity<?> getOrdersByUser() {
+        try {
+            return new ResponseEntity<>(orderService.findAllByUser(), HttpStatus.OK);
+        } catch (NoSuchElementFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    @PostMapping("/order")
+    @PostMapping
     public ResponseEntity<?> createOrder(@Valid @RequestBody OrderRequest request) {
         try {
             orderService.create(request);
@@ -48,7 +53,7 @@ public class OrderController {
         }
     }
 
-    @PutMapping("/order/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> confirmOrder(
             @PathVariable Integer id, @RequestBody ConfirmOrderRequest request
     ) {

@@ -1,12 +1,11 @@
 package com.example.project.service;
 
 import com.example.project.common.Constants;
-import com.example.project.dto.mapper.OrderedProductDTOMapper;
+import com.example.project.dto.mapper.OrderDTOMapper;
 import com.example.project.dto.request.ConfirmOrderRequest;
 import com.example.project.dto.request.OrderRequest;
 import com.example.project.dto.request.OrderedProductRequest;
 import com.example.project.dto.response.OrderDTO;
-import com.example.project.dto.response.OrderedProductDTO;
 import com.example.project.entity.*;
 import com.example.project.exception.*;
 import com.example.project.repository.*;
@@ -28,23 +27,27 @@ public class OrderService {
     private OrderedProductRepo orderedProductRepo;
     private DeliveryStatusRepo deliveryStatusRepo;
 
-    private OrderedProductDTOMapper dtoMapper;
+    private OrderDTOMapper dtoMapper;
 
-    public OrderDTO findAllByOrderId(Integer orderId) throws NoSuchElementFoundException {
+    public OrderDTO findAllProductsByOrderId(Integer orderId) throws NoSuchElementFoundException {
         Order order = repository.findById(orderId)
                 .orElseThrow(NoSuchElementFoundException::new);
 
-        List<OrderedProductDTO> products = order.getProducts()
+        return dtoMapper.apply(order);
+    }
+
+    public List<OrderDTO> findAllByUser() throws NoSuchElementFoundException {
+        User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        List<Order> orders = repository.findAllByUser(user);
+
+        if (orders.isEmpty()) {
+            throw new NoSuchElementFoundException();
+        }
+
+        return orders
                 .stream()
                 .map(dtoMapper)
                 .collect(Collectors.toList());
-
-        return new OrderDTO(
-                order.getId(),
-                products,
-                order.getDatetime(),
-                order.isCompleted()
-        );
     }
 
     @Transactional(rollbackFor = {Exception.class})
