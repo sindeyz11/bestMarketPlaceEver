@@ -1,9 +1,8 @@
-
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/Project
-    username: postgres
-    password: OiH56kjlo.
+    url: jdbc:postgresql://localhost:5432/${POSTGRESQL_DB}
+    username: ${POSTGRESQL_USERNAME}
+    password: ${POSTGRESQL_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     open-in-view: false
@@ -15,5 +14,13 @@ spring:
   sql:
     init:
       mode: never
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key-location:
+logging:
+  level:
+    org.springframework.security: DEBUG
 server:
   port: 8081

@@ -1,16 +1,16 @@
 package com.example.project.service;
 
-import com.example.project.model.Entity_Image;
-import com.example.project.repository.ImageRepository;
+import com.example.project.entity.Image;
+import com.example.project.repository.ImageRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class ImageService {
-    private ImageRepository repository;
+    private ImageRepo repository;
 
-    public void saveImage(Entity_Image image) {
+    public void saveImage(Image image) {
         repository.save(image);
     }
 }
