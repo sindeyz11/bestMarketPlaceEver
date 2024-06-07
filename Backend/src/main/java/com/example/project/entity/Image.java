@@ -4,15 +4,21 @@ import lombok.Data;
 
 import jakarta.persistence.*;
 
+import java.sql.Blob;
+
 @Data
 @Entity
 @Table(name = "Image")
 public class Image {
     @Id
-    private Integer image_id;
-    private String image;
-    private String alt;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "image_id")
+    private Integer imageId;
 
-    @OneToOne(mappedBy = "product_image", optional = true)
-    private Product image_product;
+    @Lob
+    @Column(name = "image", columnDefinition = "BLOB")
+    private byte[] image;
+
+    @Column(name = "alt")
+    private String alt;
 }

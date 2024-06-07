@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ImageDTO {
-    private Integer id;
-    private String image;
+    private Integer image_id;
+    private byte[] image;
     private String alt;
 }

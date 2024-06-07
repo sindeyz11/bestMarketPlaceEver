@@ -1,9 +1,6 @@
 package com.example.project.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
@@ -13,9 +10,10 @@ import java.util.List;
 @Table(name = "Category")
 public class Category {
     @Id
-    private Integer category_id;
-    private String title;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "category_id")
+    private Integer categoryId;
 
-    @OneToMany(mappedBy = "category")
-    private List<CategoryProduct> category_products;
+    @Column(name = "title")
+    private String title;
 }
