@@ -25,7 +25,7 @@ public class OrderDTOMapper implements Function<Order, OrderDTO> {
         return new OrderDTO(
                 order.getId(),
                 products,
-                order.getDatetime(),
+                order.getFormation_date(),
                 order.isCompleted()
         );
     }
