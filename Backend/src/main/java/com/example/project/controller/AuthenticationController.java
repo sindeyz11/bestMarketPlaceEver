@@ -24,7 +24,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid
-            @RequestBody RegisterRequest request
+                                      @RequestBody RegisterRequest request
     ) {
         try {
             return new ResponseEntity<>(service.register(request), HttpStatus.OK);
@@ -33,7 +33,7 @@ public class AuthenticationController {
         }
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping
     public ResponseEntity<?> authenticate(
             @RequestBody AuthenticationRequest request
     ) {

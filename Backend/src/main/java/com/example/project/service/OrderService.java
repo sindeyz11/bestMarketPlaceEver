@@ -64,7 +64,7 @@ public class OrderService {
 
         Order order = Order.builder()
                 .user(user)
-                .datetime(LocalDate.now())
+                .formation_date(LocalDate.now())
                 .pickupPoint(pickupPoint)
                 .completed(false)
                 .build();

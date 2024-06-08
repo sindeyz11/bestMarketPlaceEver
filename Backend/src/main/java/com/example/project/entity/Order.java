@@ -26,7 +26,7 @@ public class Order {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
-    private LocalDate datetime;
+    private LocalDate formation_date;
 
     @ManyToOne
     @JoinColumn(name = "point_id", referencedColumnName = "point_id")

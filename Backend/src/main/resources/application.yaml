@@ -19,12 +19,12 @@ spring:
       resourceserver:
         jwt:
           public-key-location:
-logging:
-  level:
-    org.springframework.security: DEBUG
 server:
   port: 8081
 application:
   security:
     jwt:
       secret-key: ${SECURITY_JWT_SECRET}
+logging:
+  level:
+    org.springframework.security: DEBUG

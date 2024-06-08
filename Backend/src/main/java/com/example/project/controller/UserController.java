@@ -15,12 +15,12 @@ import java.security.Principal;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/users")
 @AllArgsConstructor
 public class UserController {
     private UserService Userservice;
 
-    @PatchMapping("/change/password")
+    @PatchMapping("/password")
     public ResponseEntity<?> changePassword(@Valid
             @RequestBody ChangePasswordRequest request,
             Principal connectedUser
@@ -35,25 +35,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/satistics")
-    public ResponseEntity<?> getSatistics(Principal connectedUser) {
-        try {
-            return new ResponseEntity<>(Userservice.getUserStatistics(connectedUser), HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/card")
-    public ResponseEntity<?> getCard(Principal connectedUser) {
-        try {
-            return new ResponseEntity<>(Userservice.getUserCard(connectedUser), HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PatchMapping("/change/card")
+    @PatchMapping("/card")
     public ResponseEntity<?> ChangeUserCard(@Valid
             @RequestBody ChangeCardUserRequest request,
             Principal connectedUser
@@ -67,8 +49,8 @@ public class UserController {
         }
     }
 
-    @GetMapping("/info")
-    public ResponseEntity<?> getInfoUser(Principal connectedUser) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getInfoUser(@PathVariable Integer id,Principal connectedUser) {
         try {
             return new ResponseEntity<>(Userservice.getInfoUser(connectedUser), HttpStatus.OK);
         } catch (NoSuchElementException e) {
@@ -76,9 +58,9 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/change/info")
-    public ResponseEntity<?> ChangeUserInfo(@Valid
-            @RequestBody ChangeInfoUserRequest request,
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> ChangeUserInfo(@Valid @RequestBody ChangeInfoUserRequest request,
+            @PathVariable Integer id,
             Principal connectedUser
     ) {try
     {
@@ -89,7 +71,7 @@ public class UserController {
     }
 }
 
-    @GetMapping("/admin/all_users")
+    @GetMapping
     public ResponseEntity<?> getUserAll() {
         return new ResponseEntity<>(Userservice.getAllUsers(), HttpStatus.OK);
     }

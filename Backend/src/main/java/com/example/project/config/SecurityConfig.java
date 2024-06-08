@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import static com.example.project.entity.Role.ADMIN;
 import static com.example.project.entity.Role.MANAGER;
 import static com.example.project.entity.Role.USER;
+import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -30,7 +31,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers("/api/v1/auth/**")
                                 .permitAll()
-                                .requestMatchers("/api/v1/user/admin/all_users").hasAnyRole(ADMIN.name())
+                                .requestMatchers(GET, "/api/v1/users/{id}", "/api/v1/orders/user", "/api/v1/product/image/{id}", "/api/v1/product/assortment", "/api/v1/product/categories", "/api/v1/product/special", "/api/v1/points").hasAnyRole(USER.name(), ADMIN.name(), MANAGER.name())
+                                .requestMatchers(PATCH, "/api/v1/users/{id}", "/api/v1/users/password", "/api/v1/users/card").hasAnyRole(USER.name(), ADMIN.name(), MANAGER.name())
+                                .requestMatchers(POST, "/api/v1/orders").hasAnyRole(USER.name(), ADMIN.name(), MANAGER.name())
+                                .requestMatchers(GET, "/api/v1/orders/{id}").hasAnyRole(MANAGER.name())
+                                .requestMatchers(PUT, "/api/v1/orders/{id}").hasAnyRole(MANAGER.name())
+                                .requestMatchers(GET, "/api/v1/users").hasAnyRole(ADMIN.name())
+                                .requestMatchers(POST, "/api/v1/product", "/api/v1/points").hasAnyRole(ADMIN.name())
+                                .requestMatchers(PATCH, "/api/v1/product/{id}", "/api/v1/points/{id}").hasAnyRole(ADMIN.name())
                                 .anyRequest()
                                 .authenticated()
                 )
