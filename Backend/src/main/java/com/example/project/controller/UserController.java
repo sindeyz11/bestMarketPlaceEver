@@ -35,24 +35,6 @@ public class UserController {
         }
     }
 
-    @GetMapping("/satistics")
-    public ResponseEntity<?> getSatistics( Principal connectedUser) {
-        try {
-            return new ResponseEntity<>(Userservice.getUserStatistics(connectedUser), HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/card")
-    public ResponseEntity<?> getCard(Principal connectedUser) {
-        try {
-            return new ResponseEntity<>(Userservice.getUserCard(connectedUser), HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
     @PatchMapping("/card")
     public ResponseEntity<?> ChangeUserCard(@Valid
             @RequestBody ChangeCardUserRequest request,
@@ -67,8 +49,8 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{user_id}")
-    public ResponseEntity<?> getInfoUser(@PathVariable Integer user_id,Principal connectedUser) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getInfoUser(@PathVariable Integer id,Principal connectedUser) {
         try {
             return new ResponseEntity<>(Userservice.getInfoUser(connectedUser), HttpStatus.OK);
         } catch (NoSuchElementException e) {
@@ -76,9 +58,9 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/{user_id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> ChangeUserInfo(@Valid @RequestBody ChangeInfoUserRequest request,
-            @PathVariable Integer user_id,
+            @PathVariable Integer id,
             Principal connectedUser
     ) {try
     {

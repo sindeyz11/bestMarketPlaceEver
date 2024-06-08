@@ -51,7 +51,8 @@ public class UserService {
         userRepo.save(user);
     }
 
-    public UserStatisticsDTO getUserStatistics(Principal connectedUser){
+
+    public UserInfoDTO getInfoUser(Principal connectedUser){
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
         UserProductStatsDTO stats= orderedproductRepo.findUserProductStatsByUserId(user.getUser_id());
         Double percent;
@@ -62,25 +63,14 @@ public class UserService {
         } else {
             percent = null;
         }
-        return UserStatisticsDTO.builder()
+        return UserInfoDTO.builder()
                 .user_discount(user.getUser_discount())
                 .amount_spent(user.getAmount_spent())
                 .kol_order(user.getOrders().size())
                 .percent_order(percent)
-                .build();
-    }
-
-    public UserInfoDTO getInfoUser(Principal connectedUser){
-        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
-        return UserInfoDTO.builder()
                 .username(user.getName())
                 .phone(user.getPhone())
                 .email(user.getEmail())
-                .build();
-    }
-    public UserCardDTO getUserCard(Principal connectedUser){
-        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
-        return UserCardDTO.builder()
                 .card_number(user.getCard_number())
                 .CVC(user.getCVC())
                 .validity(user.getValidity())
