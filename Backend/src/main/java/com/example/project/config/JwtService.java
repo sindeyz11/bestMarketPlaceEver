@@ -17,9 +17,10 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class JwtService {
-
+  
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
+  
     public String extractUsername(String token) throws ExpiredJwtException, MalformedJwtException{
         return extractClaim(token, Claims::getSubject);
     }

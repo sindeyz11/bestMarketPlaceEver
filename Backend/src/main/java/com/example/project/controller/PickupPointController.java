@@ -6,6 +6,7 @@ import com.example.project.exception.CannotUseUserException;
 import com.example.project.exception.NoSuchElementFoundException;
 import com.example.project.service.PickupPointService;
 import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/point")
+@RequestMapping("/api/v1/points")
 @RequiredArgsConstructor
 public class PickupPointController {
 
@@ -29,7 +30,7 @@ public class PickupPointController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createPoint(@RequestBody PickupPointRequest request) {
+    public ResponseEntity<?> createPoint(@Valid @RequestBody PickupPointRequest request) {
         try {
             PickupPointDTO pickupPointDTO = pickupPointService.create(request);
             return ResponseEntity.ok(pickupPointDTO);
@@ -40,8 +41,8 @@ public class PickupPointController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updatePoint(@PathVariable Integer id, @RequestBody PickupPointRequest request) {
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updatePoint(@PathVariable Integer id, @Valid @RequestBody PickupPointRequest request) {
         try {
             PickupPointDTO pickupPointDTO = pickupPointService.update(id, request);
             return ResponseEntity.ok(pickupPointDTO);
