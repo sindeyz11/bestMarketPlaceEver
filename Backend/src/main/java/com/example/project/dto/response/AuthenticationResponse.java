@@ -14,4 +14,5 @@ public class AuthenticationResponse {
 
     private String Token;
     private Role role;
+    private Integer user_id;
 }
