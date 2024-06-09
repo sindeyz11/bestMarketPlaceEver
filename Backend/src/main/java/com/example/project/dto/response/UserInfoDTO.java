@@ -20,6 +20,6 @@ public class UserInfoDTO {
     private LocalDate validity;
     private Integer user_discount;
     private Integer amount_spent;
-    private Integer kol_order;
-    private Double percent_order;
+    private Integer order_count;
+    private Double redemption_percent;
 }
