@@ -16,5 +16,5 @@ public class PickupPointDTO {
     private int id;
     private String address;
     private String managerName;
-    private Integer income;
+    private Double income;
 }

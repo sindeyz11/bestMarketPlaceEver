@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
@@ -17,7 +18,7 @@ public class OrderedProductDTO {
     private Integer count;
 
     @JsonProperty("discount_price")
-    private Integer discountPrice;
+    private BigDecimal discountPrice;
 
     @JsonProperty("delivery_days")
     private Integer deliveryDays;

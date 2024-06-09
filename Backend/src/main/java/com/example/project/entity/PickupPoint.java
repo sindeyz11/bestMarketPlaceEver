@@ -25,7 +25,7 @@ public class PickupPoint {
     @JoinColumn(name = "manager_id", referencedColumnName = "user_id")
     private User manager;
 
-    private Integer income;
+    private Double income;
 
     @OneToMany(mappedBy = "pickupPoint", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> pickup_point_orders;

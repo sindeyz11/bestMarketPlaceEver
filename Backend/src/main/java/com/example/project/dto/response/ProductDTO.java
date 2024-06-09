@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 public class ProductDTO {
@@ -17,10 +19,10 @@ public class ProductDTO {
 
     private String description;
 
-    private Integer price;
+    private BigDecimal price;
 
     @JsonProperty("discount_price")
-    private Integer discountPrice;
+    private BigDecimal discountPrice;
 
     @JsonProperty("quantity_available")
     private Integer quantityAvailable;
@@ -43,9 +45,9 @@ public class ProductDTO {
         );
         description = product.getDescription();
         price = product.getPrice();
-        discountPrice = product.getDiscount_price();
+        discountPrice = product.getDiscountPrice();
         quantityAvailable = product.getQuantity_of_available();
         unit = product.getUnit();
-        deliveryDays = product.getDelivery_days();
+        deliveryDays = product.getDeliveryDays();
     }
 }

@@ -27,7 +27,10 @@ public class User implements UserDetails{
     private String phone;
     @Column(unique = true)
     private String email;
-    private Integer user_discount;
+
+    @Column(name = "user_discount")
+    private Double userDiscount;
+
     private Integer amount_spent;
     private Integer CVC;
     private String card_number;

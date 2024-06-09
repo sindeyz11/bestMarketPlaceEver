@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -33,7 +34,7 @@ public class OrderedProduct {
     private Integer count;
 
     @Column(name = "discount_price")
-    private Integer discountPrice;
+    private BigDecimal discountPrice;
 
     @Column(name = "delivery_days")
     private Integer deliveryDays;

@@ -64,7 +64,7 @@ public class UserService {
             percent = null;
         }
         return UserInfoDTO.builder()
-                .user_discount(user.getUser_discount())
+                .user_discount(user.getUserDiscount())
                 .amount_spent(user.getAmount_spent())
                 .kol_order(user.getOrders().size())
                 .percent_order(percent)
@@ -117,7 +117,7 @@ public class UserService {
                 .map(user -> {
                     AllUsersDTO usersDTO = new AllUsersDTO();
                     usersDTO.setUsername(user.getName());
-                    usersDTO.setUser_discount(user.getUser_discount());
+                    usersDTO.setUser_discount(user.getUserDiscount());
                     usersDTO.setRole(user.getRole());
                     usersDTO.setAmount_spent(user.getAmount_spent());
                     return usersDTO;

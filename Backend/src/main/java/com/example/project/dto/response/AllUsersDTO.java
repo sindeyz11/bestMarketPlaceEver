@@ -14,5 +14,5 @@ public class AllUsersDTO {
     private String username;
     private Role role;
     private Integer amount_spent;
-    private Integer user_discount;
+    private Double user_discount;
 }

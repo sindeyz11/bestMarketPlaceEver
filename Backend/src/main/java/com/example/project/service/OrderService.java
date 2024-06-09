@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -53,7 +54,7 @@ public class OrderService {
     @Transactional(rollbackFor = {Exception.class})
     public void create(OrderRequest orderRequest) throws NoSuchElementFoundException {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        Integer userDiscount = user.getUser_discount();
+        Double userDiscount = user.getUserDiscount();
         PickupPoint pickupPoint = pickupPointRepo
                 .findById(orderRequest.getPickupPointId())
                 .orElseThrow(() -> new NoSuchElementFoundException(Constants.NOT_FOUND_PICKUPPOINT));
@@ -84,11 +85,12 @@ public class OrderService {
                         .filter(p -> p.getProduct_id() == id)
                         .toList()
                         .get(0);
-                Integer discountPrice;
-                Integer productDiscountPrice = product.getDiscount_price();
+                BigDecimal discountPrice;
+                BigDecimal productDiscountPrice = product.getDiscountPrice();
 
                 if (userDiscount != null && userDiscount != 0) {
-                    discountPrice = productDiscountPrice - productDiscountPrice * (userDiscount / 100);
+                    BigDecimal discountMultiplier = BigDecimal.valueOf(userDiscount).divide(BigDecimal.valueOf(100));
+                    discountPrice = productDiscountPrice.subtract(productDiscountPrice.multiply(discountMultiplier));
                 } else {
                     discountPrice = productDiscountPrice;
                 }
@@ -98,7 +100,7 @@ public class OrderService {
                         .product(product)
                         .count(orderedProductReq.getCountProduct())
                         .discountPrice(discountPrice)
-                        .deliveryDays(product.getDelivery_days())
+                        .deliveryDays(product.getDeliveryDays())
                         .deliveryStatus(deliveryStatus)
                         .build()
                 );

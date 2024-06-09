@@ -47,7 +47,7 @@ public class PickupPointService {
 
         PickupPoint pickupPoint = PickupPoint.builder()
                 .address(request.getAddress())
-                .income(0)
+                .income(0.0)
                 .manager(manager)
                 .build();
 
