@@ -12,7 +12,7 @@ interface CartItemCounterProps {
 export const CartItemCounter = observer(
 	({ id, quantity = 1, availableQuantity }: CartItemCounterProps) => {
 		return (
-			<div className="flex items-center p-0.5 border border-black rounded-lg outline-none h-full">
+			<div className="flex items-center p-0.5 w-[5.5em] justify-center border border-black rounded-lg outline-none h-full">
 				<button
 					onClick={() =>
 						quantity > 1

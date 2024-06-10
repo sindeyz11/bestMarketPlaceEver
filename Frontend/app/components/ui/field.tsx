@@ -1,19 +1,21 @@
-"use client"
+"use client";
 
 // TODO: адаптировать поле ввода под разные экраны
 
-import "@/components/ui/field-no-snippers.css"
+import "@/components/ui/field-no-snippers.css";
+import { useState } from "react";
 
 interface IField {
-	variant?: "default" | "numeric" | "textarea"
-	type?: "text" | "email"
-	placeholder?: string
-	icon?: React.ReactNode
-	startContent?: string
-	value?: string
-	color?: "default" | "white"
-	onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-	disabled?: boolean
+	variant?: "default" | "numeric" | "textarea" | "card";
+	type?: "text" | "email";
+	placeholder?: string;
+	icon?: React.ReactNode;
+	startContent?: string;
+	value?: string;
+	color?: "default" | "white";
+	onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+	disabled?: boolean;
+	maxLength?: number;
 }
 
 export const Field = ({
@@ -26,10 +28,25 @@ export const Field = ({
 	onChange,
 	color,
 	disabled,
+	maxLength,
 }: IField) => {
+	const [cardNumber, setCardNumber] = useState("");
+
+	const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		let value = e.target.value.replace(/\D/g, "");
+		if (value.length > 16) {
+			value = value.slice(0, 16);
+		}
+		let formattedValue = value.replace(/(.{4})/g, "$1 ").trim();
+		setCardNumber(formattedValue);
+		if (onChange) {
+			const event = { ...e, target: { ...e.target, value: formattedValue } };
+			onChange(event);
+		}
+	};
+
 	return (
 		<>
-			{/* обычное текстовое поле ввода */}
 			{variant === "default" && (
 				<label className="relative w-full flex items-center">
 					{icon && (
@@ -52,12 +69,15 @@ export const Field = ({
 						placeholder={placeholder}
 						value={value}
 						onChange={onChange}
-						className={`p-3 w-full bg-field-bg ${color === "white" && "bg-white focus:bg-white/60 "} rounded-lg outline-none focus:bg-field-bg/80 transition-colors text-sm placeholder:text-sm placeholder:text-secondary-text text-black border border-transparent ${
+						maxLength={maxLength}
+						className={`p-3 w-full bg-field-bg ${
+							color === "white" && "bg-white focus:bg-white/60 "
+						} rounded-lg outline-none focus:bg-field-bg/80 transition-colors text-sm placeholder:text-sm placeholder:text-secondary-text text-black border border-transparent ${
 							disabled && "text-center cursor-not-allowed"
 						} ${
 							startContent
 								? icon
-									? "pl-[calc(2.5rem+2.5rem)]"
+									? "pl-[calc(2.5rem+1.2rem)]"
 									: "pl-[calc(2.5rem+1rem)]"
 								: icon
 									? "pl-11"
@@ -67,7 +87,6 @@ export const Field = ({
 				</label>
 			)}
 
-			{/* числовой ввод */}
 			{variant === "numeric" && (
 				<label className="relative w-28">
 					{startContent && (
@@ -84,15 +103,36 @@ export const Field = ({
 					/>
 				</label>
 			)}
-			{/* расширенное текстовое поле ввода */}
+
 			{variant === "textarea" && (
 				<textarea
 					className="outline-none rounded-lg bg-white p-3 text-sm placeholder:text-sm w-full placeholder:text-secondary-text"
 					placeholder={placeholder}
 					value={value}
 					onChange={onChange}
+					maxLength={maxLength}
 				/>
 			)}
+
+			{variant === "card" && (
+				<label className="relative w-full flex items-center">
+					{icon && (
+						<span className="h-5 w-5 text-black absolute left-3 top-1/2 transform -translate-y-1/2">
+							{icon}
+						</span>
+					)}
+					<input
+						type="text"
+						placeholder="1234 5678 9012 3456"
+						value={cardNumber}
+						onChange={handleCardNumberChange}
+						maxLength={19}
+						className={`p-3 w-full bg-field-bg rounded-lg outline-none focus:bg-field-bg/80 transition-colors text-sm placeholder:text-sm placeholder:text-secondary-text text-black border border-transparent ${
+							disabled && "text-center cursor-not-allowed"
+						} ${icon ? "pl-12" : ""}`}
+					/>
+				</label>
+			)}
 		</>
-	)
-}
+	);
+};

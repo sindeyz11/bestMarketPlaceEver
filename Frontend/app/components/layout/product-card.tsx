@@ -1,13 +1,14 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Counter } from "@/components/ui/counter"
-import cartStore from "@/store/cart"
-import { IProduct } from "@/types"
-import { formatNumber } from "@/utils"
-import { observer } from "mobx-react-lite"
-import { useState } from "react"
-import Modal from "./modal"
+import { Button } from "@/components/ui/button";
+import { Counter } from "@/components/ui/counter";
+import cartStore from "@/store/cart";
+import { IProduct } from "@/types";
+import { formatNumber } from "@/utils";
+import { observer } from "mobx-react-lite";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import Modal from "./modal";
 
 export const ProductCard = observer(
 	({
@@ -21,16 +22,16 @@ export const ProductCard = observer(
 		image = "./products/no-product.png",
 		category = "Без категории",
 	}: IProduct) => {
-		const [quantity, setQuantity] = useState(1)
-		const [isModalOpen, setIsModalOpen] = useState(false)
+		const [quantity, setQuantity] = useState(1);
+		const [isModalOpen, setIsModalOpen] = useState(false);
 
 		const handleOpenModal = () => {
-			setIsModalOpen(true)
-		}
+			setIsModalOpen(true);
+		};
 
 		const handleCloseModal = () => {
-			setIsModalOpen(false)
-		}
+			setIsModalOpen(false);
+		};
 
 		return (
 			<div className="group flex flex-col justify-center transition-all rounded-lg border border-transparent hover:border-black p-4 h-[30em] cursor-pointer">
@@ -76,10 +77,10 @@ export const ProductCard = observer(
 								<Button
 									size="small"
 									onClick={() => {
-										cartStore.addItem(id, quantity)
-										handleCloseModal()
-										setQuantity(1)
-										console.log(quantity)
+										cartStore.addItem(id, quantity);
+										handleCloseModal();
+										setQuantity(1);
+										toast("Товар добавлен в корзину!");
 									}}
 								>
 									Добавить
@@ -121,8 +122,19 @@ export const ProductCard = observer(
 						<Button
 							size="small"
 							onClick={() => {
-								cartStore.addItem(id, quantity)
-								setQuantity(1)
+								cartStore.addItem(id, quantity);
+								setQuantity(1);
+								toast.success(`Товар "${title}" добавлен в корзину!`, {
+									style: {
+										border: "1px solid #8A2525",
+										padding: "16px",
+										color: "#8A2525",
+									},
+									iconTheme: {
+										primary: "#8A2525",
+										secondary: "#FFFAEE",
+									},
+								});
 							}}
 						>
 							Добавить
@@ -130,6 +142,6 @@ export const ProductCard = observer(
 					</div>
 				</div>
 			</div>
-		)
+		);
 	}
-)
+);

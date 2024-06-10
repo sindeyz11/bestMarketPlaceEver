@@ -9,7 +9,7 @@ export const Banner = observer(
 		return (
 			<div className="absolute top-10 left-20 bottom-10 right-20 z-90 bg-white rounded-xl flex items-center justify-between px-20">
 				<div className="flex items-start gap-10">
-					<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-6">
 						<h1 className="text-black font-bold uppercase text-5xl">{title}</h1>
 						<p className="text-secondary-text w-80 overflow-hidden text-ellipsis line-clamp-3">
 							{description}
