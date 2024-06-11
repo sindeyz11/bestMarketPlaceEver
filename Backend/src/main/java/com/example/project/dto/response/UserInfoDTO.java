@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -19,7 +20,7 @@ public class UserInfoDTO {
     private Integer CVC;
     private LocalDate validity;
     private Double user_discount;
-    private Integer amount_spent;
+    private BigDecimal amount_spent;
     private Integer kol_order;
     private Double percent_order;
 }

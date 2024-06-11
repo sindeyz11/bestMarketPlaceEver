@@ -28,5 +28,12 @@ public class PickupPoint {
     private Double income;
 
     @OneToMany(mappedBy = "pickupPoint", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> pickup_point_orders;
+    private List<Order> orders;
+
+    @PreRemove
+    private void preRemove() {
+        for (Order order : orders) {
+            order.setPickupPoint(null);
+        }
+    }
 }

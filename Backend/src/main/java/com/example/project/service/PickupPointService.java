@@ -76,4 +76,12 @@ public class PickupPointService {
         pickupPointRepo.save(pickupPoint);
         return dtoMapper.apply(pickupPoint);
     }
+
+    public void delete(Integer id) throws NoSuchElementFoundException {
+        if (!pickupPointRepo.existsById(id)) {
+            throw new NoSuchElementFoundException(Constants.NOT_FOUND_PICKUPPOINT);
+        }
+
+        pickupPointRepo.deleteById(id);
+    }
 }

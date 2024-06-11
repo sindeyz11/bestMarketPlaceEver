@@ -14,7 +14,7 @@ import java.util.List;
 public interface OrderedProductRepo extends JpaRepository<OrderedProduct, IDOrderedProduct> {
     @Query(value = "SELECT op.* FROM ordered_product op " +
             "JOIN orders o ON op.order_id = o.order_id " +
-            "WHERE op.status_id = ?1 AND (o.datetime + make_interval(days \\:= op.delivery_days)) < NOW();",
+            "WHERE op.status_id = ?1 AND (o.formation_date + make_interval(days \\:= op.delivery_days)) < NOW();",
             nativeQuery = true)
     List<OrderedProduct> findAllProductsDueToArrive(Integer statusId);
 

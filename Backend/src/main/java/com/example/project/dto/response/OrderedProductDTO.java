@@ -13,12 +13,12 @@ import java.time.LocalDate;
 public class OrderedProductDTO {
 
     @JsonProperty("ordered_product")
-    private ProductDTO product;
+    private CompactProductDTO product;
 
-    private Integer count;
+    private Integer quantity;
 
-    @JsonProperty("discount_price")
-    private BigDecimal discountPrice;
+    @JsonProperty("price")
+    private BigDecimal price;
 
     @JsonProperty("delivery_days")
     private Integer deliveryDays;

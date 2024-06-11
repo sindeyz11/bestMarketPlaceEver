@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -13,6 +15,6 @@ import lombok.NoArgsConstructor;
 public class AllUsersDTO {
     private String username;
     private Role role;
-    private Integer amount_spent;
+    private BigDecimal amount_spent;
     private Double user_discount;
 }

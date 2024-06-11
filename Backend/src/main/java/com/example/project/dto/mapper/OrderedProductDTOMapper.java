@@ -1,7 +1,7 @@
 package com.example.project.dto.mapper;
 
 import com.example.project.dto.response.OrderedProductDTO;
-import com.example.project.dto.response.ProductDTO;
+import com.example.project.dto.response.CompactProductDTO;
 import com.example.project.entity.OrderedProduct;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +11,10 @@ import java.util.function.Function;
 public class OrderedProductDTOMapper implements Function<OrderedProduct, OrderedProductDTO> {
     @Override
     public OrderedProductDTO apply(OrderedProduct orderedProduct) {
-        ProductDTO productDTO = new ProductDTO(orderedProduct.getProduct());
+        CompactProductDTO compactProductDTO = new CompactProductDTO(orderedProduct.getProduct());
 
         return new OrderedProductDTO(
-                productDTO,
+                compactProductDTO,
                 orderedProduct.getCount(),
                 orderedProduct.getDiscountPrice(),
                 orderedProduct.getDeliveryDays(),

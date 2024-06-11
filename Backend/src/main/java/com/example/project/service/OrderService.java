@@ -27,8 +27,50 @@ public class OrderService {
     private PickupPointRepo pickupPointRepo;
     private OrderedProductRepo orderedProductRepo;
     private DeliveryStatusRepo deliveryStatusRepo;
+    private UserRepo userRepo;
 
     private OrderDTOMapper dtoMapper;
+
+    // --> UserService
+    private void userRecalculateDiscount(User user) {
+        BigDecimal amountSpent = user.getAmount_spent();
+
+        if (amountSpent.compareTo(new BigDecimal("100000")) > 0) {
+            user.setUserDiscount(10.0);
+        } else if (amountSpent.compareTo(new BigDecimal("75000")) > 0) {
+            user.setUserDiscount(7.5);
+        } else if (amountSpent.compareTo(new BigDecimal("50000")) > 0) {
+            user.setUserDiscount(5.0);
+        } else if (amountSpent.compareTo(new BigDecimal("25000")) > 0) {
+            user.setUserDiscount(2.5);
+        }
+    }
+
+    // --> UserService
+    private void userAddAmountSpent(User user, BigDecimal orderCost) {
+        BigDecimal amountSpent = user.getAmount_spent();
+        BigDecimal newAmountSpent = amountSpent.add(orderCost);
+        user.setAmount_spent(newAmountSpent);
+
+        BigDecimal boundary = new BigDecimal("25000");
+        BigDecimal oldBoundary = amountSpent.divideToIntegralValue(boundary);
+        BigDecimal newBoundary = newAmountSpent.divideToIntegralValue(boundary);
+        if (amountSpent.compareTo(new BigDecimal("100000")) < 0 && newBoundary.compareTo(oldBoundary) > 0) {
+            userRecalculateDiscount(user);
+        }
+    }
+
+    private BigDecimal getFinalDiscountPrice(Product product, User user) {
+        Double userDiscount = user.getUserDiscount();
+        BigDecimal productDiscountPrice = product.getDiscountPrice();
+
+        if (userDiscount != null && userDiscount != 0) {
+            BigDecimal discountMultiplier = BigDecimal.valueOf(userDiscount).divide(BigDecimal.valueOf(100));
+            return productDiscountPrice.subtract(productDiscountPrice.multiply(discountMultiplier));
+        }
+
+        return productDiscountPrice;
+    }
 
     public OrderDTO findAllProductsByOrderId(Integer orderId) throws NoSuchElementFoundException {
         Order order = repository.findById(orderId)
@@ -54,7 +96,6 @@ public class OrderService {
     @Transactional(rollbackFor = {Exception.class})
     public void create(OrderRequest orderRequest) throws NoSuchElementFoundException {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        Double userDiscount = user.getUserDiscount();
         PickupPoint pickupPoint = pickupPointRepo
                 .findById(orderRequest.getPickupPointId())
                 .orElseThrow(() -> new NoSuchElementFoundException(Constants.NOT_FOUND_PICKUPPOINT));
@@ -85,15 +126,7 @@ public class OrderService {
                         .filter(p -> p.getProduct_id() == id)
                         .toList()
                         .get(0);
-                BigDecimal discountPrice;
-                BigDecimal productDiscountPrice = product.getDiscountPrice();
-
-                if (userDiscount != null && userDiscount != 0) {
-                    BigDecimal discountMultiplier = BigDecimal.valueOf(userDiscount).divide(BigDecimal.valueOf(100));
-                    discountPrice = productDiscountPrice.subtract(productDiscountPrice.multiply(discountMultiplier));
-                } else {
-                    discountPrice = productDiscountPrice;
-                }
+                BigDecimal discountPrice = getFinalDiscountPrice(product, user);
 
                 orderedProductsToCreate.add(OrderedProduct.builder()
                         .order(order)
@@ -109,6 +142,9 @@ public class OrderService {
                 throw new NoSuchElementFoundException(Constants.NOT_FOUND_PRODUCT + id.toString());
             }
         }
+        userAddAmountSpent(user, orderRequest.getOrderPrice());
+
+        userRepo.save(user);
         orderedProductRepo.saveAll(orderedProductsToCreate);
     }
 
@@ -136,7 +172,7 @@ public class OrderService {
         }
 
         for (OrderedProduct product : products) {
-            var productId = product.getProduct().getProduct_id(); // мб пофиксить чтобы без доп запросов
+            var productId = product.getProduct().getProduct_id();
             if (!received.contains(productId) && !returned.contains(productId)) {
                 throw new ProductsCountMismatchException(Constants.PRODUCT_COUNT_MISMATCH);
             }
@@ -148,9 +184,9 @@ public class OrderService {
             }
             product.setCompletionDate(LocalDate.now());
         }
-
         order.setCompleted(true);
         repository.save(order);
+
         orderedProductRepo.saveAll(products);
     }
 }

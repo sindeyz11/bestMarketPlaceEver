@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
 
@@ -22,34 +23,35 @@ public class PickupPointController {
 
     @GetMapping
     public ResponseEntity<List<PickupPointDTO>> getAll() {
-        try {
-            return ResponseEntity.ok(pickupPointService.findAll());
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return ResponseEntity.ok(pickupPointService.findAll());
     }
 
     @PostMapping
-    public ResponseEntity<?> createPoint(@Valid @RequestBody PickupPointRequest request) {
-        try {
-            PickupPointDTO pickupPointDTO = pickupPointService.create(request);
-            return ResponseEntity.ok(pickupPointDTO);
-        } catch (NoSuchElementFoundException | CannotUseUserException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<?> createPoint(@Valid @RequestBody PickupPointRequest request) throws NoSuchElementFoundException, CannotUseUserException {
+        PickupPointDTO pickupPointDTO = pickupPointService.create(request);
+        return ResponseEntity.ok(pickupPointDTO);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updatePoint(@PathVariable Integer id, @Valid @RequestBody PickupPointRequest request) {
-        try {
-            PickupPointDTO pickupPointDTO = pickupPointService.update(id, request);
-            return ResponseEntity.ok(pickupPointDTO);
-        } catch (NoSuchElementFoundException | CannotUseUserException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<?> updatePoint(@PathVariable Integer id, @Valid @RequestBody PickupPointRequest request) throws NoSuchElementFoundException, CannotUseUserException {
+        PickupPointDTO pickupPointDTO = pickupPointService.update(id, request);
+        return ResponseEntity.ok(pickupPointDTO);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePoint(@PathVariable Integer id) throws NoSuchElementFoundException {
+        pickupPointService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @ExceptionHandler({NoSuchElementFoundException.class, CannotUseUserException.class,})
+    public ResponseEntity<String> handleBadRequestException(Exception e, WebRequest request) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGeneralException(Exception e, WebRequest request) {
+        return new ResponseEntity<>("Возникла неизвестная ошибка: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
