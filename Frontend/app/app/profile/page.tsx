@@ -7,22 +7,22 @@ import { StatisticsPanel } from "@/components/profile/user/statistics-panel";
 import { UserData } from "@/components/profile/user/user-data";
 import deliveryStore from "@/store/delivery";
 import { useState } from "react";
+import authorizedUserStore from "@/store/authorizedUser";
+import { map } from "yaml/dist/schema/common/map";
 
 const ProfilePage = () => {
   {
     /*  FIXME: здесь данные берутся с backend   */
   }
-  const [username, setUsername] = useState<string>("Василий");
-  const [phone, setPhone] = useState<string>("985 000 9243");
-  const [email, setEmail] = useState<string>("khudobin_v@icloud.com");
-
-  const [oldPassword, setOldPassword] = useState<string>("");
-  const [newPassword, setNewPassword] = useState<string>("");
-  const [repeatedNewPassword, setRepeatedNewPassword] = useState<string>("");
-
-  const [cardNumber, setCardNumber] = useState<string>("**** **** **** 8442");
-  const [cardDate, setCardDate] = useState<string>("02 / 27");
-  const [CVC, setCVC] = useState<string>("* * *");
+  const username = authorizedUserStore.user?.username;
+  const phone = authorizedUserStore.user?.phone;
+  const email = authorizedUserStore.user?.email;
+  const cardNumber = authorizedUserStore.user?.cardNumber;
+  const cardDate = authorizedUserStore.user?.validity;
+  const cardCVC = authorizedUserStore.user?.CVC;
+  const amountSpent = authorizedUserStore.user?.amountSpent;
+  const redemptionPercent = authorizedUserStore.user?.redemptionPercent;
+  const userDiscount = authorizedUserStore.user?.userDiscount;
   return (
     <div
       style={{ minHeight: "calc(100dvh - 240px)" }}
@@ -33,9 +33,9 @@ const ProfilePage = () => {
         <div className="col-span-1 flex flex-col gap-6">
           {/*  FIXME: здесь данные берутся с backend   */}
           <UserData
-            usernameData="khudobin_v"
-            phoneData="9885582402"
-            emailData="khudobin_v@icloud.com"
+            usernameData={username}
+            phoneData={phone?.replace("+7", "")}
+            emailData={email}
           />
           <ChangePasswordPanel />
         </div>
@@ -43,16 +43,24 @@ const ProfilePage = () => {
           {/*  FIXME: здесь данные берутся с backend   */}
           <StatisticsPanel
             title="Сумма выкупа"
-            stats={47624.34}
+            stats={amountSpent || 0}
             unit="₽"
             unitPosition="left"
           />
-          <StatisticsPanel title="Процент выкупа" stats={68.12} unit="%" />
-          <StatisticsPanel title="Ваша скидка" stats={5.88} unit="%" />
+          <StatisticsPanel
+            title="Процент выкупа"
+            stats={redemptionPercent || 0}
+            unit="%"
+          />
+          <StatisticsPanel
+            title="Ваша скидка"
+            stats={userDiscount || 0}
+            unit="%"
+          />
           <PaymentData
-            cardNumberData="1234 5678 9012 3456"
-            cardDateData="05/24"
-            CVCData="383"
+            cardNumberData={cardNumber || ""}
+            cardDateData={cardDate || ""}
+            CVCData={cardCVC?.toString() || ""}
           />
         </div>
         <div className="col-span-2">

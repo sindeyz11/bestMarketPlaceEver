@@ -6,7 +6,7 @@ export const UsersList = () => {
     <div className="bg-white shadow-lg rounded-xl p-6">
       <h2 className="text-black font-semibold text-lg">Пользователи</h2>
       {authStore.users.length ? (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 mt-2">
           {authStore.users.map((user) => (
             <UserItem
               code={user.code}

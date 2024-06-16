@@ -158,14 +158,14 @@ class Auth {
   constructor() {
     makeAutoObservable(this);
   }
-
+  WW;
   setUserRole(newRole: IUserRole) {
     this.role = newRole;
   }
 
   removePickupPoint(code: string) {
     this.pickupPoints = this.pickupPoints.filter(
-      (pickupPoint) => pickupPoint.code !== code
+      (pickupPoint) => pickupPoint.code !== code,
     );
   }
 
