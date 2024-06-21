@@ -120,6 +120,7 @@ public class UserService {
                     usersDTO.setUser_discount(user.getUserDiscount());
                     usersDTO.setRole(user.getRole());
                     usersDTO.setAmount_spent(user.getAmount_spent());
+                    usersDTO.setId(user.getUser_id());
                     return usersDTO;
                 })
                 .toList();
