@@ -83,10 +83,6 @@ public class OrderService {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         List<Order> orders = repository.findAllByUser(user);
 
-        if (orders.isEmpty()) {
-            throw new NoSuchElementFoundException();
-        }
-
         return orders
                 .stream()
                 .map(dtoMapper)

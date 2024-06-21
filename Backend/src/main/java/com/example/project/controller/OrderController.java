@@ -34,8 +34,6 @@ public class OrderController {
     public ResponseEntity<?> getOrdersByUser() {
         try {
             return new ResponseEntity<>(orderService.findAllByUser(), HttpStatus.OK);
-        } catch (NoSuchElementFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
