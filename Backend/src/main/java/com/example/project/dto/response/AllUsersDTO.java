@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AllUsersDTO {
+    private Integer id;
     private String username;
     private Role role;
     private BigDecimal amount_spent;

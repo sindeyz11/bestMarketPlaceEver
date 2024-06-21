@@ -30,12 +30,12 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfiguration corsConfiguration) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurationSource corsConfigurationSource) throws Exception {
         http
-                .cors(cors -> cors.configurationSource(request -> corsConfiguration))
+                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/api/v1/auth/**", "/api/v1/products/image/**")
+                        req.requestMatchers("/api/v1/auth", "/api/v1/products/image/**", "/api/v1/auth/register")
                                 .permitAll()
                                 .requestMatchers(GET, "/api/v1/users/{id}", "/api/v1/orders/user", "/api/v1/product/image/{id}", "/api/v1/product/assortment", "/api/v1/product/categories", "/api/v1/product/special", "/api/v1/points").hasAnyRole(USER.name(), ADMIN.name(), MANAGER.name())
                                 .requestMatchers(PATCH, "/api/v1/users/{id}", "/api/v1/users/password", "/api/v1/users/card").hasAnyRole(USER.name(), ADMIN.name(), MANAGER.name())
@@ -55,11 +55,14 @@ public class SecurityConfig {
         return http.build();
     }
     @Bean
-    public CorsConfiguration corsConfiguration() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*");
-        corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.addAllowedHeader("*");
-        return corsConfiguration;
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/", "http://195.43.142.92/"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
+        configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
