@@ -8,60 +8,32 @@ import { UserData } from "@/components/profile/user/user-data";
 import deliveryStore from "@/store/delivery";
 import { useState } from "react";
 import authorizedUserStore from "@/store/authorizedUser";
-import { map } from "yaml/dist/schema/common/map";
+import { red } from "next/dist/lib/picocolors";
 
 const ProfilePage = () => {
-  {
-    /*  FIXME: здесь данные берутся с backend   */
-  }
-  const username = authorizedUserStore.user?.username;
-  const phone = authorizedUserStore.user?.phone;
-  const email = authorizedUserStore.user?.email;
-  const cardNumber = authorizedUserStore.user?.cardNumber;
-  const cardDate = authorizedUserStore.user?.validity;
-  const cardCVC = authorizedUserStore.user?.CVC;
-  const amountSpent = authorizedUserStore.user?.amountSpent;
-  const redemptionPercent = authorizedUserStore.user?.redemptionPercent;
-  const userDiscount = authorizedUserStore.user?.userDiscount;
   return (
     <div
       style={{ minHeight: "calc(100dvh - 240px)" }}
-      className="flex py-10 bg-[#F6F6F6]"
+      className="flex bg-[#F6F6F6] py-10"
     >
       <title>Профиль</title>
-      <div className="w-full grid grid-cols-4 px-20 gap-6 h-full">
+      <div className="grid h-full w-full grid-cols-4 gap-6 px-20">
         <div className="col-span-1 flex flex-col gap-6">
           {/*  FIXME: здесь данные берутся с backend   */}
-          <UserData
-            usernameData={username}
-            phoneData={phone?.replace("+7", "")}
-            emailData={email}
-          />
+          <UserData />
           <ChangePasswordPanel />
         </div>
         <div className="col-span-1 flex flex-col gap-6">
           {/*  FIXME: здесь данные берутся с backend   */}
           <StatisticsPanel
             title="Сумма выкупа"
-            stats={amountSpent || 0}
+            stats={0}
             unit="₽"
             unitPosition="left"
           />
-          <StatisticsPanel
-            title="Процент выкупа"
-            stats={redemptionPercent || 0}
-            unit="%"
-          />
-          <StatisticsPanel
-            title="Ваша скидка"
-            stats={userDiscount || 0}
-            unit="%"
-          />
-          <PaymentData
-            cardNumberData={cardNumber || ""}
-            cardDateData={cardDate || ""}
-            CVCData={cardCVC?.toString() || ""}
-          />
+          <StatisticsPanel title="Процент выкупа" stats={0} unit="%" />
+          <StatisticsPanel title="Ваша скидка" stats={0} unit="%" />
+          <PaymentData cardNumberData={""} cardDateData={""} CVCData={""} />
         </div>
         <div className="col-span-2">
           {deliveryStore.deliveryItems.length ? (

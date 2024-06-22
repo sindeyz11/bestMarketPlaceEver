@@ -1,30 +1,21 @@
-import { makeAutoObservable } from "mobx";
 import { IUserRole } from "@/types";
+import { makeAutoObservable } from "mobx";
 
-export interface IAuthorizedUser {
-  id?: number;
-  role?: IUserRole;
-  phone?: string;
-  email?: string;
-  username?: string;
-  cardNumber?: string;
-  CVC?: number;
-  amountSpent?: number;
-  orderCount?: number;
-  validity?: any;
-  userDiscount?: number;
-  redemptionPercent?: number;
+interface IUser {
+  user_id: number;
+  token: string;
+  role: IUserRole;
 }
 
 class AuthorizedUser {
-  user: IAuthorizedUser | null = null;
+  user: IUser | null = null
 
   constructor() {
     makeAutoObservable(this);
     this.loadUser();
   }
 
-  setUser(user: IAuthorizedUser) {
+  setUser(user: IUser) {
     this.user = user;
     this.saveUser();
   }
@@ -43,9 +34,11 @@ class AuthorizedUser {
     if (userData) {
       this.user = JSON.parse(userData);
     }
+    return this.user;
   }
 
   logout() {
+    
     this.user = null;
     this.saveUser();
     localStorage.removeItem("user");

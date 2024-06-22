@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config: Config = {
   plugins: [require("@tailwindcss/line-clamp")],
@@ -10,6 +10,8 @@ const config: Config = {
   theme: {
     extend: {
       screens: {
+        base: "992px",
+        "base-xl": "1280px",
         "1.5lg": "1024px",
         "1.5xl": "1350px",
       },
@@ -40,4 +42,4 @@ const config: Config = {
     },
   },
 };
-export default config
+export default config;

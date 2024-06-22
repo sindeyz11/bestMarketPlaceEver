@@ -18,7 +18,7 @@ export interface IPickupPoint {
 }
 
 export interface IUser {
-  code: string;
+  code: number;
   name: string;
   role: IUserRole;
   redemptionSum: number;

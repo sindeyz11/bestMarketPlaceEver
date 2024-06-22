@@ -28,10 +28,9 @@ export const Footer = () => {
           Загрузите наше <br /> приложение
         </h3>
         <Link
-          href="/app/android.apk"
+          href="/app/kubmarket-app.apk"
           className="flex flex-col items-center gap-1"
           download="KubMarketApp.apk"
-          d
         >
           <Image
             src="/qr-codes/android-app.png"

@@ -1,14 +1,23 @@
 export const loadToken = () => {
-  const tokenDataString =
-    typeof window !== "undefined" && localStorage.getItem("token");
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  const tokenDataString = localStorage.getItem("token");
   if (!tokenDataString) {
     return null;
   }
-  const tokenData = JSON.parse(tokenDataString);
-  const now = new Date();
-  if (now.getTime() > tokenData.expires_in) {
-    typeof window !== "undefined" && localStorage.removeItem("token");
+
+  try {
+    const tokenData = JSON.parse(tokenDataString);
+    const now = new Date().getTime();
+    if (now > tokenData.expires_in) {
+      localStorage.removeItem("token");
+      return null;
+    }
+    return tokenData; // Возвращаем весь объект токена
+  } catch (error) {
+    console.error("Failed to parse token data:", error);
     return null;
   }
-  return tokenData.token;
 };

@@ -8,12 +8,20 @@ export const UserItem = ({
   discount,
   redemptionSum,
 }: Omit<IUser, "redemptionPercentage">) => {
+  const formatId = (id: number) => {
+    return id.toString().padStart(5, "0");
+  };
+  const generateId = (role: string, id: number): string => {
+    if (role === "admin") return `AD-${formatId(id)}`;
+    else if (role === "manager") return `MG-${formatId(id)}`;
+    return `US-${formatId(id)}`;
+  };
   return (
     <div className="p-4 rounded-lg bg-secondary-bg flex items-center justify-between">
       <div className="flex flex-col gap-1">
         <h3 className="font-semibold text-lg">{name}</h3>
         <div className="flex flex-col leading-none">
-          <span>{code}</span>
+          <span>{generateId(role ? role : "unknown", code)}</span>
           <span>{role}</span>
         </div>
       </div>

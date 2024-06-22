@@ -14,21 +14,23 @@ import { SearchIcon } from "../icons/search-icon";
 import { UserIcon } from "../icons/user-icon";
 import { Button } from "../ui/button";
 import authorizedUserStore from "@/store/authorizedUser";
-import authorizedUser from "@/store/authorizedUser";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
+import { loadToken } from "@/utils/load-token";
 
 export const Header = observer(() => {
-  const { user } = authorizedUserStore;
+  const user = useAuth();
+  const userRole = loadToken()?.role;
   const router = useRouter();
   const handleLogout = () => {
     toast.success("Вы успешно вышли из аккаунта");
-    authorizedUserStore.logout();
     router.push("/auth");
+    authorizedUserStore.logout();
   };
   return (
-    <header className="h-20 px-20 w-full flex items-center justify-between gap-24">
-      <div className="w-1/2 flex items-center gap-8 ml-2">
+    <header className="flex h-20 w-full items-center justify-between gap-24 px-20">
+      <div className="ml-2 flex w-1/2 items-center gap-8">
         <Link href="/">
           <Image
             src="/logos/Main_logo.png"
@@ -47,19 +49,19 @@ export const Header = observer(() => {
           />
         )}
       </div>
-      <div className="w-1/2 flex items-center justify-between">
-        <Link href="tel:8800666311">
+      <div className="flex flex-wrap items-center justify-between">
+        <Link href="tel:8800666311" className="mr-20 hidden 2xl:block">
           <div className="flex flex-col items-end">
-            <b className="text-base leading-none font-extrabold">
+            <b className="text-base font-extrabold leading-none">
               8 800 666 13-11
             </b>
-            <span className="text-end text-secondary-text leading-none text-xs font-medium">
+            <span className="text-end text-xs font-medium leading-none text-secondary-text">
               Поддержка 24/7
             </span>
           </div>
         </Link>
-        <div className="flex flex-row-reverse items-center gap-4">
-          {user && (
+        <div className="flex flex-row-reverse items-center justify-end gap-4">
+          {user.data && (
             <Button
               variant="icon"
               icon={<LogoutIcon className="h-6 w-6" />}
@@ -67,23 +69,23 @@ export const Header = observer(() => {
             />
           )}
           <Link
-            href={user ? "/cart" : "#"}
-            className="flex items-center gap-4 p-2 hover:bg-transparent/5 transition-colors rounded-lg"
+            href={user.data ? "/cart" : "#"}
+            className="flex items-center gap-4 rounded-lg p-2 transition-colors hover:bg-transparent/5"
           >
             <div className="relative">
               {cartStore.getTotalItems() !== 0 && (
-                <div className="absolute bottom-5 left-4 w-3 h-3 flex items-center justify-center bg-dark-accent px-3 py-2 text-xs text-white font-bold rounded">
+                <div className="absolute bottom-5 left-4 flex h-3 w-3 items-center justify-center rounded bg-dark-accent px-3 py-2 text-xs font-bold text-white">
                   {cartStore.getTotalItems()}
                 </div>
               )}
               <CartIcon className="h-8 w-8 text-icon" />
             </div>
             <div className="flex flex-col items-start">
-              <span className="text-end text-secondary-text leading-none text-xs font-medium">
+              <span className="text-end text-xs font-medium leading-none text-secondary-text">
                 Ваша корзина
               </span>
-              <b className="text-base leading-none font-extrabold">
-                {user ? (
+              <b className="text-base font-extrabold leading-none">
+                {user.data ? (
                   <p>
                     ₽
                     {Intl.NumberFormat("ru", {
@@ -98,13 +100,13 @@ export const Header = observer(() => {
               </b>
             </div>
           </Link>
-          <Link href={user ? "/profile" : "/auth"}>
+          <Link href={user.data ? "/profile" : "/auth"}>
             <Button
               variant="icon"
               icon={<UserIcon className="h-6 w-6 text-icon" />}
             />
           </Link>
-          {user?.role === "ADMIN" && (
+          {userRole === "ADMIN" && (
             <Link href="/admin-panel">
               <Button
                 variant="icon"
@@ -112,7 +114,7 @@ export const Header = observer(() => {
               />
             </Link>
           )}
-          {user?.role === "MANAGER" && (
+          {userRole === "MANAGER" && (
             <Link href="/manager-panel">
               <Button
                 variant="icon"

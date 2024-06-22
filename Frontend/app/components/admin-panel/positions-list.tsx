@@ -41,7 +41,7 @@ export const PositionsList = ({ positions }: PositionsListProps) => {
       <h2 className="text-black font-semibold text-lg mb-2">Позиции</h2>
       {positions.length ? (
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col h-[calc(100dvh-300px)] overflow-y-auto rounded-xl gap-3 custom-scroll">
+          <div className="flex flex-col  h-[calc(100dvh-300px)] overflow-y-auto rounded-xl gap-3 custom-scroll">
             {positions.map((position) => (
               <PositionItem
                 key={position.id}

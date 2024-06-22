@@ -10,12 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import UserService from "@/app/api/user-service";
-import authorizedUserStore, { IAuthorizedUser } from "@/store/authorizedUser";
-import { IUserRole } from "@/types";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { saveToken } from "@/utils/save-token";
-import { loadToken } from "@/utils/load-token";
+import { useMutation } from "@tanstack/react-query";
+import { useAmp } from "next/amp";
+import { AuthRequest, RegisterRequest } from "../api/[models]/authRequests";
+import { IUser, IUserRole } from "@/types";
 
 const AuthPage = () => {
   const [stage, setStage] = useState("login");
@@ -37,67 +37,75 @@ const AuthPage = () => {
       [name]: value,
     }));
   };
+  const loginMutation = useMutation({
+    mutationKey: ["login"],
+    mutationFn: async (loginData: AuthRequest) => {
+      try {
+        const response = await AuthService.login(loginData);
+        saveToken(
+          response.data.token,
+          response.data.user_id,
+          response.data.role as IUserRole,
+        );
+      } catch (error) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          // Если сервер возвращает сообщение об ошибке
+          throw new Error(error.response.data.message);
+        } else {
+          // Если сервер не возвращает сообщение об ошибке
+          throw new Error("Произошла ошибка при входе. Попробуйте снова.");
+        }
+      }
+    },
+    onSuccess: () => {
+      router.push("/");
 
-  const handleLogin = async (event: MouseEvent) => {
+      toast.success("Вы успешно вошли в аккаунт!");
+    },
+    onError: (error) => {
+      // Проверяем, есть ли у ошибки сообщение от сервера
+      const errorMessage =
+        error.response?.data?.message || error.message || "Произошла ошибка";
+      toast.error(errorMessage);
+    },
+  });
+
+  const regitserMutation = useMutation({
+    mutationKey: ["register"],
+    mutationFn: async (registerData: RegisterRequest) => {
+      await AuthService.register(registerData);
+    },
+    onSuccess: () => {
+      setStage("login");
+      toast.success(
+        "Вы успешно создали аккаунт\nТеперь вы можете войти в аккаунт",
+      );
+    },
+    onError: (err) => {
+      toast.error(err.name);
+    },
+  });
+
+  const handleLogin = (event: any) => {
     event.preventDefault();
-    const loginData = {
+    loginMutation.mutate({
       phone: "+7" + formData.phone,
       password: formData.password,
-    };
-    try {
-      const response = await AuthService.login(loginData);
-      if (response.status === 200) {
-        toast.success("Вы успешно вошли в свой аккаунт");
-        router.push("/");
-        // localStorage.setItem("token", response.data.token);
-        saveToken(response.data.token);
-        const userInfo = await UserService.getAllUserInfo(
-          response.data.user_id,
-        );
-        const userInfoData: IAuthorizedUser = {
-          id: response.data.user_id,
-          role: response.data.role as IUserRole,
-          ...userInfo.data,
-        };
-
-        authorizedUserStore.setUser(userInfoData);
-      }
-    } catch (error) {
-      console.error(error);
-      if (error.response && error.response.status === 400) {
-        toast.error(error.response.data, {
-          position: "top-center",
-        });
-      }
-    }
+    });
   };
 
-  const handleRegister = async (e: any) => {
-    e.preventDefault();
-    if (formData.password !== formData.repeatPassword) {
-      alert("Пароли не совпадают");
-      return;
-    }
-    const registerData = {
+  const handleRegister = (event: any) => {
+    event.preventDefault();
+    regitserMutation.mutate({
       username: formData.username,
       phone: "+7" + formData.phone,
       email: formData.email,
       password: formData.password,
-    };
-    try {
-      const response = await AuthService.register(registerData);
-      if (response.status === 200) {
-        toast.success("Регистрация прошла успешно. Войдите в аккаунт");
-        setStage("login");
-      }
-    } catch (error) {
-      console.error(error);
-      if (error.response && error.response.status === 400) {
-        toast.error(error.response.data, {
-          position: "top-center",
-        });
-      }
-    }
+    });
   };
 
   return (
@@ -106,14 +114,11 @@ const AuthPage = () => {
       className="flex items-center justify-center bg-[#F6F6F6]"
     >
       <title>Авторизация</title>
-      <form
-        className="bg-white rounded-xl p-10 shadow-2xl flex flex-col items-center gap-8 w-[30em] my-20"
-        onSubmit={stage === "register" ? handleRegister : undefined}
-      >
-        <h2 className="text-black font-bold text-2xl">
+      <form className="my-20 flex w-[30em] flex-col items-center gap-8 rounded-xl bg-white p-10 shadow-2xl">
+        <h2 className="text-2xl font-bold text-black">
           {stage === "login" ? "Войти в профиль" : "Регистрация"}
         </h2>
-        <div className="flex flex-col gap-3 w-full">
+        <div className="flex w-full flex-col gap-3">
           {stage === "login" ? (
             <>
               <Field
@@ -176,18 +181,19 @@ const AuthPage = () => {
             </>
           )}
         </div>
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex w-full flex-col gap-4">
           {stage === "login" ? (
             <>
               <Button
+                disabled={loginMutation.isPending}
+                isLoading={loginMutation.isPending}
                 color="dark"
-                onClick={(event: any) => {
-                  handleLogin(event);
-                }}
+                type="button"
+                onClick={(e) => handleLogin(e)}
               >
                 Войти
               </Button>
-              <span className="text-center w-full">
+              <span className="w-full text-center">
                 <Button
                   variant="link"
                   href="#"
@@ -199,10 +205,14 @@ const AuthPage = () => {
             </>
           ) : (
             <>
-              <Button color="dark" type="submit">
+              <Button
+                color="dark"
+                type="button"
+                onClick={(e) => handleRegister(e)}
+              >
                 Зарегистрироваться
               </Button>
-              <span className="text-center w-full">
+              <span className="w-full text-center">
                 <Button
                   variant="link"
                   href="#"

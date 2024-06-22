@@ -8,17 +8,11 @@ interface DeliveryPanelProps {
 
 export const DeliveryList = ({ codeForReceive, items }: DeliveryPanelProps) => {
   return (
-    <div className="bg-white shadow-lg rounded-xl p-6">
+    <div className="rounded-xl bg-white p-6 shadow-lg">
       <div className="flex items-center justify-between">
-        <h2 className="text-black font-semibold text-lg">
+        <h2 className="text-lg font-semibold text-black">
           Информация о доставках
         </h2>
-        <div className="flex items-center gap-2">
-          <p>Код для получения: </p>
-          <span className="bg-secondary-text/10 font-semibold rounded-lg p-1.5">
-            {codeForReceive}
-          </span>
-        </div>
       </div>
       {items ? (
         items.map((item) => (
@@ -39,7 +33,7 @@ export const DeliveryList = ({ codeForReceive, items }: DeliveryPanelProps) => {
           />
         ))
       ) : (
-        <div className="min-h-[500px] w-full text-center flex items-center justify-center">
+        <div className="flex min-h-[500px] w-full items-center justify-center text-center">
           Информация о доставках отсутствует
         </div>
       )}

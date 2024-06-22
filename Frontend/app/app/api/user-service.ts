@@ -9,7 +9,7 @@ import {
 export default class UserService {
   /** Доступно всем*/
   static async getAllUserInfo(
-    userId: number
+    userId: number,
   ): Promise<AxiosResponse<UserData>> {
     return api.get<UserData>(`/users/${userId}`);
   }
@@ -17,7 +17,7 @@ export default class UserService {
   /** Доступно всем*/
   static async changeUserInfo(
     userId: number,
-    userData: CardInfoRequest
+    userData: UserInfoRequest,
   ): Promise<AxiosResponse> {
     return api.patch(`/users/${userId}`, userData);
   }
@@ -26,7 +26,7 @@ export default class UserService {
   static async changePassword(
     currentPassword: string,
     confirmationPassword: string,
-    newPassword: string
+    newPassword: string,
   ): Promise<AxiosResponse> {
     return api.patch("/users/password", {
       currentPassword,
@@ -37,7 +37,7 @@ export default class UserService {
 
   /** Доступно всем */
   static async changeUserCardData(
-    card: UserInfoRequest
+    card: CardInfoRequest,
   ): Promise<AxiosResponse> {
     return api.patch("/users/card", card);
   }

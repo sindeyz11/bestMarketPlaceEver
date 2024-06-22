@@ -50,15 +50,15 @@ export const Field = ({
   return (
     <>
       {variant === "default" && (
-        <label className="relative w-full flex items-center">
+        <label className="relative flex w-full items-center">
           {icon && (
-            <span className="h-5 w-5 text-black absolute left-3 top-1/2 transform -translate-y-[55%] flex items-center">
+            <span className="absolute left-3 top-1/2 flex h-5 w-5 -translate-y-[55%] transform items-center text-black">
               {icon}
             </span>
           )}
           {startContent && (
             <span
-              className={`absolute top-1/2 transform -translate-y-1/2 font-medium select-none text-sm flex items-center ${
+              className={`absolute top-1/2 flex -translate-y-1/2 transform select-none items-center text-sm font-medium ${
                 icon ? "left-10" : "left-3"
               }`}
             >
@@ -73,10 +73,10 @@ export const Field = ({
             value={value}
             onChange={onChange}
             maxLength={maxLength}
-            className={`p-3 w-full bg-field-bg flex items-center ${
+            className={`flex w-full items-center bg-field-bg p-3 ${
               color === "white" && "bg-white focus:bg-white/60"
-            } rounded-lg outline-none focus:bg-field-bg/80 transition-colors text-sm placeholder:text-sm placeholder:text-secondary-text text-black border border-transparent ${
-              disabled && "text-center cursor-not-allowed"
+            } rounded-lg border border-transparent text-sm text-black outline-none transition-colors placeholder:text-sm placeholder:text-secondary-text focus:bg-field-bg/80 ${
+              disabled && "cursor-not-allowed text-center"
             } ${
               startContent
                 ? icon
@@ -93,7 +93,7 @@ export const Field = ({
       {variant === "numeric" && (
         <label className="relative w-28">
           {startContent && (
-            <span className="absolute top-1/2 transform -translate-y-1/2 left-3 font-medium">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 transform font-medium">
               {startContent}
             </span>
           )}
@@ -101,7 +101,7 @@ export const Field = ({
             type="number"
             name={name}
             placeholder={placeholder}
-            className={`p-3 border border-black rounded-lg outline-none w-full text-sm placeholder:text-sm placeholder:text-secondary-text ${
+            className={`w-full rounded-lg border border-black p-3 text-sm outline-none placeholder:text-sm placeholder:text-secondary-text ${
               !startContent && "text-center"
             } ${startContent && "pl-8"}`}
           />
@@ -110,7 +110,7 @@ export const Field = ({
 
       {variant === "textarea" && (
         <textarea
-          className="outline-none rounded-lg bg-white p-3 text-sm placeholder:text-sm w-full placeholder:text-secondary-text"
+          className="w-full rounded-lg bg-white p-3 text-sm outline-none placeholder:text-sm placeholder:text-secondary-text"
           placeholder={placeholder}
           value={value}
           onChange={onChange}
@@ -119,9 +119,9 @@ export const Field = ({
       )}
 
       {variant === "card" && (
-        <label className="relative w-full flex items-center">
+        <label className="relative flex w-full items-center">
           {icon && (
-            <span className="h-5 w-5 text-black absolute left-3 top-1/2 transform -translate-y-1/2">
+            <span className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-black">
               {icon}
             </span>
           )}
@@ -132,8 +132,8 @@ export const Field = ({
             value={cardNumber}
             onChange={handleCardNumberChange}
             maxLength={19}
-            className={`p-3 w-full bg-field-bg rounded-lg outline-none focus:bg-field-bg/80 transition-colors text-sm placeholder:text-sm placeholder:text-secondary-text text-black border border-transparent ${
-              disabled && "text-center cursor-not-allowed"
+            className={`w-full rounded-lg border border-transparent bg-field-bg p-3 text-sm text-black outline-none transition-colors placeholder:text-sm placeholder:text-secondary-text focus:bg-field-bg/80 ${
+              disabled && "cursor-not-allowed text-center"
             } ${icon ? "pl-12" : ""}`}
           />
         </label>

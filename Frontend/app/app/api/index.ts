@@ -8,7 +8,7 @@ const api = axios.create({
 
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const tokenData = loadToken();
-  if (tokenData) config.headers.Authorization = `Bearer ${loadToken()}`;
+  if (tokenData) config.headers.Authorization = `Bearer ${loadToken().token}`;
   return config;
 });
 
