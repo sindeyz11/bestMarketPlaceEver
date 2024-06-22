@@ -5,8 +5,8 @@ import { useState } from "react";
 
 interface paymentDataProps {
   cardNumberData: string;
-  cardDateData: string;
-  CVCData: string;
+  cardDateData: Date;
+  CVCData: number;
 }
 
 export const PaymentData = ({

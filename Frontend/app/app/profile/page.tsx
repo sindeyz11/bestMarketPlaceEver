@@ -9,8 +9,10 @@ import deliveryStore from "@/store/delivery";
 import { useState } from "react";
 import authorizedUserStore from "@/store/authorizedUser";
 import { red } from "next/dist/lib/picocolors";
+import {useAuth} from "@/hooks/useAuth";
 
 const ProfilePage = () => {
+  const user = useAuth();
   return (
     <div
       style={{ minHeight: "calc(100dvh - 240px)" }}
@@ -27,13 +29,13 @@ const ProfilePage = () => {
           {/*  FIXME: здесь данные берутся с backend   */}
           <StatisticsPanel
             title="Сумма выкупа"
-            stats={0}
+            stats={user.data?.amount_spent || 0}
             unit="₽"
             unitPosition="left"
           />
-          <StatisticsPanel title="Процент выкупа" stats={0} unit="%" />
-          <StatisticsPanel title="Ваша скидка" stats={0} unit="%" />
-          <PaymentData cardNumberData={""} cardDateData={""} CVCData={""} />
+          <StatisticsPanel title="Процент выкупа" stats={user.data?.redemption_percent || 0} unit="%" />
+          <StatisticsPanel title="Ваша скидка" stats={user.data?.user_discount || 0} unit="%" />
+          <PaymentData cardNumberData={user.data?.card_number || ""} cardDateData={user.data?.validity} CVCData={user.data?.CVC} />
         </div>
         <div className="col-span-2">
           {deliveryStore.deliveryItems.length ? (

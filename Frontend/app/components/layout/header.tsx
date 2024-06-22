@@ -27,6 +27,7 @@ export const Header = observer(() => {
     toast.success("Вы успешно вышли из аккаунта");
     router.push("/auth");
     authorizedUserStore.logout();
+    console.log(user.data)
   };
   return (
     <header className="flex h-20 w-full items-center justify-between gap-24 px-20">
@@ -40,7 +41,7 @@ export const Header = observer(() => {
             alt="Скачайте приложение KubMarket для Android"
           />
         </Link>
-        {user ? (
+        {user.data ? (
           <Field icon={<SearchIcon />} placeholder="Поиск товаров..." />
         ) : (
           <Field

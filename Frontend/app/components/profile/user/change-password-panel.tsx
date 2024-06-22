@@ -46,18 +46,21 @@ export const ChangePasswordPanel = () => {
           icon={<PasswordIcon className="text-dark-accent" />}
           placeholder="Старый пароль"
           value={oldPassword}
+          type="password"
           onChange={(e) => setOldPassword(e.target.value)}
         />
         <Field
           icon={<PasswordIcon />}
           placeholder="Новый пароль"
           value={newPassword}
+          type="password"
           onChange={(e) => setNewPassword(e.target.value)}
         />
         <Field
           icon={<RepeatPasswordIcon />}
           placeholder="Повторите пароль"
           value={repeatedNewPassword}
+          type="password"
           onChange={(e) => setRepeatedNewPassword(e.target.value)}
         />
         <div className="mt-4">
