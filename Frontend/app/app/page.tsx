@@ -43,7 +43,7 @@ const HomePage = observer(() => {
             ]}
           />
           <div
-            className="base-xl:grid-cols-3 grid w-full grid-cols-2 gap-5 xl:grid-cols-4 2xl:grid-cols-5"
+            className="grid w-full grid-cols-2 gap-5 xl:grid-cols-4 base-xl:grid-cols-3 2xl:grid-cols-5"
             id="products"
           >
             {product.allProducts.map((product) => (

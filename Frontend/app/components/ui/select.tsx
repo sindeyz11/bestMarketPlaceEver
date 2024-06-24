@@ -46,38 +46,38 @@ export const Select = ({
       <div
         className={`relative w-full bg-white ${
           size === "default" ? "py-2.5" : "py-1"
-        } rounded-lg border border-d-gray-500 outline-offset-0 cursor-pointer ${
+        } border-d-gray-500 cursor-pointer rounded-lg border outline-offset-0 ${
           isOpened && "rounded-b-none"
         }`}
       >
         <span
-          className={`pr-11 rounded-lg outline-none text-d-gray-500 ${
+          className={`text-d-gray-500 rounded-lg pr-11 outline-none ${
             size === "default" ? "" : "text-sm"
-          } pl-3 select-none`}
+          } select-none pl-3`}
         >
           {currentOption}
         </span>
         <DownArrowIcon
-          className={`h-3.5 w-3.5 text-d-gray-500 absolute top-1/2 -translate-y-[50%] right-3 transition-all ${
+          className={`text-d-gray-500 absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-[50%] transition-all ${
             isOpened && "origin-center rotate-180"
           }`}
         />
       </div>
       {isOpened && (
         <ul
-          className={`bg-white w-full absolute ${
+          className={`absolute w-full bg-white ${
             size === "default" ? "top-11" : "top-8"
-          } rounded-b-lg border-black/10 border border-t-black/10 text-sm`}
+          } rounded-b-lg border border-black/10 border-t-black/10 text-sm`}
         >
           {options &&
             options.map((option) => (
               <li
                 key={option}
-                className={`text-black hover:bg-d-red-400 cursor-pointer transition-all hover:text-white hover:bg-button-dark-accent ${
+                className={`hover:bg-d-red-400 cursor-pointer text-black transition-all hover:bg-button-dark-accent hover:text-white ${
                   size === "default" && "px-2"
                 } ${
                   size === "small" && "px-1 text-sm"
-                } -z-10 last:rounded-b-lg `}
+                } -z-10 last:rounded-b-lg`}
                 onClick={() => {
                   setCurrentOption(option);
                   setOpened(false);

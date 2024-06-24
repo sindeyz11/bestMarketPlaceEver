@@ -1,4 +1,4 @@
 export interface PickUpPointRequest {
-    address: string;
-    manager_id: number;
+  address: string;
+  manager_id: number;
 }

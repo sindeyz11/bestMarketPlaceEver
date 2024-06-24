@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { IPositionItem } from "@/types"
-import { useState, useRef } from "react"
-import { BoxIcon } from "../icons/box-icon"
-import { RubleIcon } from "../icons/ruble-icon"
-import { RubleXPercentIcon } from "../icons/ruble-x-percent-icon"
-import { TitleIcon } from "../icons/title-icon"
-import { TrashIcon } from "../icons/trash-icon"
-import { UnitIcon } from "../icons/unit-icon"
-import { Button } from "../ui/button"
-import { Field } from "../ui/field"
+import { IPositionItem } from "@/types";
+import { useState, useRef } from "react";
+import { BoxIcon } from "../icons/box-icon";
+import { RubleIcon } from "../icons/ruble-icon";
+import { RubleXPercentIcon } from "../icons/ruble-x-percent-icon";
+import { TitleIcon } from "../icons/title-icon";
+import { TrashIcon } from "../icons/trash-icon";
+import { UnitIcon } from "../icons/unit-icon";
+import { Button } from "../ui/button";
+import { Field } from "../ui/field";
 
 export const PositionItem = ({
   title,
@@ -23,14 +23,14 @@ export const PositionItem = ({
 }: IPositionItem) => {
   const [titleValue, setTitleValue] = useState(title || "");
   const [priceValue, setPriceValue] = useState(
-    (price && price.toString()) || ""
+    (price && price.toString()) || "",
   );
   const [unitValue, setUnitValue] = useState((unit && unit.toString()) || "");
   const [discountPriceValue, setDiscountPrice] = useState(
-    (discountPrice && discountPrice.toString()) || ""
+    (discountPrice && discountPrice.toString()) || "",
   );
   const [availableQuantityValue, setAvailableQuantityValue] = useState(
-    (availableQuantity && availableQuantity.toString()) || ""
+    (availableQuantity && availableQuantity.toString()) || "",
   );
   const [descriptionValue, setDescriptionValue] = useState(description || "");
   const [imageValue, setImageValue] = useState(image || "");
@@ -54,10 +54,10 @@ export const PositionItem = ({
   };
 
   return (
-    <form className="flex flex-col gap-3 bg-secondary-bg p-4 rounded-lg">
+    <form className="flex flex-col gap-3 rounded-lg bg-secondary-bg p-4">
       <div className="grid grid-cols-3 gap-3">
         <div
-          className="col-span-1 bg-field-bg rounded-xl cursor-pointer"
+          className="col-span-1 cursor-pointer rounded-xl bg-field-bg"
           onClick={handleImageClick}
         >
           <img src={imageValue} alt="" className="h-32 w-full object-contain" />
@@ -116,7 +116,7 @@ export const PositionItem = ({
           </div>
         </div>
       </div>
-      <div className="flex gap-1 w-full">
+      <div className="flex w-full gap-1">
         <Field
           color="white"
           placeholder="Категория"
@@ -124,7 +124,7 @@ export const PositionItem = ({
           onChange={(e) => setCategoryValue(e.target.value)}
         />
       </div>
-      <div className="flex gap-2 w-full">
+      <div className="flex w-full gap-2">
         <Field
           variant="textarea"
           placeholder="Описание"

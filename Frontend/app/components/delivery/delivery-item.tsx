@@ -50,7 +50,7 @@ export const DeliveryItem = ({
           </h4>
         </div>
         <div
-          className={`rounded-full font-bold text-white px-4 py-0.5 italic ${
+          className={`rounded-full px-4 py-0.5 font-bold italic text-white ${
             status === "в пути"
               ? "bg-on-the-way"
               : status === "доставлено"

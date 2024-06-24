@@ -17,9 +17,9 @@ export const UserItem = ({
     return `US-${formatId(id)}`;
   };
   return (
-    <div className="p-4 rounded-lg bg-secondary-bg flex items-center justify-between">
+    <div className="flex items-center justify-between rounded-lg bg-secondary-bg p-4">
       <div className="flex flex-col gap-1">
-        <h3 className="font-semibold text-lg">{name}</h3>
+        <h3 className="text-lg font-semibold">{name}</h3>
         <div className="flex flex-col leading-none">
           <span>{generateId(role ? role : "unknown", code)}</span>
           <span>{role}</span>

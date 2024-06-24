@@ -12,7 +12,7 @@ class ProductStore {
 
   initializeProducts() {
     this.allProducts = authStore.productsAdmin.filter(
-      (product): product is IProduct => this.isValidProduct(product)
+      (product): product is IProduct => this.isValidProduct(product),
     );
   }
 

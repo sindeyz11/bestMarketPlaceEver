@@ -1,5 +1,6 @@
 "use client";
 
+import type { IRole } from "@/store/authorizedUser";
 import AuthService from "@/app/api/auth-service";
 import { EmailIcon } from "@/components/icons/email-icon";
 import { PasswordIcon } from "@/components/icons/password-icon";
@@ -13,9 +14,9 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { saveToken } from "@/utils/save-token";
 import { useMutation } from "@tanstack/react-query";
-import { useAmp } from "next/amp";
 import { AuthRequest, RegisterRequest } from "../api/[models]/authRequests";
-import { IUser, IUserRole } from "@/types";
+import { IUserRole } from "@/types";
+import authorizedUserStore from "@/store/authorizedUser";
 
 const AuthPage = () => {
   const [stage, setStage] = useState("login");
@@ -38,57 +39,46 @@ const AuthPage = () => {
     }));
   };
   const loginMutation = useMutation({
-    mutationKey: ["login"],
-    mutationFn: async (loginData: AuthRequest) => {
-      try {
-        const response = await AuthService.login(loginData);
-        saveToken(
-          response.data.token,
-          response.data.user_id,
-          response.data.role as IUserRole,
-        );
-      } catch (error) {
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          // Если сервер возвращает сообщение об ошибке
-          throw new Error(error.response.data.message);
-        } else {
-          // Если сервер не возвращает сообщение об ошибке
-          throw new Error("Произошла ошибка при входе. Попробуйте снова.");
+      mutationKey: ["login"],
+      mutationFn: async (loginData: AuthRequest) => {
+        try {
+          const response = await AuthService.login(loginData);
+          saveToken(response.data.token);
+          authorizedUserStore.setUser({
+            userId: response.data.user_id,
+            role: response.data.role as IRole,
+          });
+          return response;
+        } catch (error: any) {
+            throw new Error(error.response.data);
         }
-      }
-    },
-    onSuccess: () => {
-      router.push("/");
+      },
+      onSuccess: () => {
+        toast.success("Вход выполнен успешно!");
+        router.push("/");
+      },
+      onError: (error: Error) => {
+        toast.error(error.message);
+      },
+    });
 
-      toast.success("Вы успешно вошли в аккаунт!");
-    },
-    onError: (error) => {
-      // Проверяем, есть ли у ошибки сообщение от сервера
-      const errorMessage =
-        error.response?.data?.message || error.message || "Произошла ошибка";
-      toast.error(errorMessage);
-    },
-  });
-
-  const regitserMutation = useMutation({
-    mutationKey: ["register"],
-    mutationFn: async (registerData: RegisterRequest) => {
-      await AuthService.register(registerData);
-    },
-    onSuccess: () => {
-      setStage("login");
-      toast.success(
-        "Вы успешно создали аккаунт\nТеперь вы можете войти в аккаунт",
-      );
-    },
-    onError: (err) => {
-      toast.error(err.name);
-    },
-  });
+    const registerMutation = useMutation({
+      mutationKey: ["register"],
+      mutationFn: async (registerData: RegisterRequest) => {
+        try {
+          await AuthService.register(registerData);
+        } catch (error: any) {
+            throw new Error(error.response.data);
+        }
+      },
+      onSuccess: () => {
+        setStage("login");
+        toast.success("Вы успешно создали аккаунт. Теперь вы можете войти в аккаунт.");
+      },
+      onError: (error: Error) => {
+        toast.error(error.message);
+      },
+    });
 
   const handleLogin = (event: any) => {
     event.preventDefault();
@@ -100,7 +90,7 @@ const AuthPage = () => {
 
   const handleRegister = (event: any) => {
     event.preventDefault();
-    regitserMutation.mutate({
+    registerMutation.mutate({
       username: formData.username,
       phone: "+7" + formData.phone,
       email: formData.email,

@@ -5,8 +5,8 @@ import { useState } from "react";
 
 interface paymentDataProps {
   cardNumberData: string;
-  cardDateData: Date;
-  CVCData: number;
+  cardDateData: Date | string;
+  CVCData: number | string;
 }
 
 export const PaymentData = ({
@@ -15,11 +15,11 @@ export const PaymentData = ({
   CVCData,
 }: paymentDataProps) => {
   const [cardNumber, setCardNumber] = useState<string>(cardNumberData || "");
-  const [cardDate, setCardDate] = useState<string>(cardDateData || "");
-  const [CVC, setCVC] = useState<string>(CVCData || "");
+  const [cardDate, setCardDate] = useState<Date | string>(cardDateData || "");
+  const [CVC, setCVC] = useState<number | string>(CVCData || "");
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center justify-center gap-4">
-      <h2 className="text-black font-semibold text-lg text-center">
+    <div className="flex flex-col items-center justify-center gap-4 rounded-xl bg-white p-6 shadow-lg">
+      <h2 className="text-center text-lg font-semibold text-black">
         Платежное средство
       </h2>
       <form className="flex flex-col gap-2">

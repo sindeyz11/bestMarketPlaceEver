@@ -11,9 +11,9 @@ export interface IProduct {
 }
 
 export interface IPickupPoint {
-  code: string;
+  code: number;
   address: string;
-  manager: IUser;
+  manager: string;
   income: number;
 }
 

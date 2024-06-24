@@ -6,13 +6,13 @@ import { Field } from "@/components/ui/field";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useMutation } from "@tanstack/react-query";
-import { loadToken } from "@/utils/load-token";
 import UserService from "@/app/api/user-service";
 import toast from "react-hot-toast";
+import authorizedUserStore from "@/store/authorizedUser";
 
 export const UserData = () => {
   const { data, isLoading } = useAuth();
-  const userId = loadToken()?.user_id;
+  const userId = authorizedUserStore.user?.userId;
   const [userData, setUserData] = useState({
     username: isLoading ? "" : data?.username,
     phone: isLoading ? "" : data?.phone.slice(2),

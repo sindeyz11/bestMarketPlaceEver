@@ -57,7 +57,7 @@ export const IssuingOrderItem = ({
         </div>
         <input
           type="checkbox"
-          className="custom-checkbox h-6 w-6 shadow-inner appearance-none border-dark-accent checked:bg-dark-accent bg-white border rounded"
+          className="custom-checkbox h-6 w-6 appearance-none rounded border border-dark-accent bg-white shadow-inner checked:bg-dark-accent"
           checked={deliveryStore.selectedDeliveryItems.has(id!)}
           onChange={handleCheckboxChange}
         />

@@ -14,7 +14,7 @@ export default class OrderService {
 
   /** Доступно менеджеру*/
   static async getOrderForManager(
-    orderId: number
+    orderId: number,
   ): Promise<AxiosResponse<OrderResponse>> {
     return api.get<OrderResponse>(`/orders/${orderId}`);
   }
@@ -27,7 +27,7 @@ export default class OrderService {
   /** Доступно менеджеру*/
   static async confirmOrder(
     orderId: number,
-    data: OrderConfirmationRequest
+    data: OrderConfirmationRequest,
   ): Promise<AxiosResponse> {
     return api.post(`/orders/${orderId}`, data);
   }

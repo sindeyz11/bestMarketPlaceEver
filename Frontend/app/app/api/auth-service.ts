@@ -12,7 +12,7 @@ export default class AuthService {
   }
 
   static async register(
-    user: RegisterRequest
+    user: RegisterRequest,
   ): Promise<AxiosResponse<RegisterResponse>> {
     return api.post<RegisterResponse>("/auth/register", user);
   }

@@ -5,31 +5,39 @@ import { Field } from "@/components/ui/field";
 import { useState } from "react";
 import UserService from "@/app/api/user-service";
 import toast from "react-hot-toast";
-import authorizedUserStore from "@/store/authorizedUser";
-import { IUserRole } from "@/types";
-import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 
 export const ChangePasswordPanel = () => {
-  const router = useRouter();
   const [oldPassword, setOldPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [repeatedNewPassword, setRepeatedNewPassword] = useState<string>("");
 
+  const clearFields = () => {
+    setOldPassword("")
+    setNewPassword("")
+    setRepeatedNewPassword("")
+  }
   const updateMutation = useMutation({
     mutationKey: ["password"],
     mutationFn: async () => {
-      return await UserService.changePassword(
-        oldPassword,
-        newPassword,
-        repeatedNewPassword,
-      );
+      try {
+        const response = await UserService.changePassword(
+          oldPassword,
+          newPassword,
+          repeatedNewPassword,
+        );
+        return response;
+      } catch (error: any) {
+        throw new Error(error.response.data)
+      }
     },
     onSuccess: () => {
       toast.success("Пароль успешно обновлен");
+      clearFields()
     },
-    onError: () => {
-      toast.error("Произошла ошибка при обновлении пароля");
+    onError: (error: Error) => {
+      toast.error(error.message);
+      clearFields()
     },
   });
   const handleUpdate = async (event: any) => {

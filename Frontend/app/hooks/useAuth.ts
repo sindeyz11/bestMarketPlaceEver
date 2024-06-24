@@ -1,23 +1,23 @@
 import { loadToken } from "@/utils/load-token";
 import { useQuery } from "@tanstack/react-query";
 import UserService from "@/app/api/user-service";
+import authorizedUserStore from "@/store/authorizedUser";
 
 export const useAuth = () => {
-  const token = loadToken();
-  const user_id = token ? token.user_id : null;
+  const userId = authorizedUserStore.user?.userId;
 
   const { data, isLoading, isError, error, isStale } = useQuery({
-    queryKey: ["user", user_id],
+    queryKey: ["user", userId],
     queryFn: async () => {
-      if (!user_id) {
+      if (!userId) {
         throw new Error("User ID не найден");
       }
-      const { data } = await UserService.getAllUserInfo(user_id);
+      const { data } = await UserService.getAllUserInfo(userId);
       return data;
     },
-    enabled: !!user_id, 
-    staleTime: Infinity,
-    refetchOnWindowFocus: true, 
+    enabled: !!userId,
+    staleTime: 2000,
+    refetchOnWindowFocus: true,
   });
 
   return { data, isLoading, isError, error, isStale };

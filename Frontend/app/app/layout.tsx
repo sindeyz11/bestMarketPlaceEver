@@ -19,8 +19,8 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="ru">
-      <title>Тестовая страница</title>
-      <body className={`${inter.className}`}>
+      <title>Загрузка...</title>
+      <body className={`${inter.className} h-full`}>
         <ReactQueryProvider>
           <Toaster position="bottom-right" />
           <MinScreen />

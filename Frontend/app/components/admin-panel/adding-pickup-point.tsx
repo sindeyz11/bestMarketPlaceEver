@@ -3,8 +3,8 @@ import { Field } from "../ui/field";
 
 export const AddingPickupPoint = () => {
   return (
-    <div className="bg-secondary-bg p-4 rounded-lg flex flex-col gap-3">
-      <div className="bg-white p-4 rounded-lg flex items-center gap-12">
+    <div className="flex flex-col gap-3 rounded-lg bg-secondary-bg p-4">
+      <div className="flex items-center gap-12 rounded-lg bg-white p-4">
         <HouseIcon />
         <p className="line-clamp-2 w-1/3">
           г. Краснодар, ул. Ставропольская, 149

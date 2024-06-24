@@ -15,9 +15,9 @@ export const loadToken = () => {
       localStorage.removeItem("token");
       return null;
     }
-    return tokenData; // Возвращаем весь объект токена
+    return tokenData;
   } catch (error) {
-    console.error("Failed to parse token data:", error);
+    console.error("Ошибка получения токена: ", error);
     return null;
   }
 };

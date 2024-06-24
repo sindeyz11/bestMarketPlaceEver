@@ -1,42 +1,42 @@
-import cartStore from "@/store/cart"
-import { IProduct } from "@/types"
-import { formatNumber } from "@/utils"
-import { observer } from "mobx-react-lite"
-import { TrashIcon } from "../icons/trash-icon"
-import { Button } from "../ui/button"
-import { CartItemCounter } from "./cart-item-counter"
+import cartStore from "@/store/cart";
+import { IProduct } from "@/types";
+import { formatNumber } from "@/utils";
+import { observer } from "mobx-react-lite";
+import { TrashIcon } from "../icons/trash-icon";
+import { Button } from "../ui/button";
+import { CartItemCounter } from "./cart-item-counter";
 
 interface ICartItem extends IProduct {
-	quantity: number
+  quantity: number;
 }
 
 export const CartItem = observer(
-	({
-		id,
-		title,
-		price,
-		unit,
-		availableQuantity,
-		image,
-		quantity,
-	}: ICartItem) => {
-		const handleCheckboxChange = (id: number) => {
-			cartStore.toggleItemSelection(id)
-		}
+  ({
+    id,
+    title,
+    price,
+    unit,
+    availableQuantity,
+    image,
+    quantity,
+  }: ICartItem) => {
+    const handleCheckboxChange = (id: number) => {
+      cartStore.toggleItemSelection(id);
+    };
 
-		return (
+    return (
       <div className="flex flex-col gap-3">
-        <div className="border-t mt-2 h-1 w-full" />
+        <div className="mt-2 h-1 w-full border-t" />
         <div className="relative flex items-center justify-between py-2">
-          <div className="absolute top-2 left-2">
+          <div className="absolute left-2 top-2">
             <input
               type="checkbox"
-              className="custom-checkbox h-6 w-6 shadow-inner appearance-none border-dark-accent checked:bg-dark-accent bg-white border rounded"
+              className="custom-checkbox h-6 w-6 appearance-none rounded border border-dark-accent bg-white shadow-inner checked:bg-dark-accent"
               checked={cartStore.selectedItems.has(id)}
               onChange={() => handleCheckboxChange(id)}
             />
           </div>
-          <div className="flex items-start justify-between w-[60%]">
+          <div className="flex w-[60%] items-start justify-between">
             <div className="flex items-center gap-3">
               <div className="h-16 w-16">
                 <img
@@ -90,5 +90,5 @@ export const CartItem = observer(
         </div>
       </div>
     );
-	}
-)
+  },
+);

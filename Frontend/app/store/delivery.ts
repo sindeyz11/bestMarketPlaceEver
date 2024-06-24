@@ -26,14 +26,14 @@ class Delivery {
 
   get selectedItems() {
     return this.deliveryItems.filter((item) =>
-      this.selectedDeliveryItems.has(item.id!)
+      this.selectedDeliveryItems.has(item.id!),
     );
   }
 
   get totalPrice() {
     return this.selectedItems.reduce(
       (total, item) => total + item.price! * item.count,
-      0
+      0,
     );
   }
 

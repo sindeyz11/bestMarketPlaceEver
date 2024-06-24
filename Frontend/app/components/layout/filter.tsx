@@ -27,7 +27,7 @@ export const Filter = ({ minPrice, maxPrice, categories }: FilterProps) => {
   };
 
   return (
-    <div className="max-w-64 flex flex-col gap-6">
+    <div className="flex max-w-64 flex-col gap-6">
       <div className="flex flex-col gap-3">
         <h3 className="text-xl font-semibold uppercase">Подкатегории</h3>
         <div className="flex flex-col gap-2">
@@ -36,13 +36,13 @@ export const Filter = ({ minPrice, maxPrice, categories }: FilterProps) => {
             return (
               <div
                 key={category.name}
-                className={`px-4 py-2 rounded-lg flex items-center justify-between cursor-pointer transition-colors ${
+                className={`flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 transition-colors ${
                   isSelected ? "bg-accent/35" : "bg-field-bg"
                 }`}
                 onClick={() => toggleCategory(category.name)}
               >
-                <span className="font-semibold flex items-center gap-2">
-                  {isSelected && <CrossIcon className="w-4 h-4" />}
+                <span className="flex items-center gap-2 font-semibold">
+                  {isSelected && <CrossIcon className="h-4 w-4" />}
                   {category.name}
                 </span>
                 <span className="font-semibold">{category.count}</span>

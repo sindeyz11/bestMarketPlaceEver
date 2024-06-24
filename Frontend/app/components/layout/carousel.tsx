@@ -23,17 +23,17 @@ export const Carousel = observer(({ banners }: CarouselProps) => {
   }
 
   return (
-    <div className="relative w-full h-[25em] overflow-hidden">
+    <div className="relative h-[25em] w-full overflow-hidden">
       <img
         src="/under-banner.png"
         alt="Under Banner"
-        className="h-full w-full absolute object-cover"
+        className="absolute h-full w-full object-cover"
       />
       {banners.map((banner, index) => {
         return (
           <div
             key={banner.id}
-            className={`absolute w-full h-full transition-opacity duration-1000 ${index === currentIndex ? "opacity-100" : "opacity-0"}`}
+            className={`absolute h-full w-full transition-opacity duration-1000 ${index === currentIndex ? "opacity-100" : "opacity-0"}`}
           >
             <Banner
               id={banner.id}

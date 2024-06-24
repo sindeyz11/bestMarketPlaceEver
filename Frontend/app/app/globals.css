@@ -8,7 +8,6 @@
 .custom-checkbox {
   @apply relative cursor-pointer;
 
-
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -30,20 +29,18 @@
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
-  
 }
 
 /* Track */
 
- 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #cccccc; 
+  background: #cccccc;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #979797; 
+  background: #979797;
   cursor: pointer;
 }

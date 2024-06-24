@@ -1,12 +1,8 @@
-import { IUserRole } from "@/types";
-
-export const saveToken = (token: string, user_id: number, role: IUserRole) => {
+export const saveToken = (token: string) => {
   const now = new Date();
   const tokenData = {
-    user_id,
-    role,
     token: token,
-    expires_in: now.getTime() + 24 * 60 * 60 * 1000,
+    expires_in: now.getTime() + 24 * 3600 * 1000,
   };
   localStorage.setItem("token", JSON.stringify(tokenData));
 };

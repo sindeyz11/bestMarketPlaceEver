@@ -30,7 +30,7 @@ export default class ProductService {
   /** Доступно админу*/
   static async updateProduct(
     productId: number,
-    productData: FormData
+    productData: FormData,
   ): Promise<AxiosResponse> {
     return api.patch(`/products/${productId}`, productData, {
       headers: {

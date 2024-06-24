@@ -1,4 +1,3 @@
-
 import React from "react";
 import "./loader.css"; // Create a CSS file for styling the preloader
 

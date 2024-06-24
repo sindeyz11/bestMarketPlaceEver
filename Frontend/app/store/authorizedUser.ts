@@ -1,14 +1,14 @@
-import { IUserRole } from "@/types";
 import { makeAutoObservable } from "mobx";
 
+export type IRole = "ADMIN" | "MANAGER" | "USER";
+
 interface IUser {
-  user_id: number;
-  token: string;
-  role: IUserRole;
+  userId: number;
+  role: IRole;
 }
 
 class AuthorizedUser {
-  user: IUser | null = null
+  user: IUser | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -16,33 +16,25 @@ class AuthorizedUser {
   }
 
   setUser(user: IUser) {
-    this.user = user;
-    this.saveUser();
+    this.user = { ...user };
+    this.saveUser(user);
   }
 
-  saveUser() {
-    if (this.user) {
-      localStorage.setItem("user", JSON.stringify(this.user));
-    } else {
-      localStorage.removeItem("user");
-    }
+  saveUser(user: IUser) {
+    localStorage.setItem("user", JSON.stringify(user));
   }
 
   loadUser() {
-    const userData =
-      typeof window !== "undefined" ? localStorage.getItem("user") : null;
+    const userData = localStorage.getItem("user");
     if (userData) {
       this.user = JSON.parse(userData);
     }
-    return this.user;
   }
 
-  logout() {
-    
+  removeUser() {
     this.user = null;
-    this.saveUser();
     localStorage.removeItem("user");
-    localStorage.removeItem("token");
+    this.loadUser();
   }
 }
 

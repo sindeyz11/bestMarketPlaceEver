@@ -7,10 +7,10 @@ interface CounterProps {
 
 export const Counter = ({ quantity, setQuantity }: CounterProps) => {
   return (
-    <div className="flex items-center p-1.5 border border-black rounded-lg outline-none h-full">
+    <div className="flex h-full items-center rounded-lg border border-black p-1.5 outline-none">
       <button
         onClick={() => quantity > 0 && setQuantity(quantity - 1)}
-        className="font-semibold text-secondary-text text-xl px-2"
+        className="px-2 text-xl font-semibold text-secondary-text"
       >
         -
       </button>
@@ -18,11 +18,11 @@ export const Counter = ({ quantity, setQuantity }: CounterProps) => {
         value={quantity}
         onChange={(e) => setQuantity(Number(e.target.value))}
         type="number"
-        className={`text-center w-full placeholder:text-secondary-text h-full outline-none`}
+        className={`h-full w-full text-center outline-none placeholder:text-secondary-text`}
       />
       <button
         onClick={() => setQuantity(quantity + 1)}
-        className="font-semibold text-secondary-text text-xl px-2"
+        className="px-2 text-xl font-semibold text-secondary-text"
       >
         +
       </button>

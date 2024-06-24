@@ -11,14 +11,14 @@ export default class PointsService {
   }
 
   static async createNewPoint(
-    point: PickUpPointRequest
+    point: PickUpPointRequest,
   ): Promise<AxiosResponse> {
     return api.post("/points", point);
   }
 
   static async updatePoint(
     newPoint: PickUpPointRequest,
-    pointId: number
+    pointId: number,
   ): Promise<AxiosResponse> {
     return api.patch(`/points/${pointId}`, newPoint);
   }

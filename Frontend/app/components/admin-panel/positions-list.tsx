@@ -21,15 +21,15 @@ export const PositionsList = ({ positions }: PositionsListProps) => {
     setIsModalOpen(false);
   };
   return (
-    <div className="bg-white shadow-lg rounded-xl p-6 ">
+    <div className="rounded-xl bg-white p-6 shadow-lg">
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-        <div className="h-full w-full flex flex-col">
+        <div className="flex h-full w-full flex-col">
           <div className="flex flex-col gap-3">
-            <h3 className="font-semibold text-xl text-center">
+            <h3 className="text-center text-xl font-semibold">
               Добавить позицию
             </h3>
             <PositionItem />
-            <div className="flex items-center gap-3 w-full">
+            <div className="flex w-full items-center gap-3">
               <Button color="gray" onClick={() => handleCloseModal()}>
                 Отмена
               </Button>
@@ -38,10 +38,10 @@ export const PositionsList = ({ positions }: PositionsListProps) => {
           </div>
         </div>
       </Modal>
-      <h2 className="text-black font-semibold text-lg mb-2">Позиции</h2>
+      <h2 className="mb-2 text-lg font-semibold text-black">Позиции</h2>
       {positions.length ? (
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col  h-[calc(100dvh-300px)] overflow-y-auto rounded-xl gap-3 custom-scroll">
+          <div className="custom-scroll flex h-[calc(100dvh-300px)] flex-col gap-3 overflow-y-auto rounded-xl">
             {positions.map((position) => (
               <PositionItem
                 key={position.id}
@@ -62,8 +62,8 @@ export const PositionsList = ({ positions }: PositionsListProps) => {
           </Button>
         </div>
       ) : (
-        <div className="flex flex-col  min-h-[calc(100%-30px)]">
-          <div className="grow flex items-center justify-center">
+        <div className="flex min-h-[calc(100%-30px)] flex-col">
+          <div className="flex grow items-center justify-center">
             <p className="text-black/40">Позиции отсутствуют</p>
           </div>
           <Button color="dark" onClick={() => handleOpenModal()}>
