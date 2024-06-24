@@ -22,7 +22,7 @@ export const PickupPointsList = () => {
   });
 
   const allPoints = data;
-  console.log(allPoints)
+  console.log(allPoints);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -33,14 +33,12 @@ export const PickupPointsList = () => {
   };
 
   if (isLoading) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
   }
 
   if (isError) {
     return (
-      <div className="h-screen w-full flex items-center justify-center bg-accent">
+      <div className="flex h-screen w-full items-center justify-center bg-accent">
         <p className="text-red-500">Ошибка загрузки данных: {error.message}</p>
       </div>
     );

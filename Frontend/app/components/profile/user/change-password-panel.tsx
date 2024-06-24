@@ -13,10 +13,10 @@ export const ChangePasswordPanel = () => {
   const [repeatedNewPassword, setRepeatedNewPassword] = useState<string>("");
 
   const clearFields = () => {
-    setOldPassword("")
-    setNewPassword("")
-    setRepeatedNewPassword("")
-  }
+    setOldPassword("");
+    setNewPassword("");
+    setRepeatedNewPassword("");
+  };
   const updateMutation = useMutation({
     mutationKey: ["password"],
     mutationFn: async () => {
@@ -28,16 +28,16 @@ export const ChangePasswordPanel = () => {
         );
         return response;
       } catch (error: any) {
-        throw new Error(error.response.data)
+        throw new Error(error.response.data);
       }
     },
     onSuccess: () => {
       toast.success("Пароль успешно обновлен");
-      clearFields()
+      clearFields();
     },
     onError: (error: Error) => {
       toast.error(error.message);
-      clearFields()
+      clearFields();
     },
   });
   const handleUpdate = async (event: any) => {

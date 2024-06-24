@@ -25,9 +25,7 @@ export const PickupPointItem = observer(
           </div>
           <div className="flex flex-col gap-0.5 leading-none">
             <span className="font-semibold">Менеджер</span>
-            <span className="text-sm">
-              {manager}
-            </span>
+            <span className="text-sm">{manager}</span>
             <div className="flex items-center justify-between">
               <span className="font-semibold">Доход</span>
               <span className="text-xl text-secondary-text">

@@ -7,25 +7,23 @@ import { useQuery } from "@tanstack/react-query";
 import { Loading } from "../layout/loading";
 
 export const UsersList = () => {
-  const {data, isLoading, isError, error} = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["usersList"],
     queryFn: async () => {
       const response = await UserService.getAllUsers();
       return response.data;
-    }
-  })
+    },
+  });
 
   const allUsers = data;
 
   if (isLoading) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
   }
 
   if (isError) {
     return (
-      <div className="h-screen w-full flex items-center justify-center bg-white rounded-xl">
+      <div className="flex h-screen w-full items-center justify-center rounded-xl bg-white">
         <p>Произошла ошибка при получении данных: {error.message}</p>
       </div>
     );

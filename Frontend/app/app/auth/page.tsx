@@ -39,46 +39,48 @@ const AuthPage = () => {
     }));
   };
   const loginMutation = useMutation({
-      mutationKey: ["login"],
-      mutationFn: async (loginData: AuthRequest) => {
-        try {
-          const response = await AuthService.login(loginData);
-          saveToken(response.data.token);
-          authorizedUserStore.setUser({
-            userId: response.data.user_id,
-            role: response.data.role as IRole,
-          });
-          return response;
-        } catch (error: any) {
-            throw new Error(error.response.data);
-        }
-      },
-      onSuccess: () => {
-        toast.success("Вход выполнен успешно!");
-        router.push("/");
-      },
-      onError: (error: Error) => {
-        toast.error(error.message);
-      },
-    });
+    mutationKey: ["login"],
+    mutationFn: async (loginData: AuthRequest) => {
+      try {
+        const response = await AuthService.login(loginData);
+        saveToken(response.data.token);
+        authorizedUserStore.setUser({
+          userId: response.data.user_id,
+          role: response.data.role as IRole,
+        });
+        return response;
+      } catch (error: any) {
+        throw new Error(error.response.data);
+      }
+    },
+    onSuccess: () => {
+      toast.success("Вход выполнен успешно!");
+      router.push("/");
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
 
-    const registerMutation = useMutation({
-      mutationKey: ["register"],
-      mutationFn: async (registerData: RegisterRequest) => {
-        try {
-          await AuthService.register(registerData);
-        } catch (error: any) {
-            throw new Error(error.response.data);
-        }
-      },
-      onSuccess: () => {
-        setStage("login");
-        toast.success("Вы успешно создали аккаунт. Теперь вы можете войти в аккаунт.");
-      },
-      onError: (error: Error) => {
-        toast.error(error.message);
-      },
-    });
+  const registerMutation = useMutation({
+    mutationKey: ["register"],
+    mutationFn: async (registerData: RegisterRequest) => {
+      try {
+        await AuthService.register(registerData);
+      } catch (error: any) {
+        throw new Error(error.response.data);
+      }
+    },
+    onSuccess: () => {
+      setStage("login");
+      toast.success(
+        "Вы успешно создали аккаунт. Теперь вы можете войти в аккаунт.",
+      );
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
 
   const handleLogin = (event: any) => {
     event.preventDefault();
