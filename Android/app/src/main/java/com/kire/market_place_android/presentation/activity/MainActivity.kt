@@ -1,45 +1,66 @@
 package com.kire.market_place_android.presentation.activity
 
 import android.annotation.SuppressLint
+
 import android.app.Activity
+
 import android.os.Build
 import android.os.Bundle
+
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
+
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
+import androidx.activity.viewModels
+
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.SizeTransform
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.with
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.kire.market_place_android.presentation.model.UserRole
-import com.kire.market_place_android.presentation.navigation.NavigationUI
-import com.kire.market_place_android.presentation.ui.cross_screen_ui.BottomBar
-import com.kire.market_place_android.presentation.ui.theme.MarketExtendedTheme
-import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+
+import com.kire.market_place_android.presentation.navigation.NavigationUI
+import com.kire.market_place_android.presentation.ui.details.common_screen.cross_screen_ui.BottomBar
+import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
+import com.kire.market_place_android.presentation.ui.theme.MarketExtendedTheme
+import com.kire.market_place_android.presentation.viewmodel.AdminViewModel
+import com.kire.market_place_android.presentation.viewmodel.AuthViewModel
+import com.kire.market_place_android.presentation.viewmodel.ManagerViewModel
+import com.kire.market_place_android.presentation.viewmodel.OrderViewModel
+import com.kire.market_place_android.presentation.viewmodel.ProductViewModel
+import com.kire.market_place_android.presentation.viewmodel.UserViewModel
+import com.kire.test.R
+
+import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
+import com.ramcosta.composedestinations.navigation.popUpTo
+
+import dagger.hilt.android.AndroidEntryPoint
+
+import kotlinx.coroutines.runBlocking
 
 /**
  * By Michael Gontarev (KiREHwYE)
  * By Aleksey Timko (de4ltt)*/
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val authViewModel: AuthViewModel by viewModels()
+    private val userViewModel: UserViewModel by viewModels()
+    private val adminViewModel: AdminViewModel by viewModels()
+    private val managerViewModel: ManagerViewModel by viewModels()
+    private val productViewModel: ProductViewModel by viewModels()
+    private val orderViewModel: OrderViewModel by viewModels()
+
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,23 +72,58 @@ class MainActivity : ComponentActivity() {
         })
         setDisplayCutoutMode()
 
+        runBlocking {
+            if (authViewModel.isTokenExpired()) {
+                userViewModel.logOut()
+                Toast.makeText(
+                    this@MainActivity,
+                    this@MainActivity.getString(R.string.non_authorized),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
         setContent {
             MarketExtendedTheme {
 
                 val navHostEngine = rememberAnimatedNavHostEngine(navHostContentAlignment = Alignment.TopCenter)
                 val navHostController = navHostEngine.rememberNavController()
 
+                val role by userViewModel.role.collectAsStateWithLifecycle()
+                val isAuthenticated by authViewModel.isAuthenticated.collectAsStateWithLifecycle()
+
+                LaunchedEffect(isAuthenticated) {
+                    if (isAuthenticated) {
+                        navHostController.navigate(ShoppingScreenDestination.route) {
+                            popUpTo(ShoppingScreenDestination) {
+                                inclusive = true
+                            }
+                        }
+
+                        productViewModel.refreshProducts()
+                        productViewModel.getAllCategories()
+                        userViewModel.updateUser()
+                        orderViewModel.getOrders()
+                    }
+                }
+
                 Scaffold(
                     bottomBar = {
                         BottomBar(
                             navHostController = navHostController,
-                            userRole = UserRole.DEVELOPER
+                            role = role
                         )
                     }
 
                 ) {  _ ->
 
                     NavigationUI(
+                        authViewModel = authViewModel,
+                        userViewModel = userViewModel,
+                        adminViewModel = adminViewModel,
+                        managerViewModel = managerViewModel,
+                        productViewModel = productViewModel,
+                        orderViewModel = orderViewModel,
                         navHostController = navHostController,
                         navHostEngine = navHostEngine
                     )

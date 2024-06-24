@@ -92,4 +92,17 @@
     <string name="price">Цена</string>
     <string name="until">до</string>
     <string name="from">от</string>
+    <string name="login_successful">Вы авторизованы</string>
+    <string name="login_unsuccessful">Вы не авторизованы</string>
+    <string name="logon_successful">Вы зарегистрированы</string>
+    <string name="logon_unsuccessful">Вы не зарегистрированы</string>
+    <string name="some_error">Ошибка</string>
+    <string name="successfully_changed">Данные изменены</string>
+    <string name="successfully_deleted">Точка удалена</string>
+    <string name="success">Операция прошла успешно</string>
+    <string name="create_pick_up_point">Добавить</string>
+    <string name="only_digits_allowed">Можно ввести только цифры</string>
+    <string name="update_pick_up_point">Обновить</string>
+    <string name="disable_battery_optimization">Отключите оптимизацию батареи</string>
+    <string name="non_authorized">Вы не авторизованы</string>
 </resources>

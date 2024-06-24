@@ -8,7 +8,6 @@ import javax.inject.Inject
 class DeletePickUpPointUseCase @Inject constructor(
     private val pickUpPointRepository: IPickUpPointRepository
 ) {
-    operator fun invoke() {
-        /*TODO*/
-    }
+    suspend operator fun invoke(id: Int) =
+        pickUpPointRepository.deletePickUpPoint(id)
 }

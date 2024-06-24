@@ -4,3 +4,6 @@
 *.idea/
 *.iml
 build/
+beta/
+release/
+debug/

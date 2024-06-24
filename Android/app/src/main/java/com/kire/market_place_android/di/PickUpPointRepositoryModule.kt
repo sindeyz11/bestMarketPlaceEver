@@ -6,6 +6,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 /**
  * By Michael Gontarev (KiREHwYE)*/
@@ -14,5 +15,6 @@ import dagger.hilt.components.SingletonComponent
 abstract class PickUpPointRepositoryModule {
 
     @Binds
+    @Singleton
     abstract fun providePickUpPointRepository(pickUpPointRepository: PickUpPointRepository): IPickUpPointRepository
 }

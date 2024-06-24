@@ -1,5 +1,6 @@
 [versions]
 agp = "8.3.2"
+composeBomVersion = "2024.06.00"
 hiltAndroid = "2.49"
 hiltAndroidCompiler = "2.44"
 hiltAndroidGradlePlugin = "2.46.1"
@@ -12,8 +13,12 @@ kotlinGradlePlugin = "1.6.21"
 lifecycleRuntimeKtx = "2.7.0"
 activityCompose = "1.9.0"
 composeBom = "2023.08.00"
+datastoreCoreAndroid = "1.1.1"
+lifecycleRuntimeComposeAndroid = "2.8.2"
+hiltCommon = "1.2.0"
 
 [libraries]
+androidx-compose-bom-v20240600 = { module = "androidx.compose:compose-bom", version.ref = "composeBomVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
@@ -32,6 +37,9 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
+androidx-datastore-core-android = { group = "androidx.datastore", name = "datastore-core-android", version.ref = "datastoreCoreAndroid" }
+androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleRuntimeComposeAndroid" }
+androidx-hilt-common = { group = "androidx.hilt", name = "hilt-common", version.ref = "hiltCommon" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

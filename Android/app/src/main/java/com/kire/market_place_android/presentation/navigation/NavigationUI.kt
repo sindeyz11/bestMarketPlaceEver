@@ -2,36 +2,43 @@ package com.kire.market_place_android.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import com.kire.market_place_android.presentation.NavGraphs
-import com.kire.market_place_android.presentation.destinations.AdminPanelItemsEditScreenDestination
-import com.kire.market_place_android.presentation.destinations.AdminPanelItemsScreenDestination
-import com.kire.market_place_android.presentation.destinations.AdminPanelPickUpScreenDestination
-import com.kire.market_place_android.presentation.destinations.AdminPanelScreenDestination
-import com.kire.market_place_android.presentation.destinations.AdminPanelUsersScreenDestination
-import com.kire.market_place_android.presentation.destinations.DeliveriesScreenDestination
-import com.kire.market_place_android.presentation.destinations.FavouritesScreenDestination
-import com.kire.market_place_android.presentation.destinations.ItemAddToCartMenuDestination
-import com.kire.market_place_android.presentation.destinations.LogInScreenDestination
-import com.kire.market_place_android.presentation.destinations.LogOnScreenDestination
-import com.kire.market_place_android.presentation.destinations.ManagerScreenDestination
-import com.kire.market_place_android.presentation.destinations.ProfileScreenDestination
-import com.kire.market_place_android.presentation.destinations.ShoppingCartScreenDestination
-import com.kire.market_place_android.presentation.destinations.ShoppingScreenDestination
-import com.kire.market_place_android.presentation.screen.AdminPanelScreen
-import com.kire.market_place_android.presentation.screen.admin_panel_screens.AdminPanelItemsEditScreen
-import com.kire.market_place_android.presentation.ui.screen.AdminPanelItemsScreen
+import com.kire.market_place_android.presentation.ui.screen.NavGraphs
 
-import com.kire.market_place_android.presentation.ui.screen.AdminPanelPickUpScreen
-import com.kire.market_place_android.presentation.ui.screen.AdminPanelUsersScreen
-import com.kire.market_place_android.presentation.ui.screen.DeliveriesScreen
-import com.kire.market_place_android.presentation.ui.screen.FavouritesScreen
-import com.kire.market_place_android.presentation.ui.screen.ItemAddToCartMenu
-import com.kire.market_place_android.presentation.ui.screen.LogInScreen
-import com.kire.market_place_android.presentation.ui.screen.LogOnScreen
-import com.kire.market_place_android.presentation.ui.screen.ManagerScreen
-import com.kire.market_place_android.presentation.ui.screen.ProfileScreen
-import com.kire.market_place_android.presentation.ui.screen.ShoppingCartScreen
-import com.kire.market_place_android.presentation.ui.screen.ShoppingScreen
+import com.kire.market_place_android.presentation.ui.screen.admin.AdminPanelScreen
+import com.kire.market_place_android.presentation.ui.screen.admin.AdminPanelItemsEditScreen
+import com.kire.market_place_android.presentation.ui.screen.admin.AdminPanelItemsScreen
+
+import com.kire.market_place_android.presentation.ui.screen.admin.AdminPanelPickUpScreen
+import com.kire.market_place_android.presentation.ui.screen.admin.AdminPanelUsersScreen
+import com.kire.market_place_android.presentation.ui.screen.common.DeliveriesScreen
+import com.kire.market_place_android.presentation.ui.screen.common.FavouritesScreen
+import com.kire.market_place_android.presentation.ui.screen.common.ItemAddToCartMenu
+import com.kire.market_place_android.presentation.ui.screen.common.LogInScreen
+import com.kire.market_place_android.presentation.ui.screen.common.LogOnScreen
+import com.kire.market_place_android.presentation.ui.screen.manager.ManagerScreen
+import com.kire.market_place_android.presentation.ui.screen.common.ProfileScreen
+import com.kire.market_place_android.presentation.ui.screen.common.ShoppingCartScreen
+import com.kire.market_place_android.presentation.ui.screen.common.ShoppingScreen
+import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelItemsEditScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelItemsScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelPickUpScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelUsersScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.DeliveriesScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.FavouritesScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.ItemAddToCartMenuDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.LogInScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.LogOnScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.ManagerScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.ProfileScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingCartScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
+import com.kire.market_place_android.presentation.viewmodel.AdminViewModel
+import com.kire.market_place_android.presentation.viewmodel.AuthViewModel
+import com.kire.market_place_android.presentation.viewmodel.ManagerViewModel
+import com.kire.market_place_android.presentation.viewmodel.OrderViewModel
+import com.kire.market_place_android.presentation.viewmodel.ProductViewModel
+import com.kire.market_place_android.presentation.viewmodel.UserViewModel
 
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
@@ -42,6 +49,12 @@ import com.ramcosta.composedestinations.spec.NavHostEngine
  * By Aleksey Timko (de4ltt)*/
 @Composable
 fun NavigationUI(
+    authViewModel: AuthViewModel,
+    userViewModel: UserViewModel,
+    adminViewModel: AdminViewModel,
+    managerViewModel: ManagerViewModel,
+    productViewModel: ProductViewModel,
+    orderViewModel: OrderViewModel,
     navHostController: NavHostController,
     navHostEngine: NavHostEngine
 ){
@@ -53,71 +66,85 @@ fun NavigationUI(
     ) {
         composable(DeliveriesScreenDestination) {
             DeliveriesScreen(
+                orderViewModel = orderViewModel,
                 navigator = destinationsNavigator
             )
         }
         composable(FavouritesScreenDestination) {
             FavouritesScreen(
+                userViewModel = userViewModel,
                 navigator = destinationsNavigator
             )
         }
         composable(ItemAddToCartMenuDestination) {
             ItemAddToCartMenu(
+                userViewModel = userViewModel,
                 navigator = destinationsNavigator
             )
         }
         composable(LogInScreenDestination) {
             LogInScreen(
+                authViewModel = authViewModel,
                 navigator = destinationsNavigator
             )
         }
         composable(LogOnScreenDestination) {
             LogOnScreen(
+                authViewModel = authViewModel,
                 navigator = destinationsNavigator
             )
         }
         composable(AdminPanelScreenDestination) {
             AdminPanelScreen(
+                adminViewModel = adminViewModel,
                 navigator = destinationsNavigator
             )
         }
         composable(AdminPanelItemsScreenDestination) {
             AdminPanelItemsScreen(
+                adminViewModel = adminViewModel,
                 navigator = destinationsNavigator
             )
         }
         composable(AdminPanelItemsEditScreenDestination) {
             AdminPanelItemsEditScreen(
+                adminViewModel = adminViewModel,
                 navigator = destinationsNavigator
             )
         }
         composable(ProfileScreenDestination) {
             ProfileScreen(
+                userViewModel = userViewModel,
                 navigator = destinationsNavigator
             )
         }
         composable(ManagerScreenDestination) {
             ManagerScreen(
+                managerViewModel = managerViewModel,
                 navigator = destinationsNavigator
             )
         }
         composable(ShoppingScreenDestination) {
             ShoppingScreen(
+                productViewModel = productViewModel,
                 navigator = destinationsNavigator
             )
         }
         composable(AdminPanelPickUpScreenDestination) {
             AdminPanelPickUpScreen(
+                adminViewModel = adminViewModel,
                 navigator = destinationsNavigator
             )
         }
         composable(AdminPanelUsersScreenDestination) {
             AdminPanelUsersScreen(
+                adminViewModel = adminViewModel,
                 navigator = destinationsNavigator
             )
         }
         composable(ShoppingCartScreenDestination){
             ShoppingCartScreen(
+                userViewModel = userViewModel,
                 navController = navHostController
             )
         }
