@@ -19,3 +19,14 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-dontwarn org.slf4j.impl.StaticLoggerBinder
+# Keep Compose runtime classes
+#-keep class androidx.compose.** { *; }
+#-keep class androidx.compose.runtime.** { *; }
+
+# Keep Lifecycle classes
+#-keep class androidx.lifecycle.** { *; }
+#-keep class androidx.activity.ComponentActivity { *; }
+
+# Keep annotations
+#-keepattributes *Annotation*

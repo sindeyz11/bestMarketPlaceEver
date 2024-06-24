@@ -1,25 +1,33 @@
 package com.kire.market_place_android.domain.use_case.common.util
 
-import com.kire.market_place_android.domain.use_case.common.EditUserAccountInfoUseCase
-import com.kire.market_place_android.domain.use_case.common.GetDeliveriesStatusUseCase
-import com.kire.market_place_android.domain.use_case.common.GetPersonalStatisticsUseCase
-import com.kire.market_place_android.domain.use_case.common.GetProductListUseCase
-import com.kire.market_place_android.domain.use_case.common.LoginUseCase
-import com.kire.market_place_android.domain.use_case.common.OrderUseCase
-import com.kire.market_place_android.domain.use_case.common.ProductAddToCartUseCase
-import com.kire.market_place_android.domain.use_case.common.ProductDeleteFromCartUseCase
-import com.kire.market_place_android.domain.use_case.common.RegisterUseCase
+import com.kire.market_place_android.domain.use_case.common.user.GetRoleUseCase
+import com.kire.market_place_android.domain.use_case.common.user.GetUserIdUseCase
+import com.kire.market_place_android.domain.use_case.common.user.GetUserInfoUseCase
+import com.kire.market_place_android.domain.use_case.common.auth.IsAuthenticatedUseCase
+import com.kire.market_place_android.domain.use_case.common.auth.LogOutUseCase
+import com.kire.market_place_android.domain.use_case.common.order.GetOrdersUseCase
+import com.kire.market_place_android.domain.use_case.common.product.GetAllAvailableCategoriesUseCase
+import com.kire.market_place_android.domain.use_case.common.product.ProductAddToCartUseCase
+import com.kire.market_place_android.domain.use_case.common.product.ProductDeleteFromCartUseCase
+import com.kire.market_place_android.domain.use_case.common.product.GetAllProductsUseCase
+import com.kire.market_place_android.domain.use_case.common.user.ChangePasswordUseCase
+import com.kire.market_place_android.domain.use_case.common.user.ChangeUserCardUseCase
+import com.kire.market_place_android.domain.use_case.common.user.ChangeUserInfoAndReturnUseCase
 
 /**
  * By Aleksey Timko (de4ltt)*/
 sealed interface ICommonUseCases {
-    val editUserAccountInfoUseCase: EditUserAccountInfoUseCase
-    val getDeliveriesStatusUseCase: GetDeliveriesStatusUseCase
-    val getPersonalStatisticsUseCase: GetPersonalStatisticsUseCase
-    val loginUseCase: LoginUseCase
-    val orderUseCase: OrderUseCase
+    val logOutUseCase: LogOutUseCase
+    val getOrdersUseCase: GetOrdersUseCase
     val productAddToCartUseCase: ProductAddToCartUseCase
     val productDeleteFromCartUseCase: ProductDeleteFromCartUseCase
-    val registerUseCase: RegisterUseCase
-    val getProductListUseCase: GetProductListUseCase
+    val getAllProductsUseCase: GetAllProductsUseCase
+    val getUserIdUseCase: GetUserIdUseCase
+    val getRoleUseCase: GetRoleUseCase
+    val getUserInfoUseCase: GetUserInfoUseCase
+    val isAuthenticatedUseCase: IsAuthenticatedUseCase
+    val changePasswordUseCase: ChangePasswordUseCase
+    val changeUserCardUseCase: ChangeUserCardUseCase
+    val changeUserInfoAndReturnUseCase: ChangeUserInfoAndReturnUseCase
+    val getAllAvailableCategoriesUseCase: GetAllAvailableCategoriesUseCase
 }

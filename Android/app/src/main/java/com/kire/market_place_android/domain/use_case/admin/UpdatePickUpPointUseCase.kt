@@ -8,7 +8,9 @@ import javax.inject.Inject
 class UpdatePickUpPointUseCase @Inject constructor(
     private val pickUpPointRepository: IPickUpPointRepository
 ) {
-    operator fun invoke() {
-        /*TODO*/
-    }
+    suspend operator fun invoke(
+        id: Int,
+        managerId: Int,
+        address: String
+    ) = pickUpPointRepository.updatePickUpPoint(id, managerId, address)
 }

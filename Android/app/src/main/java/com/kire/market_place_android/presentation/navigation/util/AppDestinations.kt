@@ -2,16 +2,16 @@ package com.kire.market_place_android.presentation.navigation.util
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.kire.market_place_android.presentation.destinations.AdminPanelItemsScreenDestination
-import com.kire.market_place_android.presentation.destinations.AdminPanelPickUpScreenDestination
-import com.kire.market_place_android.presentation.destinations.AdminPanelScreenDestination
-import com.kire.market_place_android.presentation.destinations.AdminPanelUsersScreenDestination
-import com.kire.market_place_android.presentation.destinations.FavouritesScreenDestination
-import com.kire.market_place_android.presentation.destinations.ManagerScreenDestination
-import com.kire.market_place_android.presentation.destinations.OrderScreenDestination
-import com.kire.market_place_android.presentation.destinations.ProfileScreenDestination
-import com.kire.market_place_android.presentation.destinations.ShoppingCartScreenDestination
-import com.kire.market_place_android.presentation.destinations.ShoppingScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelItemsScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelPickUpScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelUsersScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.FavouritesScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.ManagerScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.OrderScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.ProfileScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingCartScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
 import com.kire.test.R
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 
@@ -61,43 +61,35 @@ sealed interface AppDestinations {
 
 
 fun AppDestinations.getDirection() : DirectionDestinationSpec {
-    if (this is AppDestinations.BottomBarDestinations)
-        return this.direction
-    else if (this is AppDestinations.AdminDestinations)
-        return this.direction
-    else if (this is AppDestinations.ManagerDestinations)
-        return this.direction
-    return ShoppingScreenDestination
+    return when(this) {
+        is AppDestinations.BottomBarDestinations -> this.direction
+        is AppDestinations.AdminDestinations -> this.direction
+        is AppDestinations.ManagerDestinations -> this.direction
+    }
 }
 
 fun AppDestinations.getLabel() : Int {
-    if (this is AppDestinations.BottomBarDestinations)
-        return this.label
-    else if (this is AppDestinations.AdminDestinations)
-        return this.label
-    else if (this is AppDestinations.ManagerDestinations)
-        return this.label
-    return R.string.home_screen_label
+    return when(this) {
+        is AppDestinations.BottomBarDestinations -> this.label
+        is AppDestinations.AdminDestinations -> this.label
+        is AppDestinations.ManagerDestinations -> this.label
+    }
 }
 
 fun AppDestinations.getIconTop() : Int? {
-    if (this is AppDestinations.BottomBarDestinations)
-        return this.iconTop
-    else if (this is AppDestinations.AdminDestinations)
-        return this.iconTop
-    else if (this is AppDestinations.ManagerDestinations)
-        return this.iconTop
-    return R.drawable.shopping_top_bar
+    return when(this) {
+        is AppDestinations.BottomBarDestinations -> this.iconTop
+        is AppDestinations.AdminDestinations -> this.iconTop
+        is AppDestinations.ManagerDestinations -> this.iconTop
+    }
 }
 
 fun AppDestinations.getPlusButton() : Int? {
-    if (this is AppDestinations.BottomBarDestinations)
-        return this.additionalButton
-    else if (this is AppDestinations.AdminDestinations)
-        return this.plusButton
-    else if (this is AppDestinations.ManagerDestinations)
-        return this.plusButton
-    return R.drawable.plus_bold
+    return when(this) {
+        is AppDestinations.BottomBarDestinations -> this.additionalButton
+        is AppDestinations.AdminDestinations -> this.plusButton
+        is AppDestinations.ManagerDestinations -> this.plusButton
+    }
 }
 
 
