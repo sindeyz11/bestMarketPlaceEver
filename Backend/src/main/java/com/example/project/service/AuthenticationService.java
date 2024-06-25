@@ -57,12 +57,7 @@ public class AuthenticationService {
                             request.getPassword()
                     )
             );
-        } catch (Exception e) {
-            throw new InvalidCredentialsException(Constants.INVALID_LOGIN_OR_PASSWORD);
-        }
-
-        var user = repository.findByPhone(request.getPhone())
-                .orElseThrow(() -> new InvalidCredentialsException(Constants.INVALID_LOGIN_OR_PASSWORD));
+        var user = repository.findByPhone(request.getPhone()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
 
         return AuthenticationResponse.builder()
@@ -70,5 +65,8 @@ public class AuthenticationService {
                 .role(user.getRole())
                 .user_id(user.getUser_id())
                 .build();
+        } catch (Exception e) {
+            throw new InvalidCredentialsException(Constants.INVALID_LOGIN_OR_PASSWORD);
+        }
     }
 }
