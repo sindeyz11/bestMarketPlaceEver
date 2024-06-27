@@ -21,11 +21,16 @@ import androidx.compose.ui.unit.dp
 import com.kire.test.R
 
 /**
- * By Michael Gontarev (KiREHwYE)*/
+ * Верхний бар экрана AdminPanelItemsEditScreen
+ *
+ * @param onArrowBackClick Обработчик нажатия кнопки "Назад"
+ * @param uploadImageButton Функция для отображения кнопки "Загрузить изображение"
+ *
+ * @author Michael Gontarev (KiREHwYE)*/
 @Composable
 fun AdminEditTopControls(
     onArrowBackClick: () -> Unit,
-    rightButton: @Composable () -> Unit
+    uploadImageButton: @Composable () -> Unit
 ){
     Row(
         modifier = Modifier
@@ -38,6 +43,11 @@ fun AdminEditTopControls(
                 modifier = Modifier
                     .size(55.dp)
                     .clip(CircleShape)
+                    .pointerInput(Unit) {
+                        detectTapGestures {
+                            onArrowBackClick()
+                        }
+                    }
                     .background(Color.White),
                 contentAlignment = Alignment.Center
             ){
@@ -45,25 +55,12 @@ fun AdminEditTopControls(
                     painter = painterResource(id = R.drawable.arrow_back),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(27.dp)
-                        .pointerInput(Unit) {
-                            detectTapGestures {
-                                onArrowBackClick()
-                            }
-                        },
+                        .size(27.dp),
                     tint = Color.Black
                 )
             }
 
-            Box(
-                modifier = Modifier
-                    .size(55.dp)
-                    .clip(CircleShape)
-                    .background(Color.White),
-                contentAlignment = Alignment.Center
-            ) {
-                rightButton()
-            }
+            uploadImageButton()
         }
     )
 }

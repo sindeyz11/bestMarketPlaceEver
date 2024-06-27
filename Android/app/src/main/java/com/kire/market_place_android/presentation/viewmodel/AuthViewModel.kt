@@ -75,7 +75,7 @@ class AuthViewModel @Inject constructor(
             authState = authState.copy(isLoading = true)
 
             val result = authUseCases.logOnUseCase(
-                name = authState.logOnName,
+                username = authState.logOnName,
                 phone = authState.logOnPhone,
                 email = authState.logOnEmail,
                 password = authState.logOnPassword
@@ -97,10 +97,6 @@ class AuthViewModel @Inject constructor(
             _authResultDomainChannel.send(result)
             authState = authState.copy(isLoading = false)
         }
-    }
-
-    suspend fun isAuthenticated(): Boolean {
-        return authUseCases.isAuthenticatedUseCase().last()
     }
 
     init {

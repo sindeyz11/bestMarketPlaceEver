@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import com.kire.market_place_android.presentation.model.order.IOrderResult
-import com.kire.market_place_android.presentation.navigation.transition.DeliveriesScreenTransitions
+import com.kire.market_place_android.presentation.navigation.transition.common.DeliveriesScreenTransitions
 import com.kire.market_place_android.presentation.screen.deliveries_screen_ui.DeliveryCard
 import com.kire.market_place_android.presentation.ui.screen.destinations.DeliveriesScreenDestination
 import com.kire.market_place_android.presentation.viewmodel.OrderViewModel
@@ -50,7 +50,14 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /**
- * By Aleksey Timko (de4ltt)*/
+ * Экран с доставками пользователя
+ *
+ * @param orderViewModel viewModel для работы с заказами
+ * @param paddingValues отступы от краев экрана
+ * @param navigator для навигации между экранами
+ *
+ * @author Michael Gontarev (KiREHwYE)
+ * @author Aleksey Timko (de4ltt)*/
 @Destination(style = DeliveriesScreenTransitions::class)
 @Composable
 fun DeliveriesScreen(

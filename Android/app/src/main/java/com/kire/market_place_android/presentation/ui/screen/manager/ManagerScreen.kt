@@ -18,9 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-import com.kire.market_place_android.presentation.navigation.transition.ManagerScreenTransitions
+import com.kire.market_place_android.presentation.navigation.transition.manager.ManagerScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
-import com.kire.market_place_android.presentation.ui.details.common_screen.cross_screen_ui.TopBar
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.TopBar
 import com.kire.market_place_android.presentation.ui.details.manager.manager_screen_ui.OrderReleasingBar
 import com.kire.market_place_android.presentation.ui.details.manager.manager_screen_ui.PickUpPointIncomeBar
 import com.kire.market_place_android.presentation.ui.details.manager.manager_screen_ui.PickUpPointInfoBar
@@ -32,7 +32,13 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /**
- * By Michael Gontarev (KiREHwYE)*/
+ * Экран менеджера
+ *
+ * @param managerViewModel ViewModel менеджера
+ * @param navigator для навигации между экранами
+ * @param paddingValues отступы от краев экрана
+ *
+ * @author Michael Gontarev (KiREHwYE)*/
 @Destination(style = ManagerScreenTransitions::class)
 @Composable
 fun ManagerScreen(

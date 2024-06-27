@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.domain.model.auth.AuthResultDomain
 
 import com.kire.market_place_android.presentation.model.auth.AuthUiEvent
-import com.kire.market_place_android.presentation.navigation.transition.LogInScreenTransitions
+import com.kire.market_place_android.presentation.navigation.transition.auth.LogInScreenTransitions
 import com.kire.market_place_android.presentation.ui.screen.destinations.LogOnScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
@@ -58,7 +58,13 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.popUpTo
 
 /**
- * By Michael Gontarev (KiREHwYE)*/
+ * Экран авторизации пользователя
+ *
+ * @param authViewModel ViewModel авторизации
+ * @param navigator для навигации между экранами
+ * @param paddingValues отступы от краёв экрана
+ *
+ * @author Michael Gontarev (KiREHwYE)*/
 @Destination(start = true, style = LogInScreenTransitions::class)
 @Composable
 fun LogInScreen(

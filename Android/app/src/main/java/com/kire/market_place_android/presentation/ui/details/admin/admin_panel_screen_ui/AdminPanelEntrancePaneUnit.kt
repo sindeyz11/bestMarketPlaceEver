@@ -24,7 +24,12 @@ import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
 
 /**
- * By Aleksey Timko (de4ltt)*/
+ * Кнопка из меню админа для входа в одну из админ панелей
+ *
+ * @param textValue Текст кнопки
+ * @param onClick Обработчик клика
+ *
+ * @author Aleksey Timko (de4ltt)*/
 @Composable
 fun AdminPanelEntrancePaneUnit(
     textValue: String,

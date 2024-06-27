@@ -18,9 +18,17 @@ import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
 
 /**
- * By Michael Gontarev (KiREHwYE)*/
+ * Плавающая кнопка с предложением выдать заказ
+ *
+ * @param amountToGive количество товара, которое нужно выдать
+ * @param amountToReturn количество товара, которое нужно вернуть
+ * @param totalSum сумма заказа
+ * @param onClick обработчик нажатия
+ *
+ * @author Michael Gontarev (KiREHwYE)*/
 @Composable
 fun OrderFloatingButton(
+    modifier: Modifier = Modifier,
     amountToGive: Int = 0,
     amountToReturn: Int = 0,
     totalSum: Double = 0.0,
@@ -28,6 +36,7 @@ fun OrderFloatingButton(
 ) {
 
     ExtendedFloatingActionButton(
+        modifier = modifier,
         shape = RoundedCornerShape(12.dp),
         text = {
             Column(

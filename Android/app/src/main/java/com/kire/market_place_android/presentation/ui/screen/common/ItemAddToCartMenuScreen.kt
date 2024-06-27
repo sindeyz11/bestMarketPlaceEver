@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 
@@ -34,6 +35,7 @@ import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -51,11 +53,11 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
 import com.kire.market_place_android.presentation.model.product.Product
-import com.kire.market_place_android.presentation.navigation.transition.ItemAddToCartMenuScreenTransitions
+import com.kire.market_place_android.presentation.navigation.transition.common.ItemAddToCartMenuScreenTransitions
 import com.kire.market_place_android.presentation.ui.details.admin.admin_panel_items_edit_screen_ui.AdminEditTopControls
-import com.kire.market_place_android.presentation.ui.details.common_screen.item_add_to_cart_menu_ui.BottomButtonFinishOperation
-import com.kire.market_place_android.presentation.ui.details.common_screen.item_add_to_cart_menu_ui.ItemsAddToCartMenuCarousel
-import com.kire.market_place_android.presentation.ui.details.common_screen.item_add_to_cart_menu_ui.ProductItemCounter
+import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.BottomButtonFinishOperation
+import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.ItemsAddToCartMenuCarousel
+import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.ProductItemCounter
 import com.kire.market_place_android.presentation.ui.screen.destinations.ItemAddToCartMenuDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingCartScreenDestination
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
@@ -67,8 +69,15 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /**
- * By Michael Gontarev (KiREHwYE)
- * By Aleksey Timko (de4ltt)*/
+ * Экран товара
+ *
+ * @param userViewModel ViewModel для работы с пользователем
+ * @param product товар
+ * @param navigator для навигации между экранами
+ * @param paddingValues отступы от краев экрана
+ *
+ * @author Michael Gontarev (KiREHwYE)
+ * @author Aleksey Timko (de4ltt)*/
 @OptIn(ExperimentalFoundationApi::class)
 @Destination(style = ItemAddToCartMenuScreenTransitions::class)
 @Composable
@@ -293,19 +302,27 @@ fun ItemAddToCartMenu(
                 onArrowBackClick = {
                     navigator.popBackStack()
                 },
-                rightButton = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.favourite_top_bar),
-                        contentDescription = "update_sign",
+                uploadImageButton = {
+                    Box(
                         modifier = Modifier
-                            .size(24.dp)
+                            .size(55.dp)
+                            .clip(CircleShape)
                             .pointerInput(Unit) {
                                 detectTapGestures {
                                     //TODO
                                 }
-                            },
-                        tint = ExtendedTheme.colors.redAccent
-                    )
+                            }
+                            .background(Color.White),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.favourite_top_bar),
+                            contentDescription = "update_sign",
+                            tint = ExtendedTheme.colors.redAccent,
+                            modifier = Modifier
+                                .size(24.dp)
+                        )
+                    }
                 }
             )
         }

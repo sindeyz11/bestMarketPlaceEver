@@ -30,7 +30,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 
 import com.kire.market_place_android.presentation.navigation.NavigationUI
-import com.kire.market_place_android.presentation.ui.details.common_screen.cross_screen_ui.BottomBar
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.BottomBar
+import com.kire.market_place_android.presentation.ui.screen.destinations.LogInScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
 import com.kire.market_place_android.presentation.ui.theme.MarketExtendedTheme
 import com.kire.market_place_android.presentation.viewmodel.AdminViewModel
@@ -95,7 +96,7 @@ class MainActivity : ComponentActivity() {
                 LaunchedEffect(isAuthenticated) {
                     if (isAuthenticated) {
                         navHostController.navigate(ShoppingScreenDestination.route) {
-                            popUpTo(ShoppingScreenDestination) {
+                            popUpTo(LogInScreenDestination) {
                                 inclusive = true
                             }
                         }

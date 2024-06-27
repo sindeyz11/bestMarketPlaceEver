@@ -1,5 +1,6 @@
 package com.kire.market_place_android.presentation.ui.details.admin.admin_panel_pick_up_screen_ui
 
+import android.util.Log
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -47,9 +48,18 @@ import com.kire.market_place_android.presentation.model.admin.AdminState
 import com.kire.market_place_android.presentation.model.admin.AdminUiEvent
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
+import kotlinx.serialization.builtins.serializer
 
 /**
- * By Aleksey Timko (de4ltt)*/
+ * Карточка пункта выдачи
+ *
+ * @param adminState состояние ui экрана админа
+ * @param pickUpPoint информация о пункте выдачи
+ * @param onEvent обработчик событий
+ * @param modifier модификатор
+ *
+ * @author Michael Gontarev (KiREHwYE)
+ * @author Aleksey Timko (de4ltt)*/
 @Composable
 fun AdminPickUpCard(
     adminState: AdminState,
@@ -126,6 +136,10 @@ fun AdminPickUpCard(
                     .blur(blurDp.value)
                     .pointerInput(Unit) {
                         detectTapGestures(
+                            onTap = {
+                                if (!isDeleteButtonExpanded)
+                                    onEvent(AdminUiEvent.ChangeOnDismissRequest(true))
+                            },
                             onLongPress = {
                                 isDeleteButtonExpanded = !isDeleteButtonExpanded
                             }

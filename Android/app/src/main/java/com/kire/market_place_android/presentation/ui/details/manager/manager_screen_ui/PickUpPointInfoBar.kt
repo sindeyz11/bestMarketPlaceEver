@@ -30,7 +30,14 @@ import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
 
 /**
- * By Michael Gontarev (KiREHwYE)*/
+ * Плитка с информацией о пункте выдачи
+ *
+ * @param pickUpPointAddress Адрес пункта выдачи
+ * @param pickUpPointCode Код пункта выдачи
+ * @param pickUpPointManager Информация о менеджере
+ * @param roundedCornerShape Скругление углов
+ *
+ * @author Michael Gontarev (KiREHwYE)*/
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PickUpPointInfoBar(

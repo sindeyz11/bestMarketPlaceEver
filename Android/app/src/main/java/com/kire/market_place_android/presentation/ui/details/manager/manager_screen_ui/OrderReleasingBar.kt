@@ -44,7 +44,13 @@ import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
 
 /**
- * By Michael Gontarev (KiREHwYE)*/
+ * Плитка для перехода на экран с информацией о заказе
+ *
+ * @param roundedCornerShape Радиус закругления углов
+ * @param paddingValues Отступы от краев плитки
+ * @param onClick Обработчик нажатия кнопки
+ *
+ * @author Michael Gontarev (KiREHwYE)*/
 @Composable
 fun OrderReleasingBar(
     roundedCornerShape: RoundedCornerShape =

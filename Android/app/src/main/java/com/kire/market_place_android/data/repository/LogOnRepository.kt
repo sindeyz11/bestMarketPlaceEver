@@ -31,7 +31,7 @@ class LogOnRepository @Inject constructor(
     // log-on and return result
     // as sealed class containing authorized, unauthorized, unknown error statuses
     override suspend fun logOn(
-        name: String,
+        username: String,
         phone: String,
         email: String,
         password: String
@@ -41,7 +41,7 @@ class LogOnRepository @Inject constructor(
             try {
                 val response = authApi.logOn(
                     request = LogOnRequest(
-                        name = name,
+                        username = username,
                         phone = phone,
                         email = email,
                         password = password

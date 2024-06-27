@@ -33,13 +33,13 @@ class AuthRepository @Inject constructor(
     // as sealed class containing authorized, unauthorized, unknown error
     // also log-in on success
     override suspend fun logOn(
-        name: String,
+        username: String,
         phone: String,
         email: String,
         password: String
     ): AuthResultDomain<String> {
         return logOnRepository.logOn(
-            name = name,
+            username = username,
             phone = phone,
             email = email,
             password = password

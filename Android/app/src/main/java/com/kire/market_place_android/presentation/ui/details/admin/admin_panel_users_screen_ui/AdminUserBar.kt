@@ -19,7 +19,12 @@ import com.kire.market_place_android.presentation.model.user.User
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
 /**
- * By Aleksey Timko (de4ltt)*/
+ * Плитка с информацией о пользователе
+ *
+ * @param user пользователь
+ *
+ * @author Michael Gontarev (KiREHwYE)
+ * @author Aleksey Timko (de4ltt)*/
 @Composable
 fun AdminUserBar(
     user: AdminUserInfo
@@ -59,7 +64,7 @@ fun AdminUserBar(
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
                 Text(
-                    text = "user",
+                    text = user.role.name,
                     color = Color.DarkGray,
                     fontSize = 13.sp,
                     lineHeight = 14.sp

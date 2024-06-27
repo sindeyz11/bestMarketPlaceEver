@@ -11,13 +11,13 @@ class LogOnUseCase @Inject constructor(
     private val authRepository: IAuthRepository
 ) {
     suspend operator fun invoke(
-        name: String,
+        username: String,
         phone: String,
         email: String,
         password: String
     ) : AuthResultDomain<String> {
         return authRepository.logOn(
-            name = name,
+            username = username,
             phone = phone,
             email = email,
             password = password

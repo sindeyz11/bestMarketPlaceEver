@@ -33,7 +33,13 @@ import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
 
 /**
- * By Michael Gontarev (KiREHwYE)*/
+ * Плитка с информацией о доходе пункта выдачи
+ *
+ * @param income Доход пункта выдачи
+ * @param roundedCornerShape Радиус закругления углов
+ * @param paddingValues Отступы от краев плитки
+ *
+ * @author Michael Gontarev (KiREHwYE)*/
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PickUpPointIncomeBar(

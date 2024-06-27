@@ -47,7 +47,13 @@ import com.kire.market_place_android.presentation.util.Validator
 import com.kire.test.R
 
 /**
- * By Aleksey Timko (de4ltt)*/
+ * Всплывающий нижний бар для создания/обновления пункта выдачи
+ *
+ * @param adminState состояние ui экрана админа
+ * @param sheetState состояние нижнего бара
+ * @param onEvent обработчик событий
+ *
+ * @author Aleksey Timko (de4ltt)*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PickUpPointBottomBar(

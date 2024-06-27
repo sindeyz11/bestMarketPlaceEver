@@ -46,7 +46,14 @@ import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
 
 /**
- * By Michael Gontarev (KiREHwYE)*/
+ * Карточка заказа
+ *
+ * @param name Название товара
+ * @param price Цена товара
+ * @param amount Количество товара
+ * @param orderDate Дата заказа
+ *
+ * @author Michael Gontarev (KiREHwYE)*/
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OrderItem(
@@ -58,7 +65,6 @@ fun OrderItem(
 ) {
 
     val checked = remember { mutableStateOf(false) }
-
 
     Row(
         modifier = Modifier

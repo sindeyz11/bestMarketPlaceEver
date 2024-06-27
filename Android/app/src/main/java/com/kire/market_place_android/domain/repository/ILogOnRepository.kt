@@ -7,7 +7,7 @@ import com.kire.market_place_android.domain.model.auth.AuthResultDomain
 interface ILogOnRepository {
 
     suspend fun logOn(
-        name: String,
+        username: String,
         phone: String,
         email: String,
         password: String

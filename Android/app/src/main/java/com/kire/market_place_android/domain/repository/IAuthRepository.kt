@@ -11,7 +11,7 @@ interface IAuthRepository {
     suspend fun isTokenExpired(): Boolean
 
     suspend fun logOn(
-        name: String,
+        username: String,
         phone: String,
         email: String,
         password: String

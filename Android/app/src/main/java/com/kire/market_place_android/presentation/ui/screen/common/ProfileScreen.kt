@@ -7,25 +7,25 @@ import androidx.activity.compose.BackHandler
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,23 +33,30 @@ import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import com.kire.market_place_android.presentation.model.user.IUserResult
-import com.kire.market_place_android.presentation.navigation.transition.ProfileScreenTransitions
+import com.kire.market_place_android.presentation.navigation.transition.common.ProfileScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
 import com.kire.market_place_android.presentation.screen.profile_screen_ui.ChangePasswordBottomBar
 import com.kire.market_place_android.presentation.screen.profile_screen_ui.ProfileDataBottomBar
-import com.kire.market_place_android.presentation.ui.details.common_screen.cross_screen_ui.TopBar
-import com.kire.market_place_android.presentation.ui.details.common_screen.profile_screen_ui.ChangePasswordBar
-import com.kire.market_place_android.presentation.ui.details.common_screen.profile_screen_ui.PaymentMethod
-import com.kire.market_place_android.presentation.ui.details.common_screen.profile_screen_ui.PurchaseRelatedInfoBar
-import com.kire.market_place_android.presentation.ui.details.common_screen.profile_screen_ui.UserProfileInfo
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.ListWithTopAndFab
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.TopBar
+import com.kire.market_place_android.presentation.ui.details.common.profile_screen_ui.ChangePasswordBar
+import com.kire.market_place_android.presentation.ui.details.common.profile_screen_ui.PaymentMethod
+import com.kire.market_place_android.presentation.ui.details.common.profile_screen_ui.PurchaseRelatedInfoBar
+import com.kire.market_place_android.presentation.ui.details.common.profile_screen_ui.UserProfileInfo
 import com.kire.market_place_android.presentation.ui.screen.destinations.DeliveriesScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
 import com.kire.market_place_android.presentation.viewmodel.UserViewModel
@@ -60,7 +67,13 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /**
- * By Michael Gontarev (KiREHwYE)*/
+ * Профиль пользователя
+ *
+ * @param userViewModel ViewModel для работы с пользователем
+ * @param navigator для навигации между экранами
+ * @param paddingValues отступы
+ *
+ * @author Michael Gontarev (KiREHwYE)*/
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination(style = ProfileScreenTransitions::class)
 @Composable
@@ -101,7 +114,6 @@ fun ProfileScreen(
             ).show()
     }
 
-    val scrollState = rememberScrollState()
     val sheetState = rememberModalBottomSheetState()
 
     var showChangePasswordBottomBar by remember {
@@ -111,29 +123,21 @@ fun ProfileScreen(
         mutableStateOf(false)
     }
 
-    profileState.apply {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-                .padding(paddingValues)
-                .verticalScroll(scrollState),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
+    ListWithTopAndFab(
+        listSize = 1,
+        topBar = {
             TopBar(
                 logOut = userViewModel::logOut,
                 destination = AppDestinations.BottomBarDestinations.PROFILE,
                 navigator = navigator
             )
+        }
+    ) {
 
-            Spacer(modifier = Modifier.height(16.dp))
+        profileState.apply {
 
             Column(
-                modifier = Modifier
-                    .heightIn(max = 1000.dp)
-                    .fillMaxWidth(),
+                modifier = it,
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -169,9 +173,9 @@ fun ProfileScreen(
                             title = stringResource(id = R.string.total_purchases_percent_title),
                             sign = stringResource(id = R.string.percent),
                             info =
-                                if (redemptionPercent?.isNaN() == true)
-                                    0.0.toString()
-                                else redemptionPercent?.toString() ?: 0.0.toString()
+                            if (redemptionPercent?.isNaN() == true)
+                                0.0.toString()
+                            else redemptionPercent?.toString() ?: 0.0.toString()
                         )
                     }
 
@@ -215,10 +219,8 @@ fun ProfileScreen(
                     }
                 )
             }
-
         }
     }
-
 
     if (showChangePasswordBottomBar)
         ChangePasswordBottomBar(
@@ -229,7 +231,6 @@ fun ProfileScreen(
                 showChangePasswordBottomBar = show
             },
         )
-
 
     if (showProfileDataBottomBar)
         ProfileDataBottomBar(
