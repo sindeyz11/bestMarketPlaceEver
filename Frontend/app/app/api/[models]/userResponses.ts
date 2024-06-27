@@ -13,6 +13,7 @@ export interface UserData {
 }
 
 export interface AdminPanelUserInfo {
+  id: number;
   username: string;
   role: Role;
   amount_spent: number;

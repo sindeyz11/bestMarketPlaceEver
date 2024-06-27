@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -26,21 +27,20 @@
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-/* width */
+
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 14px;
 }
 
-/* Track */
-
-/* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #cccccc;
-  border-radius: 10px;
+  
+  border-right: 4px solid rgba(0, 0, 0, 0);
+  border-left: 4px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  border-radius: 6px;
+  background-color: #AAAAAA;
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #979797;
-  cursor: pointer;
+.mono {
+  font-family: "Roboto Mono", monospace;
 }

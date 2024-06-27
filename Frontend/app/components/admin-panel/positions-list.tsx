@@ -1,16 +1,14 @@
 "use client";
 
-import { IPositionItem } from "@/types";
-import { Button } from "../ui/button";
-import { PositionItem } from "./position-item";
-import Modal from "../layout/modal";
 import { useState } from "react";
+import { Button } from "../ui/button";
+import Modal from "../layout/modal";
+import { PositionItem } from "./position-item";
+import { useQuery } from "@tanstack/react-query";
+import ProductService from "@/app/api/product-service";
+import { Loading } from "../layout/loading";
 
-interface PositionsListProps {
-  positions: IPositionItem[];
-}
-
-export const PositionsList = ({ positions }: PositionsListProps) => {
+export const PositionsList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -20,10 +18,22 @@ export const PositionsList = ({ positions }: PositionsListProps) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["positions"],
+
+    queryFn: async () => {
+      const response = await ProductService.getFullAssortment();
+      return response.data;
+    },
+  });
+
+  const allProducts = data;
+
   return (
-    <div className="rounded-xl bg-white p-6 shadow-lg">
+    <>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-        <div className="flex h-full w-full flex-col">
+        <div className="flex w-full flex-col">
           <div className="flex flex-col gap-3">
             <h3 className="text-center text-xl font-semibold">
               Добавить позицию
@@ -38,11 +48,17 @@ export const PositionsList = ({ positions }: PositionsListProps) => {
           </div>
         </div>
       </Modal>
-      <h2 className="mb-2 text-lg font-semibold text-black">Позиции</h2>
-      {positions.length ? (
-        <div className="flex flex-col gap-4">
-          <div className="custom-scroll flex h-[calc(100dvh-300px)] flex-col gap-3 overflow-y-auto rounded-xl">
-            {positions.map((position) => (
+
+      <div className="flex h-[84vh] flex-col gap-2 rounded-xl bg-white p-6 shadow-lg">
+        <h2 className="flex-none text-lg font-semibold">Позиции</h2>
+        <div className="flex-grow overflow-auto">
+          {isLoading && <Loading />}
+          {!allProducts?.length && !isLoading ? (
+            <div className="flex h-full w-full items-center justify-center">
+              <p className="opacity-50">Позиции отстутствуют...</p>
+            </div>
+          ) : (
+            allProducts?.map((position) => (
               <PositionItem
                 key={position.id}
                 id={position.id}
@@ -55,22 +71,19 @@ export const PositionsList = ({ positions }: PositionsListProps) => {
                 image={position.image}
                 category={position.category}
               />
-            ))}
-          </div>
-          <Button color="dark" onClick={() => handleOpenModal()}>
+            ))
+          )}
+        </div>
+        <div className="flex-none">
+          <Button
+            color="dark"
+            onClick={() => handleOpenModal()}
+            disabled={isLoading}
+          >
             Добавить
           </Button>
         </div>
-      ) : (
-        <div className="flex min-h-[calc(100%-30px)] flex-col">
-          <div className="flex grow items-center justify-center">
-            <p className="text-black/40">Позиции отсутствуют</p>
-          </div>
-          <Button color="dark" onClick={() => handleOpenModal()}>
-            Добавить
-          </Button>
-        </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 };

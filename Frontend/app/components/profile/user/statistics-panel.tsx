@@ -3,7 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 interface StatisticsPanelProps {
   title: string;
-  stats: number; // ключевое число в статистике
+  stats?: number; // ключевое число в статистике
   unit: string; // ключевой символ статистики (%, ₽, шт.)
   unitPosition?: "left" | "right"; // положение ключевого символа
 }

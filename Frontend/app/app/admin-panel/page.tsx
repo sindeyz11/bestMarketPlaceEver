@@ -10,9 +10,9 @@ const AdminPanelPage = () => {
       className="flex bg-[#F6F6F6] py-10"
     >
       <title>Админ-панель</title>
-      <div className="grid h-full w-full grid-cols-3 gap-6 px-20">
+      <div className="grid w-full grid-cols-3 gap-6 px-20">
         <div className="col-span-1">
-          <PositionsList positions={authStore.productsAdmin} />
+          <PositionsList />
         </div>
         <div className="col-span-1">
           <PickupPointsList />

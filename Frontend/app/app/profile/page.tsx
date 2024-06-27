@@ -36,7 +36,11 @@ const ProfilePage = () => {
               />
               <StatisticsPanel
                 title="Процент выкупа"
-                stats={data?.redemption_percent || 0}
+                stats={
+                  data && isNaN(data.redemption_percent)
+                    ? 0
+                    : data?.redemption_percent
+                }
                 unit="%"
               />
               <StatisticsPanel

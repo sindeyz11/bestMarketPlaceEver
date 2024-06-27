@@ -17,16 +17,16 @@ import toast from "react-hot-toast";
 import { loadToken } from "@/utils/load-token";
 import authorizedUserStore from "@/store/authorizedUser";
 import { observer } from "mobx-react-lite";
+import Cookies from "js-cookie";
 
 export const Header = observer(() => {
   const user = authorizedUserStore.user;
-  const { data, isLoading } = useAuth();
   const token = loadToken();
-  const userRole = token?.role;
   const router = useRouter();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    Cookies.remove("token");
     authorizedUserStore.removeUser();
     router.push("/auth");
     toast.success("Вы успешно вышли из аккаунта");

@@ -25,9 +25,11 @@ class AuthorizedUser {
   }
 
   loadUser() {
-    const userData = localStorage.getItem("user");
+    if (typeof window !== "undefined") {
+      const userData = localStorage.getItem("user");
     if (userData) {
       this.user = JSON.parse(userData);
+    }
     }
   }
 

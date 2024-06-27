@@ -1,6 +1,7 @@
 "use client";
 
 import type { IRole } from "@/store/authorizedUser";
+import Cookies from "js-cookie";
 import AuthService from "@/app/api/auth-service";
 import { EmailIcon } from "@/components/icons/email-icon";
 import { PasswordIcon } from "@/components/icons/password-icon";
@@ -48,6 +49,7 @@ const AuthPage = () => {
           userId: response.data.user_id,
           role: response.data.role as IRole,
         });
+        Cookies.set("token", response.data.token, { expires: 1, path: "/" });
         return response;
       } catch (error: any) {
         throw new Error(error.response.data);

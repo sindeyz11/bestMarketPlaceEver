@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Loading } from "../layout/loading";
 
 export const UsersList = () => {
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["usersList"],
     queryFn: async () => {
       const response = await UserService.getAllUsers();
@@ -15,41 +15,32 @@ export const UsersList = () => {
     },
   });
 
-  const allUsers = data;
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (isError) {
-    return (
-      <div className="flex h-screen w-full items-center justify-center rounded-xl bg-white">
-        <p>Произошла ошибка при получении данных: {error.message}</p>
-      </div>
-    );
-  }
+  const allUsers = data?.sort((a, b) => a.id - b.id);
 
   return (
-    <div className="rounded-xl bg-white p-6 shadow-lg">
-      <h2 className="text-lg font-semibold text-black">Пользователи</h2>
-      {allUsers?.length ? (
-        <div className="mt-2 flex h-[calc(100dvh-235px)] flex-col gap-3 overflow-auto">
-          {allUsers?.map((user, index) => (
-            <UserItem
-              code={index}
-              role={user.role.toLowerCase()}
-              name={user.username}
-              discount={user.user_discount || 0}
-              redemptionSum={user.amount_spent}
-              key={index}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="flex h-[300px] flex-col items-center justify-center">
-          <p className="text-secondary-text/40">Пользователи отсутсвуют</p>
-        </div>
-      )}
+    <div className="flex h-[84vh] flex-col gap-2 rounded-xl bg-white p-6 shadow-lg">
+      <h2 className="flex-none text-lg font-semibold">Пользователи</h2>
+      <div className="flex-grow overflow-auto">
+        {isLoading && <Loading />}
+        {!allUsers?.length && !isLoading ? (
+          <div className="flex h-full w-full items-center justify-center">
+            <p className="opacity-50">Позиции отстутствуют...</p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-4">
+            {allUsers?.map((user) => (
+              <UserItem
+                id={user?.id}
+                key={user?.id}
+                username={user.username}
+                role={user.role}
+                user_discount={user.user_discount}
+                amount_spent={user.amount_spent}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

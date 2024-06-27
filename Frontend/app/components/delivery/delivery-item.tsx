@@ -5,7 +5,7 @@ export const DeliveryItem = ({
   price,
   unit,
   count,
-  image = "./no-product.png",
+  image = "/products/no-product.png",
   status,
   dateOrder,
   dateDelivery,
@@ -17,7 +17,9 @@ export const DeliveryItem = ({
           <img src={image} alt="" className="h-full w-full object-contain" />
         </div>
         <div className="flex flex-col">
-          <h3 className="text-lg font-medium">{title}</h3>
+          <h3 className="text-lg font-medium first-letter:uppercase">
+            {title}
+          </h3>
           <div className="flex gap-2 font-medium">
             <span className="text-green-600">
               ₽

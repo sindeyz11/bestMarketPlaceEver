@@ -9,12 +9,16 @@ export interface IProduct {
   image: string;
   category?: string;
 }
+export interface IDefaultBanner {
+  title: string;
+  description: string;
+}
 
 export interface IPickupPoint {
-  code: number;
-  address: string;
-  manager: string;
-  income: number;
+  id?: number;
+  address?: string;
+  manager_name?: string;
+  income?: number;
 }
 
 export interface IUser {
@@ -35,6 +39,6 @@ export interface IDeliveryItem extends Partial<IProduct> {
 
 export type IPositionItem = Partial<IProduct>;
 
-export type IBannerProduct = Omit<IProduct, "unit" | "availableQuantity">;
+export type IBannerProduct = Pick<IProduct, "title" | "image" | "price" | "discountPrice">;
 
 export type IUserRole = "USER" | "ADMIN" | "MANAGER" | undefined;
