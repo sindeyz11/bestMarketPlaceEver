@@ -32,6 +32,7 @@ public class PickupPointDTOSerializer extends StdSerializer<PickupPointDTO> {
         jgen.writeStartObject();
         jgen.writeStringField("id", String.valueOf(pickupPoint.getId()));
         jgen.writeStringField("address", pickupPoint.getAddress());
+        jgen.writeStringField("manager_id", String.valueOf(pickupPoint.getManagerId()));
         jgen.writeStringField("manager_name", String.valueOf(pickupPoint.getManagerName()));
         if (role.contains(MANAGER.name()) || role.contains(ADMIN.name())) {
             jgen.writeStringField("income", String.valueOf(pickupPoint.getIncome()));
