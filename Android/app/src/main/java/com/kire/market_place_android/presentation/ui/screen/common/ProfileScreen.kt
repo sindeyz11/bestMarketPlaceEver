@@ -5,27 +5,19 @@ import android.widget.Toast.LENGTH_SHORT
 
 import androidx.activity.compose.BackHandler
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.rememberScrollState
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,25 +25,20 @@ import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kire.market_place_android.presentation.constant.Strings
+import com.kire.market_place_android.presentation.model.IRequestResult
 
-import com.kire.market_place_android.presentation.model.user.IUserResult
 import com.kire.market_place_android.presentation.navigation.transition.common.ProfileScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
 import com.kire.market_place_android.presentation.screen.profile_screen_ui.ChangePasswordBottomBar
 import com.kire.market_place_android.presentation.screen.profile_screen_ui.ProfileDataBottomBar
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.ListWithTopAndFab
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.RequestResultMessage
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.TopBar
 import com.kire.market_place_android.presentation.ui.details.common.profile_screen_ui.ChangePasswordBar
 import com.kire.market_place_android.presentation.ui.details.common.profile_screen_ui.PaymentMethod
@@ -88,31 +75,11 @@ fun ProfileScreen(
         return@BackHandler
     }
 
-    val context = LocalContext.current
+    val requestResult by userViewModel.requestResult.collectAsStateWithLifecycle()
 
-    val userResult by userViewModel.userResult.collectAsStateWithLifecycle()
     val profileState = userViewModel.profileState
 
-//    LaunchedEffect(userViewModel, context) {
-//        userViewModel.updateUser()
-//    }
-
-    LaunchedEffect(userResult) {
-        if (userResult is IUserResult.SuccessfullyChanged)
-            Toast.makeText(
-                context,
-                context.getText(R.string.successfully_changed),
-                LENGTH_SHORT
-            ).show()
-        if (userResult is IUserResult.Error)
-            Toast.makeText(
-                context,
-                if ((userResult as IUserResult.Error).message?.isNotEmpty() == true)
-                    (userResult as IUserResult.Error).message
-                else context.getText(R.string.some_error),
-                LENGTH_SHORT
-            ).show()
-    }
+    RequestResultMessage(requestResult = requestResult)
 
     val sheetState = rememberModalBottomSheetState()
 
@@ -162,16 +129,16 @@ fun ProfileScreen(
 
                     item {
                         PurchaseRelatedInfoBar(
-                            title = stringResource(id = R.string.total_purchases_title),
-                            sign = stringResource(id = R.string.rub),
+                            title = Strings.TOTAL_PURCHASES_TITLE,
+                            sign = Strings.RUB,
                             info = amountSpent?.toString() ?: 0.toString()
                         )
                     }
 
                     item {
                         PurchaseRelatedInfoBar(
-                            title = stringResource(id = R.string.total_purchases_percent_title),
-                            sign = stringResource(id = R.string.percent),
+                            title = Strings.TOTAL_PURCHASES_PERCENT_TITLE,
+                            sign = Strings.PERCENT,
                             info =
                             if (redemptionPercent?.isNaN() == true)
                                 0.0.toString()
@@ -181,15 +148,15 @@ fun ProfileScreen(
 
                     item {
                         PurchaseRelatedInfoBar(
-                            title = stringResource(id = R.string.discount_title),
-                            sign = stringResource(id = R.string.percent),
+                            title = Strings.DISCOUNT_TITLE,
+                            sign = Strings.PERCENT,
                             info = userDiscount?.toString() ?: 0.0.toString()
                         )
                     }
 
                     item {
                         PurchaseRelatedInfoBar(
-                            title = stringResource(id = R.string.deliveries_title),
+                            title = Strings.DELIVERIES_TITLE,
                             sign =
 //                        if (profileUiState.nextDeliveryDate == null)
 //                            ""
@@ -198,7 +165,7 @@ fun ProfileScreen(
                             "",
                             info =
 //                        if (profileUiState.nextDeliveryDate == null)
-                            stringResource(id = R.string.no_deliveries_info),
+                            Strings.NO_DELIVERIES_INFO,
 //                        else
 //                            (profileUiState.nextDeliveryDate.month + 1).toString(),
                             onClick = {

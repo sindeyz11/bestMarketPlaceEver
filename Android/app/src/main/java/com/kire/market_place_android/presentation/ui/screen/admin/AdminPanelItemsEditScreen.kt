@@ -33,15 +33,16 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.product.Product
 import com.kire.market_place_android.presentation.navigation.transition.admin.AdminPanelItemsEditScreenTransitions
 import com.kire.market_place_android.presentation.ui.details.admin.admin_panel_items_edit_screen_ui.AdminEditTopControls
@@ -120,7 +121,6 @@ fun AdminPanelItemsEditScreen(
     val scrollState = rememberScrollState()
 
     product.apply {
-        //TODO
 
         Column(
             modifier = Modifier
@@ -166,6 +166,15 @@ fun AdminPanelItemsEditScreen(
             Column(
                 modifier = Modifier
                     .weight(1f)
+                    .shadow(
+                        elevation = 8.dp,
+                        spotColor = Color.Gray,
+                        ambientColor = Color.Black,
+                        shape = RoundedCornerShape(
+                            topStart = 24.dp,
+                            topEnd = 24.dp
+                        )
+                    )
                     .background(
                         Color.White,
                         RoundedCornerShape(
@@ -198,7 +207,7 @@ fun AdminPanelItemsEditScreen(
                                 .fillMaxWidth()
                                 .height(60.dp),
                             icon = R.drawable.name_icon,
-                            hintText = R.string.enter_name
+                            hint = Strings.ENTER_NAME
                         )
 
                         LazyVerticalGrid(
@@ -216,7 +225,7 @@ fun AdminPanelItemsEditScreen(
                                         .fillMaxWidth()
                                         .height(60.dp),
                                     icon = R.drawable.rub,
-                                    hintText = R.string.rub_num,
+                                    hint = Strings.RUB_NUM,
                                     isTextCentered = true
                                 )
                             }
@@ -226,7 +235,7 @@ fun AdminPanelItemsEditScreen(
                                         .fillMaxWidth()
                                         .height(60.dp),
                                     icon = R.drawable.scale,
-                                    hintText = R.string.scale,
+                                    hint = Strings.SCALE,
                                     isTextCentered = true
                                 )
                             }
@@ -237,7 +246,7 @@ fun AdminPanelItemsEditScreen(
                                         .fillMaxWidth()
                                         .height(60.dp),
                                     icon = R.drawable.rub_proc,
-                                    hintText = R.string.rub_num,
+                                    hint = Strings.RUB_NUM,
                                     isTextCentered = true
                                 )
                             }
@@ -248,7 +257,7 @@ fun AdminPanelItemsEditScreen(
                                         .fillMaxWidth()
                                         .height(60.dp),
                                     icon = R.drawable.container,
-                                    hintText = R.string.contains,
+                                    hint = Strings.CONTAINS,
                                     isTextCentered = true
                                 )
                             }
@@ -259,14 +268,14 @@ fun AdminPanelItemsEditScreen(
                                 .fillMaxWidth()
                                 .height(80.dp),
                             icon = null,
-                            hintText = R.string.description,
+                            hint = Strings.DESCRIPTION,
                             isTextCentered = false
                         )
                     }
                 }
 
                 BottomButtonFinishOperation(
-                    textValue = stringResource(id = R.string.save),
+                    textValue = Strings.SAVE,
                     onClick = {  /* TODO */ }
                 )
             }

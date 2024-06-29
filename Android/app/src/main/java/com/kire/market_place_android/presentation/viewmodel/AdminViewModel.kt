@@ -1,6 +1,5 @@
 package com.kire.market_place_android.presentation.viewmodel
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,11 +11,12 @@ import com.kire.market_place_android.domain.model.pick_up_point.PickUpPointDomai
 import com.kire.market_place_android.domain.use_case.admin.util.IAdminUseCases
 import com.kire.market_place_android.presentation.mapper.admin.toPresentation
 import com.kire.market_place_android.presentation.mapper.pick_up_point.toPresentation
+import com.kire.market_place_android.presentation.mapper.toPresentation
+import com.kire.market_place_android.presentation.model.IRequestResult
 import com.kire.market_place_android.presentation.model.pick_up_point.PickUpPoint
-import com.kire.market_place_android.presentation.model.admin.AdminState
-import com.kire.market_place_android.presentation.model.admin.AdminUiEvent
+import com.kire.market_place_android.presentation.model.admin.AdminPickUpPointState
+import com.kire.market_place_android.presentation.model.admin.AdminPickUpPointUiEvent
 import com.kire.market_place_android.presentation.model.admin.AdminUserInfo
-import com.kire.market_place_android.presentation.model.admin.IAdminResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -36,23 +36,23 @@ class AdminViewModel @Inject constructor(
     private val _allPickUpPoints: MutableStateFlow<List<PickUpPoint>> = MutableStateFlow(emptyList())
     val allPickUpPoints: StateFlow<List<PickUpPoint>> = _allPickUpPoints.asStateFlow()
 
-    private val _adminResult: MutableStateFlow<IAdminResult> = MutableStateFlow(IAdminResult.Idle)
-    val adminResult: StateFlow<IAdminResult> = _adminResult.asStateFlow()
+    private val _requestResult: MutableStateFlow<IRequestResult> = MutableStateFlow(IRequestResult.Idle)
+    val requestResult: StateFlow<IRequestResult> = _requestResult.asStateFlow()
 
-    var adminState by mutableStateOf(AdminState())
+    var adminPickUpPointState by mutableStateOf(AdminPickUpPointState())
 
-    fun onEvent(event: AdminUiEvent){
+    fun onEvent(event: AdminPickUpPointUiEvent){
         when(event){
-            is AdminUiEvent.ChangeOnDismissRequest -> {
-                adminState = adminState.copy(onDismissRequest = event.value)
+            is AdminPickUpPointUiEvent.ChangeOnDismissRequest -> {
+                adminPickUpPointState = adminPickUpPointState.copy(onDismissRequest = event.value)
             }
-            is AdminUiEvent.DeletePickUpPoint -> {
+            is AdminPickUpPointUiEvent.DeletePickUpPoint -> {
                 viewModelScope.launch {
                     deletePickUpPoint(id = event.id).join()
                     getAllPickUpPoints()
                 }
             }
-            is AdminUiEvent.CreatePickUpPoint -> {
+            is AdminPickUpPointUiEvent.CreatePickUpPoint -> {
                 viewModelScope.launch {
                     createPickUpPoint(managerId = event.managerId, address = event.address).join()
                     getAllPickUpPoints()
@@ -60,27 +60,29 @@ class AdminViewModel @Inject constructor(
 
             }
 
-            is AdminUiEvent.ChangeIsCreateBottomBarExpanded -> {
-                adminState = adminState.copy(isCreateBottomBarExpanded = event.value, bottomBarManagerId = "")
+            is AdminPickUpPointUiEvent.ChangeIsCreateBottomBarExpanded -> {
+                adminPickUpPointState = adminPickUpPointState.copy(
+                    isCreateBottomBarExpanded = event.value, bottomBarManagerId = "")
             }
 
-            is AdminUiEvent.ChangeIsUpdateBottomBarExpanded -> {
-                adminState = adminState.copy(
+            is AdminPickUpPointUiEvent.ChangeIsUpdateBottomBarExpanded -> {
+                adminPickUpPointState = adminPickUpPointState.copy(
                     isUpdateBottomBarExpanded = event.value,
                     pickUpPointToUpdateId = event.pickUpPointToUpdateId,
-                    bottomBarAddress = event.address
+                    bottomBarAddress = event.address,
+                    bottomBarManagerId = event.managerId
                 )
             }
 
-            is AdminUiEvent.bottomBarManagerIdChanged -> {
-                adminState = adminState.copy(bottomBarManagerId = event.value)
+            is AdminPickUpPointUiEvent.bottomBarManagerIdChanged -> {
+                adminPickUpPointState = adminPickUpPointState.copy(bottomBarManagerId = event.value)
             }
 
-            is AdminUiEvent.bottomBarAddressChanged -> {
-                adminState = adminState.copy(bottomBarAddress = event.value)
+            is AdminPickUpPointUiEvent.bottomBarAddressChanged -> {
+                adminPickUpPointState = adminPickUpPointState.copy(bottomBarAddress = event.value)
             }
 
-            is AdminUiEvent.UpdatePickUpPoint -> {
+            is AdminPickUpPointUiEvent.UpdatePickUpPoint -> {
                 viewModelScope.launch {
                     updatePickUpPoint(id = event.pickUpPointToUpdateId, managerId = event.managerId, address = event.address).join()
                     getAllPickUpPoints()
@@ -91,10 +93,10 @@ class AdminViewModel @Inject constructor(
 
     fun getAllUsers() =
         viewModelScope.launch {
-            _adminResult.value = adminUseCases.getAllUsersUseCase().toPresentation<AdminUserInfo>()
+            _requestResult.value = adminUseCases.getAllUsersUseCase().toPresentation<List<AdminUserInfoDomain>>()
                 .also { result ->
-                    if (result is IAdminResult.Success<*>)
-                        _allUsers.value = result.data.map {
+                    if (result is IRequestResult.Success<*>)
+                        _allUsers.value = (result.data as List<*>).map {
                             (it as AdminUserInfoDomain).toPresentation()
                         }
                 }
@@ -102,10 +104,10 @@ class AdminViewModel @Inject constructor(
 
     fun getAllPickUpPoints() =
         viewModelScope.launch {
-            _adminResult.value = adminUseCases.getAllPickUpPointsUseCase().toPresentation<PickUpPoint>()
+            _requestResult.value = adminUseCases.getAllPickUpPointsUseCase().toPresentation<List<PickUpPointDomain>>()
                 .also { result ->
-                    if (result is IAdminResult.Success<*>)
-                        _allPickUpPoints.value = result.data.map {
+                    if (result is IRequestResult.Success<*>)
+                        _allPickUpPoints.value = (result.data as List<*>).map {
                             (it as PickUpPointDomain).toPresentation()
                         }
                 }
@@ -113,16 +115,16 @@ class AdminViewModel @Inject constructor(
 
     fun createPickUpPoint(managerId: Int, address: String) =
         viewModelScope.launch {
-            _adminResult.value = adminUseCases.createPickUpPointUseCase(managerId = managerId, address = address).toPresentation<Nothing>()
+            _requestResult.value = adminUseCases.createPickUpPointUseCase(managerId = managerId, address = address).toPresentation<Nothing>()
         }
 
     fun updatePickUpPoint(id: Int, address: String, managerId: Int) =
         viewModelScope.launch {
-            _adminResult.value = adminUseCases.updatePickUpPointUseCase(id = id, address = address, managerId = managerId).toPresentation<Nothing>()
+            _requestResult.value = adminUseCases.updatePickUpPointUseCase(id = id, address = address, managerId = managerId).toPresentation<Nothing>()
         }
 
     fun deletePickUpPoint(id: Int) =
         viewModelScope.launch {
-            _adminResult.value = adminUseCases.deletePickUpPointUseCase(id = id).toPresentation<Nothing>()
+            _requestResult.value = adminUseCases.deletePickUpPointUseCase(id = id).toPresentation<Nothing>()
         }
 }

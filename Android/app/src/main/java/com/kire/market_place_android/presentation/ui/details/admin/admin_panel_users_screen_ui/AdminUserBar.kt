@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.admin.AdminUserInfo
 import com.kire.market_place_android.presentation.model.user.User
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
@@ -55,7 +56,7 @@ fun AdminUserBar(
                 Text(
                     fontSize = 23.sp,
                     color = Color.DarkGray,
-                    text = "${userDiscount ?: 0}%"
+                    text = "${userDiscount ?: 0}${Strings.PERCENT}"
                 )
             }
 
@@ -73,7 +74,7 @@ fun AdminUserBar(
                 Text(
                     fontSize = 23.sp,
                     color = Color.DarkGray,
-                    text = "₽${amountSpent ?: 0}"
+                    text = "${Strings.RUB}${amountSpent ?: 0}"
                 )
             }
         }

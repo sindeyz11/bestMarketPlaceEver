@@ -34,6 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.test.R
 import kotlinx.coroutines.delay
@@ -149,7 +150,7 @@ fun ListWithTopAndFab(
                     contentAlignment = Alignment.Center,
                     content = {
                         Text(
-                            text = stringResource(R.string.nothing_was_found),
+                            text = Strings.NOTHING_WAS_FOUND,
                             fontSize = 16.sp,
                             color = Color.DarkGray
                         )

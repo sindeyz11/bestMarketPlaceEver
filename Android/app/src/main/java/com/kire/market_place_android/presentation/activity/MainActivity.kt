@@ -28,6 +28,8 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.kire.market_place_android.presentation.constant.Strings
+import com.kire.market_place_android.presentation.model.user.Role
 
 import com.kire.market_place_android.presentation.navigation.NavigationUI
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.BottomBar
@@ -50,8 +52,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 
 /**
- * By Michael Gontarev (KiREHwYE)
- * By Aleksey Timko (de4ltt)*/
+ * @author Michael Gontarev (KiREHwYE)
+ * @author Aleksey Timko (de4ltt)*/
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -78,7 +80,7 @@ class MainActivity : ComponentActivity() {
                 userViewModel.logOut()
                 Toast.makeText(
                     this@MainActivity,
-                    this@MainActivity.getString(R.string.non_authorized),
+                    Strings.NON_AUTHORIZED,
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -105,6 +107,9 @@ class MainActivity : ComponentActivity() {
                         productViewModel.getAllCategories()
                         userViewModel.updateUser()
                         orderViewModel.getOrders()
+
+                        if (role == Role.MANAGER)
+                            managerViewModel.getPickUpPointByManagerId(userViewModel.userId.value)
                     }
                 }
 

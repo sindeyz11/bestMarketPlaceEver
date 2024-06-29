@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
@@ -53,7 +54,7 @@ fun PurchaseFloatingActionButton(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = stringResource(id = R.string.checkout_suggestion),
+                    text = Strings.CHECKOUT_SUGGESTION,
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
@@ -61,9 +62,9 @@ fun PurchaseFloatingActionButton(
                 Text(
                     text = amount.toString()
                             + " "
-                            + stringResource(id = R.string.unit)
+                            + Strings.UNIT
                             + ", "
-                            + stringResource(id = R.string.rub)
+                            + Strings.RUB
                             + totalSum.toString(),
                     fontWeight = FontWeight.W300,
                     fontSize = 13.sp,

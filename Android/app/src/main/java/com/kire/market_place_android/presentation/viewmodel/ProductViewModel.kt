@@ -2,13 +2,14 @@ package com.kire.market_place_android.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+
 import com.kire.market_place_android.domain.model.product.CategoryDomain
 import com.kire.market_place_android.domain.model.product.ProductDomain
-
 import com.kire.market_place_android.domain.use_case.common.util.ICommonUseCases
 import com.kire.market_place_android.presentation.mapper.product.toPresentation
+import com.kire.market_place_android.presentation.mapper.toPresentation
+import com.kire.market_place_android.presentation.model.IRequestResult
 import com.kire.market_place_android.presentation.model.product.Category
-import com.kire.market_place_android.presentation.model.product.IProductResult
 import com.kire.market_place_android.presentation.model.product.Product
 
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,8 +26,8 @@ class ProductViewModel @Inject constructor(
     private val commonUseCases: ICommonUseCases
 ): ViewModel() {
 
-    private val _productResult: MutableStateFlow<IProductResult> = MutableStateFlow(IProductResult.Idle)
-    val productResult: StateFlow<IProductResult> = _productResult.asStateFlow()
+    private val _requestResult: MutableStateFlow<IRequestResult> = MutableStateFlow(IRequestResult.Idle)
+    val requestResult: StateFlow<IRequestResult> = _requestResult.asStateFlow()
 
     private val _allProducts: MutableStateFlow<List<Product>> = MutableStateFlow(emptyList())
     val allProducts: StateFlow<List<Product>> = _allProducts.asStateFlow()
@@ -36,10 +37,10 @@ class ProductViewModel @Inject constructor(
 
     fun refreshProducts() =
         viewModelScope.launch {
-            _productResult.value = commonUseCases.getAllProductsUseCase().toPresentation<Product>()
+            _requestResult.value = commonUseCases.getAllProductsUseCase().toPresentation<List<ProductDomain>>()
                 .also { result ->
-                    if (result is IProductResult.Success<*>)
-                        _allProducts.value = result.data.map {
+                    if (result is IRequestResult.Success<*>)
+                        _allProducts.value = (result.data as List<*>).map {
                             (it as ProductDomain).toPresentation()
                         }
                 }
@@ -47,10 +48,10 @@ class ProductViewModel @Inject constructor(
 
     fun getAllCategories() =
         viewModelScope.launch {
-            _productResult.value = commonUseCases.getAllAvailableCategoriesUseCase().toPresentation<CategoryDomain>()
+            _requestResult.value = commonUseCases.getAllAvailableCategoriesUseCase().toPresentation<List<CategoryDomain>>()
                 .also { result ->
-                    if (result is IProductResult.Success<*>)
-                        _allCategories.value = result.data.map {
+                    if (result is IRequestResult.Success<*>)
+                        _allCategories.value = (result.data as List<*>).map {
                             (it as CategoryDomain).toPresentation()
                         }
                 }

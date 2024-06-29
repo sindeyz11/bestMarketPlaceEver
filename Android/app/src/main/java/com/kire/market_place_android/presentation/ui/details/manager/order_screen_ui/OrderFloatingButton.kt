@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
 
@@ -51,22 +52,22 @@ fun OrderFloatingButton(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = stringResource(id = R.string.give_order_suggestion),
+                    text = Strings.GIVE_ORDER_SUGGESTION,
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
                 Text(
-                    text = stringResource(id = R.string.rub) + totalSum.toString()
+                    text = Strings.RUB + totalSum.toString()
                     + " "
                     + "("
                     + amountToGive.toString()
                     + " "
-                    + stringResource(id = R.string.givings)
+                    + Strings.GIVINGS
                     + ", "
                     + amountToReturn.toString()
                     + " "
-                    + stringResource(id = R.string.returnings)
+                    + Strings.RETURNINGS
                     + ")",
                     fontWeight = FontWeight.W300,
                     fontSize = 13.sp,

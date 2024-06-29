@@ -1,27 +1,37 @@
 package com.kire.market_place_android.presentation.ui.screen.manager
 
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kire.market_place_android.presentation.model.IRequestResult
+import com.kire.market_place_android.presentation.model.manager.ManagerOrderUiEvent
 
-import com.kire.market_place_android.presentation.model.product.Product
 import com.kire.market_place_android.presentation.navigation.transition.manager.OrderScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.ListWithTopAndFab
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.RequestResultMessage
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.TopBar
 import com.kire.market_place_android.presentation.ui.details.manager.order_screen_ui.OrderFloatingButton
 import com.kire.market_place_android.presentation.ui.details.manager.order_screen_ui.OrderItem
+import com.kire.market_place_android.presentation.viewmodel.ManagerViewModel
+import com.kire.test.R
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -38,9 +48,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun OrderScreen(
     navigator: DestinationsNavigator,
-    orderedProductsToHandle: List<Product> = listOf(
-        Product(),Product(),Product(),Product(),Product(),Product(),Product(),Product(),Product(),Product(),Product(),Product(),Product(),Product(),Product(),Product()
-    ),
+    managerViewModel: ManagerViewModel,
     paddingValues: PaddingValues = PaddingValues(start = 28.dp, end = 28.dp)
 ) {
 
@@ -49,8 +57,16 @@ fun OrderScreen(
         return@BackHandler
     }
 
+    val requestResult by managerViewModel.requestResult.collectAsStateWithLifecycle()
+
+    RequestResultMessage(requestResult = requestResult)
+
+    val managerOrderState by managerViewModel.managerOrderState.collectAsStateWithLifecycle()
+
+    val order by managerViewModel.order.collectAsStateWithLifecycle()
+
     ListWithTopAndFab(
-        listSize = orderedProductsToHandle.size,
+        listSize = order.products.size,
         topBar = {
             TopBar(
                 destination = AppDestinations.ManagerDestinations.ORDER,
@@ -59,16 +75,24 @@ fun OrderScreen(
         },
         floatingButton = { shiftBarDown ->
             OrderFloatingButton(
+                amountToGive = managerOrderState.received.size,
+                amountToReturn = managerOrderState.returned.size,
+                totalSum =
+                    order.products.sumOf { orderedProduct ->
+                        if (managerOrderState.received.contains(orderedProduct.product.id))
+                            (orderedProduct.price * orderedProduct.quantity.toBigDecimal()).toDouble()
+                        else 0.0
+                    },
                 modifier = Modifier
                     .pointerInput(Unit) {
-                        detectVerticalDragGestures { change, dragAmount ->
+                        detectVerticalDragGestures { _, dragAmount ->
                             if (dragAmount > 0) {
                                 shiftBarDown()
                             }
                         }
                     },
                 onClick = {
-                    /*TODO*/
+                    managerViewModel.onEvent(event = ManagerOrderUiEvent.confirmOrder)
                 }
             )
         }
@@ -80,15 +104,15 @@ fun OrderScreen(
             contentPadding = PaddingValues(bottom = 28.dp)
         ) {
 
-            itemsIndexed(
-                orderedProductsToHandle,
+            items(
+                order.products,
                 key = null
-            ) { index, item ->
+            ) { orderedProduct ->
 
                 OrderItem(
-                    name = item.title,
-                    price = item.price.toString(),
-                    amount = 3.0
+                    managerOrderState = managerOrderState,
+                    orderedProduct = orderedProduct,
+                    onEvent = managerViewModel::onEvent
                 )
             }
         }

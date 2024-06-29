@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.model.user.ProfileState
 import com.kire.market_place_android.presentation.model.user.ProfileUiEvent
@@ -90,7 +91,7 @@ fun PaymentMethod(
         ) {
 
             Text(
-                text = stringResource(id = R.string.payment_method_title),
+                text = Strings.PAYMENT_METHOD_TITLE,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
             )
@@ -159,7 +160,7 @@ fun PaymentMethod(
                         Box {
                             if (profileState.cardNumber.isEmpty())
                                 Text(
-                                    text = stringResource(id = R.string.card_number_hint),
+                                    text = Strings.CARD_NUMBER_HINT,
                                     fontWeight = FontWeight.W400,
                                     color = Color.DarkGray,
                                     fontSize = 14.sp
@@ -221,7 +222,7 @@ fun PaymentMethod(
                                 Box {
                                     if (profileState.validity.isEmpty())
                                         Text(
-                                            text = stringResource(id = R.string.card_date_hint),
+                                            text = Strings.CARD_DATE_HINT,
                                             fontWeight = FontWeight.W400,
                                             color = Color.DarkGray,
                                             fontSize = 14.sp
@@ -280,7 +281,7 @@ fun PaymentMethod(
                                     Box(contentAlignment = Alignment.Center) {
                                         if (profileState.CVC.isEmpty())
                                             Text(
-                                                text = stringResource(id = R.string.card_cvc_hint),
+                                                text = Strings.CARD_CVC_HINT,
                                                 fontWeight = FontWeight.W400,
                                                 color = Color.DarkGray,
                                                 fontSize = 18.sp

@@ -1,12 +1,12 @@
 package com.kire.market_place_android.domain.repository
 
-import com.kire.market_place_android.domain.model.product.IProductResultDomain
+import com.kire.market_place_android.domain.model.IRequestResultDomain
 
 /**
  * By Michael Gontarev (KiREHwYE)*/
 interface IProductRepository {
 
-    suspend fun getAllProducts(): IProductResultDomain
-    suspend fun getAllAvailableCategories():  IProductResultDomain
+    suspend fun getAllProducts(): IRequestResultDomain
+    suspend fun getAllAvailableCategories():  IRequestResultDomain
 
 }

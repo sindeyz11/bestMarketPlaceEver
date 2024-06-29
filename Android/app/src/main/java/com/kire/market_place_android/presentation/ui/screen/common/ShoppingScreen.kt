@@ -20,13 +20,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kire.market_place_android.presentation.model.IRequestResult
 
-import com.kire.market_place_android.presentation.model.product.IProductResult
 import com.kire.market_place_android.presentation.navigation.transition.common.ShoppingScreenTransitions
 
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
 import com.kire.market_place_android.presentation.screen.shopping_screen_ui.ItemCard
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.ListWithTopAndFab
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.RequestResultMessage
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.TopBar
 import com.kire.market_place_android.presentation.ui.details.common.shopping_screen_ui.FilterBottomBar
 import com.kire.market_place_android.presentation.ui.details.common.shopping_screen_ui.ShoppingScreenSearchBar
@@ -57,23 +58,12 @@ fun ShoppingScreen(
     paddingValues: PaddingValues = PaddingValues(start = 28.dp, end = 28.dp, bottom = 66.dp)
 ) {
 
-    val context = LocalContext.current
-
     val allProducts by productViewModel.allProducts.collectAsStateWithLifecycle()
     val allCategories by productViewModel.allCategories.collectAsStateWithLifecycle()
 
-    val productResult by productViewModel.productResult.collectAsStateWithLifecycle()
+    val requestResult by productViewModel.requestResult.collectAsStateWithLifecycle()
 
-    LaunchedEffect(productResult) {
-        if (productResult is IProductResult.Error)
-            Toast.makeText(
-                context,
-                if ((productResult as IProductResult.Error).message?.isNotEmpty() == true)
-                        (productResult as IProductResult.Error).message
-                else context.getText(R.string.some_error),
-                Toast.LENGTH_SHORT
-            ).show()
-    }
+    RequestResultMessage(requestResult = requestResult)
 
     val plusIcon = R.drawable.plus
 
@@ -82,7 +72,6 @@ fun ShoppingScreen(
     }
 
     val sheetState = rememberModalBottomSheetState()
-
 
     ListWithTopAndFab(
         listSize = allProducts.size,

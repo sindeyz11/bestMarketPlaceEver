@@ -11,7 +11,7 @@ import com.kire.market_place_android.presentation.ui.screen.admin.AdminPanelItem
 import com.kire.market_place_android.presentation.ui.screen.admin.AdminPanelPickUpScreen
 import com.kire.market_place_android.presentation.ui.screen.admin.AdminPanelUsersScreen
 import com.kire.market_place_android.presentation.ui.screen.common.DeliveriesScreen
-import com.kire.market_place_android.presentation.ui.screen.common.FavouritesScreen
+//import com.kire.market_place_android.presentation.ui.screen.common.FavouritesScreen
 import com.kire.market_place_android.presentation.ui.screen.common.ItemAddToCartMenu
 import com.kire.market_place_android.presentation.ui.screen.common.LogInScreen
 import com.kire.market_place_android.presentation.ui.screen.common.LogOnScreen
@@ -25,14 +25,16 @@ import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPa
 import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelUsersScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.DeliveriesScreenDestination
-import com.kire.market_place_android.presentation.ui.screen.destinations.FavouritesScreenDestination
+//import com.kire.market_place_android.presentation.ui.screen.destinations.FavouritesScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ItemAddToCartMenuDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.LogInScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.LogOnScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ManagerScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.destinations.OrderScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ProfileScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingCartScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
+import com.kire.market_place_android.presentation.ui.screen.manager.OrderScreen
 import com.kire.market_place_android.presentation.viewmodel.AdminViewModel
 import com.kire.market_place_android.presentation.viewmodel.AuthViewModel
 import com.kire.market_place_android.presentation.viewmodel.ManagerViewModel
@@ -70,16 +72,22 @@ fun NavigationUI(
                 navigator = destinationsNavigator
             )
         }
-        composable(FavouritesScreenDestination) {
-            FavouritesScreen(
-                userViewModel = userViewModel,
-                navigator = destinationsNavigator
-            )
-        }
+//        composable(FavouritesScreenDestination) {
+//            FavouritesScreen(
+//                userViewModel = userViewModel,
+//                navigator = destinationsNavigator
+//            )
+//        }
         composable(ItemAddToCartMenuDestination) {
             ItemAddToCartMenu(
                 userViewModel = userViewModel,
                 navigator = destinationsNavigator
+            )
+        }
+        composable(OrderScreenDestination) {
+            OrderScreen(
+                navigator = destinationsNavigator,
+                managerViewModel = managerViewModel
             )
         }
         composable(LogInScreenDestination) {
@@ -145,6 +153,7 @@ fun NavigationUI(
         composable(ShoppingCartScreenDestination){
             ShoppingCartScreen(
                 userViewModel = userViewModel,
+                createOrder = orderViewModel::createOrder,
                 navController = navHostController
             )
         }

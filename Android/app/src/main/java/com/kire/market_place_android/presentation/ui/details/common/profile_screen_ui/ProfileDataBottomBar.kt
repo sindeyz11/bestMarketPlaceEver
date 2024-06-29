@@ -32,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.user.ProfileState
 import com.kire.market_place_android.presentation.model.user.ProfileUiEvent
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
@@ -64,7 +65,7 @@ fun ProfileDataBottomBar(
         sheetState = sheetState,
         dragHandle = {
             Text(
-                text = stringResource(id = R.string.profile_data_title),
+                text = Strings.PROFILE_DATA_TITLE,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -134,7 +135,7 @@ fun ProfileDataBottomBar(
                                 Box {
                                     if (profileState.username.isEmpty())
                                         Text(
-                                            text = stringResource(id = R.string.name_hint),
+                                            text = Strings.NAME_HINT,
                                             fontWeight = FontWeight.W400,
                                             color = Color.Gray
                                         )
@@ -178,7 +179,7 @@ fun ProfileDataBottomBar(
                                 Box {
                                     if (profileState.phone.isEmpty())
                                         Text(
-                                            text = stringResource(id = R.string.phone_hint),
+                                            text = Strings.PHONE_HINT,
                                             fontWeight = FontWeight.W400,
                                             color = Color.Gray
                                         )
@@ -223,7 +224,7 @@ fun ProfileDataBottomBar(
                                 Box {
                                     if (profileState.email.isEmpty())
                                         Text(
-                                            text = stringResource(id = R.string.email_hint),
+                                            text = Strings.EMAIL_HINT,
                                             fontWeight = FontWeight.W400,
                                             color = Color.Gray
                                         )
@@ -251,7 +252,7 @@ fun ProfileDataBottomBar(
                     )
                 ) {
                     Text(
-                        text = stringResource(id = R.string.save_user_data_changes),
+                        text = Strings.SAVE,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White

@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import com.kire.market_place_android.domain.model.auth.AuthResultDomain
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.model.auth.AuthUiEvent
 import com.kire.market_place_android.presentation.navigation.transition.auth.LogInScreenTransitions
@@ -83,7 +84,7 @@ fun LogInScreen(
                 is AuthResultDomain.Authorized -> {
                     Toast.makeText(
                         context,
-                        context.getString(R.string.login_successful),
+                        Strings.LOGIN_SUCCESSFUL,
                         Toast.LENGTH_SHORT
                     ).show()
                     navigator.navigate(ShoppingScreenDestination) {
@@ -95,7 +96,7 @@ fun LogInScreen(
                 is AuthResultDomain.Unauthorized -> {
                     Toast.makeText(
                         context,
-                        context.getString(R.string.login_unsuccessful),
+                        Strings.LOGIN_UNSUCCESSFUL,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -125,7 +126,7 @@ fun LogInScreen(
         ) {
 
             Text(
-                text = stringResource(id = R.string.login_header),
+                text = Strings.LOGIN_HEADER,
                 fontWeight = FontWeight.Bold,
                 fontSize = 22.sp
             )
@@ -174,7 +175,7 @@ fun LogInScreen(
                             Box {
                                 if (authState.logInPhone.isEmpty())
                                     Text(
-                                        text = stringResource(id = R.string.phone_hint),
+                                        text = Strings.PHONE_HINT,
                                         fontWeight = FontWeight.W400,
                                         color = Color.Gray
                                     )
@@ -222,7 +223,7 @@ fun LogInScreen(
                             Box {
                                 if (authState.logInPassword.isEmpty())
                                     Text(
-                                        text = stringResource(id = R.string.password_hint),
+                                        text = Strings.PASSWORD_HINT,
                                         fontWeight = FontWeight.W400,
                                         color = Color.Gray
                                     )
@@ -261,13 +262,13 @@ fun LogInScreen(
                     )
                 ) {
                     Text(
-                        text = stringResource(id = R.string.login_button),
+                        text = Strings.LOGIN_BUTTON,
                         fontSize = 16.sp
                     )
                 }
 
                 Text(
-                    text = stringResource(id = R.string.logon_suggestion),
+                    text = Strings.LOGON_SUGGESTION,
                     fontWeight = FontWeight.W400,
                     color = Color.Gray,
                     modifier = Modifier

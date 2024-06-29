@@ -1,6 +1,5 @@
 package com.kire.market_place_android.presentation.ui.details.admin.admin_panel_pick_up_screen_ui
 
-import android.util.Log
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -43,17 +42,17 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.pick_up_point.PickUpPoint
-import com.kire.market_place_android.presentation.model.admin.AdminState
-import com.kire.market_place_android.presentation.model.admin.AdminUiEvent
+import com.kire.market_place_android.presentation.model.admin.AdminPickUpPointState
+import com.kire.market_place_android.presentation.model.admin.AdminPickUpPointUiEvent
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
-import kotlinx.serialization.builtins.serializer
 
 /**
  * Карточка пункта выдачи
  *
- * @param adminState состояние ui экрана админа
+ * @param adminPickUpPointState состояние ui экрана админа
  * @param pickUpPoint информация о пункте выдачи
  * @param onEvent обработчик событий
  * @param modifier модификатор
@@ -62,9 +61,9 @@ import kotlinx.serialization.builtins.serializer
  * @author Aleksey Timko (de4ltt)*/
 @Composable
 fun AdminPickUpCard(
-    adminState: AdminState,
+    adminPickUpPointState: AdminPickUpPointState,
     pickUpPoint: PickUpPoint,
-    onEvent: (AdminUiEvent) -> Unit,
+    onEvent: (AdminPickUpPointUiEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -85,10 +84,10 @@ fun AdminPickUpCard(
         animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
     )
 
-    LaunchedEffect(adminState.onDismissRequest) {
-        if (adminState.onDismissRequest) {
+    LaunchedEffect(adminPickUpPointState.onDismissRequest) {
+        if (adminPickUpPointState.onDismissRequest) {
             isDeleteButtonExpanded = false
-            onEvent(AdminUiEvent.ChangeOnDismissRequest(false))
+            onEvent(AdminPickUpPointUiEvent.ChangeOnDismissRequest(false))
         }
     }
 
@@ -118,7 +117,7 @@ fun AdminPickUpCard(
                             .pointerInput(pickUpPoint.id) {
                                 detectTapGestures {
                                     isDeleteButtonExpanded = !isDeleteButtonExpanded
-                                    onEvent(AdminUiEvent.DeletePickUpPoint(pickUpPoint.id))
+                                    onEvent(AdminPickUpPointUiEvent.DeletePickUpPoint(pickUpPoint.id))
                                 }
                             }
                     )
@@ -138,7 +137,7 @@ fun AdminPickUpCard(
                         detectTapGestures(
                             onTap = {
                                 if (!isDeleteButtonExpanded)
-                                    onEvent(AdminUiEvent.ChangeOnDismissRequest(true))
+                                    onEvent(AdminPickUpPointUiEvent.ChangeOnDismissRequest(true))
                             },
                             onLongPress = {
                                 isDeleteButtonExpanded = !isDeleteButtonExpanded
@@ -190,10 +189,11 @@ fun AdminPickUpCard(
                             .pointerInput(Unit) {
                                 detectTapGestures {
                                     if (!isDeleteButtonExpanded)
-                                        onEvent(AdminUiEvent.ChangeIsUpdateBottomBarExpanded(
+                                        onEvent(AdminPickUpPointUiEvent.ChangeIsUpdateBottomBarExpanded(
                                             value = true,
                                             pickUpPointToUpdateId = pickUpPoint.id.toString(),
-                                            address = pickUpPoint.address
+                                            address = pickUpPoint.address,
+                                            managerId = pickUpPoint.managerId.toString()
                                         ))
                                 }
                             }
@@ -209,7 +209,7 @@ fun AdminPickUpCard(
                                 fontWeight = FontWeight.Bold
                             )
                         ) {
-                            append(stringResource(id = R.string.manager) + "\n")
+                            append(Strings.MANAGER + "\n")
                         }
 
                         append(pickUpPoint.managerName)
@@ -235,7 +235,7 @@ fun AdminPickUpCard(
                 ) {
 
                     Text(
-                        text = stringResource(id = R.string.income),
+                        text = Strings.INCOME,
                         fontWeight = FontWeight.Bold,
                         fontSize = 17.sp
                     )

@@ -1,7 +1,6 @@
 package com.kire.market_place_android.presentation.ui.details.admin.admin_panel_items_edit_screen_ui
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,7 +26,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -40,7 +38,7 @@ import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
  *
  * @param modifier модификатор
  * @param icon иконка
- * @param hintText текст подсказки
+ * @param hint текст подсказки
  * @param maxLines максимальное количество строк
  * @param isTextCentered находится ли текст в центре
  *
@@ -49,7 +47,7 @@ import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 fun AdminPanelIconField(
     modifier: Modifier,
     @DrawableRes icon: Int?,
-    @StringRes hintText: Int,
+    hint: String,
     maxLines: Int = 1,
     isTextCentered: Boolean = false
 ) {
@@ -102,7 +100,7 @@ fun AdminPanelIconField(
                 if (textValue.isEmpty())
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(id = hintText),
+                        text = hint,
                         fontWeight = FontWeight.W400,
                         color = Color.Gray,
                         textAlign = if (isTextCentered) TextAlign.Center else TextAlign.Start

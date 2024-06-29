@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.navigation.transition.admin.AdminPanelScreenTransitions
 import com.kire.market_place_android.presentation.ui.details.admin.admin_panel_screen_ui.AdminPanelEntrancePaneUnit
@@ -67,7 +68,7 @@ fun AdminPanelScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(id = R.string.choose_menu),
+            text = Strings.CHOOSE_MENU,
             fontSize = 24.sp,
             fontWeight = FontWeight.ExtraBold
         )
@@ -75,17 +76,17 @@ fun AdminPanelScreen(
         Spacer(modifier = Modifier.height(15.dp))
 
         AdminPanelEntrancePaneUnit(
-            textValue = stringResource(id = R.string.items),
+            textValue = Strings.ITEMS,
             onClick = { navigator.navigate(AdminPanelItemsScreenDestination) }
         )
 
         AdminPanelEntrancePaneUnit(
-            textValue = stringResource(id = R.string.pick_up_points),
+            textValue = Strings.PICK_UP_POINTS,
             onClick = { navigator.navigate(AdminPanelPickUpScreenDestination) }
         )
 
         AdminPanelEntrancePaneUnit(
-            textValue = stringResource(id = R.string.users),
+            textValue = Strings.USERS,
             onClick = { navigator.navigate(AdminPanelUsersScreenDestination) }
         )
     }

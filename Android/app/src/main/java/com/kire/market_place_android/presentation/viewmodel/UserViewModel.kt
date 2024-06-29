@@ -6,11 +6,12 @@ import androidx.compose.runtime.setValue
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kire.market_place_android.domain.model.user.UserDomain
 
 import com.kire.market_place_android.domain.use_case.common.util.ICommonUseCases
+import com.kire.market_place_android.presentation.mapper.toPresentation
 import com.kire.market_place_android.presentation.mapper.user.toPresentation
-import com.kire.market_place_android.presentation.mapper.user.toDomain
-import com.kire.market_place_android.presentation.model.user.IUserResult
+import com.kire.market_place_android.presentation.model.IRequestResult
 import com.kire.market_place_android.presentation.model.user.Role
 import com.kire.market_place_android.presentation.model.user.ProfileState
 import com.kire.market_place_android.presentation.model.user.ProfileUiEvent
@@ -35,8 +36,8 @@ class UserViewModel @Inject constructor(
     private val _userId = MutableStateFlow(0)
     val userId: StateFlow<Int> = _userId.asStateFlow()
 
-    private val _userResult: MutableStateFlow<IUserResult> = MutableStateFlow(IUserResult.Idle)
-    val userResult: StateFlow<IUserResult> = _userResult.asStateFlow()
+    private val _requestResult: MutableStateFlow<IRequestResult> = MutableStateFlow(IRequestResult.Idle)
+    val requestResult: StateFlow<IRequestResult> = _requestResult.asStateFlow()
 
     var profileState by mutableStateOf(ProfileState())
 
@@ -54,12 +55,12 @@ class UserViewModel @Inject constructor(
 
             ProfileUiEvent.ChangeUserInfo -> {
                 viewModelScope.launch {
-                    _userResult.value = commonUseCases.changeUserInfoAndReturnUseCase(
+                    _requestResult.value = commonUseCases.changeUserInfoAndReturnUseCase(
                         id = _userId.value,
                         username = profileState.username,
                         phone = profileState.phone,
                         email = profileState.email
-                    ).toDomain()
+                    ).toPresentation<Nothing>()
                 }
             }
 
@@ -114,20 +115,22 @@ class UserViewModel @Inject constructor(
 
     fun updateUser() =
         viewModelScope.launch {
-            _userResult.value = commonUseCases.getUserInfoUseCase(_userId.value).toDomain()
-                .also {
-                    if (it is IUserResult.Success)
+            _requestResult.value = commonUseCases.getUserInfoUseCase(_userId.value).toPresentation<UserDomain>()
+                .also { result ->
+                    if (result is IRequestResult.Success<*>) {
+                        val user = (result.data as UserDomain).toPresentation()
                         profileState = profileState.copy(
-                            username = it.user.username,
-                            phone = it.user.phone,
-                            email = it.user.email,
-                            cardNumber = it.user.cardNumber ?: "",
-                            CVC = it.user.CVC.toString(),
-                            validity = it.user.validity?.toString() ?: "",
-                            userDiscount = it.user.userDiscount,
-                            amountSpent = it.user.amountSpent,
-                            redemptionPercent = it.user.redemptionPercent
+                            username = user.username,
+                            phone = user.phone,
+                            email = user.email,
+                            cardNumber = user.cardNumber ?: "",
+                            CVC = user.CVC.toString(),
+                            validity = user.validity?.toString() ?: "",
+                            userDiscount = user.userDiscount,
+                            amountSpent = user.amountSpent,
+                            redemptionPercent = user.redemptionPercent
                         )
+                    }
                 }
         }
 

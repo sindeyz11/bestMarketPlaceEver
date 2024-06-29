@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
 import com.kire.market_place_android.presentation.navigation.util.getDirection
@@ -123,7 +124,7 @@ fun TopBar(
                         horizontalAlignment = Alignment.Start
                     ) {
                         Text(
-                            text = stringResource(id = R.string.pick_up_point),
+                            text = Strings.PICK_UP_POINT,
                             fontWeight = FontWeight.Light,
                             fontSize = 15.sp,
                             color = Color.DarkGray,
@@ -150,9 +151,9 @@ fun TopBar(
                     Text(
                         text =
                         if (destination.getDirection() == OrderScreenDestination)
-                            stringResource(id = destination.getLabel()) + " " + stringResource(id = R.string.number) + orderCode.toString()
+                            destination.getLabel() + " " + Strings.NUMBER + orderCode.toString()
                         else
-                            stringResource(id = destination.getLabel()),
+                            destination.getLabel(),
                         fontWeight = FontWeight.Bold,
                         fontSize = 32.sp,
                         modifier = Modifier

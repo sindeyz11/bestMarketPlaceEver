@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
@@ -96,7 +97,7 @@ fun ShoppingScreenSearchBar(
                     Box {
                         if (_curSearchRequest?.isEmpty() ?: true)
                             Text(
-                                text = stringResource(id = R.string.search_items),
+                                text = Strings.SEARCH_ITEMS,
                                 fontWeight = FontWeight.W400,
                                 color = if (curSearchRequest == null) Color.DarkGray else Color.Black,
                                 fontSize = 14.sp

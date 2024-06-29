@@ -115,29 +115,29 @@ fun ItemCard(
                         .aspectRatio(1f / 1f)
                 )
 
-                Box(
-                    modifier = Modifier
-                        .size(55.dp)
-                        .padding(end = 10.dp, top = 10.dp)
-                        .clip(CircleShape)
-                        .background(Color.White)
-                        .align(Alignment.TopEnd),
-                    contentAlignment = Alignment.Center,
-                    content = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.favourite_top_bar),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(25.dp)
-                                .clickable(
-                                    indication = null,
-                                    interactionSource = MutableInteractionSource(),
-                                    onClick = { /* TODO */ }
-                                ),
-                            tint = if (false) ExtendedTheme.colors.redAccent else Color.LightGray
-                        )
-                    }
-                )
+//                Box(
+//                    modifier = Modifier
+//                        .size(55.dp)
+//                        .padding(end = 10.dp, top = 10.dp)
+//                        .clip(CircleShape)
+//                        .background(Color.White)
+//                        .align(Alignment.TopEnd),
+//                    contentAlignment = Alignment.Center,
+//                    content = {
+//                        Icon(
+//                            painter = painterResource(id = R.drawable.favourite_top_bar),
+//                            contentDescription = null,
+//                            modifier = Modifier
+//                                .size(25.dp)
+//                                .clickable(
+//                                    indication = null,
+//                                    interactionSource = MutableInteractionSource(),
+//                                    onClick = { /* TODO */ }
+//                                ),
+//                            tint = if (false) ExtendedTheme.colors.redAccent else Color.LightGray
+//                        )
+//                    }
+//                )
             }
 
             Column(

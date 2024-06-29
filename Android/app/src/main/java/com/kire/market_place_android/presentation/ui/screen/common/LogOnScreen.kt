@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import com.kire.market_place_android.domain.model.auth.AuthResultDomain
+import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.auth.AuthUiEvent
 import com.kire.market_place_android.presentation.navigation.transition.auth.LogOnScreenTransitions
 import com.kire.market_place_android.presentation.ui.screen.destinations.LogOnScreenDestination
@@ -89,7 +90,7 @@ fun LogOnScreen(
                 is AuthResultDomain.Authorized -> {
                     Toast.makeText(
                         context,
-                        context.getString(R.string.logon_successful),
+                        Strings.LOGON_SUCCESSFUL,
                         Toast.LENGTH_SHORT
                     ).show()
                     navigator.navigate(ShoppingScreenDestination) {
@@ -102,7 +103,7 @@ fun LogOnScreen(
                 is AuthResultDomain.Unauthorized -> {
                     Toast.makeText(
                         context,
-                        context.getString(R.string.logon_unsuccessful),
+                        Strings.LOGON_UNSUCCESSFUL,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -132,7 +133,7 @@ fun LogOnScreen(
         ) {
 
             Text(
-                text = stringResource(id = R.string.logon_header),
+                text = Strings.LOGON_HEADER,
                 fontWeight = FontWeight.Bold,
                 fontSize = 22.sp
             )
@@ -146,7 +147,7 @@ fun LogOnScreen(
                 LogOnInputItem(
                     value = authState.logOnName,
                     icon = R.drawable.user,
-                    hint = R.string.name_hint,
+                    hint = Strings.NAME_HINT,
                     onEvent = {
                         authViewModel.onEvent(AuthUiEvent.LogOnNameChanged(it))
                     }
@@ -155,7 +156,7 @@ fun LogOnScreen(
                 LogOnInputItem(
                     value = authState.logOnPhone,
                     icon = R.drawable.phone_call,
-                    hint = R.string.phone_hint,
+                    hint = Strings.PHONE_HINT,
                     onEvent = {
                         authViewModel.onEvent(AuthUiEvent.LogOnPhoneChanged(it))
                     }
@@ -164,7 +165,7 @@ fun LogOnScreen(
                 LogOnInputItem(
                     value = authState.logOnEmail,
                     icon = R.drawable.accept_email,
-                    hint = R.string.email_hint,
+                    hint = Strings.EMAIL_HINT,
                     onEvent = {
                         authViewModel.onEvent(AuthUiEvent.LogOnEmailChanged(it))
                     }
@@ -173,7 +174,7 @@ fun LogOnScreen(
                 LogOnInputItem(
                     value = authState.logOnPassword,
                     icon = R.drawable.key,
-                    hint = R.string.password_hint,
+                    hint = Strings.PASSWORD_HINT,
                     onEvent = {
                         authViewModel.onEvent(AuthUiEvent.LogOnPasswordChanged(it))
                     }
@@ -182,7 +183,7 @@ fun LogOnScreen(
                 LogOnInputItem(
                     value = authState.logOnRepeatedPassword,
                     icon = R.drawable.double_key,
-                    hint = R.string.password_repeat_hint,
+                    hint = Strings.PASSWORD_REPEAT_HINT,
                     onEvent = {
                         authViewModel.onEvent(AuthUiEvent.LogOnRepeatedPasswordChanged(it))
                     }
@@ -218,13 +219,13 @@ fun LogOnScreen(
                     )
                 ) {
                     Text(
-                        text = stringResource(id = R.string.logon_button),
+                        text = Strings.LOGON_BUTTON,
                         fontSize = 16.sp
                     )
                 }
 
                 Text(
-                    text = stringResource(id = R.string.login_suggestion),
+                    text = Strings.LOGIN_SUGGESTION,
                     fontWeight = FontWeight.W400,
                     color = Color.Gray,
                     modifier = Modifier
@@ -253,7 +254,7 @@ fun LogOnScreen(
 fun LogOnInputItem(
     value: String,
     @DrawableRes icon: Int,
-    @StringRes hint: Int,
+    hint: String,
     onEvent: (String) -> Unit
 ) {
 
@@ -297,7 +298,7 @@ fun LogOnInputItem(
                 ) {
                     if (value.isEmpty())
                         Text(
-                            text = stringResource(id = hint),
+                            text = hint,
                             fontWeight = FontWeight.W400,
                             color = Color.Gray
                         )

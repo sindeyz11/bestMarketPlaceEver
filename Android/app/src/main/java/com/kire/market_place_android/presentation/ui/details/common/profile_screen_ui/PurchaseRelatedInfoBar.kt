@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
@@ -61,7 +62,7 @@ fun PurchaseRelatedInfoBar(
     onClick: () -> Unit = { }
 ) {
 
-    val clickable: Boolean = title == stringResource(id = R.string.deliveries_title)
+    val clickable: Boolean = title == Strings.DELIVERIES_TITLE
 
     Column(
         modifier = Modifier

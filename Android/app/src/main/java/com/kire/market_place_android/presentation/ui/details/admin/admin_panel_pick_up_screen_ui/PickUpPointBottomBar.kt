@@ -40,8 +40,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kire.market_place_android.presentation.model.admin.AdminState
-import com.kire.market_place_android.presentation.model.admin.AdminUiEvent
+import com.kire.market_place_android.presentation.constant.Strings
+import com.kire.market_place_android.presentation.model.admin.AdminPickUpPointState
+import com.kire.market_place_android.presentation.model.admin.AdminPickUpPointUiEvent
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.market_place_android.presentation.util.Validator
 import com.kire.test.R
@@ -49,7 +50,7 @@ import com.kire.test.R
 /**
  * Всплывающий нижний бар для создания/обновления пункта выдачи
  *
- * @param adminState состояние ui экрана админа
+ * @param adminPickUpPointState состояние ui экрана админа
  * @param sheetState состояние нижнего бара
  * @param onEvent обработчик событий
  *
@@ -57,23 +58,23 @@ import com.kire.test.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PickUpPointBottomBar(
-    adminState: AdminState,
+    adminPickUpPointState: AdminPickUpPointState,
     sheetState: SheetState,
-    onEvent: (AdminUiEvent) -> Unit
+    onEvent: (AdminPickUpPointUiEvent) -> Unit
 ) {
 
     val context = LocalContext.current
 
     ModalBottomSheet(
         onDismissRequest = {
-            onEvent(AdminUiEvent.ChangeIsCreateBottomBarExpanded(false))
-            onEvent(AdminUiEvent.ChangeIsUpdateBottomBarExpanded(false, pickUpPointToUpdateId = "", address = ""))
+            onEvent(AdminPickUpPointUiEvent.ChangeIsCreateBottomBarExpanded(false))
+            onEvent(AdminPickUpPointUiEvent.ChangeIsUpdateBottomBarExpanded(false, pickUpPointToUpdateId = "", address = "", managerId = ""))
         },
         containerColor = Color.White,
         sheetState = sheetState,
         dragHandle = {
             Text(
-                text = stringResource(id = R.string.pick_up_point),
+                text = Strings.PICK_UP_POINT,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -117,9 +118,9 @@ fun PickUpPointBottomBar(
                             .clip(RoundedCornerShape(12.dp))
                             .background(ExtendedTheme.colors.profileBar)
                             .padding(16.dp),
-                        value = adminState.bottomBarAddress,
+                        value = adminPickUpPointState.bottomBarAddress,
                         onValueChange = {
-                            onEvent(AdminUiEvent.bottomBarAddressChanged(it))
+                            onEvent(AdminPickUpPointUiEvent.bottomBarAddressChanged(it))
                         },
 
                         textStyle = LocalTextStyle.current.copy(
@@ -142,9 +143,9 @@ fun PickUpPointBottomBar(
                                         .size(24.dp)
                                 )
                                 Box {
-                                    if (adminState.bottomBarAddress.isEmpty())
+                                    if (adminPickUpPointState.bottomBarAddress.isEmpty())
                                         Text(
-                                            text = stringResource(id = R.string.adress),
+                                            text = Strings.ADDRESS,
                                             fontWeight = FontWeight.W400,
                                             color = Color.Gray
                                         )
@@ -160,7 +161,7 @@ fun PickUpPointBottomBar(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = stringResource(id = R.string.manager_id),
+                            text = Strings.MANAGER_ID,
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp
                         )
@@ -172,9 +173,9 @@ fun PickUpPointBottomBar(
                                 .clip(RoundedCornerShape(12.dp))
                                 .background(ExtendedTheme.colors.profileBar)
                                 .padding(16.dp),
-                            value = adminState.bottomBarManagerId,
+                            value = adminPickUpPointState.bottomBarManagerId,
                             onValueChange = {
-                                onEvent(AdminUiEvent.bottomBarManagerIdChanged(it))
+                                onEvent(AdminPickUpPointUiEvent.bottomBarManagerIdChanged(it))
                             },
                             textStyle = LocalTextStyle.current.copy(
                                 color = Color.Black,
@@ -188,10 +189,10 @@ fun PickUpPointBottomBar(
                                     contentAlignment = Alignment.Center
                                 ) {
                                     innerTextField()
-                                    if (adminState.bottomBarManagerId.isEmpty())
+                                    if (adminPickUpPointState.bottomBarManagerId.isEmpty())
                                         Text(
                                             modifier = Modifier.fillMaxHeight(),
-                                            text = stringResource(id = R.string.xxx),
+                                            text = Strings.XXX,
                                             fontWeight = FontWeight.W400,
                                             color = Color.Gray
                                         )
@@ -206,23 +207,23 @@ fun PickUpPointBottomBar(
                     Button(
                         onClick = {
                                 try {
-                                    Validator.validateManagerId(adminState.bottomBarManagerId)
-                                    Validator.validatePickUpPointAddress(adminState.bottomBarAddress)
+                                    Validator.validateManagerId(adminPickUpPointState.bottomBarManagerId)
+                                    Validator.validatePickUpPointAddress(adminPickUpPointState.bottomBarAddress)
 
-                                    if (adminState.isCreateBottomBarExpanded)
+                                    if (adminPickUpPointState.isCreateBottomBarExpanded)
                                         onEvent(
-                                            AdminUiEvent.CreatePickUpPoint(
-                                                managerId = adminState.bottomBarManagerId.toInt(),
-                                                address = adminState.bottomBarAddress
+                                            AdminPickUpPointUiEvent.CreatePickUpPoint(
+                                                managerId = adminPickUpPointState.bottomBarManagerId.toInt(),
+                                                address = adminPickUpPointState.bottomBarAddress
                                             )
                                         )
                                     else {
-                                        Validator.validatePickUpPointToUpdateId(adminState.pickUpPointToUpdateId)
+                                        Validator.validatePickUpPointToUpdateId(adminPickUpPointState.pickUpPointToUpdateId)
                                         onEvent(
-                                            AdminUiEvent.UpdatePickUpPoint(
-                                                pickUpPointToUpdateId = adminState.pickUpPointToUpdateId.toInt(),
-                                                managerId = adminState.bottomBarManagerId.toInt(),
-                                                address = adminState.bottomBarAddress
+                                            AdminPickUpPointUiEvent.UpdatePickUpPoint(
+                                                pickUpPointToUpdateId = adminPickUpPointState.pickUpPointToUpdateId.toInt(),
+                                                managerId = adminPickUpPointState.bottomBarManagerId.toInt(),
+                                                address = adminPickUpPointState.bottomBarAddress
                                             )
                                         )
                                     }
@@ -240,10 +241,10 @@ fun PickUpPointBottomBar(
                     ) {
                         Text(
                             text =
-                                if (adminState.isCreateBottomBarExpanded)
-                                    stringResource(id = R.string.create_pick_up_point)
+                                if (adminPickUpPointState.isCreateBottomBarExpanded)
+                                    Strings.CREATE_PICK_UP_POINT
                                 else
-                                    stringResource(id = R.string.update_pick_up_point),
+                                    Strings.UPDATE_PICK_UP_POINT,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.White

@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.ProductItemCounter
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
@@ -141,7 +142,7 @@ fun ShoppingCartItem(
             ) {
 
                 Text(
-                    text = stringResource(id = R.string.rub) + price,
+                    text = Strings.RUB + price,
                     fontSize = 19.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black

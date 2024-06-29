@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.order.OrderedProduct
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
@@ -93,7 +94,7 @@ fun DeliveryCard(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = stringResource(id = R.string.rub) + "${price.toDouble() * quantity}",
+                            text = Strings.RUB + "${price.toDouble() * quantity}",
                             fontSize = 19.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.Black
@@ -103,7 +104,7 @@ fun DeliveryCard(
                             modifier = Modifier
                                 .wrapContentSize()
                                 .background(
-                                    color = if (deliveryStatus == "готов") ExtendedTheme.colors.deliveredBar else ExtendedTheme.colors.onTheWayBar,
+                                    color = if (deliveryStatus == Strings.DELIVERED) ExtendedTheme.colors.deliveredBar else ExtendedTheme.colors.onTheWayBar,
                                     shape = RoundedCornerShape(25.dp)
                                 ),
                             contentAlignment = Alignment.Center,

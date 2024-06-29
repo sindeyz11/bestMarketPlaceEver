@@ -5,6 +5,7 @@ import com.kire.market_place_android.domain.use_case.common.user.GetUserIdUseCas
 import com.kire.market_place_android.domain.use_case.common.user.GetUserInfoUseCase
 import com.kire.market_place_android.domain.use_case.common.auth.IsAuthenticatedUseCase
 import com.kire.market_place_android.domain.use_case.common.auth.LogOutUseCase
+import com.kire.market_place_android.domain.use_case.common.order.CreateOrderUseCase
 import com.kire.market_place_android.domain.use_case.common.order.GetOrdersUseCase
 import com.kire.market_place_android.domain.use_case.common.product.GetAllAvailableCategoriesUseCase
 import com.kire.market_place_android.domain.use_case.common.product.ProductAddToCartUseCase
@@ -16,7 +17,8 @@ import com.kire.market_place_android.domain.use_case.common.user.ChangeUserInfoA
 import javax.inject.Inject
 
 /**
- * By Aleksey Timko (de4ltt)*/
+ * @author Michael Gontarev (KiREHwYE)
+ * @author Aleksey Timko (de4ltt)*/
 data class CommonUseCases @Inject constructor(
     override val getOrdersUseCase: GetOrdersUseCase,
     override val productAddToCartUseCase: ProductAddToCartUseCase,
@@ -30,5 +32,6 @@ data class CommonUseCases @Inject constructor(
     override val changeUserCardUseCase: ChangeUserCardUseCase,
     override val changeUserInfoAndReturnUseCase: ChangeUserInfoAndReturnUseCase,
     override val getAllProductsUseCase: GetAllProductsUseCase,
-    override val getAllAvailableCategoriesUseCase: GetAllAvailableCategoriesUseCase
+    override val getAllAvailableCategoriesUseCase: GetAllAvailableCategoriesUseCase,
+    override val createOrderUseCase: CreateOrderUseCase
 ) : ICommonUseCases

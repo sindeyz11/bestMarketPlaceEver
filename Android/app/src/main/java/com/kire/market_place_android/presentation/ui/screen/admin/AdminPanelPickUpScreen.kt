@@ -25,14 +25,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kire.market_place_android.presentation.model.IRequestResult
 
-import com.kire.market_place_android.presentation.model.admin.AdminUiEvent
-import com.kire.market_place_android.presentation.model.admin.IAdminResult
+import com.kire.market_place_android.presentation.model.admin.AdminPickUpPointUiEvent
 import com.kire.market_place_android.presentation.navigation.transition.admin.AdminPanelPickUpScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
 import com.kire.market_place_android.presentation.screen.admin_panel_pick_up_screen_ui.PickUpPointBottomBar
 import com.kire.market_place_android.presentation.ui.details.admin.admin_panel_pick_up_screen_ui.AdminPickUpCard
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.ListWithTopAndFab
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.RequestResultMessage
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.TopBar
 import com.kire.market_place_android.presentation.viewmodel.AdminViewModel
 
@@ -63,39 +64,14 @@ fun AdminPanelPickUpScreen(
         return@BackHandler
     }
 
-    val context = LocalContext.current
-
     val allPickUpPoints by adminViewModel.allPickUpPoints.collectAsStateWithLifecycle()
 
-    val adminState = adminViewModel.adminState
-    val adminResult by adminViewModel.adminResult.collectAsStateWithLifecycle()
+    val adminState = adminViewModel.adminPickUpPointState
+    val requestResult by adminViewModel.requestResult.collectAsStateWithLifecycle()
 
     val sheetState = rememberModalBottomSheetState()
 
-    LaunchedEffect(adminResult) {
-        when(adminResult) {
-            is IAdminResult.Error -> {
-                Toast.makeText(
-                    context,
-                    if ((adminResult as IAdminResult.Error).message?.isNotEmpty() == true)
-                        (adminResult as IAdminResult.Error).message
-                    else context.getText(R.string.some_error),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            IAdminResult.SuccessfullyDone -> {
-                Toast.makeText(
-                    context,
-                    context.getText(R.string.success),
-                    Toast.LENGTH_SHORT
-                ).show()
-                adminViewModel.getAllPickUpPoints()
-            }
-            else -> {
-
-            }
-        }
-    }
+    RequestResultMessage(requestResult = requestResult)
 
     ListWithTopAndFab(
         listSize = allPickUpPoints.size,
@@ -103,7 +79,7 @@ fun AdminPanelPickUpScreen(
             TopBar(
                 destination = AppDestinations.AdminDestinations.ADMIN_PANEL_PICK_UP,
                 onPlusClick = {
-                    adminViewModel.onEvent(AdminUiEvent.ChangeIsCreateBottomBarExpanded(true))
+                    adminViewModel.onEvent(AdminPickUpPointUiEvent.ChangeIsCreateBottomBarExpanded(true))
                 }
             )
         }
@@ -117,7 +93,7 @@ fun AdminPanelPickUpScreen(
 
             items(allPickUpPoints, key = {it.id}) { pickUpPoint ->
                 AdminPickUpCard(
-                    adminState = adminState,
+                    adminPickUpPointState = adminState,
                     pickUpPoint = pickUpPoint,
                     onEvent = adminViewModel::onEvent,
                     modifier = Modifier.animateItemPlacement(
@@ -133,7 +109,7 @@ fun AdminPanelPickUpScreen(
 
     if (adminState.isCreateBottomBarExpanded || adminState.isUpdateBottomBarExpanded)
         PickUpPointBottomBar(
-            adminState = adminState,
+            adminPickUpPointState = adminState,
             sheetState = sheetState,
             onEvent = adminViewModel::onEvent
         )

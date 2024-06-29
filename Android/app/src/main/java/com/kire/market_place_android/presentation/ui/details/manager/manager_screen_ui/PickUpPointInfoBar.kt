@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
@@ -64,7 +65,7 @@ fun PickUpPointInfoBar(
     ) {
 
         Text(
-            text = stringResource(id = R.string.pick_up_point_info_title),
+            text = Strings.PICK_UP_POINT_INFO_TITLE,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
         )
@@ -86,7 +87,7 @@ fun PickUpPointInfoBar(
             ) {
 
                 Text(
-                    text = stringResource(id = R.string.pick_up_point_address_title),
+                    text = Strings.PICK_UP_POINT_ADDRESS_TITLE,
                     fontWeight = FontWeight.Bold,
                     fontSize = 15.sp,
                     color = Color.Black
@@ -114,7 +115,7 @@ fun PickUpPointInfoBar(
             ) {
 
                 Text(
-                    text = stringResource(id = R.string.pick_up_point_code_title),
+                    text = Strings.PICK_UP_POINT_CODE_TITLE,
                     fontWeight = FontWeight.Bold,
                     fontSize = 15.sp,
                     color = Color.Black
@@ -137,7 +138,7 @@ fun PickUpPointInfoBar(
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    text = stringResource(id = R.string.pick_up_point_manager_title),
+                    text = Strings.PICK_UP_POINT_MANAGER_TITLE,
                     fontWeight = FontWeight.Bold,
                     fontSize = 15.sp,
                     color = Color.Black

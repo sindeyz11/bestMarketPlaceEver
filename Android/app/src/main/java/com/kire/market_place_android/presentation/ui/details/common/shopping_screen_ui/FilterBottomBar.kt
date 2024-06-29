@@ -37,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.product.Category
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.test.R
@@ -82,7 +83,7 @@ fun FilterBottomBar(
         containerColor = Color.White,
         dragHandle = {
             Text(
-                text = stringResource(id = R.string.filter),
+                text = Strings.FILTER,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -125,7 +126,7 @@ fun FilterBottomBar(
                     ) {
 
                         Text(
-                            text = stringResource(id = R.string.categories),
+                            text = Strings.CATEGORIES,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Medium
                         )
@@ -170,7 +171,7 @@ fun FilterBottomBar(
                                 ) {
                                     Text(
                                         modifier = Modifier.fillMaxHeight(),
-                                        text = stringResource(id = R.string.price),
+                                        text = Strings.PRICE,
                                         fontSize = 18.sp,
                                         fontWeight = FontWeight.Medium
                                     )
@@ -198,7 +199,7 @@ fun FilterBottomBar(
                                             contentAlignment = Alignment.Center
                                         ) {
                                             if (curLowPrice.isEmpty())
-                                                Text(text = stringResource(id = R.string.from))
+                                                Text(text = Strings.FROM)
                                             innerTextField()
                                         }
                                     }
@@ -225,7 +226,7 @@ fun FilterBottomBar(
                                             contentAlignment = Alignment.Center
                                         ) {
                                             if (curTopPrice.isEmpty())
-                                                Text(text = stringResource(id = R.string.until))
+                                                Text(text = Strings.UNTIL)
                                             innerTextField()
                                         }
                                     }
@@ -248,7 +249,7 @@ fun FilterBottomBar(
                         )
                     ) {
                         Text(
-                            text = stringResource(id = R.string.save),
+                            text = Strings.SAVE,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.White

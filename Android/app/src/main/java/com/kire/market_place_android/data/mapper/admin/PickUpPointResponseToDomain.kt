@@ -6,6 +6,7 @@ import com.kire.market_place_android.domain.model.pick_up_point.PickUpPointDomai
 fun PickUpPointResponse.toDomain() = PickUpPointDomain(
     id = this.id,
     address = this.address,
+    managerId = this.managerId,
     managerName = this.managerName,
     income = this.income
 )

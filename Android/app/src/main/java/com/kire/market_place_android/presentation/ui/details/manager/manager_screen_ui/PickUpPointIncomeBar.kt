@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
@@ -64,7 +65,7 @@ fun PickUpPointIncomeBar(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = stringResource(id = R.string.pick_up_point_income_title),
+            text = Strings.PICK_UP_POINT_INCOME_TITLE,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         )
@@ -77,7 +78,7 @@ fun PickUpPointIncomeBar(
                         fontWeight = FontWeight.Bold
                     )
                 ) {
-                    append(stringResource(id = R.string.rub))
+                    append(Strings.RUB)
                 }
                 withStyle(
                     style = SpanStyle(

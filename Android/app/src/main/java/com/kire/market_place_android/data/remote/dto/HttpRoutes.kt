@@ -24,10 +24,17 @@ object HttpRoutes {
 
     //Order
     const val GET_ORDERS_BY_USER = "$BASE_URL/orders/user"
+    const val CREATE_ORDER = "$BASE_URL/orders"
+
 
     //Admin
     const val GET_ALL_PICK_UP_POINTS = "$BASE_URL/points"
     const val CREATE_PICK_UP_POINT = "$BASE_URL/points"
     const val UPDATE_PICK_UP_POINT_BY_ID = "$BASE_URL/points/"
     const val DELETE_PICK_UP_POINT_BY_ID = "$BASE_URL/points/"
+
+    //Manager
+    const val GET_PICK_UP_POINT_BY_MANAGER_ID = "$BASE_URL/points/manager/"
+    const val CONFIRM_ORDER_BY_ID = "$BASE_URL/orders/"
+    const val GET_ORDERED_PRODUCTS_BY_ORDER_ID = "$BASE_URL/orders/"
 }

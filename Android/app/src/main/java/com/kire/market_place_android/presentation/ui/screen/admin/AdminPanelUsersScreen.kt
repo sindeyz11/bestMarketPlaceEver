@@ -1,7 +1,5 @@
 package com.kire.market_place_android.presentation.ui.screen.admin
 
-import android.widget.Toast
-
 import androidx.activity.compose.BackHandler
 
 import androidx.compose.foundation.layout.Arrangement
@@ -9,21 +7,19 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
-import com.kire.market_place_android.presentation.model.admin.IAdminResult
 import com.kire.market_place_android.presentation.navigation.transition.admin.AdminPanelUsersScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
 import com.kire.market_place_android.presentation.screen.admin_panel_users_screen_ui.AdminUserBar
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.ListWithTopAndFab
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.RequestResultMessage
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.TopBar
 import com.kire.market_place_android.presentation.viewmodel.AdminViewModel
-import com.kire.test.R
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -50,22 +46,11 @@ fun AdminPanelUsersScreen(
         return@BackHandler
     }
 
-    val context = LocalContext.current
-
     val allUsers by adminViewModel.allUsers.collectAsStateWithLifecycle()
 
-    val adminResult by adminViewModel.adminResult.collectAsStateWithLifecycle()
+    val requestResult by adminViewModel.requestResult.collectAsStateWithLifecycle()
 
-    LaunchedEffect(adminResult) {
-        if (adminResult is IAdminResult.Error)
-            Toast.makeText(
-                context,
-                if ((adminResult as IAdminResult.Error).message?.isNotEmpty() == true)
-                    (adminResult as IAdminResult.Error).message
-                else context.getText(R.string.some_error),
-                Toast.LENGTH_SHORT
-            ).show()
-    }
+    RequestResultMessage(requestResult = requestResult)
 
     ListWithTopAndFab(
         listSize = allUsers.size,

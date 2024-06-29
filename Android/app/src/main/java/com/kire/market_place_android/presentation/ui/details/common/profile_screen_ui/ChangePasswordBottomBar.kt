@@ -39,6 +39,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.model.user.ProfileState
 import com.kire.market_place_android.presentation.model.user.ProfileUiEvent
@@ -75,7 +76,7 @@ fun ChangePasswordBottomBar(
         sheetState = sheetState,
         dragHandle = {
             Text(
-                text = stringResource(id = R.string.change_password_title),
+                text = Strings.CHANGE_PASSWORD_TITLE,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -147,7 +148,7 @@ fun ChangePasswordBottomBar(
                                 Box {
                                     if (profileState.currentPassword.isEmpty())
                                         Text(
-                                            text = stringResource(id = R.string.old_password_hint),
+                                            text = Strings.OLD_PASSWORD_HINT,
                                             fontWeight = FontWeight.W400,
                                             color = Color.Gray
                                         )
@@ -191,7 +192,7 @@ fun ChangePasswordBottomBar(
                                 Box {
                                     if (profileState.newPassword.isEmpty())
                                         Text(
-                                            text = stringResource(id = R.string.new_password_hint),
+                                            text = Strings.NEW_PASSWORD_HINT,
                                             fontWeight = FontWeight.W400,
                                             color = Color.Gray
                                         )
@@ -235,7 +236,7 @@ fun ChangePasswordBottomBar(
                                 Box {
                                     if (profileState.confirmationPassword.isEmpty())
                                         Text(
-                                            text = stringResource(id = R.string.repeat_password_hint),
+                                            text = Strings.REPEAT_PASSWORD_HINT,
                                             fontWeight = FontWeight.W400,
                                             color = Color.Gray
                                         )
@@ -269,7 +270,7 @@ fun ChangePasswordBottomBar(
                     )
                 ) {
                     Text(
-                        text = stringResource(id = R.string.update_password_suggestion),
+                        text = Strings.UPDATE_PASSWORD_SUGGESTION,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White

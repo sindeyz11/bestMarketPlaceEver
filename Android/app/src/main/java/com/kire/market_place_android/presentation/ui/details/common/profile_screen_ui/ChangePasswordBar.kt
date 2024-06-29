@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
@@ -67,7 +68,7 @@ fun ChangePasswordBar(
     ) {
 
         Text(
-            text = stringResource(id = R.string.change_password_suggestion),
+            text = Strings.CHANGE_PASSWORD_SUGGESTION,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp
         )

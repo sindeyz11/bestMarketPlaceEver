@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
@@ -77,7 +78,7 @@ fun ShoppingHeader(
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    text = stringResource(id = R.string.pick_up_point),
+                    text = Strings.PICK_UP_POINT,
                     fontWeight = FontWeight.Light,
                     fontSize = 15.sp,
                     color = Color.DarkGray

@@ -4,22 +4,29 @@ import androidx.activity.compose.BackHandler
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.navigation.transition.manager.ManagerScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.RequestResultMessage
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.TopBar
 import com.kire.market_place_android.presentation.ui.details.manager.manager_screen_ui.OrderReleasingBar
 import com.kire.market_place_android.presentation.ui.details.manager.manager_screen_ui.PickUpPointIncomeBar
@@ -52,6 +59,12 @@ fun ManagerScreen(
         return@BackHandler
     }
 
+    val requestResult by managerViewModel.requestResult.collectAsStateWithLifecycle()
+
+    RequestResultMessage(requestResult = requestResult)
+
+    val pickUpPoint by managerViewModel.pickUpPoint.collectAsStateWithLifecycle()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -68,20 +81,37 @@ fun ManagerScreen(
 
         Spacer(modifier = Modifier.height(28.dp))
 
-        OrderReleasingBar(
-            onClick = {
-                navigator.navigate(OrderScreenDestination)
-            }
-        )
+        if (pickUpPoint.address.isNotEmpty()){
+            OrderReleasingBar(
+                onClick = { orderCode ->
+                    managerViewModel.getOrderedProductsByOrderId(orderCode)
+                    navigator.navigate(OrderScreenDestination)
+                }
+            )
 
-        PickUpPointInfoBar(
-            pickUpPointAddress = "г. Краснодар, ул. Ставропольская, 149",
-            pickUpPointCode = "КРД-0001",
-            pickUpPointManager = "Бобр"
-        )
+            PickUpPointInfoBar(
+                pickUpPointAddress = pickUpPoint.address,
+                pickUpPointCode = pickUpPoint.id.toString(),
+                pickUpPointManager = pickUpPoint.managerName
+            )
 
-        PickUpPointIncomeBar(
-            income = 47250.00
-        )
+            PickUpPointIncomeBar(
+                income = pickUpPoint.income
+            )
+        } else {
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center,
+                content = {
+                    Text(
+                        text = Strings.NO_PICK_UP_POINT,
+                        fontSize = 16.sp,
+                        color = Color.DarkGray
+                    )
+                }
+            )
+        }
     }
 }

@@ -18,69 +18,69 @@ import com.ramcosta.composedestinations.utils.route
 
 /**
  * By Michael Gontarev (KiREHwYE)*/
-object FavouritesScreenTransitions : DestinationStyle.Animated{
-
-    private val destinationsOnLeft: List<DirectionDestinationSpec> = listOf(
-        ShoppingScreenDestination
-    )
-
-    override fun AnimatedContentTransitionScope<NavBackStackEntry>.enterTransition(): EnterTransition {
-        return if (destinationsOnLeft.contains(initialState.route()))
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
-            )+ fadeIn(animationSpec = tween(300, easing = LinearOutSlowInEasing))
-        else if (initialState.route() == ItemAddToCartMenuDestination)
-            EnterTransition.None
-        else
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
-            ) + fadeIn(animationSpec = tween(300, easing = LinearOutSlowInEasing))
-    }
-
-    override fun AnimatedContentTransitionScope<NavBackStackEntry>.exitTransition(): ExitTransition {
-        return if (destinationsOnLeft.contains(targetState.route()))
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
-            )+ fadeOut(animationSpec = tween(300, easing = LinearOutSlowInEasing))
-        else if (targetState.route() == ItemAddToCartMenuDestination)
-            fadeOut(animationSpec = tween(2000, easing = LinearOutSlowInEasing))
-        else
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
-            ) + fadeOut(animationSpec = tween(300, easing = LinearOutSlowInEasing))
-    }
-
-    override fun AnimatedContentTransitionScope<NavBackStackEntry>.popEnterTransition(): EnterTransition {
-        return if (destinationsOnLeft.contains(initialState.route()))
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
-            )+ fadeIn(animationSpec = tween(300, easing = LinearOutSlowInEasing))
-        else if (initialState.route() == ItemAddToCartMenuDestination)
-            EnterTransition.None
-        else
-            slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
-            ) + fadeIn(animationSpec = tween(300, easing = LinearOutSlowInEasing))
-    }
-
-    override fun AnimatedContentTransitionScope<NavBackStackEntry>.popExitTransition(): ExitTransition {
-        return if (destinationsOnLeft.contains(targetState.route()))
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Right,
-                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
-            )+ fadeOut(animationSpec = tween(300, easing = LinearOutSlowInEasing))
-        else if (targetState.route() == ItemAddToCartMenuDestination)
-            fadeOut(animationSpec = tween(2000, easing = LinearOutSlowInEasing))
-        else
-            slideOutOfContainer(
-                AnimatedContentTransitionScope.SlideDirection.Left,
-                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
-            ) + fadeOut(animationSpec = tween(300, easing = LinearOutSlowInEasing))
-    }
-}
+//object FavouritesScreenTransitions : DestinationStyle.Animated{
+//
+//    private val destinationsOnLeft: List<DirectionDestinationSpec> = listOf(
+//        ShoppingScreenDestination
+//    )
+//
+//    override fun AnimatedContentTransitionScope<NavBackStackEntry>.enterTransition(): EnterTransition {
+//        return if (destinationsOnLeft.contains(initialState.route()))
+//            slideIntoContainer(
+//                AnimatedContentTransitionScope.SlideDirection.Left,
+//                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
+//            )+ fadeIn(animationSpec = tween(300, easing = LinearOutSlowInEasing))
+//        else if (initialState.route() == ItemAddToCartMenuDestination)
+//            EnterTransition.None
+//        else
+//            slideIntoContainer(
+//                AnimatedContentTransitionScope.SlideDirection.Right,
+//                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
+//            ) + fadeIn(animationSpec = tween(300, easing = LinearOutSlowInEasing))
+//    }
+//
+//    override fun AnimatedContentTransitionScope<NavBackStackEntry>.exitTransition(): ExitTransition {
+//        return if (destinationsOnLeft.contains(targetState.route()))
+//            slideOutOfContainer(
+//                AnimatedContentTransitionScope.SlideDirection.Right,
+//                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
+//            )+ fadeOut(animationSpec = tween(300, easing = LinearOutSlowInEasing))
+//        else if (targetState.route() == ItemAddToCartMenuDestination)
+//            fadeOut(animationSpec = tween(2000, easing = LinearOutSlowInEasing))
+//        else
+//            slideOutOfContainer(
+//                AnimatedContentTransitionScope.SlideDirection.Left,
+//                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
+//            ) + fadeOut(animationSpec = tween(300, easing = LinearOutSlowInEasing))
+//    }
+//
+//    override fun AnimatedContentTransitionScope<NavBackStackEntry>.popEnterTransition(): EnterTransition {
+//        return if (destinationsOnLeft.contains(initialState.route()))
+//            slideIntoContainer(
+//                AnimatedContentTransitionScope.SlideDirection.Left,
+//                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
+//            )+ fadeIn(animationSpec = tween(300, easing = LinearOutSlowInEasing))
+//        else if (initialState.route() == ItemAddToCartMenuDestination)
+//            EnterTransition.None
+//        else
+//            slideIntoContainer(
+//                AnimatedContentTransitionScope.SlideDirection.Right,
+//                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
+//            ) + fadeIn(animationSpec = tween(300, easing = LinearOutSlowInEasing))
+//    }
+//
+//    override fun AnimatedContentTransitionScope<NavBackStackEntry>.popExitTransition(): ExitTransition {
+//        return if (destinationsOnLeft.contains(targetState.route()))
+//            slideOutOfContainer(
+//                AnimatedContentTransitionScope.SlideDirection.Right,
+//                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
+//            )+ fadeOut(animationSpec = tween(300, easing = LinearOutSlowInEasing))
+//        else if (targetState.route() == ItemAddToCartMenuDestination)
+//            fadeOut(animationSpec = tween(2000, easing = LinearOutSlowInEasing))
+//        else
+//            slideOutOfContainer(
+//                AnimatedContentTransitionScope.SlideDirection.Left,
+//                animationSpec = tween(durationMillis = 300, easing = LinearOutSlowInEasing)
+//            ) + fadeOut(animationSpec = tween(300, easing = LinearOutSlowInEasing))
+//    }
+//}

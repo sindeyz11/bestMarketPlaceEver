@@ -4,6 +4,7 @@ import com.kire.market_place_android.data.mapper.product.toDomain
 import com.kire.market_place_android.data.remote.dto.Error
 import com.kire.market_place_android.data.remote.api.product.IProductApi
 import com.kire.market_place_android.di.IoDispatcher
+import com.kire.market_place_android.domain.model.IRequestResultDomain
 import com.kire.market_place_android.domain.model.product.IProductResultDomain
 import com.kire.market_place_android.domain.repository.IProductRepository
 
@@ -29,7 +30,7 @@ class ProductRepository @Inject constructor(
 
     // get all products presented in KubMarket
     // return Success with resulting list or Error status of IProductResultDomain sealed interface
-    override suspend fun getAllProducts(): IProductResultDomain {
+    override suspend fun getAllProducts(): IRequestResultDomain {
 
         return withContext(coroutineDispatcher) {
 
@@ -39,36 +40,36 @@ class ProductRepository @Inject constructor(
                 //Save to local
                 //............
 
-                IProductResultDomain.Success(response.toDomain())
+                IRequestResultDomain.Success(response.toDomain())
 
             } catch (e: Error){
-                IProductResultDomain.Error(e.message)
+                IRequestResultDomain.Error(e.message)
 
             } catch (e: RedirectResponseException) {
-                IProductResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Error(e.response.bodyAsText())
 
             } catch (e: ClientRequestException) {
 
-                IProductResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Error(e.response.bodyAsText())
 
             } catch (e: ServerResponseException) {
-                IProductResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Error(e.response.bodyAsText())
 
             } catch (e: JsonConvertException) {
-                IProductResultDomain.Error(e.message)
-            }
-            catch (e: NoTransformationFoundException) {
-                IProductResultDomain.Error(e.message)
+                IRequestResultDomain.Error(e.message)
+
+            } catch (e: NoTransformationFoundException) {
+                IRequestResultDomain.Error(e.message)
 
             } catch (e: Exception) {
-                IProductResultDomain.Error(e.message)
+                IRequestResultDomain.Error(e.message)
             }
         }
     }
 
     // get all categories that products presented in KubMarket have
     // return Success with resulting list or Error status of IProductResultDomain sealed interface
-    override suspend fun getAllAvailableCategories():  IProductResultDomain {
+    override suspend fun getAllAvailableCategories():  IRequestResultDomain {
         return withContext(coroutineDispatcher) {
 
             try {
@@ -77,29 +78,29 @@ class ProductRepository @Inject constructor(
                 //Save to local
                 //............
 
-                IProductResultDomain.Success(response.toDomain())
+                IRequestResultDomain.Success(response.toDomain())
 
             } catch (e: Error){
-                IProductResultDomain.Error(e.message)
+                IRequestResultDomain.Error(e.message)
 
             } catch (e: RedirectResponseException) {
-                IProductResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Error(e.response.bodyAsText())
 
             } catch (e: ClientRequestException) {
 
-                IProductResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Error(e.response.bodyAsText())
 
             } catch (e: ServerResponseException) {
-                IProductResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Error(e.response.bodyAsText())
 
             } catch (e: JsonConvertException) {
-                IProductResultDomain.Error(e.message)
-            }
-            catch (e: NoTransformationFoundException) {
-                IProductResultDomain.Error(e.message)
+                IRequestResultDomain.Error(e.message)
+
+            } catch (e: NoTransformationFoundException) {
+                IRequestResultDomain.Error(e.message)
 
             } catch (e: Exception) {
-                IProductResultDomain.Error(e.message)
+                IRequestResultDomain.Error(e.message)
             }
         }
     }

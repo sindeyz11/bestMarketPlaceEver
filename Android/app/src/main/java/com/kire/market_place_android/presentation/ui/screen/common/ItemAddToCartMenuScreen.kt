@@ -51,6 +51,7 @@ import androidx.compose.ui.unit.sp
 
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.model.product.Product
 import com.kire.market_place_android.presentation.navigation.transition.common.ItemAddToCartMenuScreenTransitions
@@ -229,7 +230,7 @@ fun ItemAddToCartMenu(
                                     fontWeight = FontWeight.Bold
                                 )
                             ) {
-                                append(stringResource(id = R.string.description))
+                                append(Strings.DESCRIPTION)
                             }
 
                             append("\n")
@@ -258,7 +259,7 @@ fun ItemAddToCartMenu(
                 ) {
 
                     Text(
-                        text = stringResource(id = R.string.items_from_this_category),
+                        text = Strings.ITEMS_FROM_THIS_CATEGORY,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier
@@ -281,7 +282,7 @@ fun ItemAddToCartMenu(
                     contentAlignment = Alignment.BottomCenter
                 ) {
                     BottomButtonFinishOperation(
-                        textValue = stringResource(id = R.string.add_to_cart) + " - " + "₽" + "${price.toDouble() * productItemCount}",
+                        textValue = Strings.ADD_TO_CART + " - " + "₽" + "${price.toDouble() * productItemCount}",
                         onClick = {
                             navigator.navigate(ShoppingCartScreenDestination)
                         }

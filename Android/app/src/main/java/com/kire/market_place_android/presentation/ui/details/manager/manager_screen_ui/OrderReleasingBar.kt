@@ -1,5 +1,7 @@
 package com.kire.market_place_android.presentation.ui.details.manager.manager_screen_ui
 
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -32,14 +34,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.Validator
 
 import com.kire.test.R
 
@@ -60,8 +65,10 @@ fun OrderReleasingBar(
             bottomEnd = 18.dp
         ),
     paddingValues: PaddingValues = PaddingValues(20.dp),
-    onClick: () -> Unit = { }
+    onClick: (Int) -> Unit = { }
 ){
+
+    val context = LocalContext.current
 
     var orderCode by remember {
         mutableStateOf("")
@@ -79,7 +86,7 @@ fun OrderReleasingBar(
     ) {
 
         Text(
-            text = stringResource(id = R.string.ordering_title),
+            text = Strings.ORDERING_TITLE,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
             color = Color.Black
@@ -93,7 +100,7 @@ fun OrderReleasingBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = stringResource(id = R.string.order_code_input_suggestion),
+                text = Strings.ORDER_CODE_INPUT_SUGGESTION,
                 fontWeight = FontWeight.W300,
                 fontSize = 15.sp,
                 color = Color.Black
@@ -125,7 +132,7 @@ fun OrderReleasingBar(
                     ) {
                         if (orderCode.isEmpty())
                             Text(
-                                text = stringResource(id = R.string.order_code_hint),
+                                text = Strings.ORDER_CODE_HINT,
                                 fontWeight = FontWeight.W400,
                                 fontSize = 9.sp,
                                 color = Color.Gray,
@@ -143,7 +150,16 @@ fun OrderReleasingBar(
                     .size(18.dp)
                     .pointerInput(Unit){
                         detectTapGestures {
-                            onClick()
+                            try {
+                                Validator.validateOrderCode(orderCode = orderCode)
+                                onClick(orderCode.toInt())
+                            } catch (e: IllegalArgumentException) {
+                                Toast.makeText(
+                                    context,
+                                    e.message,
+                                    LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
             )

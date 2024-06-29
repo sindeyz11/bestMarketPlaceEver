@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
@@ -67,7 +68,7 @@ fun OrderingBottomBar(
         sheetState = sheetState,
         dragHandle = {
             Text(
-                text = stringResource(id = R.string.ordering_title),
+                text = Strings.ORDERING_TITLE,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -113,7 +114,7 @@ fun OrderingBottomBar(
                     ) {
 
                         Text(
-                            text = stringResource(id = R.string.delivery_to_title),
+                            text = Strings.DELIVERY_TO_TITLE,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
                             color = Color.Black
@@ -141,7 +142,7 @@ fun OrderingBottomBar(
                     ) {
 
                         Text(
-                            text = stringResource(id = R.string.delivery_closest_date_title),
+                            text = Strings.DELIVERY_CLOSEST_DATE_TITLE,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
                             color = Color.Black
@@ -164,7 +165,7 @@ fun OrderingBottomBar(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = stringResource(id = R.string.total_sum_title),
+                        text = Strings.TOTAL_SUM_TITLE,
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
                         color = Color.Black
@@ -179,7 +180,7 @@ fun OrderingBottomBar(
                                     fontWeight = FontWeight.Bold
                                 )
                             ) {
-                                append(stringResource(id = R.string.rub))
+                                append(Strings.RUB)
                             }
                             withStyle(
                                 style = SpanStyle(
@@ -209,7 +210,7 @@ fun OrderingBottomBar(
                     )
                 ) {
                     Text(
-                        text = stringResource(id = R.string.order_suggestion),
+                        text = Strings.ORDER_SUGGESTION,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
