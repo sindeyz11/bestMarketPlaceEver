@@ -6,6 +6,5 @@ import com.kire.market_place_android.presentation.model.product.Image
 fun Image.toDomain() =
     ImageDomain(
         id = this.id,
-        image = this.image,
         alt = this.alt
     )

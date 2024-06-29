@@ -33,14 +33,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.constant.Strings
-import com.kire.market_place_android.presentation.model.product.Category
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
-import com.kire.test.R
 
 /**
  * Нижний бар с фильтрами запроса
@@ -54,17 +51,13 @@ import com.kire.test.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterBottomBar(
-    allCategories: List<Category>,
+    allCategories: Set<String>,
     showBottomSheet: (Boolean) -> Unit,
     sheetState: SheetState
 ) {
 
-    val allCategories = listOf(
-        Category(title = "Фрукты"), Category(title = "Ягоды"), Category(title = "Овощи")
-    )
-
     var curCategories by remember {
-        mutableStateOf(emptyList<Category>())
+        mutableStateOf(emptyList<String>())
     }
 
     var curLowPrice: String by remember {

@@ -16,16 +16,15 @@ object HttpRoutes {
     const val ALL_USERS = "$BASE_URL/users"
 
     //Product
-    const val GET_ALL_PRODUCTS = "$BASE_URL/product/assortment"
-    const val GET_SPECIAL_OFFERS = "$BASE_URL/product/special"
-    const val GET_ALL_AVAILABLE_CATEGORIES = "$BASE_URL/product/categories"
-    const val ADD_PRODUCT = "$BASE_URL/product"
-    const val UPDATE_PRODUCT_BY_ID = "$BASE_URL/product/"
+    const val GET_ALL_PRODUCTS = "$BASE_URL/products/assortment"
+    const val GET_SPECIAL_OFFERS = "$BASE_URL/products/special"
+    const val GET_ALL_AVAILABLE_CATEGORIES = "$BASE_URL/products/categories"
+    const val ADD_PRODUCT = "$BASE_URL/products"
+    const val UPDATE_PRODUCT_BY_ID = "$BASE_URL/products/"
 
     //Order
     const val GET_ORDERS_BY_USER = "$BASE_URL/orders/user"
     const val CREATE_ORDER = "$BASE_URL/orders"
-
 
     //Admin
     const val GET_ALL_PICK_UP_POINTS = "$BASE_URL/points"

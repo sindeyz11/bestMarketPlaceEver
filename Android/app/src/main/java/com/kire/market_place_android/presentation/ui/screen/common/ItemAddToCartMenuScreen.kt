@@ -6,7 +6,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.MarqueeAnimationMode
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,14 +16,11 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 
 import androidx.compose.runtime.Composable
@@ -35,34 +31,34 @@ import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.kire.market_place_android.presentation.constant.Strings
 
-import com.kire.market_place_android.presentation.model.product.Product
+import coil.request.ImageRequest
+
+import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.navigation.transition.common.ItemAddToCartMenuScreenTransitions
-import com.kire.market_place_android.presentation.ui.details.admin.admin_panel_items_edit_screen_ui.AdminEditTopControls
 import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.BottomButtonFinishOperation
+import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.ItemAddToCartEditTopControls
 import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.ItemsAddToCartMenuCarousel
 import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.ProductItemCounter
 import com.kire.market_place_android.presentation.ui.screen.destinations.ItemAddToCartMenuDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingCartScreenDestination
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
-import com.kire.market_place_android.presentation.viewmodel.UserViewModel
+import com.kire.market_place_android.presentation.viewmodel.ProductViewModel
 
 import com.kire.test.R
 
@@ -72,8 +68,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 /**
  * Экран товара
  *
- * @param userViewModel ViewModel для работы с пользователем
- * @param product товар
+ * @param productViewModel ViewModel для работы с товарами
  * @param navigator для навигации между экранами
  * @param paddingValues отступы от краев экрана
  *
@@ -83,8 +78,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination(style = ItemAddToCartMenuScreenTransitions::class)
 @Composable
 fun ItemAddToCartMenu(
-    userViewModel: UserViewModel,
-    product: Product = Product(),
+    productViewModel: ProductViewModel,
     navigator: DestinationsNavigator,
     paddingValues: PaddingValues = PaddingValues(28.dp)
 ) {
@@ -93,6 +87,9 @@ fun ItemAddToCartMenu(
         navigator.popBackStack()
         return@BackHandler
     }
+
+    val product by productViewModel.choosenProduct.collectAsStateWithLifecycle()
+    val products by productViewModel.allProducts.collectAsStateWithLifecycle()
 
     val scrollState = rememberScrollState()
 
@@ -123,10 +120,9 @@ fun ItemAddToCartMenu(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            //ImageRequest should be replaced with URI
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(R.drawable.item_menu_default)
+                    .data("http://195.43.142.92/api/v1/products/image/${product.image.id}")
                     .build(),
                 placeholder = painterResource(id = R.drawable.item_menu_default),
                 contentDescription = "Shopping cart item image",
@@ -139,6 +135,15 @@ fun ItemAddToCartMenu(
             Column(
                 modifier = Modifier
                     .weight(1f)
+                    .shadow(
+                        elevation = 12.dp,
+                        spotColor = Color.Gray,
+                        ambientColor = Color.Black,
+                        shape = RoundedCornerShape(
+                            topStart = 24.dp,
+                            topEnd = 24.dp
+                        )
+                    )
                     .background(
                         Color.White,
                         RoundedCornerShape(
@@ -266,13 +271,9 @@ fun ItemAddToCartMenu(
                             .padding(start = 28.dp)
                     )
 
-                    //TODO
-                    //temporary
-                    val itemsList: List<Product> = listOf(
-                        Product()
-                    )
+                    val productsWithSameCategory = products.filter { it.category == product.category }
 
-                    ItemsAddToCartMenuCarousel(itemsList = itemsList)
+                    ItemsAddToCartMenuCarousel(itemsList = productsWithSameCategory)
                 }
 
                 Box(
@@ -299,31 +300,9 @@ fun ItemAddToCartMenu(
             contentAlignment = Alignment.TopStart
         ) {
 
-            AdminEditTopControls(
+            ItemAddToCartEditTopControls(
                 onArrowBackClick = {
                     navigator.popBackStack()
-                },
-                uploadImageButton = {
-                    Box(
-                        modifier = Modifier
-                            .size(55.dp)
-                            .clip(CircleShape)
-                            .pointerInput(Unit) {
-                                detectTapGestures {
-                                    //TODO
-                                }
-                            }
-                            .background(Color.White),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.favourite_top_bar),
-                            contentDescription = "update_sign",
-                            tint = ExtendedTheme.colors.redAccent,
-                            modifier = Modifier
-                                .size(24.dp)
-                        )
-                    }
                 }
             )
         }

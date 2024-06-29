@@ -5,7 +5,6 @@ import com.kire.market_place_android.data.remote.dto.Error
 import com.kire.market_place_android.data.remote.api.product.IProductApi
 import com.kire.market_place_android.di.IoDispatcher
 import com.kire.market_place_android.domain.model.IRequestResultDomain
-import com.kire.market_place_android.domain.model.product.IProductResultDomain
 import com.kire.market_place_android.domain.repository.IProductRepository
 
 import io.ktor.client.call.NoTransformationFoundException
@@ -78,7 +77,7 @@ class ProductRepository @Inject constructor(
                 //Save to local
                 //............
 
-                IRequestResultDomain.Success(response.toDomain())
+                IRequestResultDomain.Success(response)
 
             } catch (e: Error){
                 IRequestResultDomain.Error(e.message)

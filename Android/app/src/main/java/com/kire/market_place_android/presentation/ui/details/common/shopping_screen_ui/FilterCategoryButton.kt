@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 
-import com.kire.market_place_android.presentation.model.product.Category
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
 /**
@@ -26,8 +25,8 @@ import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
  * @author Aleksey Timko (de4ltt)*/
 @Composable
 fun FilterCategoryButton(
-    category: Category,
-    onClick: (Category) -> Unit,
+    category: String,
+    onClick: (String) -> Unit,
     isChecked: Boolean
 ) {
     Box(
@@ -46,7 +45,7 @@ fun FilterCategoryButton(
         content = {
             Text(
                 modifier = Modifier.padding(8.dp),
-                text = category.title
+                text = category
             )
         }
     )

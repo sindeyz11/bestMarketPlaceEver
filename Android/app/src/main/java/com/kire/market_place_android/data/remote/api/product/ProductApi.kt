@@ -2,8 +2,8 @@ package com.kire.market_place_android.data.remote.api.product
 
 import com.kire.market_place_android.data.remote.dto.HttpRoutes
 import com.kire.market_place_android.data.remote.dto.request.product.ProductRequest
-import com.kire.market_place_android.data.remote.dto.response.product.CategoryResponse
 import com.kire.market_place_android.data.remote.dto.response.product.ProductResponse
+
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -13,6 +13,7 @@ import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+
 import javax.inject.Inject
 
 class ProductApi @Inject constructor(
@@ -29,11 +30,11 @@ class ProductApi @Inject constructor(
 
     // get all products' categories
     // like 'fruits', 'vegetables', 'electronic' and so on
-    override suspend fun getAllAvailableCategories(): List<CategoryResponse> {
+    override suspend fun getAllAvailableCategories(): Set<String> {
         return client.get {
             url(HttpRoutes.GET_ALL_AVAILABLE_CATEGORIES)
             contentType(ContentType.Application.Json)
-        }.body<List<CategoryResponse>>()
+        }.body<Set<String>>()
     }
 
     // update product info by its id

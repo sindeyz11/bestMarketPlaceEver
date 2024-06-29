@@ -1,14 +1,16 @@
 package com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui
 
-import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+
 import androidx.compose.runtime.Composable
+
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+
 import com.kire.market_place_android.presentation.model.product.Product
 
 /**
@@ -29,7 +31,7 @@ fun ItemsAddToCartMenuCarousel(
     ) {
         items(itemsList) {item ->
             ItemIcon(
-                imageUri = Uri.parse(item.imageUrl),
+                imageId = item.image.id,
                 onClick = { /* TODO */ }
             )
         }

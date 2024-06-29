@@ -80,7 +80,7 @@ fun NavigationUI(
 //        }
         composable(ItemAddToCartMenuDestination) {
             ItemAddToCartMenu(
-                userViewModel = userViewModel,
+                productViewModel = productViewModel,
                 navigator = destinationsNavigator
             )
         }

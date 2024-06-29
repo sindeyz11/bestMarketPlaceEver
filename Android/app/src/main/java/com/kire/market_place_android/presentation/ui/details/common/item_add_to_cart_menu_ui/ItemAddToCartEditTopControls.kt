@@ -1,10 +1,8 @@
-package com.kire.market_place_android.presentation.ui.details.admin.admin_panel_items_edit_screen_ui
+package com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -21,23 +19,21 @@ import androidx.compose.ui.unit.dp
 import com.kire.test.R
 
 /**
- * Верхний бар экрана AdminPanelItemsEditScreen
+ * Верхний бар экрана ItemAddToCart
  *
  * @param onArrowBackClick Обработчик нажатия кнопки "Назад"
- * @param onUploadButtonClick Обработчик нажатия кнопки кнопки загрузки изображения
+ * @param rightButton Функция для отображения кнопки "Загрузить изображение"
  *
  * @author Michael Gontarev (KiREHwYE)*/
 @Composable
-fun AdminEditTopControls(
-    onArrowBackClick: () -> Unit,
-    onUploadButtonClick:  () -> Unit
+fun ItemAddToCartEditTopControls(
+    onArrowBackClick: () -> Unit
 ){
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
+        contentAlignment = Alignment.TopStart,
         content = {
             Box(
                 modifier = Modifier
@@ -57,27 +53,6 @@ fun AdminEditTopControls(
                     modifier = Modifier
                         .size(27.dp),
                     tint = Color.Black
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .size(55.dp)
-                    .clip(CircleShape)
-                    .pointerInput(Unit) {
-                        detectTapGestures {
-                            onUploadButtonClick()
-                        }
-                    }
-                    .background(Color.White),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.update_sign),
-                    contentDescription = "update_sign",
-                    tint = Color.Black,
-                    modifier = Modifier
-                        .size(24.dp),
                 )
             }
         }

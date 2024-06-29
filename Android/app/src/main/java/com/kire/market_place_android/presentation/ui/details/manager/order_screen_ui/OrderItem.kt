@@ -1,6 +1,5 @@
 package com.kire.market_place_android.presentation.ui.details.manager.order_screen_ui
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.MarqueeAnimationMode
 import androidx.compose.foundation.basicMarquee
@@ -23,11 +22,6 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Text
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,24 +31,21 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+
 import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.manager.ManagerOrderState
 import com.kire.market_place_android.presentation.model.manager.ManagerOrderUiEvent
 import com.kire.market_place_android.presentation.model.order.OrderedProduct
-import com.kire.market_place_android.presentation.model.product.Product
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
 import com.kire.test.R
-import kotlinx.coroutines.flow.StateFlow
 
 /**
  * Карточка заказа
@@ -94,7 +85,7 @@ fun OrderItem(
 
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(orderedProduct.product.image.image)
+                    .data("http://195.43.142.92/api/v1/products/image/${orderedProduct.product.image.id}")
                     .build(),
                 placeholder = painterResource(id = R.drawable.default_image),
                 contentDescription = "Shopping cart item image",

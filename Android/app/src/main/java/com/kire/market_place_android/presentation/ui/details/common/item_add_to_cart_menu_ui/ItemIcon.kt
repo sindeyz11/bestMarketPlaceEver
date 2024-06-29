@@ -1,36 +1,46 @@
 package com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui
 
 import android.annotation.SuppressLint
-import android.net.Uri
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+
 import androidx.compose.runtime.Composable
+
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
+
+import com.kire.test.R
 
 /**
  * Иконка товара
  *
- * @param imageUri ссылка на изображение
+ * @param imageId id изображения
  * @param onClick обработчик клика
  *
  * @author Aleksey Timko (de4ltt)*/
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun ItemIcon(
-    imageUri: Uri?,
+    imageId: Int,
     onClick: () -> Unit
 ) {
     AsyncImage(
-        model = { },
-        /*placeholder = painterResource(id = R.drawable.default_image) ,*/
+        model = ImageRequest.Builder(LocalContext.current)
+            .data("http//195.43.142.92/api/v1/products/image/$imageId")
+            .build(),
+        placeholder = painterResource(id = R.drawable.default_image) ,
         contentDescription = "Item Cart Image",
         contentScale = ContentScale.Crop,
         modifier = Modifier

@@ -5,6 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ImageResponse(
     val id: Int = 0,
-    val image: String? = null,
     val alt: String = ""
 )

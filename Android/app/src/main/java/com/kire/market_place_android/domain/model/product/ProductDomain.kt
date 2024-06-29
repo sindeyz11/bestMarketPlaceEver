@@ -7,12 +7,12 @@ import java.math.BigDecimal
 data class ProductDomain(
     val id: Int = 0,
     val title: String = "",
-    val imageUrl: String = "",
+    val image: ImageDomain = ImageDomain(),
     val description: String = "",
     val price: BigDecimal = 0.0.toBigDecimal(),
     val discountPrice: BigDecimal = 0.0.toBigDecimal(),
     val quantityAvailable: Int = 0,
     val unit: String = "",
     val deliveryDays: Int = 0,
-    val category: CategoryDomain = CategoryDomain()
+    val category: String = ""
 )
