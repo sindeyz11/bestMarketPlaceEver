@@ -26,6 +26,11 @@ public class PickupPointController {
         return ResponseEntity.ok(pickupPointService.findAll());
     }
 
+    @GetMapping("/manager/{managerId}")
+    public ResponseEntity<PickupPointDTO> getByManagerId(@PathVariable Integer managerId) throws NoSuchElementFoundException, CannotUseUserException {
+        return ResponseEntity.ok(pickupPointService.findByManagerId(managerId));
+    }
+
     @PostMapping
     public ResponseEntity<?> createPoint(@Valid @RequestBody PickupPointRequest request) throws NoSuchElementFoundException, CannotUseUserException {
         PickupPointDTO pickupPointDTO = pickupPointService.create(request);
@@ -37,7 +42,6 @@ public class PickupPointController {
         PickupPointDTO pickupPointDTO = pickupPointService.update(id, request);
         return ResponseEntity.ok(pickupPointDTO);
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePoint(@PathVariable Integer id) throws NoSuchElementFoundException {

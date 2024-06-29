@@ -33,6 +33,21 @@ public class PickupPointService {
                 .collect(Collectors.toList());
     }
 
+    public PickupPointDTO findByManagerId(Integer managerId) throws NoSuchElementFoundException, CannotUseUserException {
+        User manager = userRepository.findById(managerId)
+                .orElseThrow(() -> new NoSuchElementFoundException(Constants.NOT_FOUND_MANAGER));
+
+        if (!manager.getRole().name().equals(MANAGER.name())) {
+            throw new CannotUseUserException(Constants.USER_IS_NOT_MANAGER);
+        }
+
+        if (!manager.isLinkedToPickupPoint()) {
+            throw new CannotUseUserException(Constants.USER_IS_NOT_LINKED_TO_POINT);
+        }
+
+        return dtoMapper.apply(pickupPointRepo.findByManager(manager));
+    }
+
     public PickupPointDTO create(PickupPointRequest request) throws NoSuchElementFoundException, CannotUseUserException {
         User manager = userRepository.findById(request.getManagerId())
                 .orElseThrow(() -> new NoSuchElementFoundException(Constants.NOT_FOUND_MANAGER));
