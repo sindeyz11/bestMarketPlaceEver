@@ -47,6 +47,7 @@ import com.kire.market_place_android.presentation.model.pick_up_point.PickUpPoin
 import com.kire.market_place_android.presentation.model.admin.AdminPickUpPointState
 import com.kire.market_place_android.presentation.model.admin.AdminPickUpPointUiEvent
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.bounceClick
 import com.kire.test.R
 
 /**
@@ -114,11 +115,9 @@ fun AdminPickUpCard(
                         tint = ExtendedTheme.colors.redAccent,
                         modifier = Modifier
                             .size(iconSize.value)
-                            .pointerInput(pickUpPoint.id) {
-                                detectTapGestures {
-                                    isDeleteButtonExpanded = !isDeleteButtonExpanded
-                                    onEvent(AdminPickUpPointUiEvent.DeletePickUpPoint(pickUpPoint.id))
-                                }
+                            .bounceClick {
+                                isDeleteButtonExpanded = !isDeleteButtonExpanded
+                                onEvent(AdminPickUpPointUiEvent.DeletePickUpPoint(pickUpPoint.id))
                             }
                     )
             }
@@ -128,11 +127,6 @@ fun AdminPickUpCard(
                     .zIndex(0f)
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .background(
-                        ExtendedTheme.colors.profileBar,
-                        RoundedCornerShape(12.dp)
-                    )
-                    .blur(blurDp.value)
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onTap = {
@@ -144,6 +138,11 @@ fun AdminPickUpCard(
                             }
                         )
                     }
+                    .background(
+                        ExtendedTheme.colors.profileBar,
+                        RoundedCornerShape(12.dp)
+                    )
+                    .blur(blurDp.value)
                     .padding(
                         horizontal = 20.dp,
                         vertical = 15.dp
@@ -186,16 +185,14 @@ fun AdminPickUpCard(
                         modifier = Modifier
                             .padding(top = 5.dp)
                             .size(20.dp)
-                            .pointerInput(Unit) {
-                                detectTapGestures {
-                                    if (!isDeleteButtonExpanded)
-                                        onEvent(AdminPickUpPointUiEvent.ChangeIsUpdateBottomBarExpanded(
-                                            value = true,
-                                            pickUpPointToUpdateId = pickUpPoint.id.toString(),
-                                            address = pickUpPoint.address,
-                                            managerId = pickUpPoint.managerId.toString()
-                                        ))
-                                }
+                            .bounceClick {
+                                if (!isDeleteButtonExpanded)
+                                    onEvent(AdminPickUpPointUiEvent.ChangeIsUpdateBottomBarExpanded(
+                                        value = true,
+                                        pickUpPointToUpdateId = pickUpPoint.id.toString(),
+                                        address = pickUpPoint.address,
+                                        managerId = pickUpPoint.managerId.toString()
+                                    ))
                             }
                     )
                 }

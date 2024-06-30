@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.bounceClick
 
 import com.kire.test.R
 
@@ -95,10 +96,8 @@ fun UserProfileInfo(
                 contentDescription = null,
                 modifier = Modifier
                     .size(18.dp)
-                    .pointerInput(Unit) {
-                        detectTapGestures {
-                            showBottomSheet(true)
-                        }
+                    .bounceClick {
+                        showBottomSheet(true)
                     }
             )
         }

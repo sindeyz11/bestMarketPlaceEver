@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.bounceClick
 
 import com.kire.test.R
 
@@ -71,11 +72,12 @@ fun PurchaseRelatedInfoBar(
             .clip(roundedCornerShape)
             .background(ExtendedTheme.colors.profileBar)
             .padding(paddingValues)
-            .pointerInput(Unit) {
-                detectTapGestures {
-                    if (clickable)
+            .let {
+                if (clickable)
+                    it.bounceClick {
                         onClick()
-                }
+                    }
+                else it
             },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)

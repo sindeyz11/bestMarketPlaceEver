@@ -45,6 +45,7 @@ import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.market_place_android.presentation.util.Validator
+import com.kire.market_place_android.presentation.util.bounceClick
 
 import com.kire.test.R
 
@@ -148,18 +149,16 @@ fun OrderReleasingBar(
                 tint = ExtendedTheme.colors.redAccent,
                 modifier = Modifier
                     .size(18.dp)
-                    .pointerInput(Unit){
-                        detectTapGestures {
-                            try {
-                                Validator.validateOrderCode(orderCode = orderCode)
-                                onClick(orderCode.toInt())
-                            } catch (e: IllegalArgumentException) {
-                                Toast.makeText(
-                                    context,
-                                    e.message,
-                                    LENGTH_SHORT
-                                ).show()
-                            }
+                    .bounceClick {
+                        try {
+                            Validator.validateOrderCode(orderCode = orderCode)
+                            onClick(orderCode.toInt())
+                        } catch (e: IllegalArgumentException) {
+                            Toast.makeText(
+                                context,
+                                e.message,
+                                LENGTH_SHORT
+                            ).show()
                         }
                     }
             )

@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.bounceClick
 import com.kire.test.R
 
 /**
@@ -59,11 +60,9 @@ fun ProductItemCounter(
             tint = Color.DarkGray,
             modifier = Modifier
                 .width(40.dp)
-                .clickable(
-                    interactionSource = MutableInteractionSource(),
-                    indication = null,
-                    onClick = onMinusAction
-                )
+                .bounceClick {
+                    onMinusAction()
+                }
         )
 
         Text(
@@ -78,11 +77,9 @@ fun ProductItemCounter(
             tint = Color.DarkGray,
             modifier = Modifier
                 .width(40.dp)
-                .clickable(
-                    interactionSource = MutableInteractionSource(),
-                    indication = null,
-                    onClick = onPlusAction
-                )
+                .bounceClick {
+                    onPlusAction()
+                }
         )
     }
 }

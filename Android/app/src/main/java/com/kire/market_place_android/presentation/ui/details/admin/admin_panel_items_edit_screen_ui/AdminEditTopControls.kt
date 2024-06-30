@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.kire.market_place_android.presentation.util.bounceClick
 import com.kire.test.R
 
 /**
@@ -43,10 +44,8 @@ fun AdminEditTopControls(
                 modifier = Modifier
                     .size(55.dp)
                     .clip(CircleShape)
-                    .pointerInput(Unit) {
-                        detectTapGestures {
-                            onArrowBackClick()
-                        }
+                    .bounceClick {
+                        onArrowBackClick()
                     }
                     .background(Color.White),
                 contentAlignment = Alignment.Center
@@ -77,7 +76,10 @@ fun AdminEditTopControls(
                     contentDescription = "update_sign",
                     tint = Color.Black,
                     modifier = Modifier
-                        .size(24.dp),
+                        .size(24.dp)
+                        .bounceClick {
+
+                        },
                 )
             }
         }

@@ -44,6 +44,7 @@ import com.kire.market_place_android.presentation.ui.screen.destinations.OrderSc
 import com.kire.market_place_android.presentation.ui.screen.destinations.ProfileScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.bounceClick
 
 import com.kire.test.R
 
@@ -105,10 +106,8 @@ fun TopBar(
                     tint = ExtendedTheme.colors.redAccent,
                     modifier = Modifier
                         .size(34.dp)
-                        .pointerInput(Unit) {
-                            detectTapGestures {
-                                navigator?.popBackStack(OrderScreenDestination, inclusive = true)
-                            }
+                        .bounceClick {
+                            navigator?.popBackStack(OrderScreenDestination, inclusive = true)
                         }
                 )
 
@@ -141,28 +140,25 @@ fun TopBar(
                     tint = ExtendedTheme.colors.redAccent,
                     modifier = Modifier
                         .size(30.dp)
-                        .pointerInput(Unit) {
-                            detectTapGestures {
-                                when (destination.getDirection()) {
-                                    is ProfileScreenDestination -> {
-                                        coroutineScope.launch {
-                                            if (logOut != null)
-                                                logOut()
-                                            navigator?.navigate(LogInScreenDestination) {
-                                                popUpTo(LogInScreenDestination.route) {
-                                                    inclusive = true
-                                                }
+                        .bounceClick {
+                            when (destination.getDirection()) {
+                                is ProfileScreenDestination -> {
+                                    coroutineScope.launch {
+                                        if (logOut != null)
+                                            logOut()
+                                        navigator?.navigate(LogInScreenDestination) {
+                                            popUpTo(LogInScreenDestination.route) {
+                                                inclusive = true
                                             }
                                         }
                                     }
-
-                                    is AdminPanelPickUpScreenDestination, is AdminPanelItemsScreenDestination ->
-                                        if (onPlusClick != null)
-                                            onPlusClick()
                                 }
+
+                                is AdminPanelPickUpScreenDestination, is AdminPanelItemsScreenDestination ->
+                                    if (onPlusClick != null)
+                                        onPlusClick()
                             }
                         }
-
                 )
             }
         }

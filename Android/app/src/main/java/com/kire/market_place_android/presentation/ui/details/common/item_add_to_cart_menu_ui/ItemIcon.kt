@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kire.market_place_android.presentation.constant.ImagePath
+import com.kire.market_place_android.presentation.util.bounceClick
 
 import com.kire.test.R
 
@@ -55,10 +56,8 @@ fun ItemIcon(
                 )
             )
             .background(Color.LightGray)
-            .clickable(
-                interactionSource = MutableInteractionSource(),
-                indication = null,
-                onClick = onClick
-            )
+            .bounceClick {
+                onClick()
+            }
     )
 }

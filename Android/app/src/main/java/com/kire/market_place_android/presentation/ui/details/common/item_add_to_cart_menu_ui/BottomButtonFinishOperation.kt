@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.bounceClick
 
 /**
  * Кнопка добавления в корзину
@@ -45,11 +46,9 @@ fun BottomButtonFinishOperation(
                     color = ExtendedTheme.colors.redAccent,
                     RoundedCornerShape(13.dp)
                 )
-                .clickable(
-                    interactionSource = MutableInteractionSource(),
-                    indication = null,
-                    onClick = onClick
-                ),
+                .bounceClick {
+                    onClick()
+                },
             content = {
                 Text(
                     text = textValue,

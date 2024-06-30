@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.bounceClick
 import com.kire.test.R
 
 /**
@@ -49,15 +50,15 @@ fun AdminPanelEntrancePaneUnit(
                     bottomEnd = 15.dp
                 )
             )
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() },
-                onClick = onClick
-            ),
+            .bounceClick {
+                onClick()
+            },
         verticalAlignment = Alignment.CenterVertically,
         content = {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(

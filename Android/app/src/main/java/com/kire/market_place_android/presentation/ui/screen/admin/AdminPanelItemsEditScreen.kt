@@ -161,6 +161,7 @@ fun AdminPanelItemsEditScreen(
                         .data(it)
                         .build(),
                     placeholder = painterResource(id = R.drawable.item_menu_default),
+                    error = painterResource(id = R.drawable.default_image),
                     contentDescription = "Shopping cart item image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier

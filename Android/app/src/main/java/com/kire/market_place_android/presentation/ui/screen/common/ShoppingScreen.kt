@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kire.market_place_android.presentation.constant.BottomBarHeight
 import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.product.CartUiEvent
 import com.kire.market_place_android.presentation.model.user.UserUiEvent
@@ -164,7 +165,8 @@ fun ShoppingScreen(
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = it
+            contentPadding = PaddingValues(bottom = 28.dp),
+            modifier = it.padding(bottom = BottomBarHeight.BOTTOM_BAR_HEIGHT)
         ) {
             items(
                 allProducts,

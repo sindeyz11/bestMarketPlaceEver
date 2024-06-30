@@ -43,6 +43,7 @@ import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.user.ProfileState
 import com.kire.market_place_android.presentation.model.user.UserUiEvent
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.bounceClick
 
 import com.kire.test.R
 
@@ -100,12 +101,10 @@ fun PaymentMethod(
                 contentDescription = null,
                 modifier = Modifier
                     .size(18.dp)
-                    .pointerInput(Unit) {
-                        detectTapGestures {
-                            isEditable = !isEditable.also {
-                                if (it)
-                                    onEvent(UserUiEvent.ChangeCard)
-                            }
+                    .bounceClick {
+                        isEditable = !isEditable.also {
+                            if (it)
+                                onEvent(UserUiEvent.ChangeCard)
                         }
                     },
                 tint = if (isEditable) ExtendedTheme.colors.redAccent else Color.DarkGray

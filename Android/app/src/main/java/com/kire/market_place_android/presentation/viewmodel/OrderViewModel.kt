@@ -53,5 +53,6 @@ class OrderViewModel @Inject constructor(
                 orderedProducts = orderedProducts.toListOrderedProduct().toDomain(),
                 orderPrice = orderPrice
             ).toPresentation<Nothing>()
+            getOrders()
         }
 }
