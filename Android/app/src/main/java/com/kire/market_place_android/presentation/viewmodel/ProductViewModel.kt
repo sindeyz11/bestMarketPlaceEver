@@ -11,6 +11,8 @@ import com.kire.market_place_android.presentation.mapper.product.toDomain
 import com.kire.market_place_android.presentation.mapper.product.toPresentation
 import com.kire.market_place_android.presentation.mapper.toPresentation
 import com.kire.market_place_android.presentation.model.IRequestResult
+import com.kire.market_place_android.presentation.model.product.AdminProductEvent
+import com.kire.market_place_android.presentation.model.product.AdminProductState
 import com.kire.market_place_android.presentation.model.product.CartState
 import com.kire.market_place_android.presentation.model.product.CartUiEvent
 import com.kire.market_place_android.presentation.model.product.Product
@@ -97,6 +99,17 @@ class ProductViewModel @Inject constructor(
         }
     }
 
+    fun onEvent(event: AdminProductEvent) {
+        when(event) {
+            is AdminProductEvent.addProduct -> {
+                _chosenProduct.value = event.product
+            }
+            is AdminProductEvent.editProduct -> {
+                _chosenProduct.value = event.product
+            }
+        }
+    }
+
     fun makeRequestResultIdle() {
         _requestResult.value = IRequestResult.Idle
     }
@@ -123,10 +136,18 @@ class ProductViewModel @Inject constructor(
                 }
         }
 
-    fun updateProductById(id: Int, image: Array<Byte> ,product: Product) =
+    fun updateProductById(id: Int, image: Array<Byte>, product: Product) =
         viewModelScope.launch {
             _requestResult.value = adminUseCases.updateProductUseCase(
                 id = id,
+                image = image,
+                product = product.toDomain()
+            ).toPresentation<ProductDomain>()
+        }
+
+    fun addProduct(image: Array<Byte>, product: Product) =
+        viewModelScope.launch {
+            _requestResult.value = adminUseCases.addProductUseCase(
                 image = image,
                 product = product.toDomain()
             ).toPresentation<ProductDomain>()

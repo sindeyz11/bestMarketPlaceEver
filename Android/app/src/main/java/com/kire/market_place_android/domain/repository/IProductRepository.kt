@@ -10,5 +10,6 @@ interface IProductRepository {
     suspend fun getAllProducts(): IRequestResultDomain
     suspend fun getAllAvailableCategories():  IRequestResultDomain
     suspend fun updateProduct(id: Int, image: Array<Byte>, product: ProductDomain): IRequestResultDomain
+    suspend fun addProduct(image: Array<Byte>, product: ProductDomain): IRequestResultDomain
 
 }

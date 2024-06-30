@@ -145,4 +145,43 @@ class ProductRepository @Inject constructor(
             }
         }
     }
+
+    override suspend fun addProduct(
+        image: Array<Byte>,
+        product: ProductDomain
+    ): IRequestResultDomain {
+
+        return withContext(coroutineDispatcher) {
+
+            try {
+                val response = productApi.addProduct(
+                    product = product.toRequest(image = image)
+                )
+
+                IRequestResultDomain.Success(response)
+
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
+
+            } catch (e: RedirectResponseException) {
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
+
+            } catch (e: ClientRequestException) {
+
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
+
+            } catch (e: ServerResponseException) {
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
+
+            } catch (e: JsonConvertException) {
+                IRequestResultDomain.Errors(listOf(e.message))
+
+            } catch (e: NoTransformationFoundException) {
+                IRequestResultDomain.Errors(listOf(e.message))
+
+            } catch (e: Exception) {
+                IRequestResultDomain.Errors(listOf(e.message))
+            }
+        }
+    }
 }

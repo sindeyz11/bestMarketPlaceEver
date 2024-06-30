@@ -18,19 +18,17 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 
@@ -38,8 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -51,40 +47,21 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
 import com.kire.market_place_android.presentation.constant.Strings
-import com.kire.market_place_android.presentation.model.product.Product
 import com.kire.market_place_android.presentation.navigation.transition.admin.AdminPanelItemsEditScreenTransitions
 import com.kire.market_place_android.presentation.ui.details.admin.admin_panel_items_edit_screen_ui.AdminEditTopControls
 import com.kire.market_place_android.presentation.ui.details.admin.admin_panel_items_edit_screen_ui.AdminPanelIconField
 import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.BottomButtonFinishOperation
 import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelItemsEditScreenDestination
-import com.kire.market_place_android.presentation.viewmodel.AdminViewModel
+import com.kire.market_place_android.presentation.util.compressImage
 import com.kire.market_place_android.presentation.viewmodel.ProductViewModel
 
 import com.kire.test.R
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.launch
 
-import java.io.ByteArrayOutputStream
 import java.io.InputStream
-
-/**
- * Функция конвертации входящего потока байт в массив
- *
- * @param inputStream поток байт
- *
- * @author Michael Gontarev (KiREHwYE)*/
-private fun getBytes(inputStream: InputStream): ByteArray {
-    val byteBuffer = ByteArrayOutputStream()
-    val bufferSize = 1024
-    val buffer = ByteArray(bufferSize)
-
-    var len: Int
-    while ((inputStream.read(buffer).also { len = it }) != -1) {
-        byteBuffer.write(buffer, 0, len)
-    }
-    return byteBuffer.toByteArray()
-}
 
 /**
  * Экран редактирования информации о товаре
@@ -116,6 +93,8 @@ fun AdminPanelItemsEditScreen(
 
     val context = LocalContext.current
 
+    val coroutineScope = rememberCoroutineScope()
+
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { imageUri ->
@@ -123,11 +102,13 @@ fun AdminPanelItemsEditScreen(
             if (imageUri == null)
                 return@rememberLauncherForActivityResult
 
-            val inputStream: InputStream = context.contentResolver.openInputStream(imageUri)
-                ?: return@rememberLauncherForActivityResult
-            image.value = getBytes(inputStream)
+            coroutineScope.launch {
+                val inputStream: InputStream = context.contentResolver.openInputStream(imageUri)
+                    ?: return@launch
+                image.value = compressImage(inputStream)
 
-            inputStream.close()
+                inputStream.close()
+            }
         }
     )
 
@@ -353,19 +334,35 @@ fun AdminPanelItemsEditScreen(
                 BottomButtonFinishOperation(
                     textValue = Strings.SAVE,
                     onClick = {
-                        productViewModel.updateProductById(
-                            id = product.id,
-                            image = image.value.toTypedArray(),
-                            product = product.copy(
-                                title = itemName,
-                                category = itemCategory,
-                                price = itemPrice,
-                                discountPrice = itemDiscountPrice,
-                                unit = itemMeasure,
-                                quantityAvailable = itemStored,
-                                description = itemDescription
+                        coroutineScope.launch {
+                            if (product.id == -1)
+                                productViewModel.addProduct(
+                                    image = image.value.toTypedArray(),
+                                    product = product.copy(
+                                        title = itemName,
+                                        category = itemCategory,
+                                        price = itemPrice,
+                                        discountPrice = itemDiscountPrice,
+                                        unit = itemMeasure,
+                                        quantityAvailable = itemStored,
+                                        description = itemDescription
+                                    )
+                                )
+                                else productViewModel.updateProductById(
+                                id = product.id,
+                                image = image.value.toTypedArray(),
+                                product = product.copy(
+                                    title = itemName,
+                                    category = itemCategory,
+                                    price = itemPrice,
+                                    discountPrice = itemDiscountPrice,
+                                    unit = itemMeasure,
+                                    quantityAvailable = itemStored,
+                                    description = itemDescription
+                                )
                             )
-                        )
+                        }
+                        navigator.popBackStack()
                     }
                 )
             }
