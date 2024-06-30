@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.bounceClick
 
 import com.kire.test.R
 
@@ -112,6 +113,9 @@ fun ShoppingScreenSearchBar(
             modifier = Modifier
                 .padding(start = 10.dp)
                 .size(56.dp)
+                .bounceClick {
+                    showFilter(true)
+                }
                 .shadow(
                     elevation = 12.dp,
                     spotColor = ExtendedTheme.colors.black10,
@@ -120,10 +124,7 @@ fun ShoppingScreenSearchBar(
                 .background(
                     color = ExtendedTheme.colors.redAccent,
                     RoundedCornerShape(12.dp)
-                )
-                .clickable {
-                    showFilter(true)
-                },
+                ),
             contentAlignment = Alignment.Center
         ) {
             Icon(

@@ -1,8 +1,6 @@
 package com.kire.market_place_android.domain.repository
 
 import com.kire.market_place_android.domain.model.IRequestResultDomain
-import com.kire.market_place_android.domain.model.admin.IAdminResultDomain
-import com.kire.market_place_android.domain.model.user.IUserResultDomain
 import com.kire.market_place_android.domain.model.user.RoleDomain
 
 import kotlinx.coroutines.flow.Flow

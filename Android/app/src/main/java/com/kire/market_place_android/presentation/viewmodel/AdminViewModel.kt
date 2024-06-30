@@ -91,6 +91,10 @@ class AdminViewModel @Inject constructor(
         }
     }
 
+    fun makeRequestResultIdle() {
+        _requestResult.value = IRequestResult.Idle
+    }
+
     fun getAllUsers() =
         viewModelScope.launch {
             _requestResult.value = adminUseCases.getAllUsersUseCase().toPresentation<List<AdminUserInfoDomain>>()

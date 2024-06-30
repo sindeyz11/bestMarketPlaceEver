@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.kire.market_place_android.presentation.model.product.CartUiEvent
 
 import com.kire.market_place_android.presentation.model.product.Product
 
@@ -21,7 +22,8 @@ import com.kire.market_place_android.presentation.model.product.Product
  * @author Aleksey Timko (de4ltt)*/
 @Composable
 fun ItemsAddToCartMenuCarousel(
-    itemsList: List<Product>
+    itemsList: List<Product>,
+    onEvent: (CartUiEvent) -> Unit
 ) {
     LazyRow(
         modifier = Modifier
@@ -29,10 +31,12 @@ fun ItemsAddToCartMenuCarousel(
             .height(120.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        items(itemsList) {item ->
+        items(itemsList) { product ->
             ItemIcon(
-                imageId = item.image.id,
-                onClick = { /* TODO */ }
+                imageId = product.image.id,
+                onClick = {
+                    onEvent(CartUiEvent.changeChosenProduct(product))
+                }
             )
         }
     }

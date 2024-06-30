@@ -26,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -38,7 +37,6 @@ import com.kire.market_place_android.presentation.navigation.util.getDirection
 import com.kire.market_place_android.presentation.navigation.util.getIconTop
 import com.kire.market_place_android.presentation.navigation.util.getLabel
 import com.kire.market_place_android.presentation.navigation.util.getPlusButton
-import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelItemsEditScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelItemsScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelPickUpScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.LogInScreenDestination
@@ -72,7 +70,7 @@ import kotlinx.coroutines.launch
 fun TopBar(
     logOut: (suspend () -> Unit)? = null,
     destination: AppDestinations,
-    curPickUpPoint: String? = "г. Краснодар, ул. Ставропольская, д. 149, эт. 1, кб. 133",
+    pickUpPointInfoBar: @Composable (() -> Unit)? = null,
     orderCode: String? = "XXX-XXX",
     paddingValuesTop: Dp = 84.dp,
     onPlusClick: (() -> Unit)? = null,
@@ -101,7 +99,6 @@ fun TopBar(
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                //Replace resource on ?: right with default icon
                 Icon(
                     painter = painterResource(id = destination.getIconTop() ?: R.drawable.shopping_top_bar),
                     contentDescription = null,
@@ -116,36 +113,8 @@ fun TopBar(
                 )
 
                 if (destination.getDirection() == ShoppingScreenDestination) {
-                    Column(
-                        modifier = Modifier
-                            .wrapContentHeight()
-                            .padding(start = 4.dp),
-                        verticalArrangement = Arrangement.spacedBy(2.dp),
-                        horizontalAlignment = Alignment.Start
-                    ) {
-                        Text(
-                            text = Strings.PICK_UP_POINT,
-                            fontWeight = FontWeight.Light,
-                            fontSize = 15.sp,
-                            color = Color.DarkGray,
-                            modifier = Modifier
-                                .basicMarquee(
-                                    animationMode = MarqueeAnimationMode.Immediately,
-                                    delayMillis = 0
-                                )
-                        )
-
-                        Text(
-                            text = curPickUpPoint ?: "",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 14.sp,
-                            color = Color.Black,
-                            modifier = Modifier
-                                .basicMarquee(
-                                    animationMode = MarqueeAnimationMode.Immediately,
-                                    delayMillis = 0
-                                )
-                        )
+                    if (pickUpPointInfoBar != null) {
+                        pickUpPointInfoBar()
                     }
                 } else
                     Text(

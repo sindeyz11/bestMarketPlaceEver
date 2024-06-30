@@ -59,9 +59,10 @@ fun ManagerScreen(
         return@BackHandler
     }
 
-    val requestResult by managerViewModel.requestResult.collectAsStateWithLifecycle()
-
-    RequestResultMessage(requestResult = requestResult)
+    RequestResultMessage(
+        requestResultStateFlow = managerViewModel.requestResult,
+        makeRequestResultIdle = managerViewModel::makeRequestResultIdle
+    )
 
     val pickUpPoint by managerViewModel.pickUpPoint.collectAsStateWithLifecycle()
 

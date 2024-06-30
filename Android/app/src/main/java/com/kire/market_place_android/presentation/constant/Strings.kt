@@ -109,4 +109,9 @@ object Strings {
     const val DISABLE_BATTERY_OPTIMIZATION = "Отключите оптимизацию батареи"
     const val NON_AUTHORIZED = "Вы не авторизованы"
     const val NO_PICK_UP_POINT = "Вы не владеете пунктом выдачи"
+    const val PRODUCT_ADDED_TO_CART = "Товар добавлен в корзину"
+    const val PRODUCT_DELETED_FROM_CART = "Товар удален из корзины"
+    const val PICK_UP_POINT_ID = "ID: "
+    const val PICK_UP_POINT_ADDRESS = "Адрес: "
+    const val NO_CHOSEN_PICK_UP_POINT = "Пункт выдачи не выбран"
 }

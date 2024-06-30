@@ -2,10 +2,13 @@ package com.kire.market_place_android.presentation.ui.screen.admin
 
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
+
 import androidx.activity.result.contract.ActivityResultContracts
+
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -23,9 +26,11 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -35,8 +40,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+
 import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.product.Product
 import com.kire.market_place_android.presentation.navigation.transition.admin.AdminPanelItemsEditScreenTransitions
@@ -45,9 +52,12 @@ import com.kire.market_place_android.presentation.ui.details.admin.admin_panel_i
 import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.BottomButtonFinishOperation
 import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelItemsEditScreenDestination
 import com.kire.market_place_android.presentation.viewmodel.AdminViewModel
+
 import com.kire.test.R
+
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 

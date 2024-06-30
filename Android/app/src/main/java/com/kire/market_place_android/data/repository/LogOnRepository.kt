@@ -3,8 +3,8 @@ package com.kire.market_place_android.data.repository
 import com.kire.market_place_android.domain.model.auth.AuthResultDomain
 import com.kire.market_place_android.data.model.auth.Token
 import com.kire.market_place_android.data.remote.dto.request.auth.LogOnRequest
-import com.kire.market_place_android.data.remote.dto.Error
 import com.kire.market_place_android.data.remote.api.auth.IAuthApi
+import com.kire.market_place_android.data.remote.dto.Errors
 import com.kire.market_place_android.di.IoDispatcher
 import com.kire.market_place_android.domain.repository.ILogOnRepository
 import com.kire.market_place_android.domain.repository.ITokenStorageRepository
@@ -59,7 +59,7 @@ class LogOnRepository @Inject constructor(
 
                 AuthResultDomain.Authorized()
 
-            } catch (e: Error){
+            } catch (e: Errors){
                 AuthResultDomain.UnknownError(e.message)
 
             } catch (e: RedirectResponseException) {

@@ -8,7 +8,10 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 
 import com.kire.market_place_android.presentation.model.product.Product
@@ -16,10 +19,12 @@ import com.kire.market_place_android.presentation.navigation.transition.admin.Ad
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
 import com.kire.market_place_android.presentation.screen.shopping_screen_ui.ItemCard
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.ListWithTopAndFab
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.RequestResultMessage
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.TopBar
 import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelItemsEditScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ItemAddToCartMenuDestination
 import com.kire.market_place_android.presentation.viewmodel.AdminViewModel
+import com.kire.market_place_android.presentation.viewmodel.ProductViewModel
 
 import com.kire.test.R
 
@@ -39,6 +44,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun AdminPanelItemsScreen(
     adminViewModel: AdminViewModel,
+    productViewModel: ProductViewModel,
     navigator: DestinationsNavigator,
     paddingValues: PaddingValues = PaddingValues(start = 28.dp, end = 28.dp)
 ) {
@@ -48,14 +54,12 @@ fun AdminPanelItemsScreen(
         return@BackHandler
     }
 
-    val itemsList: List<Product> = listOf(
-        Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product()
-    )
+    val products by productViewModel.allProducts.collectAsStateWithLifecycle()
 
     val editIcon = R.drawable.edit_profile_info
 
     ListWithTopAndFab(
-        listSize = itemsList.size,
+        listSize = products.size,
         topBar = {
             TopBar(
                 destination = AppDestinations.AdminDestinations.ADMIN_PANEL_ITEMS,
@@ -72,11 +76,11 @@ fun AdminPanelItemsScreen(
             contentPadding = PaddingValues(bottom = 28.dp),
             modifier = it
         ) {
-            items(itemsList) { item ->
+            items(products, key = {it.id}) { product ->
                 ItemCard(
-                    product = item,
-                    onClick = { navigator.navigate(ItemAddToCartMenuDestination) },
-                    onButtonClick = { navigator.navigate(AdminPanelItemsEditScreenDestination) },
+                    product = product,
+                    onWholeElementClick = { navigator.navigate(ItemAddToCartMenuDestination) },
+                    onSmallButtonClick = { navigator.navigate(AdminPanelItemsEditScreenDestination) },
                     buttonIcon = editIcon
                 )
             }

@@ -1,25 +1,29 @@
 package com.kire.market_place_android.data.repository
 
+import android.util.Log
 import com.kire.market_place_android.data.mapper.order.toDomain
 import com.kire.market_place_android.data.mapper.order.toResponse
+import com.kire.market_place_android.data.mapper.product.toRequest
 import com.kire.market_place_android.data.remote.api.manager.IManagerApi
-import com.kire.market_place_android.data.remote.dto.Error
 import com.kire.market_place_android.data.remote.api.order.IOrderApi
+import com.kire.market_place_android.data.remote.dto.Errors
 import com.kire.market_place_android.data.remote.dto.request.order.ConfirmOrderRequest
 import com.kire.market_place_android.data.remote.dto.request.order.OrderRequest
 import com.kire.market_place_android.di.IoDispatcher
 import com.kire.market_place_android.domain.model.IRequestResultDomain
-import com.kire.market_place_android.domain.model.order.IOrderResultDomain
 import com.kire.market_place_android.domain.model.order.OrderedProductDomain
 import com.kire.market_place_android.domain.repository.IOrderRepository
+
 import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.statement.bodyAsText
 import io.ktor.serialization.JsonConvertException
+
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+
 import java.math.BigDecimal
 import javax.inject.Inject
 
@@ -39,27 +43,27 @@ class OrderRepository @Inject constructor(
                 val response = orderApi.getOrdersByUser()
 
                 IRequestResultDomain.Success(response.toDomain())
-            } catch (e: Error){
-                IRequestResultDomain.Error(e.message)
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
 
             } catch (e: RedirectResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                IRequestResultDomain.Error(e.message)
-            }
-            catch (e: NoTransformationFoundException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
+
+            } catch (e: NoTransformationFoundException) {
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: Exception) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
             }
         }
     }
@@ -70,27 +74,27 @@ class OrderRepository @Inject constructor(
                 val response = managerApi.getOrderedProductsByOrderId(id)
 
                 IRequestResultDomain.Success(response.toDomain())
-            } catch (e: Error){
-                IRequestResultDomain.Error(e.message)
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
 
             } catch (e: RedirectResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                IRequestResultDomain.Error(e.message)
-            }
-            catch (e: NoTransformationFoundException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
+
+            } catch (e: NoTransformationFoundException) {
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: Exception) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
             }
         }
     }
@@ -106,33 +110,33 @@ class OrderRepository @Inject constructor(
                     orderRequest =
                         OrderRequest(
                             pickUpPointId = pickUpPointId,
-                            orderedProducts = orderedProducts.toResponse(),
+                            orderedProducts = orderedProducts.toRequest(),
                             orderPrice = orderPrice
                         )
                 )
 
                 IRequestResultDomain.SuccessfullyDone
-            } catch (e: Error){
-                IRequestResultDomain.Error(e.message)
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
 
             } catch (e: RedirectResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                IRequestResultDomain.Error(e.message)
-            }
-            catch (e: NoTransformationFoundException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
+
+            } catch (e: NoTransformationFoundException) {
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: Exception) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
             }
         }
     }
@@ -154,27 +158,27 @@ class OrderRepository @Inject constructor(
                 )
 
                 IRequestResultDomain.SuccessfullyDone
-            } catch (e: Error){
-                IRequestResultDomain.Error(e.message)
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
 
             } catch (e: RedirectResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                IRequestResultDomain.Error(e.message)
-            }
-            catch (e: NoTransformationFoundException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
+
+            } catch (e: NoTransformationFoundException) {
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: Exception) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
             }
         }
     }

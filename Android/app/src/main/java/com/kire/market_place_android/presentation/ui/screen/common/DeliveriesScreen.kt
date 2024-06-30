@@ -27,9 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -70,11 +68,12 @@ fun DeliveriesScreen(
         return@BackHandler
     }
 
-    val requestResult by orderViewModel.requestResult.collectAsStateWithLifecycle()
-
     val orders by orderViewModel.orders.collectAsStateWithLifecycle()
 
-    RequestResultMessage(requestResult = requestResult)
+    RequestResultMessage(
+        requestResultStateFlow = orderViewModel.requestResult,
+        makeRequestResultIdle = orderViewModel::makeRequestResultIdle
+    )
 
     Column(
         modifier = Modifier

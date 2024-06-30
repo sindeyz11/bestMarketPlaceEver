@@ -1,5 +1,8 @@
 package com.kire.market_place_android.presentation.ui.details.common.shopping_cart_screen_ui
 
+import android.util.Log
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.MarqueeAnimationMode
 import androidx.compose.foundation.basicMarquee
@@ -24,6 +27,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -45,7 +49,11 @@ import androidx.compose.ui.unit.sp
 
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.kire.market_place_android.presentation.constant.ImagePath
 import com.kire.market_place_android.presentation.constant.Strings
+import com.kire.market_place_android.presentation.model.product.CartState
+import com.kire.market_place_android.presentation.model.product.CartUiEvent
+import com.kire.market_place_android.presentation.model.product.Product
 
 import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.ProductItemCounter
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
@@ -63,25 +71,27 @@ import com.kire.test.R
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ShoppingCartItem(
-    name: String,
-    price: String,
-    amount: Double = 0.0,
-    unit: String = "кг"
+    product: Product,
+    cartState: CartState,
+    onEvent: (CartUiEvent) -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
-    val checked = remember { mutableStateOf(false) }
-
     var productItemCount by remember {
-        mutableIntStateOf(1)
+        mutableIntStateOf(product.chosenQuantity)
+    }
+
+    LaunchedEffect(key1 = product) {
+        productItemCount = product.chosenQuantity
     }
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(120.dp)
             .pointerInput(Unit) {
                 detectTapGestures {
-                    checked.value = !checked.value
+                    onEvent(CartUiEvent.productSelect(product))
                 }
             },
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -101,11 +111,8 @@ fun ShoppingCartItem(
                 contentAlignment = Alignment.BottomStart
             ) {
 
-                //ImageRequest should be replaced with URI
                 AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(R.drawable.default_image)
-                        .build(),
+                    model = ImagePath.imagePathById + product.image.id.toString(),
                     placeholder = painterResource(id = R.drawable.default_image),
                     contentDescription = "Shopping cart item image",
                     contentScale = ContentScale.Crop,
@@ -122,9 +129,9 @@ fun ShoppingCartItem(
                 )
 
                 Checkbox(
-                    checked = checked.value,
-                    onCheckedChange = {
-                            isChecked -> checked.value = isChecked
+                    checked = cartState.toBuy.map { it.id }.contains(product.id) && productItemCount != 0,
+                    onCheckedChange = { _ ->
+                        onEvent(CartUiEvent.productSelect(product))
                     },
                     colors = CheckboxDefaults.colors(
                         checkedColor = ExtendedTheme.colors.redAccent,
@@ -142,7 +149,7 @@ fun ShoppingCartItem(
             ) {
 
                 Text(
-                    text = Strings.RUB + price,
+                    text = Strings.RUB + product.price,
                     fontSize = 19.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
@@ -157,7 +164,7 @@ fun ShoppingCartItem(
                 ) {
 
                     Text(
-                        text = name,
+                        text = product.title,
                         fontWeight = FontWeight.Bold,
                         fontSize = 17.sp,
                         color = Color.Black,
@@ -169,7 +176,7 @@ fun ShoppingCartItem(
                     )
 
                     Text(
-                        text = amount.toString() + unit,
+                        text = product.chosenQuantity.toString() + product.unit,
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp,
                         color = Color.Gray
@@ -189,12 +196,16 @@ fun ShoppingCartItem(
 
             ProductItemCounter(
                 curItemCount = productItemCount,
-                onPlusAction = { productItemCount++ },
+                onPlusAction = {
+                    productItemCount++
+                    onEvent(CartUiEvent.chooseQuantity(chosenQuantity = productItemCount, product.id))
+                },
                 onMinusAction = {
                     productItemCount =
                         if (productItemCount == 0)
                             0
                         else --productItemCount
+                    onEvent(CartUiEvent.chooseQuantity(chosenQuantity = productItemCount, product.id))
                 },
                 modifier = Modifier
                     .width(100.dp)
@@ -207,6 +218,11 @@ fun ShoppingCartItem(
                 tint = ExtendedTheme.colors.redAccent,
                 modifier = Modifier
                     .size(24.dp)
+                    .pointerInput(product.id) {
+                        detectTapGestures {
+                            onEvent(CartUiEvent.deleteFromCart(product.id))
+                        }
+                    }
             )
         }
     }

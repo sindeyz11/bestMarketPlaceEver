@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.kire.market_place_android.presentation.constant.ImagePath
 
 import com.kire.test.R
 
@@ -38,7 +39,7 @@ fun ItemIcon(
 ) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
-            .data("http//195.43.142.92/api/v1/products/image/$imageId")
+            .data(ImagePath.imagePathById + imageId.toString())
             .build(),
         placeholder = painterResource(id = R.drawable.default_image) ,
         contentDescription = "Item Cart Image",

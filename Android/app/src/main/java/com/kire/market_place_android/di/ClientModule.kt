@@ -1,7 +1,7 @@
 package com.kire.market_place_android.di
 
 import android.util.Log
-import com.kire.market_place_android.data.remote.dto.Error
+import com.kire.market_place_android.data.remote.dto.Errors
 import com.kire.market_place_android.domain.repository.ITokenStorageRepository
 
 import dagger.Module
@@ -10,6 +10,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.HttpResponseValidator
@@ -22,7 +23,6 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.observer.ResponseObserver
-import io.ktor.client.statement.bodyAsText
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
@@ -71,22 +71,20 @@ object ClientModule {
                     val response = when(exception) {
                         is ClientRequestException -> {
                             val exceptionResponse = exception.response
-                            exceptionResponse.bodyAsText()
+                            exceptionResponse.body<Errors>()
                         }
                         is ServerResponseException -> {
                             val exceptionResponse = exception.response
-                            exceptionResponse.bodyAsText()
+                            exceptionResponse.body<Errors>()
                         }
 
                         else -> {
-                            ""
+                            Errors()
                         }
                     }
 
-                    if (response.isNotEmpty())
-                        throw Error(
-                            message = response
-                        )
+                    if (response.errors.isNotEmpty())
+                        throw response
                 }
             }
 

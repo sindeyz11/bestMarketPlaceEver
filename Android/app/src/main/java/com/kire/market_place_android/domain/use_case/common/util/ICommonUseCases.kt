@@ -1,5 +1,6 @@
 package com.kire.market_place_android.domain.use_case.common.util
 
+import com.kire.market_place_android.domain.use_case.admin.GetAllPickUpPointsUseCase
 import com.kire.market_place_android.domain.use_case.common.user.GetRoleUseCase
 import com.kire.market_place_android.domain.use_case.common.user.GetUserIdUseCase
 import com.kire.market_place_android.domain.use_case.common.user.GetUserInfoUseCase
@@ -33,4 +34,5 @@ sealed interface ICommonUseCases {
     val changeUserInfoAndReturnUseCase: ChangeUserInfoAndReturnUseCase
     val getAllAvailableCategoriesUseCase: GetAllAvailableCategoriesUseCase
     val createOrderUseCase: CreateOrderUseCase
+    val getAllPickUpPoints: GetAllPickUpPointsUseCase
 }

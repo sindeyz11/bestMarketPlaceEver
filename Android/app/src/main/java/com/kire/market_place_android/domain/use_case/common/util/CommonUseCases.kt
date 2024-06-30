@@ -1,5 +1,6 @@
 package com.kire.market_place_android.domain.use_case.common.util
 
+import com.kire.market_place_android.domain.use_case.admin.GetAllPickUpPointsUseCase
 import com.kire.market_place_android.domain.use_case.common.user.GetRoleUseCase
 import com.kire.market_place_android.domain.use_case.common.user.GetUserIdUseCase
 import com.kire.market_place_android.domain.use_case.common.user.GetUserInfoUseCase
@@ -33,5 +34,6 @@ data class CommonUseCases @Inject constructor(
     override val changeUserInfoAndReturnUseCase: ChangeUserInfoAndReturnUseCase,
     override val getAllProductsUseCase: GetAllProductsUseCase,
     override val getAllAvailableCategoriesUseCase: GetAllAvailableCategoriesUseCase,
-    override val createOrderUseCase: CreateOrderUseCase
+    override val createOrderUseCase: CreateOrderUseCase,
+    override val getAllPickUpPoints: GetAllPickUpPointsUseCase
 ) : ICommonUseCases

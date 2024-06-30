@@ -105,6 +105,7 @@ class MainActivity : ComponentActivity() {
 
                         productViewModel.refreshProducts()
                         productViewModel.getAllCategories()
+                        userViewModel.getAllPickUpPoints()
                         userViewModel.updateUser()
                         orderViewModel.getOrders()
 

@@ -1,8 +1,8 @@
 package com.kire.market_place_android.data.repository
 
 import com.kire.market_place_android.data.mapper.product.toDomain
-import com.kire.market_place_android.data.remote.dto.Error
 import com.kire.market_place_android.data.remote.api.product.IProductApi
+import com.kire.market_place_android.data.remote.dto.Errors
 import com.kire.market_place_android.di.IoDispatcher
 import com.kire.market_place_android.domain.model.IRequestResultDomain
 import com.kire.market_place_android.domain.repository.IProductRepository
@@ -41,27 +41,27 @@ class ProductRepository @Inject constructor(
 
                 IRequestResultDomain.Success(response.toDomain())
 
-            } catch (e: Error){
-                IRequestResultDomain.Error(e.message)
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
 
             } catch (e: RedirectResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: NoTransformationFoundException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: Exception) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
             }
         }
     }
@@ -79,27 +79,27 @@ class ProductRepository @Inject constructor(
 
                 IRequestResultDomain.Success(response)
 
-            } catch (e: Error){
-                IRequestResultDomain.Error(e.message)
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
 
             } catch (e: RedirectResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: NoTransformationFoundException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: Exception) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
             }
         }
     }

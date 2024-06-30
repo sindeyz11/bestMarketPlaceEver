@@ -111,6 +111,7 @@ fun NavigationUI(
         composable(AdminPanelItemsScreenDestination) {
             AdminPanelItemsScreen(
                 adminViewModel = adminViewModel,
+                productViewModel = productViewModel,
                 navigator = destinationsNavigator
             )
         }
@@ -135,6 +136,7 @@ fun NavigationUI(
         composable(ShoppingScreenDestination) {
             ShoppingScreen(
                 productViewModel = productViewModel,
+                userViewModel = userViewModel,
                 navigator = destinationsNavigator
             )
         }
@@ -152,9 +154,10 @@ fun NavigationUI(
         }
         composable(ShoppingCartScreenDestination){
             ShoppingCartScreen(
-                userViewModel = userViewModel,
-                createOrder = orderViewModel::createOrder,
-                navController = navHostController
+                productViewModel = productViewModel,
+                chosenPickUpPoint = userViewModel.chosenPickUpPoint,
+                navController = navHostController,
+                orderViewModel = orderViewModel
             )
         }
     }

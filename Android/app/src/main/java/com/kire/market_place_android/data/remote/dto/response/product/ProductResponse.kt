@@ -7,7 +7,6 @@ import java.math.BigDecimal
 
 @Serializable
 data class ProductResponse(
-    @SerialName("product_id")
     val id: Int = 0,
     val title: String = "",
     @SerialName("image")

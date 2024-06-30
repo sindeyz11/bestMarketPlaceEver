@@ -53,9 +53,10 @@ import com.kire.test.R
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun OrderingBottomBar(
-    pickUpPointAddress: String = "г. Краснодар, ул. Ставропольская, д. 149, эт. 1, кб. 133",
-    deliveryClosestDate: String = "2 июня",
+    pickUpPointAddress: String = "",
+    deliveryClosestDate: String = "",
     totalSum: Double = 0.0,
+    createOrder: () -> Unit,
     showBottomSheet: (Boolean) -> Unit,
     sheetState: SheetState
 ){
@@ -199,7 +200,7 @@ fun OrderingBottomBar(
 
                 Button(
                     onClick = {
-                        /*TODO()*/
+                        createOrder()
                     },
                     modifier = Modifier
                         .height(56.dp)

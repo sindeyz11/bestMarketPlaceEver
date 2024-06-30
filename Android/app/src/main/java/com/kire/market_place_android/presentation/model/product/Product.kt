@@ -14,5 +14,6 @@ data class Product(
     val quantityAvailable: Int = 0,
     val unit: String = "",
     val deliveryDays: Int = 0,
-    val category: String = ""
+    val category: String = "",
+    val chosenQuantity: Int = 0
 )

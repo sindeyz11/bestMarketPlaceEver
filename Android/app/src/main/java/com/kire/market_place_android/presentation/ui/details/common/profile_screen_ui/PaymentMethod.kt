@@ -34,7 +34,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -42,7 +41,7 @@ import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.model.user.ProfileState
-import com.kire.market_place_android.presentation.model.user.ProfileUiEvent
+import com.kire.market_place_android.presentation.model.user.UserUiEvent
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
 import com.kire.test.R
@@ -59,7 +58,7 @@ import com.kire.test.R
 @Composable
 fun PaymentMethod(
     profileState: ProfileState,
-    onEvent: (ProfileUiEvent) -> Unit,
+    onEvent: (UserUiEvent) -> Unit,
     roundedCornerShape: RoundedCornerShape =
         RoundedCornerShape(
             topStart = 18.dp,
@@ -105,7 +104,7 @@ fun PaymentMethod(
                         detectTapGestures {
                             isEditable = !isEditable.also {
                                 if (it)
-                                    onEvent(ProfileUiEvent.ChangeCard)
+                                    onEvent(UserUiEvent.ChangeCard)
                             }
                         }
                     },
@@ -126,7 +125,7 @@ fun PaymentMethod(
                 enabled = isEditable,
                 value = profileState.cardNumber,
                 onValueChange = {
-                    onEvent(ProfileUiEvent.CardNumberChanged(it))
+                    onEvent(UserUiEvent.CardNumberChanged(it))
                 },
                 textStyle = LocalTextStyle.current.copy(
                     color = Color.Black,
@@ -186,7 +185,7 @@ fun PaymentMethod(
                         enabled = isEditable,
                         value = profileState.validity,
                         onValueChange = {
-                            onEvent(ProfileUiEvent.ValidityChanged(it))
+                            onEvent(UserUiEvent.ValidityChanged(it))
                         },
                         textStyle = LocalTextStyle.current.copy(
                             color = Color.Black,
@@ -246,7 +245,7 @@ fun PaymentMethod(
                             enabled = isEditable,
                             value = profileState.CVC,
                             onValueChange = {
-                                onEvent(ProfileUiEvent.CvcChanged(it))
+                                onEvent(UserUiEvent.CvcChanged(it))
                             },
                             textStyle = LocalTextStyle.current.copy(
                                 color = Color.Black,

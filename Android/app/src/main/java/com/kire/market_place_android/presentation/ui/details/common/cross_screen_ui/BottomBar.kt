@@ -2,6 +2,7 @@ package com.kire.market_place_android.presentation.ui.details.common.cross_scree
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -35,6 +37,7 @@ import com.kire.market_place_android.presentation.ui.screen.destinations.Destina
 import com.kire.market_place_android.presentation.ui.screen.startAppDestination
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.bounceClick
 
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
@@ -57,8 +60,6 @@ fun BottomBar(
 
     val currentDestination: Destination = navHostController.appCurrentDestinationAsState().value
         ?: NavGraphs.root.startAppDestination
-
-    val interactionSource = remember { MutableInteractionSource() }
 
     val appBarsDestinations: List<DirectionDestinationSpec> = AppDestinations.BottomBarDestinations.entries.map { it.direction }
 
@@ -83,6 +84,11 @@ fun BottomBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
+                .pointerInput(Unit) {
+                    detectTapGestures {
+                        //just to make unclickable
+                    }
+                }
                 .background(Color.White)
                 .padding(
                     start = paddingStartEndBottom,
@@ -106,10 +112,7 @@ fun BottomBar(
                         else Color.Black,
                         modifier = Modifier
                             .size(30.dp)
-                            .clickable(
-                                interactionSource = interactionSource,
-                                indication = null
-                            ) {
+                            .bounceClick {
                                 if (currentDestination.route != destination.direction.route)
                                     navHostController.navigate(destination.direction)
                             }

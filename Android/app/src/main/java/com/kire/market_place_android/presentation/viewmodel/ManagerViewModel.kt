@@ -68,6 +68,10 @@ class ManagerViewModel @Inject constructor(
         }
     }
 
+    fun makeRequestResultIdle() {
+        _requestResult.value = IRequestResult.Idle
+    }
+
     fun getOrderedProductsByOrderId(id: Int) =
         viewModelScope.launch {
             _requestResult.value = managerUseCases.getOrderedProductsByOrderIdUseCase(id = id).toPresentation<OrderDomain>()

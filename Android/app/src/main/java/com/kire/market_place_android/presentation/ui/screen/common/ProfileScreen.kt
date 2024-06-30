@@ -1,8 +1,5 @@
 package com.kire.market_place_android.presentation.ui.screen.common
 
-import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
-
 import androidx.activity.compose.BackHandler
 
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +14,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,13 +21,10 @@ import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kire.market_place_android.presentation.constant.Strings
-import com.kire.market_place_android.presentation.model.IRequestResult
 
 import com.kire.market_place_android.presentation.navigation.transition.common.ProfileScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
@@ -47,8 +40,6 @@ import com.kire.market_place_android.presentation.ui.details.common.profile_scre
 import com.kire.market_place_android.presentation.ui.screen.destinations.DeliveriesScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
 import com.kire.market_place_android.presentation.viewmodel.UserViewModel
-
-import com.kire.test.R
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -75,11 +66,12 @@ fun ProfileScreen(
         return@BackHandler
     }
 
-    val requestResult by userViewModel.requestResult.collectAsStateWithLifecycle()
-
     val profileState = userViewModel.profileState
 
-    RequestResultMessage(requestResult = requestResult)
+    RequestResultMessage(
+        requestResultStateFlow = userViewModel.requestResult,
+        makeRequestResultIdle = userViewModel::makeRequestResultIdle
+    )
 
     val sheetState = rememberModalBottomSheetState()
 

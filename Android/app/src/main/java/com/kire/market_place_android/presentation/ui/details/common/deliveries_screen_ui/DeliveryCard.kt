@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.kire.market_place_android.presentation.constant.ImagePath
 
 import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.order.OrderedProduct
@@ -71,7 +72,7 @@ fun DeliveryCard(
                 //ImageRequest should be replaced with URI
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data("http://195.43.142.92/api/v1/products/image/${product.image.id}")
+                        .data(ImagePath.imagePathById + product.image.id.toString())
                         .build(),
                     placeholder = painterResource(id = R.drawable.default_image),
                     contentDescription = "Deliveries item image",

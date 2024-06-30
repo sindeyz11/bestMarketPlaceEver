@@ -28,13 +28,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.user.ProfileState
-import com.kire.market_place_android.presentation.model.user.ProfileUiEvent
+import com.kire.market_place_android.presentation.model.user.UserUiEvent
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.market_place_android.presentation.util.Validator
 import com.kire.test.R
@@ -52,7 +51,7 @@ import com.kire.test.R
 @Composable
 fun ProfileDataBottomBar(
     profileState: ProfileState,
-    onEvent: (ProfileUiEvent) -> Unit,
+    onEvent: (UserUiEvent) -> Unit,
     showBottomSheet: (Boolean) -> Unit,
     sheetState: SheetState
 ){
@@ -110,7 +109,7 @@ fun ProfileDataBottomBar(
                             .padding(16.dp),
                         value = profileState.username,
                         onValueChange = {
-                            onEvent(ProfileUiEvent.UsernameChanged(it))
+                            onEvent(UserUiEvent.UsernameChanged(it))
                         },
 
                         textStyle = LocalTextStyle.current.copy(
@@ -154,7 +153,7 @@ fun ProfileDataBottomBar(
                             .padding(16.dp),
                         value = profileState.phone,
                         onValueChange = {
-                            onEvent(ProfileUiEvent.PhoneChanged(it))
+                            onEvent(UserUiEvent.PhoneChanged(it))
                         },
 
                         textStyle = LocalTextStyle.current.copy(
@@ -198,7 +197,7 @@ fun ProfileDataBottomBar(
                             .padding(16.dp),
                         value = profileState.email,
                         onValueChange = {
-                            onEvent(ProfileUiEvent.EmailChanged(it))
+                            onEvent(UserUiEvent.EmailChanged(it))
                         },
 
                         textStyle = LocalTextStyle.current.copy(
@@ -241,7 +240,7 @@ fun ProfileDataBottomBar(
                         Validator.validatePhone(profileState.phone)
                         Validator.validateEmail(profileState.email)
 
-                        onEvent(ProfileUiEvent.ChangeUserInfo)
+                        onEvent(UserUiEvent.ChangeUserInfo)
                     },
                     modifier = Modifier
                         .height(56.dp)

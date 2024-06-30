@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.kire.market_place_android.presentation.constant.ImagePath
 
 import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.manager.ManagerOrderState
@@ -84,9 +85,7 @@ fun OrderItem(
         ) {
 
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data("http://195.43.142.92/api/v1/products/image/${orderedProduct.product.image.id}")
-                    .build(),
+                model = ImagePath.imagePathById + orderedProduct.product.image.id.toString(),
                 placeholder = painterResource(id = R.drawable.default_image),
                 contentDescription = "Shopping cart item image",
                 contentScale = ContentScale.Crop,

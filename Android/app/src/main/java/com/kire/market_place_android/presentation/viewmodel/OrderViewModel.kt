@@ -6,10 +6,12 @@ import com.kire.market_place_android.domain.model.order.OrderDomain
 import com.kire.market_place_android.domain.use_case.common.util.CommonUseCases
 import com.kire.market_place_android.presentation.mapper.order.toDomain
 import com.kire.market_place_android.presentation.mapper.order.toPresentation
+import com.kire.market_place_android.presentation.mapper.product.toListOrderedProduct
 import com.kire.market_place_android.presentation.mapper.toPresentation
 import com.kire.market_place_android.presentation.model.IRequestResult
 import com.kire.market_place_android.presentation.model.order.Order
 import com.kire.market_place_android.presentation.model.order.OrderedProduct
+import com.kire.market_place_android.presentation.model.product.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -40,16 +42,16 @@ class OrderViewModel @Inject constructor(
                 }
         }
 
-    fun createOrder(pickUpPointId: Int, orderedProducts: List<OrderedProduct>, orderPrice: BigDecimal) =
+    fun makeRequestResultIdle() {
+        _requestResult.value = IRequestResult.Idle
+    }
+
+    fun createOrder(pickUpPointId: Int, orderedProducts: List<Product>, orderPrice: BigDecimal) =
         viewModelScope.launch {
             _requestResult.value = commonUseCases.createOrderUseCase(
                 pickUpPointId = pickUpPointId,
-                orderedProducts = orderedProducts.toDomain(),
+                orderedProducts = orderedProducts.toListOrderedProduct().toDomain(),
                 orderPrice = orderPrice
             ).toPresentation<Nothing>()
         }
-
-//    init {
-//        getOrders()
-//    }
 }

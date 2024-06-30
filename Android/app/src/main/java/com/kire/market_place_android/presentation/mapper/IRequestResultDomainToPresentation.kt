@@ -16,6 +16,6 @@ fun <T> IRequestResultDomain.toPresentation() =
         IRequestResultDomain.Idle ->
             IRequestResult.Idle
 
-        is IRequestResultDomain.Error ->
-            IRequestResult.Error(this.message)
+        is IRequestResultDomain.Errors ->
+            IRequestResult.Errors(this.messages)
     }

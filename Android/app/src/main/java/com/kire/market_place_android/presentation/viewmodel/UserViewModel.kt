@@ -6,15 +6,18 @@ import androidx.compose.runtime.setValue
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kire.market_place_android.domain.model.pick_up_point.PickUpPointDomain
 import com.kire.market_place_android.domain.model.user.UserDomain
 
 import com.kire.market_place_android.domain.use_case.common.util.ICommonUseCases
+import com.kire.market_place_android.presentation.mapper.pick_up_point.toPresentation
 import com.kire.market_place_android.presentation.mapper.toPresentation
 import com.kire.market_place_android.presentation.mapper.user.toPresentation
 import com.kire.market_place_android.presentation.model.IRequestResult
+import com.kire.market_place_android.presentation.model.pick_up_point.PickUpPoint
 import com.kire.market_place_android.presentation.model.user.Role
 import com.kire.market_place_android.presentation.model.user.ProfileState
-import com.kire.market_place_android.presentation.model.user.ProfileUiEvent
+import com.kire.market_place_android.presentation.model.user.UserUiEvent
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 
@@ -39,21 +42,27 @@ class UserViewModel @Inject constructor(
     private val _requestResult: MutableStateFlow<IRequestResult> = MutableStateFlow(IRequestResult.Idle)
     val requestResult: StateFlow<IRequestResult> = _requestResult.asStateFlow()
 
+    private val _chosenPickUpPoint: MutableStateFlow<PickUpPoint> = MutableStateFlow(PickUpPoint())
+    val chosenPickUpPoint: StateFlow<PickUpPoint> = _chosenPickUpPoint.asStateFlow()
+
+    private val _allPickUpPoints: MutableStateFlow<List<PickUpPoint>> = MutableStateFlow(emptyList())
+    val allPickUpPoints: StateFlow<List<PickUpPoint>> = _allPickUpPoints.asStateFlow()
+
     var profileState by mutableStateOf(ProfileState())
 
-    fun onEvent(event: ProfileUiEvent) {
+    fun onEvent(event: UserUiEvent) {
         when(event) {
-            is ProfileUiEvent.UsernameChanged -> {
+            is UserUiEvent.UsernameChanged -> {
                 profileState = profileState.copy(username = event.value)
             }
-            is ProfileUiEvent.PhoneChanged -> {
+            is UserUiEvent.PhoneChanged -> {
                 profileState = profileState.copy(phone = event.value)
             }
-            is ProfileUiEvent.EmailChanged -> {
+            is UserUiEvent.EmailChanged -> {
                 profileState = profileState.copy(email = event.value)
             }
 
-            ProfileUiEvent.ChangeUserInfo -> {
+            UserUiEvent.ChangeUserInfo -> {
                 viewModelScope.launch {
                     _requestResult.value = commonUseCases.changeUserInfoAndReturnUseCase(
                         id = _userId.value,
@@ -64,17 +73,17 @@ class UserViewModel @Inject constructor(
                 }
             }
 
-            is ProfileUiEvent.CardNumberChanged -> {
+            is UserUiEvent.CardNumberChanged -> {
                 profileState = profileState.copy(cardNumber = event.value)
             }
-            is ProfileUiEvent.CvcChanged -> {
+            is UserUiEvent.CvcChanged -> {
                 profileState = profileState.copy(CVC = event.value)
             }
-            is ProfileUiEvent.ValidityChanged -> {
+            is UserUiEvent.ValidityChanged -> {
                 profileState = profileState.copy(validity = event.value)
             }
 
-            ProfileUiEvent.ChangeCard -> {
+            UserUiEvent.ChangeCard -> {
                 viewModelScope.launch {
                     commonUseCases.changeUserCardUseCase(
                         cardNumber = profileState.cardNumber,
@@ -84,17 +93,17 @@ class UserViewModel @Inject constructor(
                 }
             }
 
-            is ProfileUiEvent.CurrentPasswordChanged -> {
+            is UserUiEvent.CurrentPasswordChanged -> {
                 profileState = profileState.copy(currentPassword = event.value)
             }
-            is ProfileUiEvent.NewPasswordChanged -> {
+            is UserUiEvent.NewPasswordChanged -> {
                 profileState = profileState.copy(newPassword = event.value)
             }
-            is ProfileUiEvent.ConfirmationPasswordChanged -> {
+            is UserUiEvent.ConfirmationPasswordChanged -> {
                 profileState = profileState.copy(confirmationPassword = event.value)
             }
 
-            ProfileUiEvent.ChangePassword -> {
+            UserUiEvent.ChangePassword -> {
                 viewModelScope.launch {
                     commonUseCases.changePasswordUseCase(
                         currentPassword = profileState.currentPassword,
@@ -103,8 +112,27 @@ class UserViewModel @Inject constructor(
                     )
                 }
             }
+
+            is UserUiEvent.ChoosePickUpPoint -> {
+                _chosenPickUpPoint.value = event.chosenPickUpPoint
+            }
+        }
+    }
+
+
+    fun getAllPickUpPoints() =
+        viewModelScope.launch {
+            _requestResult.value = commonUseCases.getAllPickUpPoints().toPresentation<List<PickUpPointDomain>>()
+                .also { result ->
+                    if (result is IRequestResult.Success<*>)
+                        _allPickUpPoints.value = (result.data as List<*>).map {
+                            (it as PickUpPointDomain).toPresentation()
+                        }
+                }
         }
 
+    fun makeRequestResultIdle() {
+        _requestResult.value = IRequestResult.Idle
     }
 
     private val _isAuthenticated = MutableStateFlow(false)
@@ -151,10 +179,6 @@ class UserViewModel @Inject constructor(
                     _isAuthenticated.value = it
                 }
             }
-//            launch {
-//                if (_isAuthenticated.value)
-//                    updateUser()
-//            }
         }
     }
 }

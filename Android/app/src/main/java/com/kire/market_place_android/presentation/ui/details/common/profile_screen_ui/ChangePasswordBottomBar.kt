@@ -35,14 +35,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.model.user.ProfileState
-import com.kire.market_place_android.presentation.model.user.ProfileUiEvent
+import com.kire.market_place_android.presentation.model.user.UserUiEvent
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.market_place_android.presentation.util.Validator
 
@@ -62,7 +61,7 @@ import com.kire.test.R
 fun ChangePasswordBottomBar(
     profileState: ProfileState,
     showBottomSheet: (Boolean) -> Unit,
-    onEvent: (ProfileUiEvent) -> Unit,
+    onEvent: (UserUiEvent) -> Unit,
     sheetState: SheetState
 ){
 
@@ -123,7 +122,7 @@ fun ChangePasswordBottomBar(
                             .padding(16.dp),
                         value = profileState.currentPassword,
                         onValueChange = {
-                            onEvent(ProfileUiEvent.CurrentPasswordChanged(it))
+                            onEvent(UserUiEvent.CurrentPasswordChanged(it))
                         },
 
                         textStyle = LocalTextStyle.current.copy(
@@ -167,7 +166,7 @@ fun ChangePasswordBottomBar(
                             .padding(16.dp),
                         value = profileState.newPassword,
                         onValueChange = {
-                            onEvent(ProfileUiEvent.NewPasswordChanged(it))
+                            onEvent(UserUiEvent.NewPasswordChanged(it))
                         },
 
                         textStyle = LocalTextStyle.current.copy(
@@ -211,7 +210,7 @@ fun ChangePasswordBottomBar(
                             .padding(16.dp),
                         value = profileState.confirmationPassword,
                         onValueChange = {
-                            onEvent(ProfileUiEvent.ConfirmationPasswordChanged(it))
+                            onEvent(UserUiEvent.ConfirmationPasswordChanged(it))
                         },
 
                         textStyle = LocalTextStyle.current.copy(
@@ -255,7 +254,7 @@ fun ChangePasswordBottomBar(
                             Validator.validatePasswordNovelty(profileState.currentPassword, profileState.newPassword)
                             Validator.validateRepeatedPassword(profileState.newPassword, profileState.confirmationPassword)
 
-                            onEvent(ProfileUiEvent.ChangePassword)
+                            onEvent(UserUiEvent.ChangePassword)
 
                         } catch (e: IllegalArgumentException) {
                             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()

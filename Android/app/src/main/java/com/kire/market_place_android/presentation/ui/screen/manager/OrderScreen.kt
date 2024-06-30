@@ -1,7 +1,5 @@
 package com.kire.market_place_android.presentation.ui.screen.manager
 
-import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 
@@ -11,16 +9,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kire.market_place_android.presentation.model.IRequestResult
 import com.kire.market_place_android.presentation.model.manager.ManagerOrderUiEvent
 
 import com.kire.market_place_android.presentation.navigation.transition.manager.OrderScreenTransitions
@@ -31,7 +26,6 @@ import com.kire.market_place_android.presentation.ui.details.common.cross_screen
 import com.kire.market_place_android.presentation.ui.details.manager.order_screen_ui.OrderFloatingButton
 import com.kire.market_place_android.presentation.ui.details.manager.order_screen_ui.OrderItem
 import com.kire.market_place_android.presentation.viewmodel.ManagerViewModel
-import com.kire.test.R
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -57,9 +51,10 @@ fun OrderScreen(
         return@BackHandler
     }
 
-    val requestResult by managerViewModel.requestResult.collectAsStateWithLifecycle()
-
-    RequestResultMessage(requestResult = requestResult)
+    RequestResultMessage(
+        requestResultStateFlow = managerViewModel.requestResult,
+        makeRequestResultIdle = managerViewModel::makeRequestResultIdle
+    )
 
     val managerOrderState by managerViewModel.managerOrderState.collectAsStateWithLifecycle()
 

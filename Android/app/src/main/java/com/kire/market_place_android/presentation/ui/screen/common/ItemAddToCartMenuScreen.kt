@@ -48,8 +48,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 
 import coil.request.ImageRequest
+import com.kire.market_place_android.presentation.constant.ImagePath
 
 import com.kire.market_place_android.presentation.constant.Strings
+import com.kire.market_place_android.presentation.model.product.CartUiEvent
 import com.kire.market_place_android.presentation.navigation.transition.common.ItemAddToCartMenuScreenTransitions
 import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.BottomButtonFinishOperation
 import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.ItemAddToCartEditTopControls
@@ -88,7 +90,7 @@ fun ItemAddToCartMenu(
         return@BackHandler
     }
 
-    val product by productViewModel.choosenProduct.collectAsStateWithLifecycle()
+    val product by productViewModel.chosenProduct.collectAsStateWithLifecycle()
     val products by productViewModel.allProducts.collectAsStateWithLifecycle()
 
     val scrollState = rememberScrollState()
@@ -122,7 +124,7 @@ fun ItemAddToCartMenu(
 
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("http://195.43.142.92/api/v1/products/image/${product.image.id}")
+                    .data(ImagePath.imagePathById + product.image.id.toString())
                     .build(),
                 placeholder = painterResource(id = R.drawable.item_menu_default),
                 contentDescription = "Shopping cart item image",
@@ -199,7 +201,7 @@ fun ItemAddToCartMenu(
                                             fontWeight = FontWeight.ExtraBold
                                         )
                                     ) {
-                                        append("₽$price")
+                                        append(Strings.RUB + price.toString())
                                     }
 
                                     append("\t\t")
@@ -273,7 +275,10 @@ fun ItemAddToCartMenu(
 
                     val productsWithSameCategory = products.filter { it.category == product.category }
 
-                    ItemsAddToCartMenuCarousel(itemsList = productsWithSameCategory)
+                    ItemsAddToCartMenuCarousel(
+                        itemsList = productsWithSameCategory,
+                        onEvent = productViewModel::onEvent
+                    )
                 }
 
                 Box(
@@ -283,8 +288,9 @@ fun ItemAddToCartMenu(
                     contentAlignment = Alignment.BottomCenter
                 ) {
                     BottomButtonFinishOperation(
-                        textValue = Strings.ADD_TO_CART + " - " + "₽" + "${price.toDouble() * productItemCount}",
+                        textValue = Strings.ADD_TO_CART + " - " + Strings.RUB + "${price.toDouble() * productItemCount}",
                         onClick = {
+                            productViewModel.onEvent(CartUiEvent.addToCart(product.copy(chosenQuantity = productItemCount)))
                             navigator.navigate(ShoppingCartScreenDestination)
                         }
                     )

@@ -30,7 +30,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -41,10 +40,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import com.kire.market_place_android.presentation.constant.ImagePath
+import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.model.product.Product
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.bounceClick
 
 import com.kire.test.R
 
@@ -52,8 +53,8 @@ import com.kire.test.R
  * Плитка товара
  *
  * @param product товар
- * @param onClick клик по карточке
- * @param onButtonClick клик по кнопке
+ * @param onWholeElementClick клик по карточке
+ * @param onSmallButtonClick клик по кнопке
  * @param buttonIcon иконка кнопки
  *
  * @author Aleksey Timko (de4ltt)
@@ -64,17 +65,18 @@ import com.kire.test.R
 @Composable
 fun ItemCard(
     product: Product,
-    onClick: () -> Unit,
-    onButtonClick: () -> Unit,
-    @DrawableRes buttonIcon: Int
+    onWholeElementClick: () -> Unit,
+    onSmallButtonClick: () -> Unit,
+    @DrawableRes buttonIcon: Int,
+    modifier: Modifier = Modifier
 ) {
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .pointerInput(Unit) {
                 detectTapGestures {
-                    onClick()
+                    onWholeElementClick()
                 }
             },
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -89,12 +91,8 @@ fun ItemCard(
                     .fillMaxWidth()
                     .wrapContentHeight()
             ) {
-
-                //ImageRequest should be replaced with URI
                 AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data("http://195.43.142.92/api/v1/products/image/${product.image.id}")
-                        .build(),
+                    model = ImagePath.imagePathById + product.image.id.toString(),
                     placeholder = painterResource(id = R.drawable.default_image),
                     contentDescription = "Item card image",
                     contentScale = ContentScale.Crop,
@@ -187,7 +185,7 @@ fun ItemCard(
                                     fontWeight = FontWeight.ExtraBold
                                 )
                             ) {
-                                append("₽$price")
+                                append(Strings.RUB + price.toString())
                             }
                         }
                     else
@@ -199,7 +197,7 @@ fun ItemCard(
                                     fontWeight = FontWeight.ExtraBold
                                 )
                             ) {
-                                append("₽$discountPrice")
+                                append(Strings.RUB + discountPrice.toString())
                             }
                             append("\n")
                             withStyle(
@@ -219,15 +217,13 @@ fun ItemCard(
                 Box(
                     modifier = Modifier
                         .size(35.dp)
+                        .bounceClick {
+                            onSmallButtonClick()
+                        }
                         .background(
                             ExtendedTheme.colors.redAccent,
                             RoundedCornerShape(5.dp)
-                        )
-                        .pointerInput(Unit) {
-                            detectTapGestures {
-                                onButtonClick()
-                            }
-                        },
+                        ),
                     contentAlignment = Alignment.Center,
                     content = {
                         Icon(

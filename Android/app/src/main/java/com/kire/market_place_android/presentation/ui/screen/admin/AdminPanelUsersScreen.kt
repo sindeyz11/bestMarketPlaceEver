@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -48,9 +47,10 @@ fun AdminPanelUsersScreen(
 
     val allUsers by adminViewModel.allUsers.collectAsStateWithLifecycle()
 
-    val requestResult by adminViewModel.requestResult.collectAsStateWithLifecycle()
-
-    RequestResultMessage(requestResult = requestResult)
+    RequestResultMessage(
+        requestResultStateFlow = adminViewModel.requestResult,
+        makeRequestResultIdle = adminViewModel::makeRequestResultIdle
+    )
 
     ListWithTopAndFab(
         listSize = allUsers.size,

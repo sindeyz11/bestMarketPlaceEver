@@ -1,6 +1,11 @@
 package com.kire.market_place_android.presentation.ui.screen.common
 
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.detectTapGestures
 
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
@@ -13,6 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,13 +26,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import androidx.navigation.NavController
+import com.kire.market_place_android.presentation.constant.Strings
+import com.kire.market_place_android.presentation.model.IRequestResult
 import com.kire.market_place_android.presentation.model.order.OrderedProduct
-
+import com.kire.market_place_android.presentation.model.pick_up_point.PickUpPoint
+import com.kire.market_place_android.presentation.model.product.CartUiEvent
 import com.kire.market_place_android.presentation.model.product.Product
+
 import com.kire.market_place_android.presentation.navigation.transition.common.ShoppingCartScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.ListWithTopAndFab
@@ -37,11 +48,15 @@ import com.kire.market_place_android.presentation.ui.details.common.shopping_car
 import com.kire.market_place_android.presentation.ui.details.common.shopping_cart_screen_ui.ShoppingCartItem
 import com.kire.market_place_android.presentation.ui.screen.destinations.ItemAddToCartMenuDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
+import com.kire.market_place_android.presentation.util.bounceClick
+import com.kire.market_place_android.presentation.viewmodel.OrderViewModel
+import com.kire.market_place_android.presentation.viewmodel.ProductViewModel
 import com.kire.market_place_android.presentation.viewmodel.UserViewModel
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.popBackStack
 import com.ramcosta.composedestinations.utils.isRouteOnBackStack
+import kotlinx.coroutines.flow.StateFlow
 import java.math.BigDecimal
 
 /**
@@ -53,16 +68,14 @@ import java.math.BigDecimal
  * @param paddingValues отступы от краев экрана
  *
  * @author Michael Gontarev (KiREHwYE)*/
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Destination(style = ShoppingCartScreenTransitions::class)
 @Composable
 fun ShoppingCartScreen(
-    userViewModel: UserViewModel,
-    createOrder: (pickUpPointId: Int, orderedProducts: List<OrderedProduct>, orderPrice: BigDecimal) -> Unit,
+    productViewModel: ProductViewModel,
+    orderViewModel: OrderViewModel,
+    chosenPickUpPoint: StateFlow<PickUpPoint>,
     navController: NavController,
-    shoppingCartItems: List<Product> = listOf(
-        Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product()
-    ),
     paddingValues: PaddingValues = PaddingValues(start = 28.dp, end = 28.dp, bottom = 66.dp)
 ) {
 
@@ -74,38 +87,47 @@ fun ShoppingCartScreen(
         return@BackHandler
     }
 
+    val chosenPickUpPoint by chosenPickUpPoint.collectAsStateWithLifecycle()
+
     val sheetState = rememberModalBottomSheetState()
     val isBottomSheetShown = remember {
         mutableStateOf(false)
     }
 
-    val requestResult by userViewModel.requestResult.collectAsStateWithLifecycle()
+    val cartState by productViewModel.cartState.collectAsStateWithLifecycle()
 
-    RequestResultMessage(requestResult = requestResult)
+    RequestResultMessage(
+        requestResultStateFlow = orderViewModel.requestResult,
+        makeRequestResultIdle = orderViewModel::makeRequestResultIdle
+    )
+    RequestResultMessage(
+        requestResultStateFlow = productViewModel.requestResult,
+        makeRequestResultIdle = productViewModel::makeRequestResultIdle
+    )
 
     ListWithTopAndFab(
-        listSize = shoppingCartItems.size,
+        listSize = cartState.allProductsInCart.size,
         paddingValues = paddingValues,
         topBar = {
             TopBar(destination = AppDestinations.BottomBarDestinations.SHOPPING_CART)
         },
         floatingButton = { shiftBarDown ->
-            PurchaseFloatingActionButton(
-                onClick = {
-                    isBottomSheetShown.value = true
-                },
-                modifier = Modifier
-                    .pointerInput(Unit) {
-                        detectTapGestures {
-//                            createOrder()
-                        }
-                        detectVerticalDragGestures { change, dragAmount ->
-                            if (dragAmount > 0) {
-                                shiftBarDown()
+            if (cartState.allProductsInCart.isNotEmpty())
+                PurchaseFloatingActionButton(
+                    amount = cartState.toBuy.sumOf { it.chosenQuantity },
+                    totalSum = cartState.toBuy.sumOf { it.price * it.chosenQuantity.toBigDecimal() }.toDouble(),
+                    onClick = {
+                        isBottomSheetShown.value = true
+                    },
+                    modifier = Modifier
+                        .pointerInput(Unit) {
+                            detectVerticalDragGestures { _, dragAmount ->
+                                if (dragAmount > 0) {
+                                    shiftBarDown()
+                                }
                             }
                         }
-                    }
-            )
+                )
         }
     ) {
         LazyColumn(
@@ -114,16 +136,20 @@ fun ShoppingCartScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             items(
-                shoppingCartItems,
-//                key = {it.id}
-            ) {item ->
-
+                cartState.allProductsInCart,
+                key = {it.id}
+            ) { product ->
                 ShoppingCartItem(
-                    name = item.title,
-                    price = item.price.toString(),
-                    amount = 3.0
+                    product = product,
+                    cartState = cartState,
+                    onEvent = productViewModel::onEvent,
+                    modifier = Modifier.animateItemPlacement(
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = LinearOutSlowInEasing
+                        )
+                    )
                 )
             }
         }
@@ -131,9 +157,22 @@ fun ShoppingCartScreen(
 
     if (isBottomSheetShown.value)
         OrderingBottomBar(
+            pickUpPointAddress =
+                if (chosenPickUpPoint.address.isNotEmpty())
+                    chosenPickUpPoint.address
+                else Strings.NO_CHOSEN_PICK_UP_POINT,
+            deliveryClosestDate = cartState.toBuy.minOf { it.deliveryDays }.toString(),
+            totalSum = cartState.toBuy.sumOf { it.price * it.chosenQuantity.toBigDecimal() }.toDouble(),
             showBottomSheet = {
                 isBottomSheetShown.value = false
             },
-            sheetState = sheetState
+            sheetState = sheetState,
+            createOrder = {
+                orderViewModel.createOrder(
+                    chosenPickUpPoint.id,
+                    cartState.toBuy,
+                    cartState.toBuy.sumOf { it.price * it.chosenQuantity.toBigDecimal() }
+                )
+            }
         )
 }

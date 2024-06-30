@@ -1,7 +1,5 @@
 package com.kire.market_place_android.presentation.ui.screen.admin
 
-import android.widget.Toast
-
 import androidx.activity.compose.BackHandler
 
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -17,15 +15,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kire.market_place_android.presentation.model.IRequestResult
 
 import com.kire.market_place_android.presentation.model.admin.AdminPickUpPointUiEvent
 import com.kire.market_place_android.presentation.navigation.transition.admin.AdminPanelPickUpScreenTransitions
@@ -36,8 +31,6 @@ import com.kire.market_place_android.presentation.ui.details.common.cross_screen
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.RequestResultMessage
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.TopBar
 import com.kire.market_place_android.presentation.viewmodel.AdminViewModel
-
-import com.kire.test.R
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -67,11 +60,13 @@ fun AdminPanelPickUpScreen(
     val allPickUpPoints by adminViewModel.allPickUpPoints.collectAsStateWithLifecycle()
 
     val adminState = adminViewModel.adminPickUpPointState
-    val requestResult by adminViewModel.requestResult.collectAsStateWithLifecycle()
 
     val sheetState = rememberModalBottomSheetState()
 
-    RequestResultMessage(requestResult = requestResult)
+    RequestResultMessage(
+        requestResultStateFlow = adminViewModel.requestResult,
+        makeRequestResultIdle = adminViewModel::makeRequestResultIdle
+    )
 
     ListWithTopAndFab(
         listSize = allPickUpPoints.size,

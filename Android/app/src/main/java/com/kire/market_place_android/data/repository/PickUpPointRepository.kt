@@ -3,12 +3,10 @@ package com.kire.market_place_android.data.repository
 import com.kire.market_place_android.data.mapper.admin.toDomain
 import com.kire.market_place_android.data.remote.api.admin.IAdminApi
 import com.kire.market_place_android.data.remote.api.manager.IManagerApi
-import com.kire.market_place_android.data.remote.api.manager.ManagerApi
-import com.kire.market_place_android.data.remote.dto.Error
+import com.kire.market_place_android.data.remote.dto.Errors
 import com.kire.market_place_android.data.remote.dto.request.admin.PickUpPointRequest
 import com.kire.market_place_android.di.IoDispatcher
 import com.kire.market_place_android.domain.model.IRequestResultDomain
-import com.kire.market_place_android.domain.model.admin.IAdminResultDomain
 import com.kire.market_place_android.domain.repository.IPickUpPointRepository
 
 import io.ktor.client.call.NoTransformationFoundException
@@ -40,27 +38,27 @@ class PickUpPointRepository @Inject constructor(
                 val response = adminApi.getAllPickUpPoints().toDomain()
                 IRequestResultDomain.Success(response)
 
-            } catch (e: Error){
-                IRequestResultDomain.Error(e.message)
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
 
             } catch (e: RedirectResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: NoTransformationFoundException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: Exception) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
             }
         }
     }
@@ -72,27 +70,27 @@ class PickUpPointRepository @Inject constructor(
             try {
                 adminApi.createPickUpPoint(PickUpPointRequest(managerId = managerId, address = address))
                 IRequestResultDomain.SuccessfullyDone
-            } catch (e: Error){
-                IRequestResultDomain.Error(e.message)
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
 
             } catch (e: RedirectResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: NoTransformationFoundException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: Exception) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
             }
         }
     }
@@ -104,27 +102,27 @@ class PickUpPointRepository @Inject constructor(
             try {
                 adminApi.updatePickUpPoint(id, PickUpPointRequest(managerId = managerId, address = address))
                 IRequestResultDomain.SuccessfullyDone
-            } catch (e: Error){
-                IRequestResultDomain.Error(e.message)
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
 
             } catch (e: RedirectResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: NoTransformationFoundException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: Exception) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
             }
         }
     }
@@ -136,27 +134,27 @@ class PickUpPointRepository @Inject constructor(
             try {
                 adminApi.deletePickUpPoint(id)
                 IRequestResultDomain.SuccessfullyDone
-            } catch (e: Error){
-                IRequestResultDomain.Error(e.message)
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
 
             } catch (e: RedirectResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: NoTransformationFoundException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: Exception) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
             }
         }
     }
@@ -166,27 +164,27 @@ class PickUpPointRepository @Inject constructor(
             try {
                 val response = managerApi.getPickUpPointByManagerId(id).toDomain()
                 IRequestResultDomain.Success(response)
-            } catch (e: Error){
-                IRequestResultDomain.Error(e.message)
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
 
             } catch (e: RedirectResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                IRequestResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: NoTransformationFoundException) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: Exception) {
-                IRequestResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
             }
         }
     }
