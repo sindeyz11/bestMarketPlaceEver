@@ -227,6 +227,8 @@ fun ShoppingScreen(
 
     if (isFilterShown)
         FilterBottomBar(
+            curChosenCategories = searchRequestCategory,
+            curChosenPriceRange = searchRequestPriceRange,
             allCategories = allCategories,
             showBottomSheet = {
                 isFilterShown = it

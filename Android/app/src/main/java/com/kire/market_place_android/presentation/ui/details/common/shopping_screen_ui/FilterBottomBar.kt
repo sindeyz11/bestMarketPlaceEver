@@ -55,6 +55,8 @@ import java.math.BigDecimal
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterBottomBar(
+    curChosenCategories: List<String>,
+    curChosenPriceRange: Pair<BigDecimal, BigDecimal>,
     allCategories: Set<String>,
     showBottomSheet: (Boolean) -> Unit,
     sheetState: SheetState,
@@ -62,15 +64,21 @@ fun FilterBottomBar(
 ) {
 
     var curCategories by remember {
-        mutableStateOf(emptyList<String>())
+        mutableStateOf(curChosenCategories)
     }
 
     var curLowPrice: String by remember {
-        mutableStateOf("")
+        mutableStateOf(
+            if (curChosenPriceRange.first == 0.toBigDecimal()) ""
+            else curChosenPriceRange.first.toString()
+        )
     }
 
     var curTopPrice: String by remember {
-        mutableStateOf("")
+        mutableStateOf(
+            if (curChosenPriceRange.second == Double.MAX_VALUE.toBigDecimal()) ""
+            else curChosenPriceRange.second.toString()
+        )
     }
 
     ModalBottomSheet(
@@ -183,7 +191,7 @@ fun FilterBottomBar(
                                             RoundedCornerShape(8.dp)
                                         ),
                                     onValueChange = {
-                                        if (it.matches("\\d+".toRegex()))
+                                        if (it.matches("\\d*".toRegex()))
                                             curLowPrice = it
                                     },
                                     keyboardOptions = KeyboardOptions(
@@ -222,7 +230,7 @@ fun FilterBottomBar(
                                             RoundedCornerShape(8.dp)
                                         ),
                                     onValueChange = {
-                                        if (it.matches("\\d+".toRegex()))
+                                        if (it.matches("\\d*".toRegex()))
                                             curTopPrice = it
                                     },
                                     keyboardOptions = KeyboardOptions(
@@ -262,6 +270,7 @@ fun FilterBottomBar(
                                     if (curTopPrice.isEmpty()) Double.MAX_VALUE.toBigDecimal() else curTopPrice.toBigDecimal()
                                 )
                             )
+                            showBottomSheet(false)
                         },
                         modifier = Modifier
                             .height(56.dp)
