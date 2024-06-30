@@ -43,10 +43,10 @@ fun AdminEditTopControls(
             Box(
                 modifier = Modifier
                     .size(55.dp)
-                    .clip(CircleShape)
                     .bounceClick {
                         onArrowBackClick()
                     }
+                    .clip(CircleShape)
                     .background(Color.White),
                 contentAlignment = Alignment.Center
             ){
@@ -62,12 +62,10 @@ fun AdminEditTopControls(
             Box(
                 modifier = Modifier
                     .size(55.dp)
-                    .clip(CircleShape)
-                    .pointerInput(Unit) {
-                        detectTapGestures {
-                            onUploadButtonClick()
-                        }
+                    .bounceClick {
+                        onUploadButtonClick()
                     }
+                    .clip(CircleShape)
                     .background(Color.White),
                 contentAlignment = Alignment.Center
             ) {
@@ -76,10 +74,7 @@ fun AdminEditTopControls(
                     contentDescription = "update_sign",
                     tint = Color.Black,
                     modifier = Modifier
-                        .size(24.dp)
-                        .bounceClick {
-
-                        },
+                        .size(24.dp),
                 )
             }
         }

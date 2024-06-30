@@ -1,5 +1,8 @@
 package com.kire.market_place_android.presentation.ui.screen.admin
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 
@@ -29,6 +32,7 @@ import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 
 import androidx.compose.ui.Alignment
@@ -57,6 +61,9 @@ import com.kire.test.R
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
@@ -67,16 +74,30 @@ import java.io.InputStream
  * @param inputStream поток байт
  *
  * @author Michael Gontarev (KiREHwYE)*/
-private fun getBytes(inputStream: InputStream): ByteArray {
-    val byteBuffer = ByteArrayOutputStream()
-    val bufferSize = 1024
-    val buffer = ByteArray(bufferSize)
+private suspend fun getBytes(inputStream: InputStream): ByteArray {
+    return withContext(Dispatchers.IO) {
+        // Decode the input stream into a Bitmap
+        val bitmap = BitmapFactory.decodeStream(inputStream)
 
-    var len: Int
-    while ((inputStream.read(buffer).also { len = it }) != -1) {
-        byteBuffer.write(buffer, 0, len)
+        // Initialize variables for compression
+        var quality = 100
+        var byteArray: ByteArray
+        val byteBuffer = ByteArrayOutputStream()
+
+        // Compress the Bitmap and check the size
+        do {
+            byteBuffer.reset() // Clear the buffer
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, byteBuffer)
+            byteArray = byteBuffer.toByteArray()
+            quality -= 5 // Decrease the quality by 5 for the next iteration
+        } while (byteArray.size > 1024 * 1024 && quality > 0)
+
+        // Release the bitmap to free up memory
+        bitmap.recycle()
+
+
+        byteArray
     }
-    return byteBuffer.toByteArray()
 }
 
 /**
@@ -103,10 +124,12 @@ fun AdminPanelItemsEditScreen(
     }
 
     val image = rememberSaveable {
-        mutableStateOf(ByteArray(1024))
+        mutableStateOf(byteArrayOf())
     }
 
     val context = LocalContext.current
+
+    val coroutineScope = rememberCoroutineScope()
 
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
@@ -115,11 +138,13 @@ fun AdminPanelItemsEditScreen(
             if (imageUri == null)
                 return@rememberLauncherForActivityResult
 
-            val inputStream: InputStream = context.contentResolver.openInputStream(imageUri)
-                ?: return@rememberLauncherForActivityResult
-            image.value = getBytes(inputStream)
+            coroutineScope.launch {
+                val inputStream: InputStream = context.contentResolver.openInputStream(imageUri)
+                    ?: return@launch
+                image.value = getBytes(inputStream)
 
-            inputStream.close()
+                inputStream.close()
+            }
         }
     )
 

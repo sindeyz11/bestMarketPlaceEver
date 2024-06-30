@@ -39,10 +39,10 @@ fun ItemAddToCartEditTopControls(
             Box(
                 modifier = Modifier
                     .size(55.dp)
-                    .clip(CircleShape)
                     .bounceClick {
                         onArrowBackClick()
                     }
+                    .clip(CircleShape)
                     .background(Color.White),
                 contentAlignment = Alignment.Center
             ){
