@@ -49,10 +49,12 @@ fun AdminPanelIconField(
     @DrawableRes icon: Int?,
     hint: String,
     maxLines: Int = 1,
-    isTextCentered: Boolean = false
+    isTextCentered: Boolean = false,
+    textValue: String,
+    onTextValueChange: (String) -> Unit
 ) {
-    var textValue by remember {
-        mutableStateOf("")
+    var _textValue by remember {
+        mutableStateOf(textValue)
     }
 
 
@@ -63,7 +65,8 @@ fun AdminPanelIconField(
                 RoundedCornerShape(12.dp)),
         value = textValue,
         onValueChange = {
-            textValue = it
+            _textValue = it
+            onTextValueChange(it)
         },
         textStyle = if (isTextCentered) TextStyle(textAlign = TextAlign.Center) else TextStyle(
             textAlign = TextAlign.Start

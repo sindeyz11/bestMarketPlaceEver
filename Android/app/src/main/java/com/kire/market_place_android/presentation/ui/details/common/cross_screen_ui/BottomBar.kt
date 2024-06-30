@@ -1,9 +1,7 @@
 package com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,7 +35,7 @@ import com.kire.market_place_android.presentation.ui.screen.destinations.Destina
 import com.kire.market_place_android.presentation.ui.screen.startAppDestination
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
-import com.kire.market_place_android.presentation.util.bounceClick
+import com.kire.market_place_android.presentation.util.modifier.bounceClick
 
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec

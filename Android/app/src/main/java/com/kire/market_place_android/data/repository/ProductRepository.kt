@@ -1,10 +1,12 @@
 package com.kire.market_place_android.data.repository
 
 import com.kire.market_place_android.data.mapper.product.toDomain
+import com.kire.market_place_android.data.mapper.product.toRequest
 import com.kire.market_place_android.data.remote.api.product.IProductApi
 import com.kire.market_place_android.data.remote.dto.Errors
 import com.kire.market_place_android.di.IoDispatcher
 import com.kire.market_place_android.domain.model.IRequestResultDomain
+import com.kire.market_place_android.domain.model.product.ProductDomain
 import com.kire.market_place_android.domain.repository.IProductRepository
 
 import io.ktor.client.call.NoTransformationFoundException
@@ -76,6 +78,46 @@ class ProductRepository @Inject constructor(
 
                 //Save to local
                 //............
+
+                IRequestResultDomain.Success(response)
+
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
+
+            } catch (e: RedirectResponseException) {
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
+
+            } catch (e: ClientRequestException) {
+
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
+
+            } catch (e: ServerResponseException) {
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
+
+            } catch (e: JsonConvertException) {
+                IRequestResultDomain.Errors(listOf(e.message))
+
+            } catch (e: NoTransformationFoundException) {
+                IRequestResultDomain.Errors(listOf(e.message))
+
+            } catch (e: Exception) {
+                IRequestResultDomain.Errors(listOf(e.message))
+            }
+        }
+    }
+
+    override suspend fun updateProduct(
+        id: Int,
+        image: Array<Byte>,
+        product: ProductDomain
+    ):  IRequestResultDomain {
+        return withContext(coroutineDispatcher) {
+
+            try {
+                val response = productApi.updateProductById(
+                    id = product.id,
+                    product = product.toRequest(image = image)
+                )
 
                 IRequestResultDomain.Success(response)
 

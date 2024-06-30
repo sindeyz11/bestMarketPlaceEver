@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,11 +34,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import java.math.BigDecimal
 
 /**
  * Нижний бар с фильтрами запроса
@@ -53,7 +57,8 @@ import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 fun FilterBottomBar(
     allCategories: Set<String>,
     showBottomSheet: (Boolean) -> Unit,
-    sheetState: SheetState
+    sheetState: SheetState,
+    changeFilterRequest: (List<String>, Pair<BigDecimal, BigDecimal>) -> Unit
 ) {
 
     var curCategories by remember {
@@ -129,10 +134,6 @@ fun FilterBottomBar(
                         LazyVerticalGrid(
                             columns = GridCells.Fixed(2),
                             modifier = Modifier
-                                .heightIn(
-                                    min = 30.dp,
-                                    max = 100.dp
-                                )
                                 .wrapContentSize(),
                             verticalArrangement = Arrangement.spacedBy(5.dp),
                             horizontalArrangement = Arrangement.spacedBy(5.dp),
@@ -174,16 +175,24 @@ fun FilterBottomBar(
 
                             item {
                                 BasicTextField(
+                                    value = curLowPrice,
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .background(
                                             color = ExtendedTheme.colors.profileBar,
                                             RoundedCornerShape(8.dp)
                                         ),
-                                    value = curLowPrice.toString(),
                                     onValueChange = {
-                                        curLowPrice = it
+                                        if (it.matches("\\d+".toRegex()))
+                                            curLowPrice = it
                                     },
+                                    keyboardOptions = KeyboardOptions(
+                                        keyboardType = KeyboardType.Number
+                                    ),
+                                    textStyle = TextStyle(
+                                        fontSize = 16.sp,
+                                        lineHeight = 16.sp
+                                    ),
                                     decorationBox = { innerTextField ->
                                         Box(
                                             modifier = Modifier
@@ -192,7 +201,11 @@ fun FilterBottomBar(
                                             contentAlignment = Alignment.Center
                                         ) {
                                             if (curLowPrice.isEmpty())
-                                                Text(text = Strings.FROM)
+                                                Text(
+                                                    text = Strings.FROM,
+                                                    fontSize = 16.sp,
+                                                    lineHeight = 16.sp
+                                                )
                                             innerTextField()
                                         }
                                     }
@@ -201,16 +214,24 @@ fun FilterBottomBar(
 
                             item {
                                 BasicTextField(
+                                    value = curTopPrice,
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .background(
                                             color = ExtendedTheme.colors.profileBar,
                                             RoundedCornerShape(8.dp)
                                         ),
-                                    value = curTopPrice,
                                     onValueChange = {
-                                        curTopPrice = it
+                                        if (it.matches("\\d+".toRegex()))
+                                            curTopPrice = it
                                     },
+                                    keyboardOptions = KeyboardOptions(
+                                        keyboardType = KeyboardType.Number
+                                    ),
+                                    textStyle = TextStyle(
+                                        fontSize = 16.sp,
+                                        lineHeight = 16.sp
+                                    ),
                                     decorationBox = { innerTextField ->
                                         Box(
                                             modifier = Modifier
@@ -219,19 +240,28 @@ fun FilterBottomBar(
                                             contentAlignment = Alignment.Center
                                         ) {
                                             if (curTopPrice.isEmpty())
-                                                Text(text = Strings.UNTIL)
+                                                Text(
+                                                    text = Strings.UNTIL,
+                                                    fontSize = 16.sp,
+                                                    lineHeight = 16.sp
+                                                )
                                             innerTextField()
                                         }
                                     }
                                 )
                             }
                         }
-
                     }
 
                     Button(
                         onClick = {
-                            /*TODO()*/
+                            changeFilterRequest(
+                                curCategories,
+                                Pair(
+                                    if (curLowPrice.isEmpty()) 0.toBigDecimal() else curLowPrice.toBigDecimal(),
+                                    if (curTopPrice.isEmpty()) Double.MAX_VALUE.toBigDecimal() else curTopPrice.toBigDecimal()
+                                )
+                            )
                         },
                         modifier = Modifier
                             .height(56.dp)

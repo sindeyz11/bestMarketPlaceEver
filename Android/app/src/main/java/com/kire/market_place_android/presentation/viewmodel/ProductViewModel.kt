@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 import com.kire.market_place_android.domain.model.product.ProductDomain
+import com.kire.market_place_android.domain.use_case.admin.util.IAdminUseCases
 import com.kire.market_place_android.domain.use_case.common.util.ICommonUseCases
+import com.kire.market_place_android.presentation.mapper.product.toDomain
 import com.kire.market_place_android.presentation.mapper.product.toPresentation
 import com.kire.market_place_android.presentation.mapper.toPresentation
 import com.kire.market_place_android.presentation.model.IRequestResult
@@ -24,7 +26,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(
-    private val commonUseCases: ICommonUseCases
+    private val commonUseCases: ICommonUseCases,
+    private val adminUseCases: IAdminUseCases
 ): ViewModel() {
 
     private val _requestResult: MutableStateFlow<IRequestResult> = MutableStateFlow(IRequestResult.Idle)
@@ -118,5 +121,14 @@ class ProductViewModel @Inject constructor(
                             it.toString()
                         }.toSet()
                 }
+        }
+
+    fun updateProductById(id: Int, image: Array<Byte> ,product: Product) =
+        viewModelScope.launch {
+            _requestResult.value = adminUseCases.updateProductUseCase(
+                id = id,
+                image = image,
+                product = product.toDomain()
+            ).toPresentation<ProductDomain>()
         }
 }

@@ -16,7 +16,9 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -40,6 +42,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -93,8 +96,6 @@ fun ItemAddToCartMenu(
     val product by productViewModel.chosenProduct.collectAsStateWithLifecycle()
     val products by productViewModel.allProducts.collectAsStateWithLifecycle()
 
-    val scrollState = rememberScrollState()
-
     var productItemCount by remember {
         mutableStateOf(1)
     }
@@ -118,7 +119,6 @@ fun ItemAddToCartMenu(
                         }
                     }
                 },
-            verticalArrangement = Arrangement.spacedBy((-24).dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -128,15 +128,15 @@ fun ItemAddToCartMenu(
                     .build(),
                 placeholder = painterResource(id = R.drawable.item_menu_default),
                 contentDescription = "Shopping cart item image",
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.FillHeight,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f / 1.1f)
+                    .weight(1f)
             )
 
             Column(
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxWidth()
+                    .wrapContentHeight()
                     .shadow(
                         elevation = 12.dp,
                         spotColor = Color.Gray,
@@ -153,9 +153,8 @@ fun ItemAddToCartMenu(
                             topEnd = 24.dp
                         )
                     )
-                    .padding(top = 28.dp, bottom = 28.dp)
-                    .verticalScroll(scrollState),
-                verticalArrangement = Arrangement.SpaceBetween,
+                    .padding(top = 28.dp, bottom = 28.dp),
+                verticalArrangement = Arrangement.spacedBy(15.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
@@ -176,8 +175,7 @@ fun ItemAddToCartMenu(
 
                         Column(
                             modifier = Modifier
-                                .wrapContentHeight()
-                                .weight(1f),
+                                .wrapContentHeight(),
                             horizontalAlignment = Alignment.Start
                         ) {
 
@@ -201,19 +199,20 @@ fun ItemAddToCartMenu(
                                             fontWeight = FontWeight.ExtraBold
                                         )
                                     ) {
-                                        append(Strings.RUB + price.toString())
+                                        append(Strings.RUB + discountPrice.toString())
                                     }
 
-                                    append("\t\t")
+                                    append("\n")
 
                                     withStyle(
                                         style = SpanStyle(
                                             fontWeight = FontWeight.Bold,
                                             color = Color.DarkGray,
-                                            fontSize = 21.sp
+                                            fontSize = 19.sp,
+                                            textDecoration = TextDecoration.LineThrough
                                         )
                                     ) {
-                                        append("1$price")
+                                        append(Strings.RUB + "$price")
                                     }
                                 }
                             )
@@ -283,7 +282,7 @@ fun ItemAddToCartMenu(
 
                 Box(
                     modifier = Modifier
-                        .fillMaxSize()
+                        .wrapContentSize()
                         .padding(horizontal = 28.dp),
                     contentAlignment = Alignment.BottomCenter
                 ) {

@@ -7,6 +7,6 @@ interface IProductApi {
 
     suspend fun getAllProducts() : List<ProductResponse>
     suspend fun getAllAvailableCategories() : Set<String>
-    suspend fun updateProductById(id: Int, product: ProductRequest)
+    suspend fun updateProductById(id:Int, product: ProductRequest)
     suspend fun addProduct(product: ProductRequest)
 }

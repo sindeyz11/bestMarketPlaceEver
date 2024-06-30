@@ -67,6 +67,7 @@ object Strings {
     const val CHOOSE_MENU = "Выберите меню"
     const val SAVE = "Сохранить"
     const val ENTER_NAME = "Введите название"
+    const val ENTER_CATEGORY = "Введите категорию"
     const val CONTAINS = "Склад"
     const val RUB_NUM = "0.00"
     const val SCALE = "шт"

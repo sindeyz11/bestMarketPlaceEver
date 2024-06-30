@@ -12,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kire.market_place_android.presentation.model.product.CartUiEvent
 
 
 import com.kire.market_place_android.presentation.model.product.Product
@@ -80,7 +81,10 @@ fun AdminPanelItemsScreen(
                 ItemCard(
                     product = product,
                     onWholeElementClick = { navigator.navigate(ItemAddToCartMenuDestination) },
-                    onSmallButtonClick = { navigator.navigate(AdminPanelItemsEditScreenDestination) },
+                    onSmallButtonClick = {
+                        productViewModel.onEvent(CartUiEvent.changeChosenProduct(product))
+                        navigator.navigate(AdminPanelItemsEditScreenDestination)
+                                         },
                     buttonIcon = editIcon
                 )
             }
