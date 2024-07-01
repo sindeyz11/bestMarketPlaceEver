@@ -14,12 +14,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.admin.AdminUserInfo
 import com.kire.market_place_android.presentation.model.user.User
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
 /**
- * By Aleksey Timko (de4ltt)*/
+ * Плитка с информацией о пользователе
+ *
+ * @param user пользователь
+ *
+ * @author Michael Gontarev (KiREHwYE)
+ * @author Aleksey Timko (de4ltt)*/
 @Composable
 fun AdminUserBar(
     user: AdminUserInfo
@@ -50,7 +56,7 @@ fun AdminUserBar(
                 Text(
                     fontSize = 23.sp,
                     color = Color.DarkGray,
-                    text = "${userDiscount ?: 0}%"
+                    text = "${userDiscount ?: 0}${Strings.PERCENT}"
                 )
             }
 
@@ -59,7 +65,7 @@ fun AdminUserBar(
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
                 Text(
-                    text = "user",
+                    text = user.role.name,
                     color = Color.DarkGray,
                     fontSize = 13.sp,
                     lineHeight = 14.sp
@@ -68,7 +74,7 @@ fun AdminUserBar(
                 Text(
                     fontSize = 23.sp,
                     color = Color.DarkGray,
-                    text = "₽${amountSpent ?: 0}"
+                    text = "${Strings.RUB}${amountSpent ?: 0}"
                 )
             }
         }

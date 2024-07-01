@@ -1,6 +1,5 @@
 package com.kire.market_place_android.presentation.ui.screen.common
 
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 
@@ -22,25 +21,23 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kire.market_place_android.presentation.constant.Strings
 
-import com.kire.market_place_android.presentation.model.order.IOrderResult
-import com.kire.market_place_android.presentation.navigation.transition.DeliveriesScreenTransitions
+import com.kire.market_place_android.presentation.navigation.transition.common.DeliveriesScreenTransitions
 import com.kire.market_place_android.presentation.screen.deliveries_screen_ui.DeliveryCard
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.RequestResultMessage
 import com.kire.market_place_android.presentation.ui.screen.destinations.DeliveriesScreenDestination
 import com.kire.market_place_android.presentation.viewmodel.OrderViewModel
 
@@ -50,7 +47,14 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /**
- * By Aleksey Timko (de4ltt)*/
+ * Экран с доставками пользователя
+ *
+ * @param orderViewModel viewModel для работы с заказами
+ * @param paddingValues отступы от краев экрана
+ * @param navigator для навигации между экранами
+ *
+ * @author Michael Gontarev (KiREHwYE)
+ * @author Aleksey Timko (de4ltt)*/
 @Destination(style = DeliveriesScreenTransitions::class)
 @Composable
 fun DeliveriesScreen(
@@ -64,24 +68,12 @@ fun DeliveriesScreen(
         return@BackHandler
     }
 
-    val context = LocalContext.current
+    val orders by orderViewModel.orders.collectAsStateWithLifecycle()
 
-    val orderResult by orderViewModel.orderResult.collectAsStateWithLifecycle()
-
-//    LaunchedEffect(orderViewModel, context) {
-//        orderViewModel.getOrders()
-//    }
-
-    LaunchedEffect(orderResult) {
-        if (orderResult is IOrderResult.Error)
-            Toast.makeText(
-                context,
-                if ((orderResult as IOrderResult.Error).message?.isNotEmpty() == true)
-                    (orderResult as IOrderResult.Error).message
-                else context.getText(R.string.some_error),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+    RequestResultMessage(
+        requestResultStateFlow = orderViewModel.requestResult,
+        makeRequestResultIdle = orderViewModel::makeRequestResultIdle
+    )
 
     Column(
         modifier = Modifier
@@ -118,7 +110,7 @@ fun DeliveriesScreen(
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
-                    text = stringResource(id = R.string.deliveries),
+                    text = Strings.DELIVERIES,
                     fontWeight = FontWeight.Bold,
                     fontSize = 32.sp
                 )
@@ -131,8 +123,8 @@ fun DeliveriesScreen(
                 .background(Color.White),
             contentAlignment = Alignment.BottomEnd
         ) {
-            when (orderResult) {
-                is IOrderResult.Idle, is IOrderResult.Error -> {
+            when (orders.size) {
+                0 -> {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
@@ -140,7 +132,7 @@ fun DeliveriesScreen(
                         contentAlignment = Alignment.Center,
                         content = {
                             Text(
-                                text = stringResource(R.string.nothing_was_found_fav),
+                                text = Strings.NOTHING_WAS_FOUND_FAV,
                                 fontSize = 16.sp,
                                 color = Color.DarkGray
                             )
@@ -148,15 +140,19 @@ fun DeliveriesScreen(
                     )
                 }
 
-                is IOrderResult.Success -> {
+                else -> {
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(horizontal = 28.dp),
+                        contentPadding = PaddingValues(bottom = 28.dp),
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
 
-                        items((orderResult as IOrderResult.Success).data) {
+                        items(
+                            orders,
+                            key = {it.orderId}
+                        ) {
                             it.products.forEach {
                                 DeliveryCard(delivery = it)
                             }

@@ -22,8 +22,6 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Text
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,32 +31,38 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.kire.market_place_android.presentation.constant.ImagePath
+
+import com.kire.market_place_android.presentation.constant.Strings
+import com.kire.market_place_android.presentation.model.manager.ManagerOrderState
+import com.kire.market_place_android.presentation.model.manager.ManagerOrderUiEvent
+import com.kire.market_place_android.presentation.model.order.OrderedProduct
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
 import com.kire.test.R
 
 /**
- * By Michael Gontarev (KiREHwYE)*/
+ * Карточка заказа
+ *
+ * @param managerOrderState состояние интерфейса заказа
+ * @param orderedProduct заказанный товар
+ * @param onEvent действие пользователя
+ *
+ * @author Michael Gontarev (KiREHwYE)*/
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OrderItem(
-    name: String,
-    price: String,
-    amount: Double = 0.0,
-    orderDate: String = "29.09.23",
-    unit: String = "кг"
+    managerOrderState: ManagerOrderState,
+    orderedProduct: OrderedProduct,
+    onEvent: (ManagerOrderUiEvent) -> Unit
 ) {
-
-    val checked = remember { mutableStateOf(false) }
-
 
     Row(
         modifier = Modifier
@@ -66,7 +70,7 @@ fun OrderItem(
             .height(120.dp)
             .pointerInput(Unit) {
                 detectTapGestures {
-                    checked.value = !checked.value
+                    onEvent(ManagerOrderUiEvent.productSelect(orderedProduct.product.id))
                 }
             },
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -80,11 +84,8 @@ fun OrderItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            //ImageRequest should be replaced with URI
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(R.drawable.default_image)
-                    .build(),
+                model = orderedProduct.product.image,
                 placeholder = painterResource(id = R.drawable.default_image),
                 contentDescription = "Shopping cart item image",
                 contentScale = ContentScale.Crop,
@@ -109,7 +110,7 @@ fun OrderItem(
             ) {
 
                 Text(
-                    text = stringResource(id = R.string.rub) + price,
+                    text = Strings.RUB + orderedProduct.price,
                     fontSize = 19.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
@@ -124,7 +125,7 @@ fun OrderItem(
                 ) {
 
                     Text(
-                        text = name,
+                        text = orderedProduct.product.title,
                         fontWeight = FontWeight.Bold,
                         fontSize = 17.sp,
                         color = Color.Black,
@@ -136,7 +137,7 @@ fun OrderItem(
                     )
 
                     Text(
-                        text = amount.toString() + unit,
+                        text = orderedProduct.quantity.toString() + orderedProduct.product.unit,
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp,
                         color = Color.Gray
@@ -155,9 +156,9 @@ fun OrderItem(
         ) {
 
             Checkbox(
-                checked = checked.value,
+                checked = managerOrderState.received.contains(orderedProduct.product.id),
                 onCheckedChange = {
-                        isChecked -> checked.value = isChecked
+                    onEvent(ManagerOrderUiEvent.productSelect(orderedProduct.product.id))
                 },
                 colors = CheckboxDefaults.colors(
                     checkedColor = ExtendedTheme.colors.redAccent,
@@ -166,7 +167,7 @@ fun OrderItem(
             )
 
             Text(
-                text = stringResource(id = R.string.order_date) + " " + orderDate,
+                text = Strings.ORDER_DATE + " " + orderedProduct.completionDate,
                 fontWeight = FontWeight.W300,
                 fontSize = 12.sp,
                 color = Color.Black

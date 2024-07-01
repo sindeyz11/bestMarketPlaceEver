@@ -1,74 +1,71 @@
 package com.kire.market_place_android.presentation.ui.screen.common
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.lazy.items
 
-import androidx.compose.material3.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+
 import androidx.compose.ui.Alignment
-
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
-import com.kire.market_place_android.presentation.model.product.Product
-import com.kire.market_place_android.presentation.navigation.transition.ShoppingCartScreenTransitions
+import androidx.navigation.NavController
+import com.kire.market_place_android.presentation.constant.BottomBarHeight
+import com.kire.market_place_android.presentation.constant.Strings
+import com.kire.market_place_android.presentation.model.pick_up_point.PickUpPoint
+
+import com.kire.market_place_android.presentation.navigation.transition.common.ShoppingCartScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
-import com.kire.market_place_android.presentation.ui.details.common_screen.cross_screen_ui.OnScrollListener
-import com.kire.market_place_android.presentation.ui.details.common_screen.cross_screen_ui.TopBar
-import com.kire.market_place_android.presentation.ui.details.common_screen.shopping_cart_screen_ui.OrderingBottomBar
-import com.kire.market_place_android.presentation.ui.details.common_screen.shopping_cart_screen_ui.PurchaseFloatingActionButton
-import com.kire.market_place_android.presentation.ui.details.common_screen.shopping_cart_screen_ui.ShoppingCartItem
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.ListWithTopAndFab
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.RequestResultMessage
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.TopBar
+import com.kire.market_place_android.presentation.ui.details.common.shopping_cart_screen_ui.OrderingBottomBar
+import com.kire.market_place_android.presentation.ui.details.common.shopping_cart_screen_ui.PurchaseFloatingActionButton
+import com.kire.market_place_android.presentation.ui.details.common.shopping_cart_screen_ui.ShoppingCartItem
 import com.kire.market_place_android.presentation.ui.screen.destinations.ItemAddToCartMenuDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
-import com.kire.market_place_android.presentation.viewmodel.UserViewModel
-
-import com.kire.test.R
+import com.kire.market_place_android.presentation.viewmodel.OrderViewModel
+import com.kire.market_place_android.presentation.viewmodel.ProductViewModel
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.popBackStack
 import com.ramcosta.composedestinations.utils.isRouteOnBackStack
+import kotlinx.coroutines.flow.StateFlow
 
 /**
- * By Michael Gontarev (KiREHwYE)*/
-@OptIn(ExperimentalMaterial3Api::class)
+ * Корзина покупок
+ *
+ * @param userViewModel ViewModel для работы с пользователем
+ * @param navController NavController для навигации между экранами
+ * @param shoppingCartItems список товаров в корзине
+ * @param paddingValues отступы от краев экрана
+ *
+ * @author Michael Gontarev (KiREHwYE)*/
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Destination(style = ShoppingCartScreenTransitions::class)
 @Composable
 fun ShoppingCartScreen(
-    userViewModel: UserViewModel,
+    productViewModel: ProductViewModel,
+    orderViewModel: OrderViewModel,
+    chosenPickUpPoint: StateFlow<PickUpPoint>,
     navController: NavController,
-    shoppingCartItems: List<Product> = listOf(
-        Product(),
-    ),
     paddingValues: PaddingValues = PaddingValues(start = 28.dp, end = 28.dp, bottom = 66.dp)
 ) {
 
@@ -80,120 +77,89 @@ fun ShoppingCartScreen(
         return@BackHandler
     }
 
+    val chosenPickUpPoint by chosenPickUpPoint.collectAsStateWithLifecycle()
+
+    val sheetState = rememberModalBottomSheetState()
     val isBottomSheetShown = remember {
         mutableStateOf(false)
     }
 
-    val sheetState = rememberModalBottomSheetState()
-    
-    val listState = rememberLazyListState()
+    val cartState by productViewModel.cartState.collectAsStateWithLifecycle()
 
-    val isShown = remember {
-        mutableStateOf(true)
-    }
-
-    OnScrollListener(
-        listState = listState,
-        isShown = {
-            isShown.value = it
-        }
+    RequestResultMessage(
+        requestResultStateFlow = orderViewModel.requestResult,
+        makeRequestResultIdle = orderViewModel::makeRequestResultIdle
+    )
+    RequestResultMessage(
+        requestResultStateFlow = productViewModel.requestResult,
+        makeRequestResultIdle = productViewModel::makeRequestResultIdle
     )
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(paddingValues),
-        horizontalAlignment = Alignment.CenterHorizontally
+    ListWithTopAndFab(
+        listSize = cartState.allProductsInCart.size,
+        paddingValues = paddingValues,
+        topBar = {
+            TopBar(destination = AppDestinations.BottomBarDestinations.SHOPPING_CART)
+        },
+        floatingButton = { shiftBarDown ->
+            if (cartState.allProductsInCart.isNotEmpty())
+                PurchaseFloatingActionButton(
+                    amount = cartState.toBuy.sumOf { it.chosenQuantity },
+                    totalSum = cartState.toBuy.sumOf { it.price * it.chosenQuantity.toBigDecimal() }.toDouble(),
+                    onClick = {
+                        isBottomSheetShown.value = true
+                    },
+                    modifier = Modifier
+                        .pointerInput(Unit) {
+                            detectVerticalDragGestures { _, dragAmount ->
+                                if (dragAmount > 0) {
+                                    shiftBarDown()
+                                }
+                            }
+                        }
+                )
+        }
     ) {
-
-        TopBar(destination = AppDestinations.BottomBarDestinations.SHOPPING_CART)
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .weight(1f, fill = false),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+        LazyColumn(
+            modifier = it.padding(bottom = BottomBarHeight.BOTTOM_BAR_HEIGHT),
+            contentPadding = PaddingValues(bottom = 28.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            when(shoppingCartItems.size) {
-                0 -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center,
-                        content = {
-                            Text(
-                                text = stringResource(R.string.nothing_was_found),
-                                fontSize = 16.sp,
-                                color = Color.DarkGray
-                            )
-                        }
+            items(
+                cartState.allProductsInCart,
+                key = {it.id}
+            ) { product ->
+                ShoppingCartItem(
+                    product = product,
+                    cartState = cartState,
+                    onEvent = productViewModel::onEvent,
+                    modifier = Modifier.animateItemPlacement(
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = LinearOutSlowInEasing
+                        )
                     )
-                }
-                else -> {
-
-                    LazyColumn(
-                        state = listState,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight(),
-                        contentPadding = PaddingValues(bottom = 28.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-
-                        itemsIndexed(
-                            shoppingCartItems,
-                            key = null
-                        ) { index, item ->
-
-                            ShoppingCartItem(
-                                name = item.title,
-                                price = item.price.toString(),
-                                amount = 3.0
-                            )
-                        }
-                    }
-                }
+                )
             }
         }
     }
-    
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = 86.dp),
-        contentAlignment = Alignment.BottomCenter
-    ) {
-        AnimatedVisibility(
-            visible = isShown.value,
-            enter =
-            slideInVertically(
-                initialOffsetY = {height -> -height},
-                animationSpec = tween(durationMillis = 400, easing = LinearOutSlowInEasing)
-            ) + fadeIn(animationSpec = tween(durationMillis = 400, easing = LinearOutSlowInEasing)),
-            exit = slideOutVertically(
-                targetOffsetY = {height -> height},
-                animationSpec = tween(durationMillis = 400, easing = LinearOutSlowInEasing)
-            ) + fadeOut(animationSpec = tween(durationMillis = 400, easing = LinearOutSlowInEasing))
-        ) {
 
-        PurchaseFloatingActionButton(
-                onClick = {
-                    isBottomSheetShown.value = true
-                }
-            )
-        }
-    }
-    
     if (isBottomSheetShown.value)
         OrderingBottomBar(
+            pickUpPointAddress = chosenPickUpPoint.address.ifEmpty { Strings.NO_CHOSEN_PICK_UP_POINT },
+            deliveryClosestDate = cartState.toBuy.minOf { it.deliveryDays }.toString(),
+            totalSum = cartState.toBuy.sumOf { it.price * it.chosenQuantity.toBigDecimal() }.toDouble(),
             showBottomSheet = {
                 isBottomSheetShown.value = false
             },
-            sheetState = sheetState
+            sheetState = sheetState,
+            createOrder = {
+                orderViewModel.createOrder(
+                    chosenPickUpPoint.id,
+                    cartState.toBuy,
+                    cartState.toBuy.sumOf { it.price * it.chosenQuantity.toBigDecimal() }
+                )
+            }
         )
-    
 }

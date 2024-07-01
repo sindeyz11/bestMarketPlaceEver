@@ -4,7 +4,7 @@ import com.kire.market_place_android.data.remote.dto.HttpRoutes
 import com.kire.market_place_android.data.remote.dto.request.user.ChangePasswordRequest
 import com.kire.market_place_android.data.remote.dto.request.user.ChangeUserCardRequest
 import com.kire.market_place_android.data.remote.dto.request.user.ChangeUserInfoRequest
-import com.kire.market_place_android.data.remote.dto.response.user.AdminUserInfoResponse
+import com.kire.market_place_android.data.remote.dto.response.admin.AdminUserInfoResponse
 import com.kire.market_place_android.data.remote.dto.response.user.UserInfoResponse
 
 import io.ktor.client.HttpClient

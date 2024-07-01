@@ -85,4 +85,13 @@ object Validator {
             "Заполните поле адреса пункта выдачи"
         }
     }
+
+    fun validateOrderCode(orderCode: String) {
+        require(orderCode.isNotEmpty()) {
+            "Введите код заказа"
+        }
+        require(Regex("\\d+").matches(orderCode)) {
+            "Код должен состоять только из цифр"
+        }
+    }
 }

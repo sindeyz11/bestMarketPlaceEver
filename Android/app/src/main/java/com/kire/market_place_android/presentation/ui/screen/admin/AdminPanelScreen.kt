@@ -15,13 +15,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.Strings
 
-import com.kire.market_place_android.presentation.navigation.transition.AdminPanelScreenTransitions
+import com.kire.market_place_android.presentation.navigation.transition.admin.AdminPanelScreenTransitions
 import com.kire.market_place_android.presentation.ui.details.admin.admin_panel_screen_ui.AdminPanelEntrancePaneUnit
 import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelItemsScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelPickUpScreenDestination
@@ -35,7 +35,13 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /**
- * By Aleksey Timko (de4ltt)*/
+ * Меню админа для навигации между его экранами
+ *
+ * @param adminViewModel ViewModel админа
+ * @param navigator для навигации между экранами
+ *
+ * @author Michael Gontarev (KiREHwYE)
+ * @author Aleksey Timko (de4ltt)*/
 @Destination(style = AdminPanelScreenTransitions::class)
 @Composable
 fun AdminPanelScreen(
@@ -62,7 +68,7 @@ fun AdminPanelScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(id = R.string.choose_menu),
+            text = Strings.CHOOSE_MENU,
             fontSize = 24.sp,
             fontWeight = FontWeight.ExtraBold
         )
@@ -70,17 +76,17 @@ fun AdminPanelScreen(
         Spacer(modifier = Modifier.height(15.dp))
 
         AdminPanelEntrancePaneUnit(
-            textValue = stringResource(id = R.string.items),
+            textValue = Strings.ITEMS,
             onClick = { navigator.navigate(AdminPanelItemsScreenDestination) }
         )
 
         AdminPanelEntrancePaneUnit(
-            textValue = stringResource(id = R.string.pick_up_points),
+            textValue = Strings.PICK_UP_POINTS,
             onClick = { navigator.navigate(AdminPanelPickUpScreenDestination) }
         )
 
         AdminPanelEntrancePaneUnit(
-            textValue = stringResource(id = R.string.users),
+            textValue = Strings.USERS,
             onClick = { navigator.navigate(AdminPanelUsersScreenDestination) }
         )
     }

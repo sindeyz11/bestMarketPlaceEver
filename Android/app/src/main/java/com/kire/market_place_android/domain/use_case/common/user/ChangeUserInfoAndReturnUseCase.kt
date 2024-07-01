@@ -1,7 +1,8 @@
 package com.kire.market_place_android.domain.use_case.common.user
 
-import com.kire.market_place_android.domain.model.user.IUserResultDomain
+import com.kire.market_place_android.domain.model.IRequestResultDomain
 import com.kire.market_place_android.domain.repository.IUserRepository
+import com.kire.market_place_android.presentation.model.IRequestResult
 import javax.inject.Inject
 
 class ChangeUserInfoAndReturnUseCase @Inject constructor(
@@ -12,7 +13,7 @@ class ChangeUserInfoAndReturnUseCase @Inject constructor(
         username: String,
         phone: String,
         email: String
-    ): IUserResultDomain {
+    ): IRequestResultDomain {
 
         userRepository.changeUserInfo(
             id = id,

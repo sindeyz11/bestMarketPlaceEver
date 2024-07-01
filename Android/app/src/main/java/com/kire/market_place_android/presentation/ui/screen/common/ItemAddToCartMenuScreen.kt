@@ -6,7 +6,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.MarqueeAnimationMode
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,13 +16,13 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 
 import androidx.compose.runtime.Composable
@@ -34,32 +33,37 @@ import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 
-import com.kire.market_place_android.presentation.model.product.Product
-import com.kire.market_place_android.presentation.navigation.transition.ItemAddToCartMenuScreenTransitions
-import com.kire.market_place_android.presentation.ui.details.admin.admin_panel_items_edit_screen_ui.AdminEditTopControls
-import com.kire.market_place_android.presentation.ui.details.common_screen.item_add_to_cart_menu_ui.BottomButtonFinishOperation
-import com.kire.market_place_android.presentation.ui.details.common_screen.item_add_to_cart_menu_ui.ItemsAddToCartMenuCarousel
-import com.kire.market_place_android.presentation.ui.details.common_screen.item_add_to_cart_menu_ui.ProductItemCounter
+import coil.request.ImageRequest
+import com.kire.market_place_android.presentation.constant.ImagePath
+
+import com.kire.market_place_android.presentation.constant.Strings
+import com.kire.market_place_android.presentation.model.product.CartUiEvent
+import com.kire.market_place_android.presentation.navigation.transition.common.ItemAddToCartMenuScreenTransitions
+import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.BottomButtonFinishOperation
+import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.ItemAddToCartEditTopControls
+import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.ItemsAddToCartMenuCarousel
+import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.ProductItemCounter
 import com.kire.market_place_android.presentation.ui.screen.destinations.ItemAddToCartMenuDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingCartScreenDestination
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
-import com.kire.market_place_android.presentation.viewmodel.UserViewModel
+import com.kire.market_place_android.presentation.viewmodel.ProductViewModel
 
 import com.kire.test.R
 
@@ -67,14 +71,19 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 /**
- * By Michael Gontarev (KiREHwYE)
- * By Aleksey Timko (de4ltt)*/
+ * Экран товара
+ *
+ * @param productViewModel ViewModel для работы с товарами
+ * @param navigator для навигации между экранами
+ * @param paddingValues отступы от краев экрана
+ *
+ * @author Michael Gontarev (KiREHwYE)
+ * @author Aleksey Timko (de4ltt)*/
 @OptIn(ExperimentalFoundationApi::class)
 @Destination(style = ItemAddToCartMenuScreenTransitions::class)
 @Composable
 fun ItemAddToCartMenu(
-    userViewModel: UserViewModel,
-    product: Product = Product(),
+    productViewModel: ProductViewModel,
     navigator: DestinationsNavigator,
     paddingValues: PaddingValues = PaddingValues(28.dp)
 ) {
@@ -84,7 +93,8 @@ fun ItemAddToCartMenu(
         return@BackHandler
     }
 
-    val scrollState = rememberScrollState()
+    val product by productViewModel.chosenProduct.collectAsStateWithLifecycle()
+    val products by productViewModel.allProducts.collectAsStateWithLifecycle()
 
     var productItemCount by remember {
         mutableStateOf(1)
@@ -109,26 +119,32 @@ fun ItemAddToCartMenu(
                         }
                     }
                 },
-            verticalArrangement = Arrangement.spacedBy((-24).dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            //ImageRequest should be replaced with URI
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(R.drawable.item_menu_default)
-                    .build(),
+                model = product.image,
                 placeholder = painterResource(id = R.drawable.item_menu_default),
+                error = painterResource(id = R.drawable.default_image),
                 contentDescription = "Shopping cart item image",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f / 1.1f)
+                    .weight(1f)
             )
 
             Column(
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .shadow(
+                        elevation = 12.dp,
+                        spotColor = Color.Gray,
+                        ambientColor = Color.Black,
+                        shape = RoundedCornerShape(
+                            topStart = 24.dp,
+                            topEnd = 24.dp
+                        )
+                    )
                     .background(
                         Color.White,
                         RoundedCornerShape(
@@ -136,9 +152,8 @@ fun ItemAddToCartMenu(
                             topEnd = 24.dp
                         )
                     )
-                    .padding(top = 28.dp, bottom = 28.dp)
-                    .verticalScroll(scrollState),
-                verticalArrangement = Arrangement.SpaceBetween,
+                    .padding(top = 28.dp, bottom = 28.dp),
+                verticalArrangement = Arrangement.spacedBy(15.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
@@ -159,8 +174,7 @@ fun ItemAddToCartMenu(
 
                         Column(
                             modifier = Modifier
-                                .wrapContentHeight()
-                                .weight(1f),
+                                .wrapContentHeight(),
                             horizontalAlignment = Alignment.Start
                         ) {
 
@@ -184,19 +198,20 @@ fun ItemAddToCartMenu(
                                             fontWeight = FontWeight.ExtraBold
                                         )
                                     ) {
-                                        append("₽$price")
+                                        append(Strings.RUB + discountPrice.toString())
                                     }
 
-                                    append("\t\t")
+                                    append("\n")
 
                                     withStyle(
                                         style = SpanStyle(
                                             fontWeight = FontWeight.Bold,
                                             color = Color.DarkGray,
-                                            fontSize = 21.sp
+                                            fontSize = 19.sp,
+                                            textDecoration = TextDecoration.LineThrough
                                         )
                                     ) {
-                                        append("1$price")
+                                        append(Strings.RUB + "$price")
                                     }
                                 }
                             )
@@ -220,7 +235,7 @@ fun ItemAddToCartMenu(
                                     fontWeight = FontWeight.Bold
                                 )
                             ) {
-                                append(stringResource(id = R.string.description))
+                                append(Strings.DESCRIPTION)
                             }
 
                             append("\n")
@@ -249,31 +264,31 @@ fun ItemAddToCartMenu(
                 ) {
 
                     Text(
-                        text = stringResource(id = R.string.items_from_this_category),
+                        text = Strings.ITEMS_FROM_THIS_CATEGORY,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .padding(start = 28.dp)
                     )
 
-                    //TODO
-                    //temporary
-                    val itemsList: List<Product> = listOf(
-                        Product()
-                    )
+                    val productsWithSameCategory = products.filter { it.category == product.category }
 
-                    ItemsAddToCartMenuCarousel(itemsList = itemsList)
+                    ItemsAddToCartMenuCarousel(
+                        itemsList = productsWithSameCategory,
+                        onEvent = productViewModel::onEvent
+                    )
                 }
 
                 Box(
                     modifier = Modifier
-                        .fillMaxSize()
+                        .wrapContentSize()
                         .padding(horizontal = 28.dp),
                     contentAlignment = Alignment.BottomCenter
                 ) {
                     BottomButtonFinishOperation(
-                        textValue = stringResource(id = R.string.add_to_cart) + " - " + "₽" + "${price.toDouble() * productItemCount}",
+                        textValue = Strings.ADD_TO_CART + " - " + Strings.RUB + "${price.toDouble() * productItemCount}",
                         onClick = {
+                            productViewModel.onEvent(CartUiEvent.addToCart(product.copy(chosenQuantity = productItemCount)))
                             navigator.navigate(ShoppingCartScreenDestination)
                         }
                     )
@@ -289,23 +304,9 @@ fun ItemAddToCartMenu(
             contentAlignment = Alignment.TopStart
         ) {
 
-            AdminEditTopControls(
+            ItemAddToCartEditTopControls(
                 onArrowBackClick = {
                     navigator.popBackStack()
-                },
-                rightButton = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.favourite_top_bar),
-                        contentDescription = "update_sign",
-                        modifier = Modifier
-                            .size(24.dp)
-                            .pointerInput(Unit) {
-                                detectTapGestures {
-                                    //TODO
-                                }
-                            },
-                        tint = ExtendedTheme.colors.redAccent
-                    )
                 }
             )
         }

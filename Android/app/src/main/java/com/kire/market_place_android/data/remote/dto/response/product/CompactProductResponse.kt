@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 data class CompactProductResponse(
     val id: Int = 0,
     val title: String = "",
-    val image: ImageResponse = ImageResponse(),
+    val image: String = "",
     val unit: String = ""
 )

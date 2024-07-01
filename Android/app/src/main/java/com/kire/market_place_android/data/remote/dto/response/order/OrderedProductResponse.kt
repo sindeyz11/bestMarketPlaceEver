@@ -21,5 +21,5 @@ data class OrderedProductResponse(
     val deliveryStatus: String = "",
     @Serializable(with = LocalDateSerializer::class)
     @SerialName("completion_date")
-    val completionDate: LocalDate = LocalDate.parse("2018-12-12")
+    val completionDate: LocalDate? = null
 )

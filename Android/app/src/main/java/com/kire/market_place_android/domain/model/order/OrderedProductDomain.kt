@@ -11,5 +11,5 @@ data class OrderedProductDomain(
     val price: BigDecimal = 0.0.toBigDecimal(),
     val deliveryDays: Int = 0,
     val deliveryStatus: String = "",
-    val completionDate: LocalDate = LocalDate.parse("2018-12-12")
+    val completionDate: LocalDate? = null
 )

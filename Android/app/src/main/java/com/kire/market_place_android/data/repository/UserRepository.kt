@@ -2,26 +2,28 @@ package com.kire.market_place_android.data.repository
 
 import com.kire.market_place_android.data.mapper.admin.toDomain
 import com.kire.market_place_android.data.mapper.user.toDomain
-import com.kire.market_place_android.data.remote.dto.Error
 import com.kire.market_place_android.data.remote.dto.request.user.ChangePasswordRequest
 import com.kire.market_place_android.data.remote.dto.request.user.ChangeUserCardRequest
 import com.kire.market_place_android.data.remote.dto.request.user.ChangeUserInfoRequest
 import com.kire.market_place_android.data.remote.api.user.IUserApi
+import com.kire.market_place_android.data.remote.dto.Errors
 import com.kire.market_place_android.di.IoDispatcher
-import com.kire.market_place_android.domain.model.admin.IAdminResultDomain
-import com.kire.market_place_android.domain.model.user.IUserResultDomain
+import com.kire.market_place_android.domain.model.IRequestResultDomain
 import com.kire.market_place_android.domain.model.user.RoleDomain
 import com.kire.market_place_android.domain.repository.ITokenStorageRepository
 import com.kire.market_place_android.domain.repository.IUserRepository
+
 import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.statement.bodyAsText
 import io.ktor.serialization.JsonConvertException
+
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+
 import javax.inject.Inject
 
 /**
@@ -34,66 +36,65 @@ class UserRepository @Inject constructor(
 
     // get user's info by his id
     // return Success with resulting list or Error status from IUserResultDomain sealed interface
-    override suspend fun getUserInfo(id: Int): IUserResultDomain {
+    override suspend fun getUserInfo(id: Int): IRequestResultDomain {
         return withContext(coroutineDispatcher) {
             try {
                 val response = userApi.getUserInfoById(id).toDomain()
-                IUserResultDomain.Success(response)
-            } catch (e: Error){
-                IUserResultDomain.Error(e.message)
+                IRequestResultDomain.Success(response)
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
 
             } catch (e: RedirectResponseException) {
-                IUserResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                IUserResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                IUserResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                IUserResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: NoTransformationFoundException) {
-                IUserResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: Exception) {
-                IUserResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
             }
         }
     }
 
     // get all users that use KubMarket
     // return Success with resulting list or Error status from IAdminResultDomain sealed interface
-    override suspend fun getAllUsers(): IAdminResultDomain {
+    override suspend fun getAllUsers(): IRequestResultDomain {
         return withContext(coroutineDispatcher) {
             try {
                 val response = userApi.getAllUsers().toDomain()
-                IAdminResultDomain.Success(response)
-            } catch (e: Error){
-                IAdminResultDomain.Error(e.message)
+                IRequestResultDomain.Success(response)
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
 
             } catch (e: RedirectResponseException) {
-                IAdminResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                IAdminResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                IAdminResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                IAdminResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: NoTransformationFoundException) {
-                IAdminResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: Exception) {
-                IAdminResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
             }
-
         }
     }
 
@@ -116,7 +117,7 @@ class UserRepository @Inject constructor(
         username: String,
         phone: String,
         email: String
-    ): IUserResultDomain {
+    ): IRequestResultDomain {
 
         return  withContext(coroutineDispatcher) {
             try {
@@ -128,30 +129,29 @@ class UserRepository @Inject constructor(
                         email = email
                     )
                 )
-                IUserResultDomain.SuccessfullyChanged
-            } catch (e: Error){
-                IUserResultDomain.Error(e.message)
+                IRequestResultDomain.SuccessfullyDone
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
 
             } catch (e: RedirectResponseException) {
-                IUserResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                IUserResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                IUserResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                IUserResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: NoTransformationFoundException) {
-                IUserResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: Exception) {
-                IUserResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
             }
-
         }
     }
 
@@ -161,7 +161,7 @@ class UserRepository @Inject constructor(
         cardNumber: String,
         CVC: String,
         validity: String
-    ) : IUserResultDomain {
+    ) : IRequestResultDomain {
 
         return withContext(coroutineDispatcher) {
             try {
@@ -172,31 +172,30 @@ class UserRepository @Inject constructor(
                         validity = validity
                     )
                 )
-                IUserResultDomain.SuccessfullyChanged
+                IRequestResultDomain.SuccessfullyDone
 
-            } catch (e: Error){
-                IUserResultDomain.Error(e.message)
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
 
             } catch (e: RedirectResponseException) {
-                IUserResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                IUserResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                IUserResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                IUserResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: NoTransformationFoundException) {
-                IUserResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: Exception) {
-                IUserResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
             }
-
         }
     }
 
@@ -206,7 +205,7 @@ class UserRepository @Inject constructor(
         currentPassword: String,
         newPassword: String,
         confirmationPassword: String
-    ) : IUserResultDomain {
+    ) : IRequestResultDomain {
         return withContext(coroutineDispatcher) {
             try {
                 userApi.changePassword(
@@ -216,31 +215,30 @@ class UserRepository @Inject constructor(
                         confirmationPassword = confirmationPassword
                     )
                 )
-                IUserResultDomain.SuccessfullyChanged
+                IRequestResultDomain.SuccessfullyDone
 
-            } catch (e: Error){
-                IUserResultDomain.Error(e.message)
+            } catch (e: Errors){
+                IRequestResultDomain.Errors(e.errors)
 
             } catch (e: RedirectResponseException) {
-                IUserResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                IUserResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                IUserResultDomain.Error(e.response.bodyAsText())
+                IRequestResultDomain.Errors(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                IUserResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: NoTransformationFoundException) {
-                IUserResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
 
             } catch (e: Exception) {
-                IUserResultDomain.Error(e.message)
+                IRequestResultDomain.Errors(listOf(e.message))
             }
-
         }
     }
 }

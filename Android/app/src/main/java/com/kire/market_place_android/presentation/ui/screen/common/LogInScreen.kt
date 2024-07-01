@@ -1,6 +1,7 @@
 package com.kire.market_place_android.presentation.ui.screen.common
 
 import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -42,9 +43,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import com.kire.market_place_android.domain.model.auth.AuthResultDomain
+import com.kire.market_place_android.presentation.constant.Strings
+import com.kire.market_place_android.presentation.model.IRequestResult
 
 import com.kire.market_place_android.presentation.model.auth.AuthUiEvent
-import com.kire.market_place_android.presentation.navigation.transition.LogInScreenTransitions
+import com.kire.market_place_android.presentation.navigation.transition.auth.LogInScreenTransitions
 import com.kire.market_place_android.presentation.ui.screen.destinations.LogOnScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
@@ -58,7 +61,13 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.popUpTo
 
 /**
- * By Michael Gontarev (KiREHwYE)*/
+ * Экран авторизации пользователя
+ *
+ * @param authViewModel ViewModel авторизации
+ * @param navigator для навигации между экранами
+ * @param paddingValues отступы от краёв экрана
+ *
+ * @author Michael Gontarev (KiREHwYE)*/
 @Destination(start = true, style = LogInScreenTransitions::class)
 @Composable
 fun LogInScreen(
@@ -77,8 +86,8 @@ fun LogInScreen(
                 is AuthResultDomain.Authorized -> {
                     Toast.makeText(
                         context,
-                        context.getString(R.string.login_successful),
-                        Toast.LENGTH_SHORT
+                        Strings.LOGIN_SUCCESSFUL,
+                        LENGTH_SHORT
                     ).show()
                     navigator.navigate(ShoppingScreenDestination) {
                         popUpTo(ShoppingScreenDestination) {
@@ -89,17 +98,21 @@ fun LogInScreen(
                 is AuthResultDomain.Unauthorized -> {
                     Toast.makeText(
                         context,
-                        context.getString(R.string.login_unsuccessful),
-                        Toast.LENGTH_SHORT
+                        Strings.LOGIN_UNSUCCESSFUL,
+                        LENGTH_SHORT
                     ).show()
                 }
                 is AuthResultDomain.UnknownError -> {
-                    val text = result.data
-                    Toast.makeText(
-                        context,
-                        text,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val errors = (result.data as List<*>).map {
+                        it.toString()
+                    }
+                    errors.forEach { error ->
+                        Toast.makeText(
+                            context,
+                            error,
+                            LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }
@@ -119,7 +132,7 @@ fun LogInScreen(
         ) {
 
             Text(
-                text = stringResource(id = R.string.login_header),
+                text = Strings.LOGIN_HEADER,
                 fontWeight = FontWeight.Bold,
                 fontSize = 22.sp
             )
@@ -168,7 +181,7 @@ fun LogInScreen(
                             Box {
                                 if (authState.logInPhone.isEmpty())
                                     Text(
-                                        text = stringResource(id = R.string.phone_hint),
+                                        text = Strings.PHONE_HINT,
                                         fontWeight = FontWeight.W400,
                                         color = Color.Gray
                                     )
@@ -216,7 +229,7 @@ fun LogInScreen(
                             Box {
                                 if (authState.logInPassword.isEmpty())
                                     Text(
-                                        text = stringResource(id = R.string.password_hint),
+                                        text = Strings.PASSWORD_HINT,
                                         fontWeight = FontWeight.W400,
                                         color = Color.Gray
                                     )
@@ -243,7 +256,7 @@ fun LogInScreen(
                             authViewModel.onEvent(AuthUiEvent.LogIn)
 
                         } catch (e: IllegalArgumentException) {
-                            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, e.message, LENGTH_SHORT).show()
                         }
                     },
                     modifier = Modifier
@@ -255,13 +268,13 @@ fun LogInScreen(
                     )
                 ) {
                     Text(
-                        text = stringResource(id = R.string.login_button),
+                        text = Strings.LOGIN_BUTTON,
                         fontSize = 16.sp
                     )
                 }
 
                 Text(
-                    text = stringResource(id = R.string.logon_suggestion),
+                    text = Strings.LOGON_SUGGESTION,
                     fontWeight = FontWeight.W400,
                     color = Color.Gray,
                     modifier = Modifier

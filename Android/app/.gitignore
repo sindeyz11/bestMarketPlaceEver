@@ -7,3 +7,7 @@ build/
 beta/
 release/
 debug/
+app/beta
+app/release
+app/debug
+app/build

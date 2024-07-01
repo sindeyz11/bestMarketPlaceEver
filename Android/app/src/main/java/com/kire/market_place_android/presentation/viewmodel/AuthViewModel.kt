@@ -29,7 +29,7 @@ class AuthViewModel @Inject constructor(
 
     var authState by mutableStateOf(AuthState())
 
-    private val _authResultDomainChannel = Channel<AuthResultDomain<String>>()
+    private val _authResultDomainChannel = Channel<AuthResultDomain<List<String?>>>()
     val authResultChannel = _authResultDomainChannel.receiveAsFlow()
 
     private val _isAuthenticated = MutableStateFlow(false)
@@ -75,7 +75,7 @@ class AuthViewModel @Inject constructor(
             authState = authState.copy(isLoading = true)
 
             val result = authUseCases.logOnUseCase(
-                name = authState.logOnName,
+                username = authState.logOnName,
                 phone = authState.logOnPhone,
                 email = authState.logOnEmail,
                 password = authState.logOnPassword
@@ -97,10 +97,6 @@ class AuthViewModel @Inject constructor(
             _authResultDomainChannel.send(result)
             authState = authState.copy(isLoading = false)
         }
-    }
-
-    suspend fun isAuthenticated(): Boolean {
-        return authUseCases.isAuthenticatedUseCase().last()
     }
 
     init {

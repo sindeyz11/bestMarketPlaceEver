@@ -8,8 +8,7 @@ import java.math.BigDecimal
 @Serializable
 data class ProductRequest(
     val title: String = "",
-    val image: Array<Byte> = arrayOf(),
-    val alt: String = "",
+    val image: ByteArray = byteArrayOf(),
     val description: String = "",
     @Serializable(with = BigDecimalSerializer::class)
     val price: BigDecimal = 0.0.toBigDecimal(),
@@ -21,6 +20,6 @@ data class ProductRequest(
     val unit: String = "",
     @SerialName("delivery_days")
     val deliveryDays: Int = 0,
-    @SerialName("category_id")
-    val categoryId: Int = 0,
+    @SerialName("category")
+    val category: String = "",
 )

@@ -1,7 +1,6 @@
 package com.kire.market_place_android.presentation.ui.details.admin.admin_panel_items_edit_screen_ui
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,7 +26,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,17 +34,27 @@ import androidx.compose.ui.unit.dp
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
 /**
- * By Aleksey Timko (de4ltt)*/
+ * Поле для ввода текста с иконкой
+ *
+ * @param modifier модификатор
+ * @param icon иконка
+ * @param hint текст подсказки
+ * @param maxLines максимальное количество строк
+ * @param isTextCentered находится ли текст в центре
+ *
+ * @author Aleksey Timko (de4ltt)*/
 @Composable
 fun AdminPanelIconField(
     modifier: Modifier,
     @DrawableRes icon: Int?,
-    @StringRes hintText: Int,
+    hint: String,
     maxLines: Int = 1,
-    isTextCentered: Boolean = false
+    isTextCentered: Boolean = false,
+    textValue: String,
+    onTextValueChange: (String) -> Unit
 ) {
-    var textValue by remember {
-        mutableStateOf("")
+    var _textValue by remember {
+        mutableStateOf(textValue)
     }
 
 
@@ -57,7 +65,8 @@ fun AdminPanelIconField(
                 RoundedCornerShape(12.dp)),
         value = textValue,
         onValueChange = {
-            textValue = it
+            _textValue = it
+            onTextValueChange(it)
         },
         textStyle = if (isTextCentered) TextStyle(textAlign = TextAlign.Center) else TextStyle(
             textAlign = TextAlign.Start
@@ -94,7 +103,7 @@ fun AdminPanelIconField(
                 if (textValue.isEmpty())
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(id = hintText),
+                        text = hint,
                         fontWeight = FontWeight.W400,
                         color = Color.Gray,
                         textAlign = if (isTextCentered) TextAlign.Center else TextAlign.Start

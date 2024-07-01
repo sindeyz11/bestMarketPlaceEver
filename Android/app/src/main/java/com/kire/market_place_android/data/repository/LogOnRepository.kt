@@ -3,8 +3,8 @@ package com.kire.market_place_android.data.repository
 import com.kire.market_place_android.domain.model.auth.AuthResultDomain
 import com.kire.market_place_android.data.model.auth.Token
 import com.kire.market_place_android.data.remote.dto.request.auth.LogOnRequest
-import com.kire.market_place_android.data.remote.dto.Error
 import com.kire.market_place_android.data.remote.api.auth.IAuthApi
+import com.kire.market_place_android.data.remote.dto.Errors
 import com.kire.market_place_android.di.IoDispatcher
 import com.kire.market_place_android.domain.repository.ILogOnRepository
 import com.kire.market_place_android.domain.repository.ITokenStorageRepository
@@ -31,17 +31,17 @@ class LogOnRepository @Inject constructor(
     // log-on and return result
     // as sealed class containing authorized, unauthorized, unknown error statuses
     override suspend fun logOn(
-        name: String,
+        username: String,
         phone: String,
         email: String,
         password: String
-    ): AuthResultDomain<String> {
+    ): AuthResultDomain<List<String?>> {
 
         return withContext(coroutineDispatcher) {
             try {
                 val response = authApi.logOn(
                     request = LogOnRequest(
-                        name = name,
+                        username = username,
                         phone = phone,
                         email = email,
                         password = password
@@ -59,26 +59,26 @@ class LogOnRepository @Inject constructor(
 
                 AuthResultDomain.Authorized()
 
-            } catch (e: Error){
-                AuthResultDomain.UnknownError(e.message)
+            } catch (e: Errors){
+                AuthResultDomain.UnknownError(e.errors)
 
             } catch (e: RedirectResponseException) {
-                AuthResultDomain.UnknownError(e.response.bodyAsText())
+                AuthResultDomain.UnknownError(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
-                AuthResultDomain.UnknownError(e.response.bodyAsText())
+                AuthResultDomain.UnknownError(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                AuthResultDomain.UnknownError(e.response.bodyAsText())
+                AuthResultDomain.UnknownError(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                AuthResultDomain.UnknownError(e.message)
+                AuthResultDomain.UnknownError(listOf( e.message))
 
             } catch (e: NoTransformationFoundException) {
-                AuthResultDomain.UnknownError(e.message)
+                AuthResultDomain.UnknownError(listOf( e.message))
 
             } catch (e: Exception) {
-                AuthResultDomain.UnknownError(e.message)
+                AuthResultDomain.UnknownError(listOf( e.message))
             }
         }
     }

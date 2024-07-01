@@ -6,6 +6,7 @@ import com.kire.market_place_android.presentation.model.pick_up_point.PickUpPoin
 fun PickUpPointDomain.toPresentation() = PickUpPoint(
     id = this.id,
     address = this.address,
+    managerId = this.managerId,
     managerName = this.managerName,
     income = this.income
 )
