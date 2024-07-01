@@ -1,4 +1,4 @@
-package com.kire.market_place_android.presentation.util
+package com.kire.market_place_android.presentation.util.modifier
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateFloatAsState

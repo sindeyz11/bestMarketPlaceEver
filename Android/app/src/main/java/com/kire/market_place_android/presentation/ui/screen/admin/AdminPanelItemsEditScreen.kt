@@ -21,19 +21,21 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+
+import androidx.compose.runtime.remember
+=======
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,31 +46,36 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
 import com.kire.market_place_android.presentation.constant.Strings
-import com.kire.market_place_android.presentation.model.product.Product
 import com.kire.market_place_android.presentation.navigation.transition.admin.AdminPanelItemsEditScreenTransitions
 import com.kire.market_place_android.presentation.ui.details.admin.admin_panel_items_edit_screen_ui.AdminEditTopControls
 import com.kire.market_place_android.presentation.ui.details.admin.admin_panel_items_edit_screen_ui.AdminPanelIconField
 import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.BottomButtonFinishOperation
 import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelItemsEditScreenDestination
-import com.kire.market_place_android.presentation.viewmodel.AdminViewModel
+import com.kire.market_place_android.presentation.util.compressImage
+import com.kire.market_place_android.presentation.viewmodel.ProductViewModel
 
 import com.kire.test.R
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+
+import kotlinx.coroutines.launch
+=======
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-import java.io.ByteArrayOutputStream
+
 import java.io.InputStream
 
 /**
+=======
  * Функция конвертации входящего потока байт в массив
  *
  * @param inputStream поток байт
@@ -113,8 +120,7 @@ private suspend fun getBytes(inputStream: InputStream): ByteArray {
 @Destination(style = AdminPanelItemsEditScreenTransitions::class)
 @Composable
 fun AdminPanelItemsEditScreen(
-    adminViewModel: AdminViewModel,
-    product: Product = Product(),
+    productViewModel: ProductViewModel,
     navigator: DestinationsNavigator,
     paddingValues: PaddingValues = PaddingValues(28.dp)
 ) {
@@ -122,6 +128,8 @@ fun AdminPanelItemsEditScreen(
         navigator.popBackStack()
         return@BackHandler
     }
+
+    val product by productViewModel.chosenProduct.collectAsStateWithLifecycle()
 
     val image = rememberSaveable {
         mutableStateOf(byteArrayOf())
@@ -141,6 +149,9 @@ fun AdminPanelItemsEditScreen(
             coroutineScope.launch {
                 val inputStream: InputStream = context.contentResolver.openInputStream(imageUri)
                     ?: return@launch
+              
+                image.value = compressImage(inputStream)
+                
                 image.value = getBytes(inputStream)
 
                 inputStream.close()
@@ -148,7 +159,33 @@ fun AdminPanelItemsEditScreen(
         }
     )
 
-    val scrollState = rememberScrollState()
+    var itemName by remember {
+        mutableStateOf(product.title)
+    }
+
+    var itemCategory by remember {
+        mutableStateOf(product.category)
+    }
+
+    var itemPrice by remember {
+        mutableStateOf(product.price)
+    }
+
+    var itemDiscountPrice by remember {
+        mutableStateOf(product.discountPrice)
+    }
+
+    var itemMeasure by remember {
+        mutableStateOf(product.unit)
+    }
+
+    var itemStored by remember {
+        mutableStateOf(product.quantityAvailable)
+    }
+
+    var itemDescription by remember {
+        mutableStateOf(product.description)
+    }
 
     product.apply {
 
@@ -179,7 +216,7 @@ fun AdminPanelItemsEditScreen(
                 label = "",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f / 1.1f)
+                    .weight(1f)
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
@@ -196,7 +233,8 @@ fun AdminPanelItemsEditScreen(
 
             Column(
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxWidth()
+                    .wrapContentHeight()
                     .shadow(
                         elevation = 12.dp,
                         spotColor = Color.Gray,
@@ -213,22 +251,22 @@ fun AdminPanelItemsEditScreen(
                             topEnd = 24.dp
                         )
                     )
-                    .padding(paddingValues)
-                    .verticalScroll(scrollState),
-                verticalArrangement = Arrangement.SpaceBetween,
+                    .padding(paddingValues),
+                verticalArrangement = Arrangement.spacedBy(15.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
                 Box(
                     modifier = Modifier
-                        .weight(1f),
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
                     contentAlignment = Alignment.Center
                 ) {
 
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .heightIn(max = 1000.dp),
+                            .wrapContentHeight(),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -238,7 +276,23 @@ fun AdminPanelItemsEditScreen(
                                 .fillMaxWidth()
                                 .height(60.dp),
                             icon = R.drawable.name_icon,
-                            hint = Strings.ENTER_NAME
+                            hint = Strings.ENTER_NAME,
+                            onTextValueChange = {
+                                itemName = it
+                            },
+                            textValue = itemName
+                        )
+
+                        AdminPanelIconField(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(60.dp),
+                            icon = R.drawable.tag,
+                            hint = Strings.ENTER_CATEGORY,
+                            onTextValueChange = {
+                                itemCategory = it
+                            },
+                            textValue = itemCategory
                         )
 
                         LazyVerticalGrid(
@@ -257,7 +311,11 @@ fun AdminPanelItemsEditScreen(
                                         .height(60.dp),
                                     icon = R.drawable.rub,
                                     hint = Strings.RUB_NUM,
-                                    isTextCentered = true
+                                    isTextCentered = true,
+                                    onTextValueChange = {
+                                        itemPrice = it.toBigDecimal()
+                                    },
+                                    textValue = itemPrice.toString()
                                 )
                             }
                             item {
@@ -267,7 +325,11 @@ fun AdminPanelItemsEditScreen(
                                         .height(60.dp),
                                     icon = R.drawable.scale,
                                     hint = Strings.SCALE,
-                                    isTextCentered = true
+                                    isTextCentered = true,
+                                    onTextValueChange = {
+                                        itemMeasure = it
+                                    },
+                                    textValue = itemMeasure
                                 )
                             }
 
@@ -278,7 +340,11 @@ fun AdminPanelItemsEditScreen(
                                         .height(60.dp),
                                     icon = R.drawable.rub_proc,
                                     hint = Strings.RUB_NUM,
-                                    isTextCentered = true
+                                    isTextCentered = true,
+                                    onTextValueChange = {
+                                        itemDiscountPrice = it.toBigDecimal()
+                                    },
+                                    textValue = itemDiscountPrice.toString()
                                 )
                             }
 
@@ -289,7 +355,11 @@ fun AdminPanelItemsEditScreen(
                                         .height(60.dp),
                                     icon = R.drawable.container,
                                     hint = Strings.CONTAINS,
-                                    isTextCentered = true
+                                    isTextCentered = true,
+                                    onTextValueChange = {
+                                        itemStored = it.toInt()
+                                    },
+                                    textValue = itemStored.toString()
                                 )
                             }
                         }
@@ -300,14 +370,48 @@ fun AdminPanelItemsEditScreen(
                                 .height(80.dp),
                             icon = null,
                             hint = Strings.DESCRIPTION,
-                            isTextCentered = false
+                            isTextCentered = false,
+                            onTextValueChange = {
+                                itemDescription = it
+                            },
+                            textValue = itemDescription
                         )
                     }
                 }
 
                 BottomButtonFinishOperation(
                     textValue = Strings.SAVE,
-                    onClick = {  /* TODO */ }
+                    onClick = {
+                        coroutineScope.launch {
+                            if (product.id == -1)
+                                productViewModel.addProduct(
+                                    image = image.value.toTypedArray(),
+                                    product = product.copy(
+                                        title = itemName,
+                                        category = itemCategory,
+                                        price = itemPrice,
+                                        discountPrice = itemDiscountPrice,
+                                        unit = itemMeasure,
+                                        quantityAvailable = itemStored,
+                                        description = itemDescription
+                                    )
+                                )
+                                else productViewModel.updateProductById(
+                                id = product.id,
+                                image = image.value.toTypedArray(),
+                                product = product.copy(
+                                    title = itemName,
+                                    category = itemCategory,
+                                    price = itemPrice,
+                                    discountPrice = itemDiscountPrice,
+                                    unit = itemMeasure,
+                                    quantityAvailable = itemStored,
+                                    description = itemDescription
+                                )
+                            )
+                        }
+                        navigator.popBackStack()
+                    }
                 )
             }
         }

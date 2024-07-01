@@ -77,6 +77,7 @@ fun PickUpPointsBottomBar(
                     pickUpPoint = pickUpPoint,
                     onClick = { pickUpPoint ->
                         onClick(pickUpPoint)
+                        showBottomSheet(false)
                     }
                 )
             }

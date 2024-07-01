@@ -5,7 +5,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.MarqueeAnimationMode
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -27,7 +26,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 
 import androidx.compose.ui.unit.dp
@@ -50,7 +48,8 @@ import com.kire.market_place_android.presentation.ui.details.common.shopping_scr
 import com.kire.market_place_android.presentation.ui.details.common.shopping_screen_ui.PickUpPointsBottomBar
 import com.kire.market_place_android.presentation.ui.details.common.shopping_screen_ui.ShoppingScreenSearchBar
 import com.kire.market_place_android.presentation.ui.screen.destinations.ItemAddToCartMenuDestination
-import com.kire.market_place_android.presentation.util.bounceClick
+import com.kire.market_place_android.presentation.util.modifier.bounceClick
+import com.kire.market_place_android.presentation.util.search.onSearchRequestChange
 import com.kire.market_place_android.presentation.viewmodel.ProductViewModel
 import com.kire.market_place_android.presentation.viewmodel.UserViewModel
 
@@ -58,6 +57,7 @@ import com.kire.test.R
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import java.math.BigDecimal
 
 /**
  * Основной экран магазина со списком товаров
@@ -83,6 +83,23 @@ fun ShoppingScreen(
 
     val chosenPickUpPoint by userViewModel.chosenPickUpPoint.collectAsStateWithLifecycle()
 
+    var searchRequestString: String by remember {
+        mutableStateOf("")
+    }
+    var searchRequestCategory: List<String> by remember {
+        mutableStateOf(emptyList())
+    }
+    var searchRequestPriceRange: Pair<BigDecimal, BigDecimal> by remember {
+        mutableStateOf(Pair(BigDecimal.ZERO, Double.MAX_VALUE.toBigDecimal()))
+    }
+
+    val searchRequestProducts = onSearchRequestChange(
+        products = allProducts,
+        searchString = searchRequestString,
+        categoryList = searchRequestCategory,
+        priceRange = searchRequestPriceRange
+    )
+
     RequestResultMessage(
         requestResultStateFlow = productViewModel.requestResult,
         makeRequestResultIdle = productViewModel::makeRequestResultIdle
@@ -105,7 +122,7 @@ fun ShoppingScreen(
     val sheetState = rememberModalBottomSheetState()
 
     ListWithTopAndFab(
-        listSize = allProducts.size,
+        listSize = searchRequestProducts.size,
         topBar = {
             TopBar(
                 destination = AppDestinations.BottomBarDestinations.SHOPPING,
@@ -151,7 +168,10 @@ fun ShoppingScreen(
                 },
                 searchBar = {
                     ShoppingScreenSearchBar(
-                        curSearchRequest = null,
+                        changeSearchRequest = { it ->
+                            searchRequestString = it
+                        },
+                        curSearchRequest = searchRequestString,
                         showFilter = {
                             isFilterShown = it
                         }
@@ -169,7 +189,7 @@ fun ShoppingScreen(
             modifier = it.padding(bottom = BottomBarHeight.BOTTOM_BAR_HEIGHT)
         ) {
             items(
-                allProducts,
+                searchRequestProducts,
                 key = {it.id}
             ) { product ->
                 ItemCard(
@@ -209,10 +229,16 @@ fun ShoppingScreen(
 
     if (isFilterShown)
         FilterBottomBar(
+            curChosenCategories = searchRequestCategory,
+            curChosenPriceRange = searchRequestPriceRange,
             allCategories = allCategories,
             showBottomSheet = {
                 isFilterShown = it
             },
-            sheetState = sheetState
+            sheetState = sheetState,
+            changeFilterRequest = { categoryList, priceRange ->
+                searchRequestCategory = categoryList
+                searchRequestPriceRange = priceRange
+            }
         )
 }

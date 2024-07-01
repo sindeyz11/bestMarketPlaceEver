@@ -117,7 +117,7 @@ fun NavigationUI(
         }
         composable(AdminPanelItemsEditScreenDestination) {
             AdminPanelItemsEditScreen(
-                adminViewModel = adminViewModel,
+                productViewModel = productViewModel,
                 navigator = destinationsNavigator
             )
         }

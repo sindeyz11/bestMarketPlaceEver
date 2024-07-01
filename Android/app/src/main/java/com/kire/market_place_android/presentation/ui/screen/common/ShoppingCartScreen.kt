@@ -1,12 +1,9 @@
 package com.kire.market_place_android.presentation.ui.screen.common
 
-import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.gestures.detectTapGestures
 
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +16,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,18 +23,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import androidx.navigation.NavController
 import com.kire.market_place_android.presentation.constant.BottomBarHeight
 import com.kire.market_place_android.presentation.constant.Strings
-import com.kire.market_place_android.presentation.model.IRequestResult
-import com.kire.market_place_android.presentation.model.order.OrderedProduct
 import com.kire.market_place_android.presentation.model.pick_up_point.PickUpPoint
-import com.kire.market_place_android.presentation.model.product.CartUiEvent
-import com.kire.market_place_android.presentation.model.product.Product
 
 import com.kire.market_place_android.presentation.navigation.transition.common.ShoppingCartScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
@@ -50,16 +41,13 @@ import com.kire.market_place_android.presentation.ui.details.common.shopping_car
 import com.kire.market_place_android.presentation.ui.details.common.shopping_cart_screen_ui.ShoppingCartItem
 import com.kire.market_place_android.presentation.ui.screen.destinations.ItemAddToCartMenuDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
-import com.kire.market_place_android.presentation.util.bounceClick
 import com.kire.market_place_android.presentation.viewmodel.OrderViewModel
 import com.kire.market_place_android.presentation.viewmodel.ProductViewModel
-import com.kire.market_place_android.presentation.viewmodel.UserViewModel
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.popBackStack
 import com.ramcosta.composedestinations.utils.isRouteOnBackStack
 import kotlinx.coroutines.flow.StateFlow
-import java.math.BigDecimal
 
 /**
  * Корзина покупок

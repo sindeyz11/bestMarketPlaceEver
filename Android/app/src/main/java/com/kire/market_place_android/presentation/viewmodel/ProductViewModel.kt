@@ -5,10 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 import com.kire.market_place_android.domain.model.product.ProductDomain
+import com.kire.market_place_android.domain.use_case.admin.util.IAdminUseCases
 import com.kire.market_place_android.domain.use_case.common.util.ICommonUseCases
+import com.kire.market_place_android.presentation.mapper.product.toDomain
 import com.kire.market_place_android.presentation.mapper.product.toPresentation
 import com.kire.market_place_android.presentation.mapper.toPresentation
 import com.kire.market_place_android.presentation.model.IRequestResult
+import com.kire.market_place_android.presentation.model.product.AdminProductEvent
+import com.kire.market_place_android.presentation.model.product.AdminProductState
 import com.kire.market_place_android.presentation.model.product.CartState
 import com.kire.market_place_android.presentation.model.product.CartUiEvent
 import com.kire.market_place_android.presentation.model.product.Product
@@ -24,7 +28,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(
-    private val commonUseCases: ICommonUseCases
+    private val commonUseCases: ICommonUseCases,
+    private val adminUseCases: IAdminUseCases
 ): ViewModel() {
 
     private val _requestResult: MutableStateFlow<IRequestResult> = MutableStateFlow(IRequestResult.Idle)
@@ -94,6 +99,17 @@ class ProductViewModel @Inject constructor(
         }
     }
 
+    fun onEvent(event: AdminProductEvent) {
+        when(event) {
+            is AdminProductEvent.addProduct -> {
+                _chosenProduct.value = event.product
+            }
+            is AdminProductEvent.editProduct -> {
+                _chosenProduct.value = event.product
+            }
+        }
+    }
+
     fun makeRequestResultIdle() {
         _requestResult.value = IRequestResult.Idle
     }
@@ -118,5 +134,22 @@ class ProductViewModel @Inject constructor(
                             it.toString()
                         }.toSet()
                 }
+        }
+
+    fun updateProductById(id: Int, image: Array<Byte>, product: Product) =
+        viewModelScope.launch {
+            _requestResult.value = adminUseCases.updateProductUseCase(
+                id = id,
+                image = image,
+                product = product.toDomain()
+            ).toPresentation<ProductDomain>()
+        }
+
+    fun addProduct(image: Array<Byte>, product: Product) =
+        viewModelScope.launch {
+            _requestResult.value = adminUseCases.addProductUseCase(
+                image = image,
+                product = product.toDomain()
+            ).toPresentation<ProductDomain>()
         }
 }

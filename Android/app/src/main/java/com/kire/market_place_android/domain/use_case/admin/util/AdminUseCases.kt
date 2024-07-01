@@ -1,5 +1,6 @@
 package com.kire.market_place_android.domain.use_case.admin.util
 
+import com.kire.market_place_android.domain.use_case.admin.AddProductUseCase
 import com.kire.market_place_android.domain.use_case.admin.CreatePickUpPointUseCase
 import com.kire.market_place_android.domain.use_case.admin.DeletePickUpPointUseCase
 import com.kire.market_place_android.domain.use_case.admin.DeleteProductUseCase
@@ -20,5 +21,6 @@ data class AdminUseCases @Inject constructor(
     override val updatePickUpPointUseCase: UpdatePickUpPointUseCase,
     override val updateProductUseCase: UpdateProductUseCase,
     override val getAllUsersUseCase: GetAllUsersUseCase,
-    override val createPickUpPointUseCase: CreatePickUpPointUseCase
+    override val createPickUpPointUseCase: CreatePickUpPointUseCase,
+    override val addProductUseCase: AddProductUseCase
 ): IAdminUseCases

@@ -45,7 +45,7 @@ import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.model.product.Product
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
-import com.kire.market_place_android.presentation.util.bounceClick
+import com.kire.market_place_android.presentation.util.modifier.bounceClick
 
 import com.kire.test.R
 

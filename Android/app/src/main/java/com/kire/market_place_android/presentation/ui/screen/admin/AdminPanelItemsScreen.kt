@@ -12,6 +12,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kire.market_place_android.presentation.model.product.AdminProductEvent
+import com.kire.market_place_android.presentation.model.product.CartUiEvent
 
 
 import com.kire.market_place_android.presentation.model.product.Product
@@ -64,6 +66,7 @@ fun AdminPanelItemsScreen(
             TopBar(
                 destination = AppDestinations.AdminDestinations.ADMIN_PANEL_ITEMS,
                 onPlusClick = {
+                    productViewModel.onEvent(AdminProductEvent.addProduct(Product()))
                     navigator.navigate(AdminPanelItemsEditScreenDestination)
                 }
             )
@@ -76,11 +79,14 @@ fun AdminPanelItemsScreen(
             contentPadding = PaddingValues(bottom = 28.dp),
             modifier = it
         ) {
-            items(products, key = {it.id}) { product ->
+            items(products, key = { it.id }) { product ->
                 ItemCard(
                     product = product,
                     onWholeElementClick = { navigator.navigate(ItemAddToCartMenuDestination) },
-                    onSmallButtonClick = { navigator.navigate(AdminPanelItemsEditScreenDestination) },
+                    onSmallButtonClick = {
+                        productViewModel.onEvent(AdminProductEvent.editProduct(product))
+                        navigator.navigate(AdminPanelItemsEditScreenDestination)
+                    },
                     buttonIcon = editIcon
                 )
             }

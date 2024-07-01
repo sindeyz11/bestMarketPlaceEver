@@ -5,17 +5,16 @@ import com.kire.market_place_android.domain.repository.IProductRepository
 import javax.inject.Inject
 
 /**
- * By Aleksey Timko (de4ltt)*/
-class UpdateProductUseCase @Inject constructor(
+ * by Aleksey Timko (de4ltt)*/
+class AddProductUseCase @Inject constructor(
     private val productRepository: IProductRepository
 ) {
     suspend operator fun invoke(
-        id: Int,
         image: Array<Byte>,
         product: ProductDomain
-    ) = productRepository.updateProduct(
-        id = id,
+    ) = productRepository.addProduct(
         image = image,
         product = product
     )
+
 }

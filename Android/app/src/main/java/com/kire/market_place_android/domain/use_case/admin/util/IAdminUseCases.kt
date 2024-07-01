@@ -1,5 +1,6 @@
 package com.kire.market_place_android.domain.use_case.admin.util
 
+import com.kire.market_place_android.domain.use_case.admin.AddProductUseCase
 import com.kire.market_place_android.domain.use_case.admin.CreatePickUpPointUseCase
 import com.kire.market_place_android.domain.use_case.admin.DeletePickUpPointUseCase
 import com.kire.market_place_android.domain.use_case.admin.DeleteProductUseCase
@@ -16,6 +17,7 @@ sealed interface IAdminUseCases {
     val deleteProductUseCase: DeleteProductUseCase
     val getAllPickUpPointsUseCase: GetAllPickUpPointsUseCase
     val getUsersStatusUseCase: GetUsersStatsUseCase
+    val addProductUseCase: AddProductUseCase
     val updateProductUseCase: UpdateProductUseCase
     val updatePickUpPointUseCase: UpdatePickUpPointUseCase
     val getAllUsersUseCase: GetAllUsersUseCase
