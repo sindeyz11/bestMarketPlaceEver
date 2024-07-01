@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface IAuthRepository {
 
-    suspend fun logIn(phone: String, password: String): AuthResultDomain<String>
+    suspend fun logIn(phone: String, password: String): AuthResultDomain<List<String?>>
 
     suspend fun isTokenExpired(): Boolean
 
@@ -15,7 +15,7 @@ interface IAuthRepository {
         phone: String,
         email: String,
         password: String
-    ): AuthResultDomain<String>
+    ): AuthResultDomain<List<String?>>
 
     suspend fun isAuthenticated(): Flow<Boolean>
 

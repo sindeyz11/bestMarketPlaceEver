@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 
 import javax.inject.Inject
 
-class AuthRepository @Inject constructor(
+class  AuthRepository @Inject constructor(
     private val authApi: IAuthApi,
     private val logInRepository: ILogInRepository,
     private val logOnRepository: ILogOnRepository,
@@ -21,7 +21,7 @@ class AuthRepository @Inject constructor(
 
     // log-in and return result
     // as sealed class containing authorized, unauthorized, unknown error statuses
-    override suspend fun logIn(phone: String, password: String): AuthResultDomain<String> {
+    override suspend fun logIn(phone: String, password: String): AuthResultDomain<List<String?>> {
         return logInRepository.logIn(phone = phone, password = password)
     }
 
@@ -37,7 +37,7 @@ class AuthRepository @Inject constructor(
         phone: String,
         email: String,
         password: String
-    ): AuthResultDomain<String> {
+    ): AuthResultDomain<List<String?>> {
         return logOnRepository.logOn(
             username = username,
             phone = phone,

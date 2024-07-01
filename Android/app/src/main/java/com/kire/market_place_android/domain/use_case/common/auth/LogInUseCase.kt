@@ -10,7 +10,6 @@ import javax.inject.Inject
 class LogInUseCase @Inject constructor(
     private val authRepository: IAuthRepository
 ) {
-    suspend operator fun invoke(phone: String, password: String) : AuthResultDomain<String> {
-        return authRepository.logIn(phone = phone, password = password)
-    }
+    suspend operator fun invoke(phone: String, password: String) =
+        authRepository.logIn(phone = phone, password = password)
 }

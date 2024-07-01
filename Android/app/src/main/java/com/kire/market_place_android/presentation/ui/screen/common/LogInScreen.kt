@@ -1,6 +1,7 @@
 package com.kire.market_place_android.presentation.ui.screen.common
 
 import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -43,6 +44,7 @@ import androidx.compose.ui.unit.sp
 
 import com.kire.market_place_android.domain.model.auth.AuthResultDomain
 import com.kire.market_place_android.presentation.constant.Strings
+import com.kire.market_place_android.presentation.model.IRequestResult
 
 import com.kire.market_place_android.presentation.model.auth.AuthUiEvent
 import com.kire.market_place_android.presentation.navigation.transition.auth.LogInScreenTransitions
@@ -85,7 +87,7 @@ fun LogInScreen(
                     Toast.makeText(
                         context,
                         Strings.LOGIN_SUCCESSFUL,
-                        Toast.LENGTH_SHORT
+                        LENGTH_SHORT
                     ).show()
                     navigator.navigate(ShoppingScreenDestination) {
                         popUpTo(ShoppingScreenDestination) {
@@ -97,15 +99,20 @@ fun LogInScreen(
                     Toast.makeText(
                         context,
                         Strings.LOGIN_UNSUCCESSFUL,
-                        Toast.LENGTH_SHORT
+                        LENGTH_SHORT
                     ).show()
                 }
                 is AuthResultDomain.UnknownError -> {
-                    Toast.makeText(
-                        context,
-                        (result.data as String),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val errors = (result.data as List<*>).map {
+                        it.toString()
+                    }
+                    errors.forEach { error ->
+                        Toast.makeText(
+                            context,
+                            error,
+                            LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }
@@ -249,7 +256,7 @@ fun LogInScreen(
                             authViewModel.onEvent(AuthUiEvent.LogIn)
 
                         } catch (e: IllegalArgumentException) {
-                            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, e.message, LENGTH_SHORT).show()
                         }
                     },
                     modifier = Modifier

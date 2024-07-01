@@ -15,12 +15,10 @@ class LogOnUseCase @Inject constructor(
         phone: String,
         email: String,
         password: String
-    ) : AuthResultDomain<String> {
-        return authRepository.logOn(
+    ) = authRepository.logOn(
             username = username,
             phone = phone,
             email = email,
             password = password
         )
-    }
 }

@@ -23,6 +23,7 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.observer.ResponseObserver
+import io.ktor.serialization.JsonConvertException
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
@@ -71,11 +72,21 @@ object ClientModule {
                     val response = when(exception) {
                         is ClientRequestException -> {
                             val exceptionResponse = exception.response
-                            exceptionResponse.body<Errors>()
+                            try {
+                                exceptionResponse.body<Errors>()
+                            } catch (e: JsonConvertException) {
+                                val body = exceptionResponse.body<String>()
+                                Errors(errors = listOf(body))
+                            }
                         }
                         is ServerResponseException -> {
                             val exceptionResponse = exception.response
-                            exceptionResponse.body<Errors>()
+                            try {
+                                exceptionResponse.body<Errors>()
+                            } catch (e: JsonConvertException) {
+                                val body = exceptionResponse.body<String>()
+                                Errors(errors = listOf(body))
+                            }
                         }
 
                         else -> {

@@ -29,7 +29,7 @@ class AuthViewModel @Inject constructor(
 
     var authState by mutableStateOf(AuthState())
 
-    private val _authResultDomainChannel = Channel<AuthResultDomain<String>>()
+    private val _authResultDomainChannel = Channel<AuthResultDomain<List<String?>>>()
     val authResultChannel = _authResultDomainChannel.receiveAsFlow()
 
     private val _isAuthenticated = MutableStateFlow(false)

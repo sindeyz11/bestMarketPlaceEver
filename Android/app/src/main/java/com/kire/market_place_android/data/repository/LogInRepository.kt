@@ -30,7 +30,7 @@ class LogInRepository @Inject constructor(
 
     // log-in and return result
     // as sealed class containing authorized, unauthorized, unknown error statuses
-    override suspend fun logIn(phone: String, password: String) : AuthResultDomain<String> {
+    override suspend fun logIn(phone: String, password: String) : AuthResultDomain<List<String?>> {
 
         return withContext(coroutineDispatcher) {
 
@@ -55,26 +55,26 @@ class LogInRepository @Inject constructor(
                 AuthResultDomain.Authorized()
 
             } catch (e: Errors){
-                AuthResultDomain.UnknownError(e.message)
+                AuthResultDomain.UnknownError(e.errors)
 
             } catch (e: RedirectResponseException) {
-                AuthResultDomain.UnknownError(e.response.bodyAsText())
+                AuthResultDomain.UnknownError(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
 
-                AuthResultDomain.UnknownError(e.response.bodyAsText())
+                AuthResultDomain.UnknownError(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                AuthResultDomain.UnknownError(e.response.bodyAsText())
+                AuthResultDomain.UnknownError(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                AuthResultDomain.UnknownError(e.message)
+                AuthResultDomain.UnknownError(listOf( e.message))
 
             } catch (e: NoTransformationFoundException) {
-                AuthResultDomain.UnknownError(e.message)
+                AuthResultDomain.UnknownError(listOf( e.message))
 
             } catch (e: Exception) {
-                AuthResultDomain.UnknownError(e.message)
+                AuthResultDomain.UnknownError(listOf( e.message))
             }
         }
     }

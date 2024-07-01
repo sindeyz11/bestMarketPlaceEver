@@ -35,7 +35,7 @@ class LogOnRepository @Inject constructor(
         phone: String,
         email: String,
         password: String
-    ): AuthResultDomain<String> {
+    ): AuthResultDomain<List<String?>> {
 
         return withContext(coroutineDispatcher) {
             try {
@@ -60,25 +60,25 @@ class LogOnRepository @Inject constructor(
                 AuthResultDomain.Authorized()
 
             } catch (e: Errors){
-                AuthResultDomain.UnknownError(e.message)
+                AuthResultDomain.UnknownError(e.errors)
 
             } catch (e: RedirectResponseException) {
-                AuthResultDomain.UnknownError(e.response.bodyAsText())
+                AuthResultDomain.UnknownError(listOf( e.response.bodyAsText()))
 
             } catch (e: ClientRequestException) {
-                AuthResultDomain.UnknownError(e.response.bodyAsText())
+                AuthResultDomain.UnknownError(listOf( e.response.bodyAsText()))
 
             } catch (e: ServerResponseException) {
-                AuthResultDomain.UnknownError(e.response.bodyAsText())
+                AuthResultDomain.UnknownError(listOf( e.response.bodyAsText()))
 
             } catch (e: JsonConvertException) {
-                AuthResultDomain.UnknownError(e.message)
+                AuthResultDomain.UnknownError(listOf( e.message))
 
             } catch (e: NoTransformationFoundException) {
-                AuthResultDomain.UnknownError(e.message)
+                AuthResultDomain.UnknownError(listOf( e.message))
 
             } catch (e: Exception) {
-                AuthResultDomain.UnknownError(e.message)
+                AuthResultDomain.UnknownError(listOf( e.message))
             }
         }
     }

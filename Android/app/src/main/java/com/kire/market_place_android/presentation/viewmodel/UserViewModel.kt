@@ -42,13 +42,13 @@ class UserViewModel @Inject constructor(
     private val _requestResult: MutableStateFlow<IRequestResult> = MutableStateFlow(IRequestResult.Idle)
     val requestResult: StateFlow<IRequestResult> = _requestResult.asStateFlow()
 
+    var profileState by mutableStateOf(ProfileState())
+
     private val _chosenPickUpPoint: MutableStateFlow<PickUpPoint> = MutableStateFlow(PickUpPoint())
     val chosenPickUpPoint: StateFlow<PickUpPoint> = _chosenPickUpPoint.asStateFlow()
 
     private val _allPickUpPoints: MutableStateFlow<List<PickUpPoint>> = MutableStateFlow(emptyList())
     val allPickUpPoints: StateFlow<List<PickUpPoint>> = _allPickUpPoints.asStateFlow()
-
-    var profileState by mutableStateOf(ProfileState())
 
     fun onEvent(event: UserUiEvent) {
         when(event) {

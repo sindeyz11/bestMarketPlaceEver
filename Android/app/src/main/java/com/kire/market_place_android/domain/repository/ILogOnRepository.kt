@@ -11,5 +11,5 @@ interface ILogOnRepository {
         phone: String,
         email: String,
         password: String
-    ) : AuthResultDomain<String>
+    ) : AuthResultDomain<List<String?>>
 }
