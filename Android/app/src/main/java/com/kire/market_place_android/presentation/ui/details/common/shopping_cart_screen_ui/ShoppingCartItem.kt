@@ -57,7 +57,8 @@ import com.kire.market_place_android.presentation.model.product.Product
 
 import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.ProductItemCounter
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
-import com.kire.market_place_android.presentation.util.bounceClick
+import com.kire.market_place_android.presentation.util.modifier.bounceClick
+
 import com.kire.test.R
 
 /**
@@ -115,7 +116,7 @@ fun ShoppingCartItem(
             ) {
 
                 AsyncImage(
-                    model = ImagePath.imagePathById + product.image.id.toString(),
+                    model = product.image,
                     placeholder = painterResource(id = R.drawable.default_image),
                     error = painterResource(id = R.drawable.default_image),
                     contentDescription = "Shopping cart item image",

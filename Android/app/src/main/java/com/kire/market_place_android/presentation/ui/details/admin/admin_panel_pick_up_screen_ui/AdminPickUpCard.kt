@@ -47,7 +47,7 @@ import com.kire.market_place_android.presentation.model.pick_up_point.PickUpPoin
 import com.kire.market_place_android.presentation.model.admin.AdminPickUpPointState
 import com.kire.market_place_android.presentation.model.admin.AdminPickUpPointUiEvent
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
-import com.kire.market_place_android.presentation.util.bounceClick
+import com.kire.market_place_android.presentation.util.modifier.bounceClick
 import com.kire.test.R
 
 /**

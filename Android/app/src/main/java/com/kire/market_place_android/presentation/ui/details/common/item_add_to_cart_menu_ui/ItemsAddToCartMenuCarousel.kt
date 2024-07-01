@@ -33,7 +33,7 @@ fun ItemsAddToCartMenuCarousel(
     ) {
         items(itemsList) { product ->
             ItemIcon(
-                imageId = product.image.id,
+                image = product.image,
                 onClick = {
                     onEvent(CartUiEvent.changeChosenProduct(product))
                 }

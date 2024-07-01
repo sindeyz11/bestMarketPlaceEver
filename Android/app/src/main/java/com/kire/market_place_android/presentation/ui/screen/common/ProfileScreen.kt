@@ -1,5 +1,7 @@
 package com.kire.market_place_android.presentation.ui.screen.common
 
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.activity.compose.BackHandler
 
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +23,7 @@ import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -81,11 +84,23 @@ fun ProfileScreen(
 
     val orders by orders.collectAsStateWithLifecycle()
 
+    val context = LocalContext.current
+
     val closestDelivery = remember {
-        orders.minOf { order ->
-            order.products.minOf { orderedProduct ->
-                orderedProduct.completionDate ?: LocalDate.MAX
+        try {
+            orders.minOf { order ->
+                order.products.minOf { orderedProduct ->
+                    orderedProduct.completionDate ?: LocalDate.MAX
+                }
             }
+        } catch (e: Exception) {
+            Toast.makeText(
+                context,
+                Strings.SOME_ERROR,
+                LENGTH_SHORT
+            ).show()
+
+            LocalDate.MAX
         }
     }
 

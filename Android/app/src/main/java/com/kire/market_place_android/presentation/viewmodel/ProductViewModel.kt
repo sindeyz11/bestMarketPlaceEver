@@ -136,7 +136,7 @@ class ProductViewModel @Inject constructor(
                 }
         }
 
-    fun updateProductById(id: Int, image: Array<Byte>, product: Product) =
+    fun updateProductById(id: Int, image: ByteArray, product: Product) =
         viewModelScope.launch {
             _requestResult.value = adminUseCases.updateProductUseCase(
                 id = id,
@@ -145,7 +145,7 @@ class ProductViewModel @Inject constructor(
             ).toPresentation<ProductDomain>()
         }
 
-    fun addProduct(image: Array<Byte>, product: Product) =
+    fun addProduct(image: ByteArray, product: Product) =
         viewModelScope.launch {
             _requestResult.value = adminUseCases.addProductUseCase(
                 image = image,

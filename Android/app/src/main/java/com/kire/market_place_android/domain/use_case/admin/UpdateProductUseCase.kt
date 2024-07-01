@@ -11,7 +11,7 @@ class UpdateProductUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         id: Int,
-        image: Array<Byte>,
+        image: ByteArray,
         product: ProductDomain
     ) = productRepository.updateProduct(
         id = id,

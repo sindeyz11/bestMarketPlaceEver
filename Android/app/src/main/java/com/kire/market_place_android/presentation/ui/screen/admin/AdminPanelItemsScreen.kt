@@ -58,7 +58,7 @@ fun AdminPanelItemsScreen(
 
     val products by productViewModel.allProducts.collectAsStateWithLifecycle()
 
-    val editIcon = R.drawable.edit_profile_info
+    val binIcon = R.drawable.bin
 
     ListWithTopAndFab(
         listSize = products.size,
@@ -82,12 +82,15 @@ fun AdminPanelItemsScreen(
             items(products, key = { it.id }) { product ->
                 ItemCard(
                     product = product,
-                    onWholeElementClick = { navigator.navigate(ItemAddToCartMenuDestination) },
+                    onWholeElementClick = {
+                        productViewModel.onEvent(CartUiEvent.changeChosenProduct(product))
+                        navigator.navigate(ItemAddToCartMenuDestination)
+                    },
                     onSmallButtonClick = {
                         productViewModel.onEvent(AdminProductEvent.editProduct(product))
                         navigator.navigate(AdminPanelItemsEditScreenDestination)
                     },
-                    buttonIcon = editIcon
+                    buttonIcon = binIcon
                 )
             }
         }

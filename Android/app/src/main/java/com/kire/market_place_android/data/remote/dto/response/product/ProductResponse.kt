@@ -10,7 +10,7 @@ data class ProductResponse(
     val id: Int = 0,
     val title: String = "",
     @SerialName("image")
-    val image: ImageResponse = ImageResponse(),
+    val image: String = "",
     val description: String = "",
     @Serializable(with = BigDecimalSerializer::class)
     val price: BigDecimal = 0.0.toBigDecimal(),

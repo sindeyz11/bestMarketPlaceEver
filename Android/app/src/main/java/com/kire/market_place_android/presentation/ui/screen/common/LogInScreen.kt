@@ -101,16 +101,11 @@ fun LogInScreen(
                     ).show()
                 }
                 is AuthResultDomain.UnknownError -> {
-                    val errors = (result.data as List<*>).map {
-                        it.toString()
-                    }
-                    errors.forEach { error ->
-                        Toast.makeText(
-                            context,
-                            error,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    Toast.makeText(
+                        context,
+                        (result.data as String),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

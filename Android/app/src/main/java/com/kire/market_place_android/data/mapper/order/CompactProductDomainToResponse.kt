@@ -7,6 +7,6 @@ fun CompactProductDomain.toResponse() =
     CompactProductResponse(
         id = this.id,
         title = this.title,
-        image = this.image.toResponse(),
+        image = this.image,
         unit = this.unit
     )

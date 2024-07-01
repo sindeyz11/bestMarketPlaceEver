@@ -92,8 +92,7 @@ fun ItemCard(
                     .wrapContentHeight()
             ) {
                 AsyncImage(
-//                    model = ImagePath.imagePathById + product.image.id.toString(),
-                    model = "https://www.universalis.fr/typo3temp/assets/_processed_/d/7/csm_91348_ce87aceda0.webp",
+                    model = product.image,
                     placeholder = painterResource(id = R.drawable.default_image),
                     error = painterResource(id = R.drawable.default_image),
                     contentDescription = "Item card image",
@@ -157,7 +156,7 @@ fun ItemCard(
                 )
 
                 Text(
-                    text = "1$unit",
+                    text = quantityAvailable.toString() + unit,
                     color = Color.DarkGray,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,

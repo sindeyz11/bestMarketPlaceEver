@@ -6,7 +6,7 @@ import com.kire.market_place_android.domain.model.product.ProductDomain
 fun ProductResponse.toDomain() = ProductDomain(
     id = this.id,
     title = this.title,
-    image = this.image.toDomain(),
+    image = this.image,
     description = this.description,
     price = this.price,
     discountPrice = this.discountPrice,

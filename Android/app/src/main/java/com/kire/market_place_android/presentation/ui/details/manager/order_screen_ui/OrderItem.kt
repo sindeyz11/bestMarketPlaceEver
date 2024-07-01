@@ -85,7 +85,7 @@ fun OrderItem(
         ) {
 
             AsyncImage(
-                model = ImagePath.imagePathById + orderedProduct.product.image.id.toString(),
+                model = orderedProduct.product.image,
                 placeholder = painterResource(id = R.drawable.default_image),
                 contentDescription = "Shopping cart item image",
                 contentScale = ContentScale.Crop,

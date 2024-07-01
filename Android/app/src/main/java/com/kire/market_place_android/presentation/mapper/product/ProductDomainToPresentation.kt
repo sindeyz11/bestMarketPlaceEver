@@ -8,7 +8,7 @@ import com.kire.market_place_android.presentation.model.product.Product
 fun ProductDomain.toPresentation() = Product(
     id = this.id,
     title = this.title,
-    image = this.image.toPresentation(),
+    image = this.image,
     description = this.description,
     discountPrice = this.discountPrice,
     price = this.price,

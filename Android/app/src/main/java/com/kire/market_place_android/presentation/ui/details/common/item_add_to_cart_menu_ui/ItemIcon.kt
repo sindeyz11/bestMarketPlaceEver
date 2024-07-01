@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kire.market_place_android.presentation.constant.ImagePath
-import com.kire.market_place_android.presentation.util.bounceClick
+import com.kire.market_place_android.presentation.util.modifier.bounceClick
 
 import com.kire.test.R
 
@@ -35,18 +35,20 @@ import com.kire.test.R
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun ItemIcon(
-    imageId: Int,
+    image: String,
     onClick: () -> Unit
 ) {
     AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(ImagePath.imagePathById + imageId.toString())
-            .build(),
+        model = image,
         placeholder = painterResource(id = R.drawable.default_image) ,
+        error = painterResource(id = R.drawable.default_image),
         contentDescription = "Item Cart Image",
         contentScale = ContentScale.Crop,
         modifier = Modifier
             .size(120.dp)
+            .bounceClick {
+                onClick()
+            }
             .clip(
                 RoundedCornerShape(
                     topStart = 15.dp,
@@ -56,8 +58,5 @@ fun ItemIcon(
                 )
             )
             .background(Color.LightGray)
-            .bounceClick {
-                onClick()
-            }
     )
 }

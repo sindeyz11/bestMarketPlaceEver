@@ -44,7 +44,7 @@ import com.kire.market_place_android.presentation.ui.screen.destinations.OrderSc
 import com.kire.market_place_android.presentation.ui.screen.destinations.ProfileScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
-import com.kire.market_place_android.presentation.util.bounceClick
+import com.kire.market_place_android.presentation.util.modifier.bounceClick
 
 import com.kire.test.R
 

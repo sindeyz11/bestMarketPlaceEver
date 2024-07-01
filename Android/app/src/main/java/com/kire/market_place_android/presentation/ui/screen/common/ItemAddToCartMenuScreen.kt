@@ -123,12 +123,11 @@ fun ItemAddToCartMenu(
         ) {
 
             AsyncImage(
-//                model = ImagePath.imagePathById + product.image.id.toString(),
-                model = "https://www.universalis.fr/typo3temp/assets/_processed_/d/7/csm_91348_ce87aceda0.webp",
+                model = product.image,
                 placeholder = painterResource(id = R.drawable.item_menu_default),
                 error = painterResource(id = R.drawable.default_image),
                 contentDescription = "Shopping cart item image",
-                contentScale = ContentScale.FillHeight,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .weight(1f)
             )

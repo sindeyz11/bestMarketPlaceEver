@@ -115,4 +115,5 @@ object Strings {
     const val PICK_UP_POINT_ID = "ID: "
     const val PICK_UP_POINT_ADDRESS = "Адрес: "
     const val NO_CHOSEN_PICK_UP_POINT = "Пункт выдачи не выбран"
+    const val DELETE = "Удалить"
 }

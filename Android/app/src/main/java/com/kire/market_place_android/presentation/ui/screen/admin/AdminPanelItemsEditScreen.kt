@@ -32,7 +32,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 
 import androidx.compose.runtime.remember
-=======
+import java.io.ByteArrayOutputStream
+
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -50,11 +51,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.kire.market_place_android.presentation.constant.ImagePath
 
 import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.navigation.transition.admin.AdminPanelItemsEditScreenTransitions
 import com.kire.market_place_android.presentation.ui.details.admin.admin_panel_items_edit_screen_ui.AdminEditTopControls
 import com.kire.market_place_android.presentation.ui.details.admin.admin_panel_items_edit_screen_ui.AdminPanelIconField
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.RequestResultMessage
 import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.BottomButtonFinishOperation
 import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelItemsEditScreenDestination
 import com.kire.market_place_android.presentation.util.compressImage
@@ -66,7 +69,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 import kotlinx.coroutines.launch
-=======
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -75,7 +77,6 @@ import kotlinx.coroutines.withContext
 import java.io.InputStream
 
 /**
-=======
  * Функция конвертации входящего потока байт в массив
  *
  * @param inputStream поток байт
@@ -111,7 +112,6 @@ private suspend fun getBytes(inputStream: InputStream): ByteArray {
  * Экран редактирования информации о товаре
  *
  * @param adminViewModel ViewModel админа
- * @param product товар
  * @param navigator для навигации между экранами
  * @param paddingValues отступы от краев экрана
  *
@@ -135,6 +135,11 @@ fun AdminPanelItemsEditScreen(
         mutableStateOf(byteArrayOf())
     }
 
+    RequestResultMessage(
+        requestResultStateFlow = productViewModel.requestResult,
+        makeRequestResultIdle = productViewModel::makeRequestResultIdle
+    )
+
     val context = LocalContext.current
 
     val coroutineScope = rememberCoroutineScope()
@@ -149,8 +154,6 @@ fun AdminPanelItemsEditScreen(
             coroutineScope.launch {
                 val inputStream: InputStream = context.contentResolver.openInputStream(imageUri)
                     ?: return@launch
-              
-                image.value = compressImage(inputStream)
                 
                 image.value = getBytes(inputStream)
 
@@ -168,11 +171,11 @@ fun AdminPanelItemsEditScreen(
     }
 
     var itemPrice by remember {
-        mutableStateOf(product.price)
+        mutableStateOf(product.price.toString())
     }
 
     var itemDiscountPrice by remember {
-        mutableStateOf(product.discountPrice)
+        mutableStateOf(product.discountPrice.toString())
     }
 
     var itemMeasure by remember {
@@ -180,7 +183,7 @@ fun AdminPanelItemsEditScreen(
     }
 
     var itemStored by remember {
-        mutableStateOf(product.quantityAvailable)
+        mutableStateOf(product.quantityAvailable.toString())
     }
 
     var itemDescription by remember {
@@ -211,7 +214,10 @@ fun AdminPanelItemsEditScreen(
         ) {
 
             Crossfade(
-                targetState = image.value,
+                targetState =
+                    if (image.value.isNotEmpty())
+                        image.value
+                    else product.image,
                 animationSpec = tween(durationMillis = 600, easing = LinearEasing),
                 label = "",
                 modifier = Modifier
@@ -313,7 +319,7 @@ fun AdminPanelItemsEditScreen(
                                     hint = Strings.RUB_NUM,
                                     isTextCentered = true,
                                     onTextValueChange = {
-                                        itemPrice = it.toBigDecimal()
+                                        itemPrice = it
                                     },
                                     textValue = itemPrice.toString()
                                 )
@@ -342,7 +348,7 @@ fun AdminPanelItemsEditScreen(
                                     hint = Strings.RUB_NUM,
                                     isTextCentered = true,
                                     onTextValueChange = {
-                                        itemDiscountPrice = it.toBigDecimal()
+                                        itemDiscountPrice = it
                                     },
                                     textValue = itemDiscountPrice.toString()
                                 )
@@ -357,7 +363,7 @@ fun AdminPanelItemsEditScreen(
                                     hint = Strings.CONTAINS,
                                     isTextCentered = true,
                                     onTextValueChange = {
-                                        itemStored = it.toInt()
+                                        itemStored = it
                                     },
                                     textValue = itemStored.toString()
                                 )
@@ -380,37 +386,38 @@ fun AdminPanelItemsEditScreen(
                 }
 
                 BottomButtonFinishOperation(
-                    textValue = Strings.SAVE,
+                    textValue = if (product.id == -1)
+                        Strings.SAVE else Strings.DELETE,
                     onClick = {
                         coroutineScope.launch {
                             if (product.id == -1)
                                 productViewModel.addProduct(
-                                    image = image.value.toTypedArray(),
+                                    image = image.value,
                                     product = product.copy(
                                         title = itemName,
                                         category = itemCategory,
-                                        price = itemPrice,
-                                        discountPrice = itemDiscountPrice,
+                                        price = itemPrice.toBigDecimal(),
+                                        discountPrice = itemDiscountPrice.toBigDecimal(),
                                         unit = itemMeasure,
-                                        quantityAvailable = itemStored,
+                                        quantityAvailable = itemStored.toInt(),
                                         description = itemDescription
                                     )
                                 )
-                                else productViewModel.updateProductById(
+                            else productViewModel.updateProductById(
                                 id = product.id,
-                                image = image.value.toTypedArray(),
+                                image = image.value,
                                 product = product.copy(
                                     title = itemName,
                                     category = itemCategory,
-                                    price = itemPrice,
-                                    discountPrice = itemDiscountPrice,
+                                    price = itemPrice.toBigDecimal(),
+                                    discountPrice = itemDiscountPrice.toBigDecimal(),
                                     unit = itemMeasure,
-                                    quantityAvailable = itemStored,
+                                    quantityAvailable = itemStored.toInt(),
                                     description = itemDescription
                                 )
                             )
+                            productViewModel.refreshProducts()
                         }
-                        navigator.popBackStack()
                     }
                 )
             }

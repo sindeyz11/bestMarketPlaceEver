@@ -108,7 +108,7 @@ class ProductRepository @Inject constructor(
 
     override suspend fun updateProduct(
         id: Int,
-        image: Array<Byte>,
+        image: ByteArray,
         product: ProductDomain
     ):  IRequestResultDomain {
         return withContext(coroutineDispatcher) {
@@ -147,7 +147,7 @@ class ProductRepository @Inject constructor(
     }
 
     override suspend fun addProduct(
-        image: Array<Byte>,
+        image: ByteArray,
         product: ProductDomain
     ): IRequestResultDomain {
 

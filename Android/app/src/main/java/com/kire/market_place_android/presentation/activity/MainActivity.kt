@@ -118,6 +118,7 @@ class MainActivity : ComponentActivity() {
                     bottomBar = {
                         BottomBar(
                             navHostController = navHostController,
+                            cartState = productViewModel.cartState,
                             role = role
                         )
                     }

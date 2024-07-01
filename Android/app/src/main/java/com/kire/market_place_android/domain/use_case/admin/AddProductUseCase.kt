@@ -10,7 +10,7 @@ class AddProductUseCase @Inject constructor(
     private val productRepository: IProductRepository
 ) {
     suspend operator fun invoke(
-        image: Array<Byte>,
+        image: ByteArray,
         product: ProductDomain
     ) = productRepository.addProduct(
         image = image,

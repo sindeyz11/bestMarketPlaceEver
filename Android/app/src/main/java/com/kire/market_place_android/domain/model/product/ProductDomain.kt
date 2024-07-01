@@ -7,7 +7,7 @@ import java.math.BigDecimal
 data class ProductDomain(
     val id: Int = 0,
     val title: String = "",
-    val image: ImageDomain = ImageDomain(),
+    val image: String = "",
     val description: String = "",
     val price: BigDecimal = 0.0.toBigDecimal(),
     val discountPrice: BigDecimal = 0.0.toBigDecimal(),

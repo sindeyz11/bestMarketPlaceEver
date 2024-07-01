@@ -71,7 +71,7 @@ fun DeliveryCard(
             ) {
 
                 AsyncImage(
-                    model = ImagePath.imagePathById + product.image.id.toString(),
+                    model = product.image,
                     placeholder = painterResource(id = R.drawable.default_image),
                     error = painterResource(id = R.drawable.default_image),
                     contentDescription = "Deliveries item image",
