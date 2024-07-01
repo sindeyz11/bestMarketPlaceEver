@@ -8,6 +8,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import androidx.navigation.NavController
+import com.kire.market_place_android.presentation.constant.BottomBarHeight
 import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.pick_up_point.PickUpPoint
 
@@ -119,7 +121,7 @@ fun ShoppingCartScreen(
         }
     ) {
         LazyColumn(
-            modifier = it,
+            modifier = it.padding(bottom = BottomBarHeight.BOTTOM_BAR_HEIGHT),
             contentPadding = PaddingValues(bottom = 28.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -145,10 +147,7 @@ fun ShoppingCartScreen(
 
     if (isBottomSheetShown.value)
         OrderingBottomBar(
-            pickUpPointAddress =
-                if (chosenPickUpPoint.address.isNotEmpty())
-                    chosenPickUpPoint.address
-                else Strings.NO_CHOSEN_PICK_UP_POINT,
+            pickUpPointAddress = chosenPickUpPoint.address.ifEmpty { Strings.NO_CHOSEN_PICK_UP_POINT },
             deliveryClosestDate = cartState.toBuy.minOf { it.deliveryDays }.toString(),
             totalSum = cartState.toBuy.sumOf { it.price * it.chosenQuantity.toBigDecimal() }.toDouble(),
             showBottomSheet = {

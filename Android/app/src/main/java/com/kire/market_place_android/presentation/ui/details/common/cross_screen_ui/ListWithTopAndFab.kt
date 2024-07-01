@@ -34,6 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kire.market_place_android.presentation.constant.BottomBarHeight
 import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.test.R
@@ -55,7 +56,7 @@ import kotlin.math.roundToInt
 @Composable
 fun ListWithTopAndFab(
     listSize: Int = 0,
-    paddingValues: PaddingValues = PaddingValues(horizontal = 28.dp),
+    paddingValues: PaddingValues = PaddingValues(start = 28.dp, end = 28.dp),
     topBar: @Composable () -> Unit = {},
     floatingButton: @Composable (() -> Unit) -> Unit = {},
     content: @Composable (Modifier) -> Unit = {},

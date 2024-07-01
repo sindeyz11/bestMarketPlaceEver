@@ -24,7 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kire.market_place_android.presentation.constant.BottomBarHeight
 import com.kire.market_place_android.presentation.constant.Strings
+import com.kire.market_place_android.presentation.model.order.Order
 
 import com.kire.market_place_android.presentation.navigation.transition.common.ProfileScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
@@ -43,6 +45,9 @@ import com.kire.market_place_android.presentation.viewmodel.UserViewModel
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.StateFlow
+import java.time.LocalDate
+import java.time.Year
 
 /**
  * Профиль пользователя
@@ -57,8 +62,9 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun ProfileScreen(
     userViewModel: UserViewModel,
+    orders: StateFlow<List<Order>>,
     navigator: DestinationsNavigator,
-    paddingValues: PaddingValues = PaddingValues(start = 28.dp, end = 28.dp, bottom = 66.dp)
+    paddingValues: PaddingValues = PaddingValues(start = 28.dp, end = 28.dp, bottom = BottomBarHeight.BOTTOM_BAR_HEIGHT)
 ) {
 
     BackHandler {
@@ -72,6 +78,16 @@ fun ProfileScreen(
         requestResultStateFlow = userViewModel.requestResult,
         makeRequestResultIdle = userViewModel::makeRequestResultIdle
     )
+
+    val orders by orders.collectAsStateWithLifecycle()
+
+    val closestDelivery = remember {
+        orders.minOf { order ->
+            order.products.minOf { orderedProduct ->
+                orderedProduct.completionDate ?: LocalDate.MAX
+            }
+        }
+    }
 
     val sheetState = rememberModalBottomSheetState()
 
@@ -150,16 +166,13 @@ fun ProfileScreen(
                         PurchaseRelatedInfoBar(
                             title = Strings.DELIVERIES_TITLE,
                             sign =
-//                        if (profileUiState.nextDeliveryDate == null)
-//                            ""
-//                        else
-//                            profileUiState.nextDeliveryDate.day.toString(),
-                            "",
+                                if (closestDelivery.year < Year.MAX_VALUE)
+                                    closestDelivery.dayOfWeek.value.toString()
+                                else "",
                             info =
-//                        if (profileUiState.nextDeliveryDate == null)
-                            Strings.NO_DELIVERIES_INFO,
-//                        else
-//                            (profileUiState.nextDeliveryDate.month + 1).toString(),
+                                if (closestDelivery.year < Year.MAX_VALUE)
+                                    closestDelivery.month.toString()
+                                else Strings.NO_DELIVERIES_INFO,
                             onClick = {
                                 navigator.navigate(DeliveriesScreenDestination)
                             }

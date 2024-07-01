@@ -22,11 +22,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 import androidx.navigation.NavHostController
+import com.kire.market_place_android.presentation.constant.BottomBarHeight
 import com.kire.market_place_android.presentation.model.user.Role
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
 import com.kire.market_place_android.presentation.ui.screen.NavGraphs
@@ -76,6 +79,8 @@ fun BottomBar(
         }
     }
 
+    val density = LocalDensity.current
+
     if (appBarsDestinations.contains(currentDestination as DirectionDestinationSpec))
 
         Row(
@@ -88,6 +93,9 @@ fun BottomBar(
                     }
                 }
                 .background(Color.White)
+                .onGloballyPositioned {
+                    BottomBarHeight.BOTTOM_BAR_HEIGHT = with(density) { it.size.height.toDp()}
+                }
                 .padding(
                     start = paddingStartEndBottom,
                     end = paddingStartEndBottom,

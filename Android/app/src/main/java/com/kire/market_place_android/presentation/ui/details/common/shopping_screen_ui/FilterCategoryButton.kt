@@ -14,6 +14,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.bounceClick
 
 /**
  * Кнопка выбора категории
@@ -32,15 +33,13 @@ fun FilterCategoryButton(
     Box(
         modifier = Modifier
             .wrapContentHeight()
+            .bounceClick {
+                onClick(category)
+            }
             .background(
                 color = if (isChecked) ExtendedTheme.colors.redAccentSoft else ExtendedTheme.colors.profileBar,
                 shape = RoundedCornerShape(5.dp)
-            )
-            .pointerInput(Unit) {
-                detectTapGestures {
-                    onClick(category)
-                }
-            },
+            ),
         contentAlignment = Alignment.Center,
         content = {
             Text(

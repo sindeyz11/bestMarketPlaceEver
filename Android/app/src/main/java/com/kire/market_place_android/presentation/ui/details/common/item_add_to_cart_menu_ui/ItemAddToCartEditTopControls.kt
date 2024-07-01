@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.kire.market_place_android.presentation.util.bounceClick
 import com.kire.test.R
 
 /**
@@ -38,12 +39,10 @@ fun ItemAddToCartEditTopControls(
             Box(
                 modifier = Modifier
                     .size(55.dp)
-                    .clip(CircleShape)
-                    .pointerInput(Unit) {
-                        detectTapGestures {
-                            onArrowBackClick()
-                        }
+                    .bounceClick {
+                        onArrowBackClick()
                     }
+                    .clip(CircleShape)
                     .background(Color.White),
                 contentAlignment = Alignment.Center
             ){

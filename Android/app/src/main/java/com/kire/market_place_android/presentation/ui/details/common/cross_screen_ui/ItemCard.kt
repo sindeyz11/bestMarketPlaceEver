@@ -92,8 +92,10 @@ fun ItemCard(
                     .wrapContentHeight()
             ) {
                 AsyncImage(
-                    model = ImagePath.imagePathById + product.image.id.toString(),
+//                    model = ImagePath.imagePathById + product.image.id.toString(),
+                    model = "https://www.universalis.fr/typo3temp/assets/_processed_/d/7/csm_91348_ce87aceda0.webp",
                     placeholder = painterResource(id = R.drawable.default_image),
+                    error = painterResource(id = R.drawable.default_image),
                     contentDescription = "Item card image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier

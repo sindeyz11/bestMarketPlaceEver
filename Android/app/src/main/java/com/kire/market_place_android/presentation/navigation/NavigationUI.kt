@@ -124,6 +124,7 @@ fun NavigationUI(
         composable(ProfileScreenDestination) {
             ProfileScreen(
                 userViewModel = userViewModel,
+                orders = orderViewModel.orders,
                 navigator = destinationsNavigator
             )
         }

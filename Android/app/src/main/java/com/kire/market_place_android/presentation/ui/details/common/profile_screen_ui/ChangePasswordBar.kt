@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.bounceClick
 
 import com.kire.test.R
 
@@ -57,10 +58,8 @@ fun ChangePasswordBar(
             .wrapContentHeight()
             .clip(roundedCornerShape)
             .background(ExtendedTheme.colors.profileBar)
-            .pointerInput(Unit) {
-                detectTapGestures {
-                    onClick(true)
-                }
+            .bounceClick {
+                onClick(true)
             }
             .padding(paddingValues),
         horizontalArrangement = Arrangement.SpaceBetween,

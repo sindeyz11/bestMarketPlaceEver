@@ -56,7 +56,7 @@ class ProductViewModel @Inject constructor(
                     )
                 else
                     _cartState.value = _cartState.value.copy(
-                        toBuy = _cartState.value.toBuy.minusElement(event.product)
+                        toBuy =_cartState.value.toBuy.filter { it.id != event.product.id }
                     )
             }
 

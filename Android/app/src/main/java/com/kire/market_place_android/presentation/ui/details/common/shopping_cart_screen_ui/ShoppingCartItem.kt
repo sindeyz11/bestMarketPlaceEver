@@ -57,6 +57,7 @@ import com.kire.market_place_android.presentation.model.product.Product
 
 import com.kire.market_place_android.presentation.ui.details.common.item_add_to_cart_menu_ui.ProductItemCounter
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.bounceClick
 import com.kire.test.R
 
 /**
@@ -82,7 +83,9 @@ fun ShoppingCartItem(
     }
 
     LaunchedEffect(key1 = product) {
-        productItemCount = product.chosenQuantity
+        productItemCount = cartState.toBuy.firstOrNull {
+            it.id == product.id
+        }?.chosenQuantity ?: 1
     }
 
     Row(
@@ -114,6 +117,7 @@ fun ShoppingCartItem(
                 AsyncImage(
                     model = ImagePath.imagePathById + product.image.id.toString(),
                     placeholder = painterResource(id = R.drawable.default_image),
+                    error = painterResource(id = R.drawable.default_image),
                     contentDescription = "Shopping cart item image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -131,7 +135,7 @@ fun ShoppingCartItem(
                 Checkbox(
                     checked = cartState.toBuy.map { it.id }.contains(product.id) && productItemCount != 0,
                     onCheckedChange = { _ ->
-                        onEvent(CartUiEvent.productSelect(product))
+                        onEvent(CartUiEvent.productSelect(product.copy(chosenQuantity = productItemCount)))
                     },
                     colors = CheckboxDefaults.colors(
                         checkedColor = ExtendedTheme.colors.redAccent,
@@ -176,7 +180,7 @@ fun ShoppingCartItem(
                     )
 
                     Text(
-                        text = product.chosenQuantity.toString() + product.unit,
+                        text = productItemCount.toString() + product.unit,
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp,
                         color = Color.Gray
@@ -218,10 +222,8 @@ fun ShoppingCartItem(
                 tint = ExtendedTheme.colors.redAccent,
                 modifier = Modifier
                     .size(24.dp)
-                    .pointerInput(product.id) {
-                        detectTapGestures {
-                            onEvent(CartUiEvent.deleteFromCart(product.id))
-                        }
+                    .bounceClick {
+                        onEvent(CartUiEvent.deleteFromCart(product.id))
                     }
             )
         }

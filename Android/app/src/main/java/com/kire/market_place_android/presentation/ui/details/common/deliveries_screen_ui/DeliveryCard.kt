@@ -41,6 +41,7 @@ import com.kire.market_place_android.presentation.model.order.OrderedProduct
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 
 import com.kire.test.R
+import kotlin.math.floor
 
 /**
  * Карточка заказа пользователя
@@ -69,12 +70,10 @@ fun DeliveryCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                //ImageRequest should be replaced with URI
                 AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(ImagePath.imagePathById + product.image.id.toString())
-                        .build(),
+                    model = ImagePath.imagePathById + product.image.id.toString(),
                     placeholder = painterResource(id = R.drawable.default_image),
+                    error = painterResource(id = R.drawable.default_image),
                     contentDescription = "Deliveries item image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -100,10 +99,15 @@ fun DeliveryCard(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = Strings.RUB + "${price.toDouble() * quantity}",
+                            text = Strings.RUB + "${floor(price.toDouble() * quantity * 100.0) / 100.0}",
                             fontSize = 19.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color.Black
+                            color = Color.Black,
+                            modifier = Modifier
+                                .basicMarquee(
+                                    animationMode = MarqueeAnimationMode.Immediately,
+                                    delayMillis = 0
+                                )
                         )
 
                         Box(

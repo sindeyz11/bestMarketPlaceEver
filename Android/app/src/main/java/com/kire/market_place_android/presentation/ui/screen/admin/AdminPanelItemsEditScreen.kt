@@ -1,5 +1,8 @@
 package com.kire.market_place_android.presentation.ui.screen.admin
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 
@@ -27,7 +30,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+
 import androidx.compose.runtime.remember
+=======
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -59,9 +64,48 @@ import com.kire.test.R
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+
 import kotlinx.coroutines.launch
+=======
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 
 import java.io.InputStream
+
+/**
+=======
+ * Функция конвертации входящего потока байт в массив
+ *
+ * @param inputStream поток байт
+ *
+ * @author Michael Gontarev (KiREHwYE)*/
+private suspend fun getBytes(inputStream: InputStream): ByteArray {
+    return withContext(Dispatchers.IO) {
+        // Decode the input stream into a Bitmap
+        val bitmap = BitmapFactory.decodeStream(inputStream)
+
+        // Initialize variables for compression
+        var quality = 100
+        var byteArray: ByteArray
+        val byteBuffer = ByteArrayOutputStream()
+
+        // Compress the Bitmap and check the size
+        do {
+            byteBuffer.reset() // Clear the buffer
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, byteBuffer)
+            byteArray = byteBuffer.toByteArray()
+            quality -= 5 // Decrease the quality by 5 for the next iteration
+        } while (byteArray.size > 1024 * 1024 && quality > 0)
+
+        // Release the bitmap to free up memory
+        bitmap.recycle()
+
+
+        byteArray
+    }
+}
 
 /**
  * Экран редактирования информации о товаре
@@ -88,7 +132,7 @@ fun AdminPanelItemsEditScreen(
     val product by productViewModel.chosenProduct.collectAsStateWithLifecycle()
 
     val image = rememberSaveable {
-        mutableStateOf(ByteArray(1024))
+        mutableStateOf(byteArrayOf())
     }
 
     val context = LocalContext.current
@@ -105,7 +149,10 @@ fun AdminPanelItemsEditScreen(
             coroutineScope.launch {
                 val inputStream: InputStream = context.contentResolver.openInputStream(imageUri)
                     ?: return@launch
+              
                 image.value = compressImage(inputStream)
+                
+                image.value = getBytes(inputStream)
 
                 inputStream.close()
             }
@@ -176,6 +223,7 @@ fun AdminPanelItemsEditScreen(
                         .data(it)
                         .build(),
                     placeholder = painterResource(id = R.drawable.item_menu_default),
+                    error = painterResource(id = R.drawable.default_image),
                     contentDescription = "Shopping cart item image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
