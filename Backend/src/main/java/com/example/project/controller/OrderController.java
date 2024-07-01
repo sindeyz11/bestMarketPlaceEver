@@ -44,7 +44,7 @@ public class OrderController {
         try {
             orderService.create(request);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (NoSuchElementFoundException e) {
+        } catch (NoSuchElementFoundException | ProductsCountMismatchException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

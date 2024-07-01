@@ -48,7 +48,13 @@ public class OrderService {
 
     // --> UserService
     private void userAddAmountSpent(User user, BigDecimal orderCost) {
-        BigDecimal amountSpent = user.getAmount_spent();
+        BigDecimal amountSpent;
+        BigDecimal userAmountSpent = user.getAmount_spent();
+        if (userAmountSpent != null) {
+            amountSpent = userAmountSpent;
+        } else {
+            amountSpent = new BigDecimal(0);
+        }
         BigDecimal newAmountSpent = amountSpent.add(orderCost);
         user.setAmount_spent(newAmountSpent);
 
@@ -90,7 +96,7 @@ public class OrderService {
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public void create(OrderRequest orderRequest) throws NoSuchElementFoundException {
+    public void create(OrderRequest orderRequest) throws NoSuchElementFoundException, ProductsCountMismatchException {
         User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         PickupPoint pickupPoint = pickupPointRepo
                 .findById(orderRequest.getPickupPointId())
@@ -99,6 +105,7 @@ public class OrderService {
 
         List<OrderedProductRequest> orderedProductsReq = orderRequest.getOrderedProducts();
         List<OrderedProduct> orderedProductsToCreate = new ArrayList<>();
+        List<Product> productsToUpdate = new ArrayList<>();
 
         Order order = Order.builder()
                 .user(user)
@@ -116,31 +123,41 @@ public class OrderService {
 
         for (OrderedProductRequest orderedProductReq : orderedProductsReq) {
             var id = orderedProductReq.getProductId();
+            Product product;
             try {
-                var product = products
+                product = products
                         .stream()
                         .filter(p -> p.getProduct_id() == id)
                         .toList()
                         .get(0);
-                BigDecimal discountPrice = getFinalDiscountPrice(product, user);
-
-                orderedProductsToCreate.add(OrderedProduct.builder()
-                        .order(order)
-                        .product(product)
-                        .count(orderedProductReq.getCountProduct())
-                        .discountPrice(discountPrice)
-                        .deliveryDays(product.getDeliveryDays())
-                        .deliveryStatus(deliveryStatus)
-                        .build()
-                );
-
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 throw new NoSuchElementFoundException(Constants.NOT_FOUND_PRODUCT + id.toString());
             }
+
+            var productQuantityAvailable = product.getQuantity_of_available();
+            if (productQuantityAvailable.compareTo(orderedProductReq.getCountProduct()) < 0) {
+                throw new ProductsCountMismatchException(product.getTitle() + " - такого количества товара нет в наличии");
+            }
+
+            BigDecimal discountPrice = getFinalDiscountPrice(product, user);
+
+            orderedProductsToCreate.add(OrderedProduct.builder()
+                    .order(order)
+                    .product(product)
+                    .count(orderedProductReq.getCountProduct())
+                    .discountPrice(discountPrice)
+                    .deliveryDays(product.getDeliveryDays())
+                    .deliveryStatus(deliveryStatus)
+                    .build()
+            );
+            product.setQuantity_of_available(productQuantityAvailable - orderedProductReq.getCountProduct());
+            productsToUpdate.add(product);
         }
         userAddAmountSpent(user, orderRequest.getOrderPrice());
 
         userRepo.save(user);
+        productRepository.saveAll(productsToUpdate);
         orderedProductRepo.saveAll(orderedProductsToCreate);
     }
 
