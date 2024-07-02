@@ -12,16 +12,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.rememberScrollState
+
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.material3.Text
 
@@ -37,7 +34,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -46,12 +42,10 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import coil.compose.AsyncImage
-
-import coil.request.ImageRequest
-import com.kire.market_place_android.presentation.constant.ImagePath
 
 import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.product.CartUiEvent
@@ -70,6 +64,7 @@ import com.kire.test.R
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+
 import java.text.NumberFormat
 
 /**
@@ -179,7 +174,8 @@ fun ItemAddToCartMenu(
 
                         Column(
                             modifier = Modifier
-                                .wrapContentHeight(),
+                                .wrapContentHeight()
+                                .weight(1f),
                             horizontalAlignment = Alignment.Start
                         ) {
 
@@ -256,7 +252,8 @@ fun ItemAddToCartMenu(
                             }
                         },
                         maxLines = 2,
-                        modifier = Modifier.padding(start = 28.dp)
+                        modifier = Modifier
+                            .padding(start = 28.dp, end = 28.dp)
                     )
                 }
 

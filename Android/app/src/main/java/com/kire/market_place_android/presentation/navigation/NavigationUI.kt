@@ -118,7 +118,6 @@ fun NavigationUI(
         composable(AdminPanelItemsEditScreenDestination) {
             AdminPanelItemsEditScreen(
                 productViewModel = productViewModel,
-                onEvent = productViewModel::onEvent,
                 navigator = destinationsNavigator
             )
         }
@@ -132,6 +131,7 @@ fun NavigationUI(
         composable(ManagerScreenDestination) {
             ManagerScreen(
                 managerViewModel = managerViewModel,
+                userViewModel = userViewModel,
                 navigator = destinationsNavigator
             )
         }

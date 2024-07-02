@@ -79,7 +79,7 @@ class ProductRepository @Inject constructor(
                 //Save to local
                 //............
 
-                IRequestResultDomain.Success(response)
+                IRequestResultDomain.Success(response.toDomain())
 
             } catch (e: Errors){
                 IRequestResultDomain.Errors(e.errors)
@@ -154,11 +154,9 @@ class ProductRepository @Inject constructor(
         return withContext(coroutineDispatcher) {
 
             try {
-                val response = productApi.addProduct(
-                    product = product.toRequest(image = image)
-                )
+                productApi.addProduct(product = product.toRequest(image = image))
 
-                IRequestResultDomain.Success(response)
+                IRequestResultDomain.SuccessfullyDone
 
             } catch (e: Errors){
                 IRequestResultDomain.Errors(e.errors)

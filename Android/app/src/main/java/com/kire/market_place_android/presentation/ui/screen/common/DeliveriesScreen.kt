@@ -1,12 +1,10 @@
 package com.kire.market_place_android.presentation.ui.screen.common
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 
 import androidx.compose.ui.Alignment
@@ -32,10 +31,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kire.market_place_android.presentation.constant.BottomBarHeight
-import com.kire.market_place_android.presentation.constant.Strings
 
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+
+import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.navigation.transition.common.DeliveriesScreenTransitions
 import com.kire.market_place_android.presentation.screen.deliveries_screen_ui.DeliveryCard
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.ListWithTopAndFab
@@ -70,6 +69,10 @@ fun DeliveriesScreen(
         return@BackHandler
     }
 
+    LaunchedEffect(orderViewModel) {
+        orderViewModel.getOrders()
+    }
+
     val orders by orderViewModel.orders.collectAsStateWithLifecycle()
 
     RequestResultMessage(
@@ -82,7 +85,7 @@ fun DeliveriesScreen(
         topBar = {
             Row(
                 modifier = Modifier
-                    .padding(start = 28.dp, end = 28.dp, bottom = 30.dp)
+                    .padding(bottom = 30.dp)
                     .fillMaxWidth()
                     .height(120.dp),
                 verticalAlignment = Alignment.Bottom

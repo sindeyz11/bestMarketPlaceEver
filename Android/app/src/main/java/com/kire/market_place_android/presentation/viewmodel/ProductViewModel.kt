@@ -2,6 +2,7 @@ package com.kire.market_place_android.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kire.market_place_android.domain.model.product.CategoryDomain
 
 import com.kire.market_place_android.domain.model.product.ProductDomain
 import com.kire.market_place_android.domain.use_case.admin.util.IAdminUseCases
@@ -12,6 +13,7 @@ import com.kire.market_place_android.presentation.mapper.toPresentation
 import com.kire.market_place_android.presentation.model.IRequestResult
 import com.kire.market_place_android.presentation.model.product.CartState
 import com.kire.market_place_android.presentation.model.product.CartUiEvent
+import com.kire.market_place_android.presentation.model.product.Category
 import com.kire.market_place_android.presentation.model.product.Product
 import com.kire.market_place_android.presentation.model.product.ProductUiEvent
 
@@ -37,8 +39,8 @@ class ProductViewModel @Inject constructor(
     private val _allProducts: MutableStateFlow<List<Product>> = MutableStateFlow(emptyList())
     val allProducts: StateFlow<List<Product>> = _allProducts.asStateFlow()
 
-    private val _allCategories: MutableStateFlow<Set<String>> = MutableStateFlow(emptySet())
-    val allCategories: StateFlow<Set<String>> = _allCategories.asStateFlow()
+    private val _allCategories: MutableStateFlow<List<Category>> = MutableStateFlow(emptyList())
+    val allCategories: StateFlow<List<Category>> = _allCategories.asStateFlow()
 
     private val _chosenProduct: MutableStateFlow<Product> = MutableStateFlow(Product())
     val chosenProduct: StateFlow<Product> = _chosenProduct.asStateFlow()
@@ -106,7 +108,7 @@ class ProductViewModel @Inject constructor(
             }
 
             is ProductUiEvent.ItemDescriptionChanged -> {
-                if (event.itemDescription.matches("[а-яёА-ЯЁ]*".toRegex()))
+                if (event.itemDescription.matches("[а-яёА-ЯЁ\\s]+".toRegex()))
                     _chosenProduct.value =
                         _chosenProduct.value.copy(description = event.itemDescription)
             }
@@ -123,7 +125,7 @@ class ProductViewModel @Inject constructor(
             }
 
             is ProductUiEvent.ItemNameChanged -> {
-                if (event.itemName.matches("[а-яёА-ЯЁ]*".toRegex()))
+                if (event.itemName.matches("[а-яёА-ЯЁ\\s]+".toRegex()))
                     _chosenProduct.value = _chosenProduct.value.copy(title = event.itemName)
             }
 
@@ -134,7 +136,7 @@ class ProductViewModel @Inject constructor(
             }
 
             is ProductUiEvent.ItemStoredChanged -> {
-                if (event.itemStored.matches("\\d*".toRegex()))
+                if (event.itemStored.matches("\\d+".toRegex()))
                     _chosenProduct.value =
                         _chosenProduct.value.copy(quantityAvailable = event.itemStored.toInt())
             }
@@ -172,12 +174,12 @@ class ProductViewModel @Inject constructor(
     fun getAllCategories() =
         viewModelScope.launch {
             _requestResult.value =
-                commonUseCases.getAllAvailableCategoriesUseCase().toPresentation<Set<String>>()
+                commonUseCases.getAllAvailableCategoriesUseCase().toPresentation<List<CategoryDomain>>()
                     .also { result ->
                         if (result is IRequestResult.Success<*>)
-                            _allCategories.value = (result.data as Set<*>).map {
-                                it.toString()
-                            }.toSet()
+                            _allCategories.value = (result.data as List<*>).map {
+                                (it as CategoryDomain).toPresentation()
+                            }
                     }
         }
 
@@ -195,6 +197,6 @@ class ProductViewModel @Inject constructor(
             _requestResult.value = adminUseCases.addProductUseCase(
                 image = image,
                 product = product.toDomain()
-            ).toPresentation<ProductDomain>()
+            ).toPresentation<Nothing>()
         }
 }

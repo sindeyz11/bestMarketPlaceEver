@@ -1,8 +1,5 @@
 package com.kire.market_place_android.presentation.ui.details.common.shopping_cart_screen_ui
 
-import android.util.Log
-import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.MarqueeAnimationMode
 import androidx.compose.foundation.basicMarquee
@@ -11,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,7 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 
@@ -40,16 +37,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.kire.market_place_android.presentation.constant.ImagePath
+
 import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.product.CartState
 import com.kire.market_place_android.presentation.model.product.CartUiEvent
@@ -64,10 +58,10 @@ import com.kire.test.R
 /**
  * Карточка товара в корзине
  *
- * @param name Название товара
- * @param price Цена товара
- * @param amount Количество товара
- * @param unit Единица измерения
+ * @param product Товар
+ * @param cartState Состояние корзины
+ * @param onEvent Обработчик событий
+ * @param modifier Модификатор
  *
  * @author Michael Gontarev (KiREHwYE)*/
 @OptIn(ExperimentalFoundationApi::class)
@@ -95,7 +89,7 @@ fun ShoppingCartItem(
             .height(120.dp)
             .pointerInput(Unit) {
                 detectTapGestures {
-                    onEvent(CartUiEvent.productSelect(product))
+                    onEvent(CartUiEvent.productSelect(product.copy(chosenQuantity = productItemCount)))
                 }
             },
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -104,7 +98,8 @@ fun ShoppingCartItem(
 
         Row(
             modifier = Modifier
-                .fillMaxHeight(),
+                .fillMaxHeight()
+                .weight(1f),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -122,7 +117,8 @@ fun ShoppingCartItem(
                     contentDescription = "Shopping cart item image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .size(120.dp)
+                        .fillMaxHeight()
+                        .aspectRatio(1f / 1f)
                         .clip(
                             RoundedCornerShape(
                                 topStart = 15.dp,

@@ -1,7 +1,5 @@
 package com.kire.market_place_android.presentation.ui.screen.common
 
-import android.widget.Toast
-import android.widget.Toast.LENGTH_SHORT
 import androidx.activity.compose.BackHandler
 
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,10 +22,10 @@ import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+
 import com.kire.market_place_android.presentation.constant.BottomBarHeight
 import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.order.Order
@@ -48,7 +47,9 @@ import com.kire.market_place_android.presentation.viewmodel.UserViewModel
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+
 import kotlinx.coroutines.flow.StateFlow
+
 import java.time.LocalDate
 import java.time.Year
 
@@ -75,6 +76,10 @@ fun ProfileScreen(
         return@BackHandler
     }
 
+    LaunchedEffect(userViewModel) {
+        userViewModel.updateUser()
+    }
+
     val profileState = userViewModel.profileState
 
     RequestResultMessage(
@@ -84,7 +89,6 @@ fun ProfileScreen(
 
     val orders by orders.collectAsStateWithLifecycle()
 
-    val context = LocalContext.current
 
     val closestDelivery = remember {
         try {
@@ -94,12 +98,6 @@ fun ProfileScreen(
                 }
             }
         } catch (e: Exception) {
-            Toast.makeText(
-                context,
-                Strings.SOME_ERROR,
-                LENGTH_SHORT
-            ).show()
-
             LocalDate.MAX
         }
     }

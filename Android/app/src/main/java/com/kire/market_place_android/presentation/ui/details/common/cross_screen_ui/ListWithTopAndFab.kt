@@ -28,19 +28,18 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kire.market_place_android.presentation.constant.BottomBarHeight
+
 import com.kire.market_place_android.presentation.constant.Strings
 
-import com.kire.test.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
 import kotlin.math.roundToInt
+
 
 /**
  * Контейнер-список с топ баром и плавающей кнопкой

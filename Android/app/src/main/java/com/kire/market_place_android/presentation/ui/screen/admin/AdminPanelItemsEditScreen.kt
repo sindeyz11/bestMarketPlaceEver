@@ -1,8 +1,5 @@
 package com.kire.market_place_android.presentation.ui.screen.admin
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 
@@ -31,12 +28,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 
-import androidx.compose.runtime.remember
-import java.io.ByteArrayOutputStream
-
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,7 +44,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.kire.market_place_android.presentation.constant.ImagePath
 
 import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.product.ProductUiEvent
@@ -70,10 +62,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-
 
 import java.io.InputStream
 
@@ -90,7 +78,6 @@ import java.io.InputStream
 @Composable
 fun AdminPanelItemsEditScreen(
     productViewModel: ProductViewModel,
-    onEvent: (ProductUiEvent) -> Unit,
     navigator: DestinationsNavigator,
     paddingValues: PaddingValues = PaddingValues(28.dp)
 ) {
@@ -226,7 +213,7 @@ fun AdminPanelItemsEditScreen(
                             icon = R.drawable.name_icon,
                             hint = Strings.ENTER_NAME,
                             onTextValueChange = {
-                                onEvent(ProductUiEvent.ItemNameChanged(it))
+                                productViewModel.onEvent(ProductUiEvent.ItemNameChanged(it))
                             },
                             textValue = product.title
                         )
@@ -238,7 +225,7 @@ fun AdminPanelItemsEditScreen(
                             icon = R.drawable.tag,
                             hint = Strings.ENTER_CATEGORY,
                             onTextValueChange = {
-                                onEvent(ProductUiEvent.ItemCategoryChanged(it))
+                                productViewModel.onEvent(ProductUiEvent.ItemCategoryChanged(it))
                             },
                             textValue = product.category
                         )
@@ -261,9 +248,11 @@ fun AdminPanelItemsEditScreen(
                                     hint = Strings.RUB_NUM,
                                     isTextCentered = true,
                                     onTextValueChange = {
-                                        onEvent(ProductUiEvent.ItemPriceChanged(it))
+                                        productViewModel.onEvent(ProductUiEvent.ItemPriceChanged(it))
                                     },
-                                    textValue = product.price.toString()
+                                    textValue =
+                                        if (product.price == 0.0.toBigDecimal() ) ""
+                                        else product.price.toString()
                                 )
                             }
                             item {
@@ -275,7 +264,7 @@ fun AdminPanelItemsEditScreen(
                                     hint = Strings.SCALE,
                                     isTextCentered = true,
                                     onTextValueChange = {
-                                        onEvent(ProductUiEvent.ItemMeasureChanged(it))
+                                        productViewModel.onEvent(ProductUiEvent.ItemMeasureChanged(it))
                                     },
                                     textValue = product.unit
                                 )
@@ -290,9 +279,11 @@ fun AdminPanelItemsEditScreen(
                                     hint = Strings.RUB_NUM,
                                     isTextCentered = true,
                                     onTextValueChange = {
-                                        onEvent(ProductUiEvent.ItemDiscountPriceChanged(it))
+                                        productViewModel.onEvent(ProductUiEvent.ItemDiscountPriceChanged(it))
                                     },
-                                    textValue = product.discountPrice.toString()
+                                    textValue =
+                                        if (product.discountPrice == 0.0.toBigDecimal() ) ""
+                                        else product.discountPrice.toString()
                                 )
                             }
 
@@ -305,9 +296,11 @@ fun AdminPanelItemsEditScreen(
                                     hint = Strings.CONTAINS,
                                     isTextCentered = true,
                                     onTextValueChange = {
-                                        onEvent(ProductUiEvent.ItemStoredChanged(it))
+                                        productViewModel.onEvent(ProductUiEvent.ItemStoredChanged(it))
                                     },
-                                    textValue = product.quantityAvailable.toString()
+                                    textValue =
+                                        if (product.quantityAvailable == 0) ""
+                                        else product.quantityAvailable.toString()
                                 )
                             }
                         }
@@ -320,7 +313,7 @@ fun AdminPanelItemsEditScreen(
                             hint = Strings.DESCRIPTION,
                             isTextCentered = false,
                             onTextValueChange = {
-                                onEvent(ProductUiEvent.ItemDescriptionChanged(it))
+                                productViewModel.onEvent(ProductUiEvent.ItemDescriptionChanged(it))
                             },
                             textValue = product.description
                         )
@@ -331,29 +324,15 @@ fun AdminPanelItemsEditScreen(
                     textValue = if (product.id == -1)
                         Strings.SAVE else Strings.DELETE,
                     onClick = {
-                        coroutineScope.launch {
-                            if (product.id == -1)
-                                onEvent(
-                                    ProductUiEvent.AddItem(
-                                        image = image.value,
-                                        item = product
-                                    )
+                        if (product.id == -1)
+                            productViewModel.onEvent(
+                                ProductUiEvent.AddItem(
+                                    image = image.value,
+                                    item = product
                                 )
-                            /*else productViewModel.updateProductById(
-                                id = product.id,
-                                image = image.value,
-                                product = product.copy(
-                                    title = itemName,
-                                    category = itemCategory,
-                                    price = itemPrice.toBigDecimal(),
-                                    discountPrice = itemDiscountPrice.toBigDecimal(),
-                                    unit = itemMeasure,
-                                    quantityAvailable = itemStored.toInt(),
-                                    description = itemDescription
-                                )
-                            )*/
-                            productViewModel.refreshProducts()
-                        }
+                            )
+
+                        productViewModel.refreshProducts()
                     }
                 )
             }
