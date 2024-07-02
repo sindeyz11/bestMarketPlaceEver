@@ -21,5 +21,5 @@ fun onSearchRequestChange(
 ): List<Product> = products.filter { product ->
             (searchString.isEmpty() || levenshteinRatio(product.title.lowercase(), searchString.lowercase()) > 0.7 || product.title.contains(searchString, ignoreCase = true)) &&
             (categoryList.isEmpty() || categoryList.contains(product.category)) &&
-            priceRange.first <= product.price && product.price <= priceRange.second
+            priceRange.first <= product.discountPrice && product.discountPrice <= priceRange.second
 }

@@ -3,7 +3,7 @@ package com.kire.market_place_android.presentation.model.product
 import java.math.BigDecimal
 
 /**
- * By Aleksey Timko (de4ltt)*/
+ * @author Aleksey Timko (de4ltt)*/
 data class Product(
     val id: Int = -1,
     val title: String = "",

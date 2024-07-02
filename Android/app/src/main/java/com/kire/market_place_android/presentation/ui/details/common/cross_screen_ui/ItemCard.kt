@@ -161,7 +161,7 @@ fun ItemCard(
                 )
 
                 Text(
-                    text = quantityAvailable.toString() + unit,
+                    text = "1" + unit,
                     color = Color.DarkGray,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,
