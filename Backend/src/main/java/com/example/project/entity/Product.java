@@ -1,6 +1,7 @@
 package com.example.project.entity;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import lombok.Data;
 
 import java.util.List;
@@ -17,11 +18,18 @@ public class Product {
     @JoinColumn(name = "image_id", referencedColumnName = "image_id")
     private Image product_image;
     private String description;
-    private Integer price;
-    private Integer discount_price;
+
+    @Column(name = "price", precision = 18, scale = 2)
+    private BigDecimal price;
+
+    @Column(name = "discount_price", precision = 18, scale = 2)
+    private BigDecimal discountPrice;
+
     private Integer quantity_of_available;
     private String unit;
-    private Integer delivery_days;
+
+    @Column(name = "delivery_days")
+    private Integer deliveryDays;
 
     @OneToOne(mappedBy = "product_category")
     private CategoryProduct categories;

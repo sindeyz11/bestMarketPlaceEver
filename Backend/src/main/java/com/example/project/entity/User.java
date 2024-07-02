@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -27,11 +29,14 @@ public class User implements UserDetails{
     private String phone;
     @Column(unique = true)
     private String email;
-    private Integer user_discount;
-    private Integer amount_spent;
+
+    @Column(name = "user_discount")
+    private Double userDiscount;
+
+    private BigDecimal amount_spent;
     private Integer CVC;
     private String card_number;
-    private LocalDate datetime;
+    private LocalDate validity;
 
     @Enumerated(EnumType.STRING)
     private Role role;

@@ -19,21 +19,14 @@ import java.util.List;
 public class Order {
     @Id
     @Column(name = "order_id")
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "sequence-order"
-    )
-    @SequenceGenerator(
-            name = "sequence-order",
-            sequenceName = "sequence_order"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
-    private LocalDate datetime;
+    private LocalDate formation_date;
 
     @ManyToOne
     @JoinColumn(name = "point_id", referencedColumnName = "point_id")

@@ -1,8 +1,6 @@
 package com.example.project.config;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
@@ -11,20 +9,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class JwtService {
-
-    private static final String secretKey = "NxQUNwfDQ+KLezR308zozrWrJc/frc6m6GMkR9IAVtuuL5tmZ9GdP2dvYTuus96E4pQiDoMqiK/HeF5tHM0Bt7qQc2pBrAOi74ByL/7oO/FLn8pp38A12MdWBOn6cSf7JJpJTTdPWrxk6+EayHVBljBiQdqJdEIgKFm5+4JYmi9vZWcl/rERCKgEBJ2RUcK3WpFFyNH8iwJ7hXUP60EXPY5FmXRzHc3TbJJHkt3FJwWyKpN8I6hOd828xL3pS2HzX/II3MiOdq2NU9yh9GHVHeDgFIQIQZsMkKqGGNK9dSFeKBBTMjAmQAQRxQvdpJKuS31Pq0P8t72u/f1rzwUlMpUHP2OSiuBksZN36GR+1U0=";
-
-
-    public String extractUsername(String token) {
+  
+    @Value("${application.security.jwt.secret-key}")
+    private String secretKey;
+  
+    public String extractUsername(String token) throws ExpiredJwtException, MalformedJwtException{
         return extractClaim(token, Claims::getSubject);
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) throws ExpiredJwtException, MalformedJwtException{
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
@@ -42,7 +43,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -60,17 +61,17 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+    private Claims extractAllClaims(String token) throws ExpiredJwtException, MalformedJwtException{
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSignInKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
     }
 
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
 }

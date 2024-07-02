@@ -14,12 +14,15 @@ public class PickupPointDTOMapper implements Function<PickupPoint, PickupPointDT
     public PickupPointDTO apply(PickupPoint pickupPoint) {
         User manager = pickupPoint.getManager();
         String managerName = null;
+        Integer managerId = null;
         if (manager != null) {
             managerName = manager.getName();
+            managerId = manager.getUser_id();
         }
         return new PickupPointDTO(
                 pickupPoint.getId(),
                 pickupPoint.getAddress(),
+                managerId,
                 managerName,
                 pickupPoint.getIncome()
         );

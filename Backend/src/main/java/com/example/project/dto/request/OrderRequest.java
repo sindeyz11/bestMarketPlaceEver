@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -21,4 +22,9 @@ public class OrderRequest {
     @Valid
     @NotEmpty(message = "Список продуктов не может быть пустым")
     private List<OrderedProductRequest> orderedProducts;
+
+    @JsonProperty("order_price")
+    @NotNull(message = "Сумма заказа не может быть пустой")
+    private BigDecimal orderPrice;
+
 }

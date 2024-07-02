@@ -14,8 +14,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.example.project.entity.Role.MANAGER;
 
 @Service
 @AllArgsConstructor
@@ -31,23 +33,39 @@ public class PickupPointService {
                 .collect(Collectors.toList());
     }
 
-    public PickupPointDTO create(PickupPointRequest request) throws NoSuchElementFoundException, CannotUseUserException {
-        User user = userRepository.findById(request.getManagerId())
+    public PickupPointDTO findByManagerId(Integer managerId) throws NoSuchElementFoundException, CannotUseUserException {
+        User manager = userRepository.findById(managerId)
                 .orElseThrow(() -> new NoSuchElementFoundException(Constants.NOT_FOUND_MANAGER));
 
-        //        if (!user.getRole().name().equals("ROLE_MANAGER")) {
-//            throw new CannotUseUserExceptiion(Constants.);
-//        }
+        if (!manager.getRole().name().equals(MANAGER.name())) {
+            throw new CannotUseUserException(Constants.USER_IS_NOT_MANAGER);
+        }
 
-        if (user.isLinkedToPickupPoint()) {
+        if (!manager.isLinkedToPickupPoint()) {
+            throw new CannotUseUserException(Constants.USER_IS_NOT_LINKED_TO_POINT);
+        }
+
+        return dtoMapper.apply(pickupPointRepo.findByManager(manager));
+    }
+
+    public PickupPointDTO create(PickupPointRequest request) throws NoSuchElementFoundException, CannotUseUserException {
+        User manager = userRepository.findById(request.getManagerId())
+                .orElseThrow(() -> new NoSuchElementFoundException(Constants.NOT_FOUND_MANAGER));
+
+        if (!manager.getRole().name().equals(MANAGER.name())) {
+            throw new CannotUseUserException(Constants.USER_IS_NOT_MANAGER);
+        }
+
+        if (manager.isLinkedToPickupPoint()) {
             throw new CannotUseUserException(Constants.CANNOT_USE_MANAGER);
         }
 
         PickupPoint pickupPoint = PickupPoint.builder()
                 .address(request.getAddress())
-                .income(0)
-                .manager(user)
+                .income(0.0)
+                .manager(manager)
                 .build();
+
         pickupPointRepo.save(pickupPoint);
         return dtoMapper.apply(pickupPoint);
     }
@@ -56,21 +74,29 @@ public class PickupPointService {
         PickupPoint pickupPoint = pickupPointRepo.findById(id)
                 .orElseThrow(() -> new NoSuchElementFoundException(Constants.NOT_FOUND_PICKUPPOINT));
 
-        User user = userRepository.findById(request.getManagerId())
+        User manager = userRepository.findById(request.getManagerId())
                 .orElseThrow(() -> new NoSuchElementFoundException(Constants.NOT_FOUND_MANAGER));
 
-//        if (!user.getRole().name().equals("ROLE_MANAGER")) {
-//            throw new CannotUseUserExceptiion(Constants.);
-//        }
+        if (!manager.getRole().name().equals(MANAGER.name())) {
+            throw new CannotUseUserException(Constants.USER_IS_NOT_MANAGER);
+        }
 
-        if (user.isLinkedToPickupPoint()) {
+        if (manager.isLinkedToPickupPoint() && !Objects.equals(manager.getUser_pickup_points().getId(), id)) {
             throw new CannotUseUserException(Constants.CANNOT_USE_MANAGER);
         }
 
         pickupPoint.setAddress(request.getAddress());
-        pickupPoint.setManager(user);
+        pickupPoint.setManager(manager);
 
         pickupPointRepo.save(pickupPoint);
         return dtoMapper.apply(pickupPoint);
+    }
+
+    public void delete(Integer id) throws NoSuchElementFoundException {
+        if (!pickupPointRepo.existsById(id)) {
+            throw new NoSuchElementFoundException(Constants.NOT_FOUND_PICKUPPOINT);
+        }
+
+        pickupPointRepo.deleteById(id);
     }
 }

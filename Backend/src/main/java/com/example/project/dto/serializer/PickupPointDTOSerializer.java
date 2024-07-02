@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+import static com.example.project.entity.Role.ADMIN;
+import static com.example.project.entity.Role.MANAGER;
+
 @Component
 public class PickupPointDTOSerializer extends StdSerializer<PickupPointDTO> {
 
@@ -24,12 +27,16 @@ public class PickupPointDTOSerializer extends StdSerializer<PickupPointDTO> {
     @Override
     public void serialize(PickupPointDTO pickupPoint, JsonGenerator jgen, SerializerProvider provider) throws IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // todo add income depends on user role
-        // https://stackoverflow.com/questions/62793553/spring-boot-customize-api-response-based-on-the-user-roles
+        String role = authentication.getAuthorities().toString();
+
         jgen.writeStartObject();
         jgen.writeStringField("id", String.valueOf(pickupPoint.getId()));
         jgen.writeStringField("address", pickupPoint.getAddress());
+        jgen.writeStringField("manager_id", String.valueOf(pickupPoint.getManagerId()));
         jgen.writeStringField("manager_name", String.valueOf(pickupPoint.getManagerName()));
+        if (role.contains(MANAGER.name()) || role.contains(ADMIN.name())) {
+            jgen.writeStringField("income", String.valueOf(pickupPoint.getIncome()));
+        }
         jgen.writeEndObject();
     }
 }
