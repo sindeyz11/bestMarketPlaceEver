@@ -1,8 +1,5 @@
 package com.kire.market_place_android.presentation.ui.screen.admin
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 
@@ -31,12 +28,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 
-import androidx.compose.runtime.remember
-import java.io.ByteArrayOutputStream
-
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,9 +44,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.kire.market_place_android.presentation.constant.ImagePath
 
 import com.kire.market_place_android.presentation.constant.Strings
+import com.kire.market_place_android.presentation.model.product.ProductUiEvent
 import com.kire.market_place_android.presentation.navigation.transition.admin.AdminPanelItemsEditScreenTransitions
 import com.kire.market_place_android.presentation.ui.details.admin.admin_panel_items_edit_screen_ui.AdminEditTopControls
 import com.kire.market_place_android.presentation.ui.details.admin.admin_panel_items_edit_screen_ui.AdminPanelIconField
@@ -69,44 +62,8 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-
 
 import java.io.InputStream
-
-/**
- * Функция конвертации входящего потока байт в массив
- *
- * @param inputStream поток байт
- *
- * @author Michael Gontarev (KiREHwYE)*/
-private suspend fun getBytes(inputStream: InputStream): ByteArray {
-    return withContext(Dispatchers.IO) {
-        // Decode the input stream into a Bitmap
-        val bitmap = BitmapFactory.decodeStream(inputStream)
-
-        // Initialize variables for compression
-        var quality = 100
-        var byteArray: ByteArray
-        val byteBuffer = ByteArrayOutputStream()
-
-        // Compress the Bitmap and check the size
-        do {
-            byteBuffer.reset() // Clear the buffer
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, byteBuffer)
-            byteArray = byteBuffer.toByteArray()
-            quality -= 5 // Decrease the quality by 5 for the next iteration
-        } while (byteArray.size > 1024 * 1024 && quality > 0)
-
-        // Release the bitmap to free up memory
-        bitmap.recycle()
-
-
-        byteArray
-    }
-}
 
 /**
  * Экран редактирования информации о товаре
@@ -154,41 +111,13 @@ fun AdminPanelItemsEditScreen(
             coroutineScope.launch {
                 val inputStream: InputStream = context.contentResolver.openInputStream(imageUri)
                     ?: return@launch
-                
-                image.value = getBytes(inputStream)
+
+                image.value = compressImage(inputStream)
 
                 inputStream.close()
             }
         }
     )
-
-    var itemName by remember {
-        mutableStateOf(product.title)
-    }
-
-    var itemCategory by remember {
-        mutableStateOf(product.category)
-    }
-
-    var itemPrice by remember {
-        mutableStateOf(product.price.toString())
-    }
-
-    var itemDiscountPrice by remember {
-        mutableStateOf(product.discountPrice.toString())
-    }
-
-    var itemMeasure by remember {
-        mutableStateOf(product.unit)
-    }
-
-    var itemStored by remember {
-        mutableStateOf(product.quantityAvailable.toString())
-    }
-
-    var itemDescription by remember {
-        mutableStateOf(product.description)
-    }
 
     product.apply {
 
@@ -215,9 +144,9 @@ fun AdminPanelItemsEditScreen(
 
             Crossfade(
                 targetState =
-                    if (image.value.isNotEmpty())
-                        image.value
-                    else product.image,
+                if (image.value.isNotEmpty())
+                    image.value
+                else product.image,
                 animationSpec = tween(durationMillis = 600, easing = LinearEasing),
                 label = "",
                 modifier = Modifier
@@ -284,9 +213,9 @@ fun AdminPanelItemsEditScreen(
                             icon = R.drawable.name_icon,
                             hint = Strings.ENTER_NAME,
                             onTextValueChange = {
-                                itemName = it
+                                productViewModel.onEvent(ProductUiEvent.ItemNameChanged(it))
                             },
-                            textValue = itemName
+                            textValue = product.title
                         )
 
                         AdminPanelIconField(
@@ -296,9 +225,9 @@ fun AdminPanelItemsEditScreen(
                             icon = R.drawable.tag,
                             hint = Strings.ENTER_CATEGORY,
                             onTextValueChange = {
-                                itemCategory = it
+                                productViewModel.onEvent(ProductUiEvent.ItemCategoryChanged(it))
                             },
-                            textValue = itemCategory
+                            textValue = product.category
                         )
 
                         LazyVerticalGrid(
@@ -319,9 +248,11 @@ fun AdminPanelItemsEditScreen(
                                     hint = Strings.RUB_NUM,
                                     isTextCentered = true,
                                     onTextValueChange = {
-                                        itemPrice = it
+                                        productViewModel.onEvent(ProductUiEvent.ItemPriceChanged(it))
                                     },
-                                    textValue = itemPrice.toString()
+                                    textValue =
+                                        if (product.price == 0.0.toBigDecimal() ) ""
+                                        else product.price.toString()
                                 )
                             }
                             item {
@@ -333,9 +264,9 @@ fun AdminPanelItemsEditScreen(
                                     hint = Strings.SCALE,
                                     isTextCentered = true,
                                     onTextValueChange = {
-                                        itemMeasure = it
+                                        productViewModel.onEvent(ProductUiEvent.ItemMeasureChanged(it))
                                     },
-                                    textValue = itemMeasure
+                                    textValue = product.unit
                                 )
                             }
 
@@ -348,9 +279,11 @@ fun AdminPanelItemsEditScreen(
                                     hint = Strings.RUB_NUM,
                                     isTextCentered = true,
                                     onTextValueChange = {
-                                        itemDiscountPrice = it
+                                        productViewModel.onEvent(ProductUiEvent.ItemDiscountPriceChanged(it))
                                     },
-                                    textValue = itemDiscountPrice.toString()
+                                    textValue =
+                                        if (product.discountPrice == 0.0.toBigDecimal() ) ""
+                                        else product.discountPrice.toString()
                                 )
                             }
 
@@ -363,9 +296,11 @@ fun AdminPanelItemsEditScreen(
                                     hint = Strings.CONTAINS,
                                     isTextCentered = true,
                                     onTextValueChange = {
-                                        itemStored = it
+                                        productViewModel.onEvent(ProductUiEvent.ItemStoredChanged(it))
                                     },
-                                    textValue = itemStored.toString()
+                                    textValue =
+                                        if (product.quantityAvailable == 0) ""
+                                        else product.quantityAvailable.toString()
                                 )
                             }
                         }
@@ -378,9 +313,9 @@ fun AdminPanelItemsEditScreen(
                             hint = Strings.DESCRIPTION,
                             isTextCentered = false,
                             onTextValueChange = {
-                                itemDescription = it
+                                productViewModel.onEvent(ProductUiEvent.ItemDescriptionChanged(it))
                             },
-                            textValue = itemDescription
+                            textValue = product.description
                         )
                     }
                 }
@@ -389,35 +324,15 @@ fun AdminPanelItemsEditScreen(
                     textValue = if (product.id == -1)
                         Strings.SAVE else Strings.DELETE,
                     onClick = {
-                        coroutineScope.launch {
-                            if (product.id == -1)
-                                productViewModel.addProduct(
+                        if (product.id == -1)
+                            productViewModel.onEvent(
+                                ProductUiEvent.AddItem(
                                     image = image.value,
-                                    product = product.copy(
-                                        title = itemName,
-                                        category = itemCategory,
-                                        price = itemPrice.toBigDecimal(),
-                                        discountPrice = itemDiscountPrice.toBigDecimal(),
-                                        unit = itemMeasure,
-                                        quantityAvailable = itemStored.toInt(),
-                                        description = itemDescription
-                                    )
-                                )
-                            else productViewModel.updateProductById(
-                                id = product.id,
-                                image = image.value,
-                                product = product.copy(
-                                    title = itemName,
-                                    category = itemCategory,
-                                    price = itemPrice.toBigDecimal(),
-                                    discountPrice = itemDiscountPrice.toBigDecimal(),
-                                    unit = itemMeasure,
-                                    quantityAvailable = itemStored.toInt(),
-                                    description = itemDescription
+                                    item = product
                                 )
                             )
-                            productViewModel.refreshProducts()
-                        }
+
+                        productViewModel.refreshProducts()
                     }
                 )
             }

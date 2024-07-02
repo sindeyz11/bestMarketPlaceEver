@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.toMonetaryFormat
 import com.kire.test.R
 
 /**
@@ -65,7 +66,7 @@ fun PurchaseFloatingActionButton(
                             + Strings.UNIT
                             + ", "
                             + Strings.RUB
-                            + totalSum.toString(),
+                            + totalSum.toMonetaryFormat(),
                     fontWeight = FontWeight.W300,
                     fontSize = 13.sp,
                     color = Color.White

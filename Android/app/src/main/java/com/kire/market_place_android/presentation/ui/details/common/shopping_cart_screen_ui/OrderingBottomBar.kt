@@ -55,7 +55,7 @@ import com.kire.test.R
 fun OrderingBottomBar(
     pickUpPointAddress: String = "",
     deliveryClosestDate: String = "",
-    totalSum: Double = 0.0,
+    totalSum: String = "0.00",
     createOrder: () -> Unit,
     showBottomSheet: (Boolean) -> Unit,
     sheetState: SheetState
@@ -190,7 +190,7 @@ fun OrderingBottomBar(
                                     fontWeight = FontWeight.Bold
                                 )
                             ) {
-                                append(totalSum.toString())
+                                append(totalSum)
                             }
                         }
                     )

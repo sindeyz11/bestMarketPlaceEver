@@ -28,6 +28,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+
 import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.user.Role
 
@@ -42,7 +43,6 @@ import com.kire.market_place_android.presentation.viewmodel.ManagerViewModel
 import com.kire.market_place_android.presentation.viewmodel.OrderViewModel
 import com.kire.market_place_android.presentation.viewmodel.ProductViewModel
 import com.kire.market_place_android.presentation.viewmodel.UserViewModel
-import com.kire.test.R
 
 import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.ramcosta.composedestinations.navigation.popUpTo
@@ -107,10 +107,9 @@ class MainActivity : ComponentActivity() {
                         productViewModel.getAllCategories()
                         userViewModel.getAllPickUpPoints()
                         userViewModel.updateUser()
-                        orderViewModel.getOrders()
-
                         if (role == Role.MANAGER)
                             managerViewModel.getPickUpPointByManagerId(userViewModel.userId.value)
+                        orderViewModel.getOrders()
                     }
                 }
 

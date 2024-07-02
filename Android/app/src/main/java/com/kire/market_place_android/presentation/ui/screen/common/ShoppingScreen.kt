@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+
 import com.kire.market_place_android.presentation.constant.BottomBarHeight
 import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.product.CartUiEvent
@@ -63,6 +65,7 @@ import java.math.BigDecimal
  * Основной экран магазина со списком товаров
  *
  * @param productViewModel ViewModel для работы с товарами
+ * @param userViewModel ViewModel для работы с пользователем
  * @param navigator для навигации между экранами
  * @param paddingValues отступы от краёв экрана
  *
@@ -91,6 +94,10 @@ fun ShoppingScreen(
     }
     var searchRequestPriceRange: Pair<BigDecimal, BigDecimal> by remember {
         mutableStateOf(Pair(BigDecimal.ZERO, Double.MAX_VALUE.toBigDecimal()))
+    }
+
+    LaunchedEffect(productViewModel) {
+        productViewModel.refreshProducts()
     }
 
     val searchRequestProducts = onSearchRequestChange(

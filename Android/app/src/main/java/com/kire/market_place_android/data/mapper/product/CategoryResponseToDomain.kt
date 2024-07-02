@@ -4,6 +4,6 @@ import com.kire.market_place_android.data.remote.dto.response.product.CategoryRe
 import com.kire.market_place_android.domain.model.product.CategoryDomain
 
 fun CategoryResponse.toDomain() = CategoryDomain(
-    categoryId = this.categoryId,
-    title = this.title
+    name = this.name,
+    count = this.count
 )

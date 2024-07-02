@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 
 import androidx.compose.ui.Alignment
@@ -34,6 +35,7 @@ import com.kire.market_place_android.presentation.ui.details.manager.manager_scr
 import com.kire.market_place_android.presentation.ui.screen.destinations.OrderScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
 import com.kire.market_place_android.presentation.viewmodel.ManagerViewModel
+import com.kire.market_place_android.presentation.viewmodel.UserViewModel
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -50,6 +52,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun ManagerScreen(
     managerViewModel: ManagerViewModel,
+    userViewModel: UserViewModel,
     navigator: DestinationsNavigator,
     paddingValues: PaddingValues = PaddingValues(start = 28.dp, end = 28.dp, bottom = 66.dp)
 ){
@@ -65,6 +68,10 @@ fun ManagerScreen(
     )
 
     val pickUpPoint by managerViewModel.pickUpPoint.collectAsStateWithLifecycle()
+
+    LaunchedEffect(managerViewModel) {
+        managerViewModel.getPickUpPointByManagerId(userViewModel.userId.value)
+    }
 
     Column(
         modifier = Modifier

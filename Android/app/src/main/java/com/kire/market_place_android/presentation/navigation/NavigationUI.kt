@@ -131,6 +131,7 @@ fun NavigationUI(
         composable(ManagerScreenDestination) {
             ManagerScreen(
                 managerViewModel = managerViewModel,
+                userViewModel = userViewModel,
                 navigator = destinationsNavigator
             )
         }

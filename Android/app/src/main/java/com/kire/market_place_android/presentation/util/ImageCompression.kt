@@ -31,7 +31,7 @@ suspend fun compressImage(inputStream: InputStream): ByteArray {
             bitmap.compress(Bitmap.CompressFormat.JPEG, quality, byteBuffer)
             byteArray = byteBuffer.toByteArray()
             quality -= 5 // Decrease the quality by 5 for the next iteration
-        } while (byteArray.size > 10000 && quality > 0)
+        } while (byteArray.size > 1000000 && quality > 0)
 
         // Release the bitmap to free up memory
         bitmap.recycle()

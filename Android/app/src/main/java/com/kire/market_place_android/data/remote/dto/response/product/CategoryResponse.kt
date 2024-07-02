@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CategoryResponse(
-    val categoryId: Int = 0,
-    val title: String = ""
+    val name: String = "",
+    val count: Int = 0
 )

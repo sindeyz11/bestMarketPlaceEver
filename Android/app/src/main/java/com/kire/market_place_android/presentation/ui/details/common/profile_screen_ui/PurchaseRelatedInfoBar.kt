@@ -4,7 +4,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.MarqueeAnimationMode
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -21,8 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -33,8 +30,6 @@ import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.market_place_android.presentation.util.modifier.bounceClick
-
-import com.kire.test.R
 
 /**
  * Плитки с информацией о пользователе
@@ -70,15 +65,15 @@ fun PurchaseRelatedInfoBar(
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(roundedCornerShape)
-            .background(ExtendedTheme.colors.profileBar)
-            .padding(paddingValues)
             .let {
                 if (clickable)
                     it.bounceClick {
                         onClick()
                     }
                 else it
-            },
+            }
+            .background(ExtendedTheme.colors.profileBar)
+            .padding(paddingValues),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {

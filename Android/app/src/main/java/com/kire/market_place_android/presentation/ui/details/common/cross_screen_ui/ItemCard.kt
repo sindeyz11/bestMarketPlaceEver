@@ -7,7 +7,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.MarqueeAnimationMode
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 
 import androidx.compose.material3.Icon
@@ -28,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -40,9 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import coil.compose.AsyncImage
-import com.kire.market_place_android.presentation.constant.ImagePath
-import com.kire.market_place_android.presentation.constant.Strings
 
+import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.product.Product
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.market_place_android.presentation.util.modifier.bounceClick
@@ -73,12 +71,19 @@ fun ItemCard(
 
     Column(
         modifier = modifier
-            .fillMaxWidth()
-            .pointerInput(Unit) {
-                detectTapGestures {
-                    onWholeElementClick()
-                }
-            },
+            .wrapContentSize()
+            .bounceClick {
+                onWholeElementClick()
+            }
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(
+                    topStart = 15.dp,
+                    topEnd = 15.dp,
+                    bottomStart = 0.dp,
+                    bottomEnd = 15.dp
+                )
+            ),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -156,7 +161,7 @@ fun ItemCard(
                 )
 
                 Text(
-                    text = quantityAvailable.toString() + unit,
+                    text = "1" + unit,
                     color = Color.DarkGray,
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp,

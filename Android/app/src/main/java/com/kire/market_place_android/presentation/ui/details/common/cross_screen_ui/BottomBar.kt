@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 
 import androidx.compose.material3.Icon
@@ -52,6 +51,7 @@ import com.kire.market_place_android.presentation.ui.screen.startAppDestination
 
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
 import com.kire.market_place_android.presentation.util.modifier.bounceClick
+import com.kire.test.R
 
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
@@ -96,7 +96,7 @@ fun BottomBar(
 
     val cartState by cartState.collectAsStateWithLifecycle()
 
-    val totalQuantityProductsInCard = remember {
+    val quantity by remember {
         derivedStateOf {
             cartState.toBuy.sumOf { it.chosenQuantity }
         }
@@ -112,7 +112,7 @@ fun BottomBar(
                 .wrapContentHeight()
                 .pointerInput(Unit) {
                     detectTapGestures {
-                        //just to make unclickable
+                        //just to make the content underneath unclickable
                     }
                 }
                 .background(Color.White)
@@ -141,18 +141,24 @@ fun BottomBar(
                             }
                     ) {
                         Icon(
-                            painter = painterResource(id = destination.iconBottom!!),
+                            painter =
+                                if (destination.direction == ShoppingCartScreenDestination && quantity > 99)
+                                    painterResource(id = R.drawable.hamster_kombat)
+                                else painterResource(id = destination.iconBottom!!),
                             contentDescription = null,
-                            tint = if (currentDestination == destination.direction)
-                                ExtendedTheme.colors.redAccent
-                            else Color.Black,
+                            tint =
+                                if (destination.direction == ShoppingCartScreenDestination && quantity > 99)
+                                    Color.Unspecified
+                                else if (currentDestination == destination.direction)
+                                    ExtendedTheme.colors.redAccent
+                                else Color.Black,
                             modifier = Modifier
                                 .align(Alignment.Center)
                                 .zIndex(0f)
                         )
 
                         if (destination.direction == ShoppingCartScreenDestination
-                            && totalQuantityProductsInCard.value != 0) {
+                            && quantity != 0) {
                             Box(
                                 modifier = Modifier
                                     .size(18.dp) // Set a fixed size for the badge
@@ -164,11 +170,11 @@ fun BottomBar(
                                 contentAlignment = Alignment.Center // Center the text within the badge
                             ) {
                                 Text(
-                                    text = totalQuantityProductsInCard.value.toString(),
+                                    text = if (quantity < 100) quantity.toString() else "99+",
                                     color = Color.White,
-                                    fontSize = 10.sp, // Increase the font size for better readability,
+                                    fontSize = if (quantity > 99) 6.sp else 10.sp, // Increase the font size for better readability,
                                     fontWeight = FontWeight.Black,
-                                    lineHeight = 10.sp,
+                                    lineHeight = if (quantity > 99) 6.sp else 10.sp,
                                     modifier = Modifier.padding(1.dp) // Add some padding to the text
                                 )
                             }
