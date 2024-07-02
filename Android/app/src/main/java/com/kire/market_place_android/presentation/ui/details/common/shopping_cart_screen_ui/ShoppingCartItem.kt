@@ -154,7 +154,7 @@ fun ShoppingCartItem(
             ) {
 
                 Text(
-                    text = Strings.RUB + product.price,
+                    text = Strings.RUB + product.discountPrice,
                     fontSize = 19.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black

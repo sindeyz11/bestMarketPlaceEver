@@ -63,12 +63,14 @@ import com.kire.market_place_android.presentation.ui.details.common.item_add_to_
 import com.kire.market_place_android.presentation.ui.screen.destinations.ItemAddToCartMenuDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingCartScreenDestination
 import com.kire.market_place_android.presentation.ui.theme.ExtendedTheme
+import com.kire.market_place_android.presentation.util.toMonetaryFormat
 import com.kire.market_place_android.presentation.viewmodel.ProductViewModel
 
 import com.kire.test.R
 
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import java.text.NumberFormat
 
 /**
  * Экран товара
@@ -99,6 +101,9 @@ fun ItemAddToCartMenu(
     var productItemCount by remember {
         mutableStateOf(1)
     }
+
+    val currencyFormatter = NumberFormat.getCurrencyInstance()
+    currencyFormatter.maximumFractionDigits = 2
 
     product.apply {
 
@@ -286,7 +291,7 @@ fun ItemAddToCartMenu(
                     contentAlignment = Alignment.BottomCenter
                 ) {
                     BottomButtonFinishOperation(
-                        textValue = Strings.ADD_TO_CART + " - " + Strings.RUB + "${price.toDouble() * productItemCount}",
+                        textValue = Strings.ADD_TO_CART + " - " + Strings.RUB + (discountPrice.toDouble() * productItemCount).toMonetaryFormat(),
                         onClick = {
                             productViewModel.onEvent(CartUiEvent.addToCart(product.copy(chosenQuantity = productItemCount)))
                             navigator.navigate(ShoppingCartScreenDestination)

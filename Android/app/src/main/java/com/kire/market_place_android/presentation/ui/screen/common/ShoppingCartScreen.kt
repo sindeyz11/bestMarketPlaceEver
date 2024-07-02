@@ -41,6 +41,7 @@ import com.kire.market_place_android.presentation.ui.details.common.shopping_car
 import com.kire.market_place_android.presentation.ui.details.common.shopping_cart_screen_ui.ShoppingCartItem
 import com.kire.market_place_android.presentation.ui.screen.destinations.ItemAddToCartMenuDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ShoppingScreenDestination
+import com.kire.market_place_android.presentation.util.toMonetaryFormat
 import com.kire.market_place_android.presentation.viewmodel.OrderViewModel
 import com.kire.market_place_android.presentation.viewmodel.ProductViewModel
 
@@ -105,7 +106,7 @@ fun ShoppingCartScreen(
             if (cartState.allProductsInCart.isNotEmpty())
                 PurchaseFloatingActionButton(
                     amount = cartState.toBuy.sumOf { it.chosenQuantity },
-                    totalSum = cartState.toBuy.sumOf { it.price * it.chosenQuantity.toBigDecimal() }.toDouble(),
+                    totalSum = cartState.toBuy.sumOf { it.discountPrice.toDouble() * it.chosenQuantity },
                     onClick = {
                         isBottomSheetShown.value = true
                     },
@@ -149,7 +150,7 @@ fun ShoppingCartScreen(
         OrderingBottomBar(
             pickUpPointAddress = chosenPickUpPoint.address.ifEmpty { Strings.NO_CHOSEN_PICK_UP_POINT },
             deliveryClosestDate = cartState.toBuy.minOf { it.deliveryDays }.toString(),
-            totalSum = cartState.toBuy.sumOf { it.price * it.chosenQuantity.toBigDecimal() }.toDouble(),
+            totalSum = cartState.toBuy.sumOf { it.discountPrice.toDouble() * it.chosenQuantity }.toMonetaryFormat(),
             showBottomSheet = {
                 isBottomSheetShown.value = false
             },
@@ -158,7 +159,7 @@ fun ShoppingCartScreen(
                 orderViewModel.createOrder(
                     chosenPickUpPoint.id,
                     cartState.toBuy,
-                    cartState.toBuy.sumOf { it.price * it.chosenQuantity.toBigDecimal() }
+                    cartState.toBuy.sumOf { it.discountPrice * it.chosenQuantity.toBigDecimal() }
                 )
             }
         )

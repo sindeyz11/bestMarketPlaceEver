@@ -8,20 +8,18 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kire.market_place_android.presentation.model.product.AdminProductEvent
 import com.kire.market_place_android.presentation.model.product.CartUiEvent
 
 
 import com.kire.market_place_android.presentation.model.product.Product
+import com.kire.market_place_android.presentation.model.product.ProductUiEvent
 import com.kire.market_place_android.presentation.navigation.transition.admin.AdminPanelItemsScreenTransitions
 import com.kire.market_place_android.presentation.navigation.util.AppDestinations
 import com.kire.market_place_android.presentation.screen.shopping_screen_ui.ItemCard
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.ListWithTopAndFab
-import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.RequestResultMessage
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.TopBar
 import com.kire.market_place_android.presentation.ui.screen.destinations.AdminPanelItemsEditScreenDestination
 import com.kire.market_place_android.presentation.ui.screen.destinations.ItemAddToCartMenuDestination
@@ -40,8 +38,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
  * @param navigator для навигации между экранами
  * @param paddingValues отступы от краев экрана
  *
- * @author Michael Gontarev (KiREHwYE)
- * @author Aleksey Timko (de4ltt)*/
+ * @author Aleksey Timko (de4ltt)
+ * @author Michael Gontarev (KiREHwYE)*/
 @Destination(style = AdminPanelItemsScreenTransitions::class)
 @Composable
 fun AdminPanelItemsScreen(
@@ -66,7 +64,7 @@ fun AdminPanelItemsScreen(
             TopBar(
                 destination = AppDestinations.AdminDestinations.ADMIN_PANEL_ITEMS,
                 onPlusClick = {
-                    productViewModel.onEvent(AdminProductEvent.addProduct(Product()))
+                    productViewModel.onEvent(ProductUiEvent.SelectItem(Product()))
                     navigator.navigate(AdminPanelItemsEditScreenDestination)
                 }
             )
@@ -83,12 +81,11 @@ fun AdminPanelItemsScreen(
                 ItemCard(
                     product = product,
                     onWholeElementClick = {
-                        productViewModel.onEvent(CartUiEvent.changeChosenProduct(product))
+                        productViewModel.onEvent(ProductUiEvent.SelectItem(product))
                         navigator.navigate(ItemAddToCartMenuDestination)
                     },
                     onSmallButtonClick = {
-                        productViewModel.onEvent(AdminProductEvent.editProduct(product))
-                        navigator.navigate(AdminPanelItemsEditScreenDestination)
+                        productViewModel.onEvent(ProductUiEvent.DeleteItem(product))
                     },
                     buttonIcon = binIcon
                 )

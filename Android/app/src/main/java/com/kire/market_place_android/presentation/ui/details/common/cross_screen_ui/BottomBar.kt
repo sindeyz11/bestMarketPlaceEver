@@ -151,8 +151,10 @@ fun BottomBar(
                                 .zIndex(0f)
                         )
 
+                        val quantity = totalQuantityProductsInCard.value
+
                         if (destination.direction == ShoppingCartScreenDestination
-                            && totalQuantityProductsInCard.value != 0) {
+                            && quantity != 0) {
                             Box(
                                 modifier = Modifier
                                     .size(18.dp) // Set a fixed size for the badge
@@ -164,9 +166,9 @@ fun BottomBar(
                                 contentAlignment = Alignment.Center // Center the text within the badge
                             ) {
                                 Text(
-                                    text = totalQuantityProductsInCard.value.toString(),
+                                    text = if (quantity < 100) quantity.toString() else "99+",
                                     color = Color.White,
-                                    fontSize = 10.sp, // Increase the font size for better readability,
+                                    fontSize = if (quantity > 99) 8.sp else 10.sp, // Increase the font size for better readability,
                                     fontWeight = FontWeight.Black,
                                     lineHeight = 10.sp,
                                     modifier = Modifier.padding(1.dp) // Add some padding to the text

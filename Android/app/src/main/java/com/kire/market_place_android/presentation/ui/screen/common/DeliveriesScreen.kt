@@ -33,10 +33,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kire.market_place_android.presentation.constant.BottomBarHeight
 import com.kire.market_place_android.presentation.constant.Strings
 
 import com.kire.market_place_android.presentation.navigation.transition.common.DeliveriesScreenTransitions
 import com.kire.market_place_android.presentation.screen.deliveries_screen_ui.DeliveryCard
+import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.ListWithTopAndFab
 import com.kire.market_place_android.presentation.ui.details.common.cross_screen_ui.RequestResultMessage
 import com.kire.market_place_android.presentation.ui.screen.destinations.DeliveriesScreenDestination
 import com.kire.market_place_android.presentation.viewmodel.OrderViewModel
@@ -75,91 +77,81 @@ fun DeliveriesScreen(
         makeRequestResultIdle = orderViewModel::makeRequestResultIdle
     )
 
-    Column(
-        modifier = Modifier
-            .background(Color.White)
-    ) {
-
-        Row(
-            modifier = Modifier
-                .padding(start = 28.dp, end = 28.dp, bottom = 30.dp)
-                .fillMaxWidth()
-                .height(120.dp),
-            verticalAlignment = Alignment.Bottom
-        ) {
-            Box(
+    ListWithTopAndFab(
+        listSize = orders.size,
+        topBar = {
+            Row(
                 modifier = Modifier
+                    .padding(start = 28.dp, end = 28.dp, bottom = 30.dp)
                     .fillMaxWidth()
-                    .height(50.dp)
+                    .height(120.dp),
+                verticalAlignment = Alignment.Bottom
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.arrow_back),
-                    contentDescription = "arrow back",
+                Box(
                     modifier = Modifier
-                        .size(34.dp)
-                        .pointerInput(Unit) {
-                            detectTapGestures {
-                                navigator.popBackStack(
-                                    DeliveriesScreenDestination,
-                                    inclusive = true
-                                )
-                            }
-                        }
-                )
-
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    text = Strings.DELIVERIES,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 32.sp
-                )
-            }
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White),
-            contentAlignment = Alignment.BottomEnd
-        ) {
-            when (orders.size) {
-                0 -> {
-                    Box(
+                        .fillMaxWidth()
+                        .height(50.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.arrow_back),
+                        contentDescription = "arrow back",
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(bottom = 56.dp),
-                        contentAlignment = Alignment.Center,
-                        content = {
-                            Text(
-                                text = Strings.NOTHING_WAS_FOUND_FAV,
-                                fontSize = 16.sp,
-                                color = Color.DarkGray
-                            )
-                        }
+                            .size(34.dp)
+                            .pointerInput(Unit) {
+                                detectTapGestures {
+                                    navigator.popBackStack(
+                                        DeliveriesScreenDestination,
+                                        inclusive = true
+                                    )
+                                }
+                            }
+                    )
+
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        text = Strings.DELIVERIES,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 32.sp
                     )
                 }
+            }
+        }
+    ) {
+        when (orders.size) {
+            0 -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(bottom = 56.dp),
+                    contentAlignment = Alignment.Center,
+                    content = {
+                        Text(
+                            text = Strings.NOTHING_WAS_FOUND_FAV,
+                            fontSize = 16.sp,
+                            color = Color.DarkGray
+                        )
+                    }
+                )
+            }
 
-                else -> {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 28.dp),
-                        contentPadding = PaddingValues(bottom = 28.dp),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
+            else -> {
+                LazyColumn(
+                    modifier = it,
+                    contentPadding = PaddingValues(bottom = 28.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(
+                        orders,
+                        key = { it.orderId }
                     ) {
-
-                        items(
-                            orders,
-                            key = {it.orderId}
-                        ) {
-                            it.products.forEach {
-                                DeliveryCard(delivery = it)
-                            }
+                        it.products.forEach {
+                            DeliveryCard(delivery = it)
                         }
                     }
                 }
             }
         }
     }
+
 }

@@ -35,6 +35,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kire.market_place_android.presentation.constant.BottomBarHeight
 import com.kire.market_place_android.presentation.constant.Strings
 import com.kire.market_place_android.presentation.model.product.CartUiEvent
+import com.kire.market_place_android.presentation.model.product.Product
 import com.kire.market_place_android.presentation.model.user.UserUiEvent
 
 import com.kire.market_place_android.presentation.navigation.transition.common.ShoppingScreenTransitions
